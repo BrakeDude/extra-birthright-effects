@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <name>!Extra Birthright Effects</name>
+    <directory>extra birthright effects</directory>
+    <id>2599533991</id>
+    <description>This mod adds alternative Birthright effects for characters as a replacement or supplementary to the original effects. Right now not all characters have extra effects.
+Here is the list of characters that currently have their extra Birthright functionalities and their descriptions:
+[list]
+[*][b]Isaac[/b]: D6 becomes a pocket active item if you have one. Rerolling items has a chance for item from Treasure, Devil, Angel or current room pools.
+[*][b]Magdalene[/b]:[olist] 
+[*]Chance to charm nearby enemies. Yum Heart heals 2 red hearts instead of one.
+[*]Speed is linked to number of red hearts. Gains 1 soul heart on new floor.
+[/olist]
+[*][b]Cain[/b]: [olist]
+[*]Enemies have a chance to drop random pickup (configurable for unlockable pickups). Champions drop two of the same type. Chance to spawn an item from room's itempool if there was a boss.
+[*]Golden key on every floor.
+[/olist]
+[*][b]Judas[/b]: [olist]
+[*]Spawns 3 nickels. Chance to gain +5.0 damge and Brimstone effect for current room.
+[*]Using books activates Necronomicon effect. (Doesn't work with Book of Virtues and How to Jump. Modded active items that have tag 'book' can be added. See 'Readme.txt' in mod's folder.)
+[/olist]
+[*][b]Dark Judas[/b]: [olist]
+[*]When getting hit, damages all enemies in room similar to effects of black heart, Necronomicon and The Negative.
+[*]Same as Judas' Antibirth Birthright.
+[/olist]
+[*][b]??? (Blue Baby)[/b]: Number of soul hearts give stat ups. Non soul (black) hearts become soul hearts or other pickups (cards, runes, keys, bombs and others). Compatable with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2274218818]Double Soul Hearts[/url] mod.
+[*][b]Eve[/b]: Coming soon.
+[*][b]Samson[/b]: +4 damage up. Gets ability to pickup rocks (and other objects) by pressing &quot;Drop&quot; button ([b]Left CTRL[/b] on keyboard or [b]RT[/b] on controller by default) and throw them. (Yes, it's Mom's Bracelet without Mom's Bracelet.)
+[*][b]Azazel[/b]: Coming soon.
+[*][b]Lazarus[/b]: Coming soon.
+[*][b]Eden[/b]: Coming soon.
+[*][b]The Lost[/b]: Coming soon.
+[*][b]Lilith[/b]: Spawns 2 mini Isaacs when entering hostile room, 4 - big room (L-shaped included). Box of Friends now affects mini Isaacs.
+[*][b]Keeper[/b]: One free item that costs money per floor, effects of Silver Dollar and Rib of Greed.
+[*][b]Apollyon[/b]: Void becomes pocket active. Voiding passive items with quality higher then 0 will give random extra stat ups. Higher qulity items give more stats.
+[*][b]Bethany[/b]: Coming soon.
+[*][b]Jacob and Esau[/b]: Coming soon.
+[*][b]Tainted Isaac[/b]: Coming soon.
+[*][b]Tainted Magdalene[/b]: [b][u]Only combined variant[/u][/b]. Every cleared room restores one red heart.
+[*][b]Tainted Cain[/b]: Coming soon.
+[*][b]Tainted Judas[/b]: Changes Dark Arts to Twisted Arts: an active item that has longer duration than Dark Arts and freezes time in a room for few seconds.
+[*][b]Tainted ???(Blue Baby)[/b]: Chance to poop out friendly dip. Having special items can give different type of dips.
+[*][b]Tainted Eve[/b]: Has a chance to spawn additional clot of the same type. All clots take more hits to kill.
+[*][b]Tainted Samson[/b]: Damage up. Damage depends on how many enemies are around Tainted Samson in radius of 100 and how many times Tainted Samson has been hit after picking up Birthright. Last for floor.
+[*][b]Tainted Azazel[/b]: Gets Brimstone effect and flight.
+[*][b]Tainted Lazarus[/b]: Flip charges over time.
+[*][b]Tainted Eden[/b]: Coming soon.
+[*][b]Tainted Lost[/b]: Coming soon.
+[*][b]Tainted Lilith[/b]: Spawns red creep that deals 250% player's damage. Every time umbilical baby(fetus) is shot spawns red creep trail that deals 150% player's damage.
+[*][b]Tainted Keeper[/b]: Coming soon.
+[*][b]Tainted Apollyon[/b]: [olist]
+[*]Spawns 20 random harbinger locusts on pickup. Entering hostile room will spawn 2-5 random locusts.
+[*]Abyss locusts have small Godhead aura.
+[/olist]
+[*][b]Tainted Forgotten[/b]: Coming soon.
+[*][b]Tainted Bethany[/b]: [b][u]Only combined variant[/u][/b]. Item wisp shoot homing tears.
+[*][b]Tainted Jacob[/b]: [olist]
+[*]Birthright gives +1 Health up, +0.3 Speed up, +50% Damage Multiplier, +1 Tears up. Damocles effect for Treasure, Secret/Super Secret and Devil rooms when entering them. Dark Esau chases enemy that damaged you before and kills Tainted Jacob in one hit no matter the form (normal or ghost). Having Isaac's Heart will make you a ghost even if you have Holy Mantle (and prevent from one hit KO).
+[*]Dark Esau becomes friendly. Targets enemies instead.
+[/olist]
+[/list]
+
+You can toggle them with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2487535818]Mod Config Menu[/url] or command prompt.
+
+Ah, yes. Console commands:
+[list]
+[*][b]extrabirthright [command] [args][/b]:[list] 
+[*][b][command][/b] - [b]help[/b], [b]change[/b], [b]get[/b] or [b]default[/b]. Use full command [b]&quot;extrabirthright help&quot;[/b] without quotes for info in console.
+[*][b][args][/b] - [b][character] [option][/b]:[list] 
+[*][b][character][/b] - after [b]help[/b] command type [b]charlist[/b] for list of characters, for other commands - name of character from charlist (WARNING: CASE SENSETIVE). Example: Isaac, Magdalene, Lilith. For tainted charcters add &quot;Tainted&quot; before name.
+[*][b][option][/b] - option's number from 1 to 3 (Original Effect, Mod Effect 1, Combined Effect 1). For Magdalene, Cain, Judas, Dark Judas and Tainted Jacob from 1 to 5 (Original Effect, Mod Effect 1, Mod Effect 2, Combined Effect 1, Combined Effect 2).
+[/list]
+[/list]
+[/list]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=836319872]External item descriptions[/url] with English, Russian and Spanish languages.
+
+Found bugs report in [url=https://steamcommunity.com/workshop/filedetails/discussion/2599533991/3032600513503901042/]Bugs[/url] topic.
+
+[h1]Credits:[/h1]
+[url=https://steamcommunity.com/id/the_conservatory]The Conservatory[/url] - original ideas for Birthright effects and some coding.
+[url=https://steamcommunity.com/id/brakedude/]BrakeDude[/url] - main coder, Russian translation.
+[url=https://steamcommunity.com/profiles/76561198813796283]Kotry[/url] - Spanish translation, playtesting.
+</description>
+    <version>1.11</version>
+    <visibility>Public</visibility>
+    <tag id="Lua"/>
+    <tag id="Items"/>
+    <tag id="Player Characters"/>
+    <tag id="Tweaks"/>
+</metadata>

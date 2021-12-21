@@ -1,0 +1,54 @@
+local mod = ExtraBirthright
+--#region Isaac
+function mod:D6Buff(_,rng,player)
+	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Isaac"])
+	if mod.MCMOption.Settings["Isaac"] > 1 and player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_ISAAC then
+			local itemPool = mod.game:GetItemPool()
+			local PoolTable = {}
+			local roomPool = itemPool:GetPoolForRoom(mod.room:GetType(),rng:GetSeed())
+			if mod.game:IsGreedMode() then
+				table.insert(PoolTable,ItemPoolType.POOL_GREED_TREASURE)
+				table.insert(PoolTable,ItemPoolType.POOL_GREED_DEVIL)
+				table.insert(PoolTable,ItemPoolType.POOL_GREED_ANGEL)
+			else
+				table.insert(PoolTable,ItemPoolType.POOL_TREASURE)
+				table.insert(PoolTable,ItemPoolType.POOL_DEVIL)
+				table.insert(PoolTable,ItemPoolType.POOL_ANGEL)
+			end
+			if not mod:Contains(PoolTable,roomPool) then
+				table.insert(PoolTable,roomPool)
+			end
+
+			for _,item in pairs(Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)) do
+				if item.SubType ~= CollectibleType.COLLECTIBLE_NULL then
+					local old = item.SubType
+						local ranPool = rng:RandomInt(#PoolTable) + 1
+						local newitem = itemPool:GetCollectible(PoolTable[ranPool],true,rng:GetSeed(),old)
+						item:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newitem, true)	
+					Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, -1, item.Position, item.Velocity, player)
+				end
+			end
+			player:AnimateCollectible(CollectibleType.COLLECTIBLE_D6, "UseItem")
+		return true
+	end
+	return nil
+end
+
+function mod:D6PassiveBuff(player)
+	if mod.MCMOption.Settings["Isaac"] > 1 then
+		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Isaac"])
+		if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_ISAAC and 
+		player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_D6 then
+			if player:GetActiveItem(ActiveSlot.SLOT_PRIMARY) == CollectibleType.COLLECTIBLE_D6 then
+				player:RemoveCollectible(CollectibleType.COLLECTIBLE_D6,false,ActiveSlot.SLOT_POCKET)
+			elseif player:GetActiveItem(ActiveSlot.SLOT_SECONDARY) == CollectibleType.COLLECTIBLE_D6 then
+				player:RemoveCollectible(CollectibleType.COLLECTIBLE_D6,false,ActiveSlot.SLOT_SECONDARY)
+			end
+			player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_D6,ActiveSlot.SLOT_POCKET,true)
+		end	
+	end
+end
+
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.D6PassiveBuff);
+mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, mod.D6Buff,CollectibleType.COLLECTIBLE_D6);
+--#endregion

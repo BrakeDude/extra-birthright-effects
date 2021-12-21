@@ -1,0 +1,134 @@
+local mod = ExtraBirthright
+--#region Tainted Jacob
+
+function mod:HesMine(player,_,_,newtarget)
+	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
+	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
+		local player = player:ToPlayer()
+		local data = mod:GetData(player)
+		if player:HasCollectible(collectible) and (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B) then
+			if newtarget.Type ~= EntityType.ENTITY_DARK_ESAU then
+				if newtarget.Entity.Type == EntityType.ENTITY_PROJECTILE then
+					data.newEsauTarget = newtarget.Entity.SpawnerEntity
+				elseif newtarget.Entity:IsVulnerableEnemy() then
+					data.newEsauTarget = newtarget.Entity
+				end
+			end
+		end
+	end
+	return nil
+end
+
+function mod:YouDie(npc,collider,low)
+	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
+	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
+		local player
+		local isaacheart = false
+		if collider.Type == EntityType.ENTITY_PLAYER and collider:ToPlayer():GetPlayerType() == PlayerType.PLAYER_JACOB_B  then
+			player = collider:ToPlayer()
+			if player:HasCollectible(CollectibleType.COLLECTIBLE_ISAACS_HEART) then
+				return false
+			end
+		elseif collider.Type == EntityType.ENTITY_FAMILIAR and collider.Variant == FamiliarVariant.ISAACS_HEART 
+		then
+			player = collider:ToFamiliar().Player
+			isaacheart = true
+			if player:GetPlayerType() ~= PlayerType.PLAYER_JACOB_B and player:GetPlayerType() ~= PlayerType.PLAYER_JACOB2_B then
+				return nil
+			end
+		end
+		if player then
+			if player:HasInvincibility(0) or player:GetDamageCooldown() > 0 then
+				return false
+			end
+			if player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE) and not isaacheart then
+				player:TakeDamage(2, 0, EntityRef(player), 0)
+				return false
+			end
+			if player:HasCollectible(collectible) and not isaacheart then
+				if not player:GetEffects():HasNullEffect(NullItemID.ID_LOST_CURSE) then
+					local deadJacob = Isaac.Spawn(mod.JacobDeathAnim,0,0,player.Position,mod.ZERO_VECTOR,nil)
+					deadJacob = deadJacob:GetSprite()
+					deadJacob:Play("Death",true)
+				end
+				player:ChangePlayerType(PlayerType.PLAYER_JACOB2_B)
+			end
+		end
+	end
+	return nil
+end
+
+function mod:FriendlyPissedEsau(Esau)
+	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
+	if  Esau.SpawnerType == EntityType.ENTITY_PLAYER then
+		local player = Esau.SpawnerEntity:ToPlayer()
+		local data = mod:GetData(player)
+		if (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B) and player:HasCollectible(collectible) then
+			if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
+				if data.newEsauTarget then
+					Esau.Target = data.newEsauTarget:Exists() and data.newEsauTarget or player
+				else
+					Esau.Target = player
+				end
+			elseif mod.MCMOption.Settings["Tainted Jacob"] == 3 or mod.MCMOption.Settings["Tainted Jacob"] == 5 then
+				Esau:AddCharmed(EntityRef(player),-1)
+				Esau:SetColor(Color(1,1,1,1,0,0,0),9999999,0,false,false)	
+			end
+		end
+	end
+end
+
+function mod:JacobStatsCache(player,cacheFlag)
+	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
+	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
+		if (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B)
+		and player:HasCollectible(collectible) then
+			if cacheFlag == CacheFlag.CACHE_DAMAGE then
+				player.Damage = player.Damage * 1.5
+			elseif cacheFlag == CacheFlag.CACHE_FIREDELAY then
+				player.MaxFireDelay = player.MaxFireDelay / (1 + 3.05 / 8)
+			elseif cacheFlag == CacheFlag.CACHE_SPEED then
+				player.MoveSpeed = player.MoveSpeed + 0.3
+			end
+		end
+	end
+end
+
+
+function mod:SecondItem()
+	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
+	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
+		for i = 1,mod.game:GetNumPlayers() do
+			local player = Isaac.GetPlayer(i-1)
+			if (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B)
+			and player:HasCollectible(collectible) and mod.room:IsFirstVisit() and
+			(mod.room:GetType() == RoomType.ROOM_DEVIL or mod.room:GetType() == RoomType.ROOM_TREASURE
+			or mod.room:GetType() == RoomType.ROOM_SECRET or mod.room:GetType() == RoomType.ROOM_SUPERSECRET)
+			then
+				local items = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
+				for _,item in ipairs(items) do
+					local ItemPool = mod.game:GetItemPool():GetPoolForRoom(mod.room:GetType(),mod.rng:GetSeed())
+					local id = mod.game:GetItemPool():GetCollectible(ItemPool)
+					local newitem = Isaac.Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,id,Isaac.GetFreeNearPosition(item.Position,3),Vector(0, 0),nil):ToPickup()
+					if item:ToPickup():IsShopItem() then
+						if mod.room:GetType() == RoomType.ROOM_DEVIL then
+							newitem.Price = Isaac.GetItemConfig():GetCollectible(id).DevilPrice
+						elseif mod.room:GetType() == RoomType.ROOM_ANGEL then
+							newitem:Remove()
+						else
+							newitem.Price = Isaac.GetItemConfig():GetCollectible(id).ShopPrice
+						end
+					end
+				end
+				return
+			end
+		end
+	end
+end
+
+mod:AddCallback(ModCallbacks.MC_PRE_NPC_COLLISION, mod.YouDie, EntityType.ENTITY_DARK_ESAU)
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.JacobStatsCache)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.SecondItem)
+mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, mod.FriendlyPissedEsau, EntityType.ENTITY_DARK_ESAU)
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.HesMine, EntityType.ENTITY_PLAYER)
+--#endregion
