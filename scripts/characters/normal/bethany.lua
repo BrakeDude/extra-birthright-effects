@@ -16,7 +16,7 @@ function mod.CheckFlag(mask, flag)
 end
 
 function mod:ReverseCurse(curse)
-    if mod.MCMOption.Settings.Bethany > 1 then
+    if mod.MCMOption.Settings["Bethany"] > 1 then
         for i = 1,mod.game:GetNumPlayers() do
             local player = Isaac.GetPlayer(i-1)
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
