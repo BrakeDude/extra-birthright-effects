@@ -21,7 +21,8 @@ function mod:BetterWisps(wisp)
 							tear.Color=color
 							tear:AddTearFlags(TearFlags.TEAR_HOMING)
 							tear:AddTearFlags(TearFlags.TEAR_SPECTRAL)
-							wisp.FireCooldown = 30
+							tear.CollisionDamage = player.Damage / 2.5
+							wisp.FireCooldown = math.ceil(player.MaxFireDelay)
 						end
 					end
 					wisp.FireCooldown = wisp.FireCooldown - 1
@@ -31,7 +32,6 @@ function mod:BetterWisps(wisp)
 						wisp:GetData().HP = wisp.HitPoints
 					else
 						wisp:GetData().HP = wisp.HitPoints
-						print(wisp:GetData().HP)
 					end
 				end
 			end

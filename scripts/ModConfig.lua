@@ -58,7 +58,7 @@ mod.MCMOption ={
 		3, --Keeper
 		3, --Apollyon
 		1, --Forgotten
-		1, --Bethany
+		3, --Bethany
 		1, --Jacob
 		1, --Esau
 		1, --Tainted Isaac

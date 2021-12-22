@@ -56,6 +56,7 @@ include("scripts/characters/normal/samson.lua")
 include("scripts/characters/normal/lilith.lua")
 include("scripts/characters/normal/keeper.lua")
 include("scripts/characters/normal/apollyon.lua")
+include("scripts/characters/normal/bethany.lua")
 include("scripts/characters/tainted/maggie.lua")
 include("scripts/characters/tainted/judas.lua")
 include("scripts/characters/tainted/bb.lua")
@@ -180,6 +181,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.Init);
 
 function mod:CheckBirthrightAll(player)
 	mod.game = Game()
+	mod.level = mod.game:GetLevel()
 	mod.room = mod.game:GetRoom()
 	local data = mod:GetData(player)
 	if player:GetPlayerType() <= 40 then
