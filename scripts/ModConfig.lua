@@ -143,11 +143,11 @@ mod.MCMOption ={
 		{"1: Effects of Silver Dollar and Rib of Greed. One free item per floor that costs money."},--Keeper
 		{"1: Void becomes pocket active. Voiding passive items with quality higher then 0 will give random extra stat ups. Higher qulity items give more stats."},--Apollyon
 		{"Comming soon."},--Forgotten
-		{"Comming soon."},--Bethany
+		{"1: Curses become blessings. 100% chance for blessing."},--Bethany
 		{"Comming soon."},--Jacob
 		{"Comming soon."},--Esau
 		{"Comming soon."},--Tainted Isaac
-		{"1: Regenerates red heart after clearing room."},--Tainted Magdalene
+		{"COMBINED ONLY! 1: Regenerates red heart after clearing room."},--Tainted Magdalene
 		{"Comming soon."},--Tainted Cain
 		{"1: Dark Arts become Twisted Arts. Using Twisted Arts will freeze time in a room. Longer duration compared to Dark Arts."},--Tainted Judas
 		{"1: Chance to poop out friendly dip. Having special items have a chance to get different type of dip."},--Tainted BB
@@ -161,7 +161,7 @@ mod.MCMOption ={
 		{"Comming soon."},--Tainted Keeper
 		{"1: Spawns 20 random harbinger locusts on pickup. Entering hostile room will spawn 2-5 random locusts. 2: Abyss locusts have small Godhead aura."},--Tainted Apollyon
 		{"Comming soon."},--Tainted Forgotten
-		{"1: Item wisps shoot homing tears."},--Tainted Bethany
+		{"COMBINED ONLY! 1: Item wisps shoot homing tears. Tear rate is the same as player's. Wisp's tears deal 40% player's damage."},--Tainted Bethany
 		{"1: +1 Health up, +50% Damage Multiplier, +1 Tears up and +0.3 Speed up. Dark Esau targets enemy that damaged Tainted Jacob, kills Tainted Jacob in one hit. 2: Dark Esau becomes friendly and targets enemies."}--Tainted Jacob
 	},
 }
