@@ -1,7 +1,10 @@
 <curses>
-	<curse name="Blessing of Sun" />
-	<curse name="Blessing of Maze" />
-	<curse name="Blessing of Found" />
-	<curse name="Blessing of Sight" />
-	<curse name="Blessing of Labyrinth" />
+	<curse name="Blessing of the Prevailing" />
+	<curse name="Blessing of Enlightenment" />
+	<curse name="Blessing of Order" />
+	<curse name="Blessing of the Baptized" />
+	<curse name="Blessing of Foresight" />
+	<curse name="Blessing of Clarity" />
+	<curse name="Blessing of the Virtuous" />
+	<curse name="Blessing of the Imperceptible" />
 </curses>
