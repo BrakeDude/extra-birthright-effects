@@ -19,37 +19,6 @@ mod.LevelBlessing = {
     end
 }
 
-function mod:ReverseCurse(curse)
-    if mod.MCMOption.Settings["Bethany"] > 1 then
-        for i = 1,mod.game:GetNumPlayers() do
-            local player = Isaac.GetPlayer(i-1)
-            local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
-            if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) then
-                if (curse == LevelCurse.CURSE_NONE) then
-					local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Name[player:GetCollectibleRNG(collectible):RandomInt(#mod.LevelBlessing.Name) + 1])
-                    return mod.LevelBlessing.GetFlag(randBless)
-                else
-                    if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_LOST) then
-                        return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Found"))
-                    end
-                    if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_MAZE) then
-                        return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Maze"))
-                    end
-                    if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_DARKNESS) then
-                        --player:UseCard(Card.CARD_SUN, UseFlag.USE_NOANNOUNCER)
-                        return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Sun"))
-                    end
-                    if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_BLIND) then
-                        --Game():GetLevel():SetCanSeeEverything(true)
-                        return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Sight"))
-                    end
-                end
-            end
-        end
-    end
-    return curse
-end
-
 function mod:BlessingsUpdate(player)
     if mod.MCMOption.Settings["Bethany"] > 1 then
         local curse = mod.level:GetCurses()
@@ -139,7 +108,6 @@ function mod:BlessingOfSunNewLevel()
     end
 end
 
---mod:AddCallback(ModCallbacks.MC_POST_CURSE_EVAL, mod.ReverseCurse)
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.BlessingsUpdate)
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.BlessingsEffect)
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.BlessingOfSunNewLevel)
