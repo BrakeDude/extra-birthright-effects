@@ -79,11 +79,13 @@ function mod:BlessingEffects()
                     if item:ToPickup():IsShopItem() then
                         if mod.room:GetType() == RoomType.ROOM_DEVIL then
                             newitem.Price = Isaac.GetItemConfig():GetCollectible(id).DevilPrice
-                        elseif mod.room:GetType() == RoomType.ROOM_ANGEL then
-                            newitem:Remove()
                         else
                             newitem.Price = Isaac.GetItemConfig():GetCollectible(id).ShopPrice
                         end
+                    end
+                    item.OptionsPickupIndex, newitem.OptionsPickupIndex = optionIndex, optionIndex
+                    if mod.room:GetType() == RoomType.ROOM_ANGEL and not item:ToPickup():IsShopItem() then
+                        optionIndex = optionIndex + 1
                     end
                 end
             end
