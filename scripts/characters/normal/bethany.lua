@@ -90,9 +90,10 @@ function mod:BlessingsUpdate(player)
                     Aura=mod:GetData(player).BlessingPrevailAura
                     Aura:GetSprite():ReplaceSpritesheet(0,'gfx/effects/effect_hallowedground.png')
                     Aura:GetSprite():LoadGraphics()
-                    Aura.SpriteScale=Vector(3,3)
-                    local AuraColor=Color(1,1,1,0.5)
+                    Aura.SpriteScale=Vector(1.5,1.5)
+                    local AuraColor=Color(1,1,1,1)
                     AuraColor:SetColorize(1,1,0.5,1)
+                    Aura:GetSprite().Offset=Vector(13,20)
                     Aura.Color=AuraColor
                     Aura.DepthOffset=-999
                 end
