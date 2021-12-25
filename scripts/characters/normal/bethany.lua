@@ -3,7 +3,7 @@ local mod = ExtraBirthright
 mod.LevelBlessing = {
     Name = {
         "Blessing of the Prevailing", --Maze
-        "Blessing of the Enlightened", --Darkness
+        "Blessing of Enlightenment", --Darkness
         "Blessing of Order", --Labyrinth
         "Blessing of the Baptized", --Unknown
         "Blessing of Foresight", --Blind
@@ -33,7 +33,7 @@ function mod:ReverseCurse(curse)
             return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Prevailing"))
         end
         if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_DARKNESS) then
-            return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Enlightened"))
+            return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment"))
         end
         if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_LABYRINTH) and not mod.LevelBlessing.CheckFlag(mod.LevelBlessing.GetId("Blessing of Order")) then
             return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Order"))
@@ -83,7 +83,7 @@ function mod:BlessingsUpdate(player)
             if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_GIANT) then
                 mod.level:RemoveCurses(LevelCurse.CURSE_OF_GIANT)
             end
-            if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Prevailing"))) then
+            if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment"))) then
                 local Aura=mod:GetData(player).BlessingPrevailAura
                 if not Aura or Aura:IsDead() then
                     mod:GetData(player).BlessingPrevailAura = Isaac.Spawn(1000,123,2,player.Position,mod.ZERO_VECTOR,player):ToEffect()
@@ -125,7 +125,7 @@ function mod:BlessingOfPrevailingEffect()
             local player = Isaac.GetPlayer(i-1)
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
             local curse = mod.level:GetCurses()
-            if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Clarity"))) and 
+            if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Prevailing"))) and 
             player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
                 local rng = player:GetCollectibleRNG(collectible)
                 if rng:RandomInt(100) < 5 then
@@ -136,6 +136,19 @@ function mod:BlessingOfPrevailingEffect()
     end
 end
 
+function mod:BlessingOfForesightEffect(player)
+    if mod.MCMOption.Settings["Bethany"] > 1 then
+        player = player:ToPlayer()
+        local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
+        local curse = mod.level:GetCurses()
+        if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight"))) and 
+        player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY and mod.room:IsFirstVisit() then
+            player:UseActiveItem(CollectibleType.COLLECTIBLE_GLOWING_HOUR_GLASS)
+        end
+    end
+end
+
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.BlessingsUpdate)
 mod:AddCallback(ModCallbacks.MC_POST_CURSE_EVAL, mod.ReverseCurse)
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.BlessingOfPrevailingEffect)
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.BlessingOfForesightEffect, EntityType.ENTITY_PLAYER)
