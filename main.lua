@@ -1,6 +1,6 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effeccts", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.11"
+mod.Version = "2.33"
 local json = require("json")
 mod.game = Game()
 mod.room = mod.game:GetRoom()
@@ -80,6 +80,7 @@ function mod:SaveSomeData(isSaving)
 			saveData.PlayerData = json.encode(mod:GetData(player))
 			saveBirthright["player_"..tostring(i)]=saveData
 		end
+		saveBirthright.CurrentBlessing = mod.level:GetCurses()
 		saveBirthright.BirthrightfloorBought = mod.BirthrightfloorBought
 	end
 	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption.Settings)
@@ -138,11 +139,15 @@ function mod:LoadItBack(isContinued)
 				local player = Isaac.GetPlayer(i-1)
 				mod.taintedLazBirthright[i] = loadBirthright["player_"..tostring(i)].taintedLazBirthright
 				mod.fliped[i] = loadBirthright["player_"..tostring(i)].flipTimeCharge
-				--if loadBirthright["player_"..tostring(i)].ApollyonStatUps then
-					player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
-				--end
+				player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
 			end
 			mod.BirthrightfloorBought = loadBirthright.BirthrightfloorBought
+			local blessings = loadBirthright.CurrentBlessing
+			for _,blessname in ipairs(mod.LevelBlessing.Name) do
+				if mod.LevelBlessing.CheckFlag(blessings, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(blessname))) then
+					Game():GetLevel():AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(blessname)),false)
+				end
+			end
 		end
 		
 		mod.MCMOption.Settings = json.decode(loadBirthright.ModConfigMenu)
@@ -270,6 +275,46 @@ function mod:CheckBirthrightAll(player)
 		if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) then
 			for x = 1,3 do
 				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN,2, Isaac.GetFreeNearPosition(player.Position,0),mod.ZERO_VECTOR,nil)
+			end
+		end
+		if player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
+			local curse = mod.level:GetCurses()
+			if (curse == LevelCurse.CURSE_NONE) then
+				local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
+				local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Name[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Name + 1])
+				mod.level:AddCurse(mod.LevelBlessing.GetFlag(randBless),false)
+			else
+				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_MAZE) then
+					mod.level:RemoveCurses(LevelCurse.CURSE_OF_MAZE)
+					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Prevailing")),false)
+				end
+				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_DARKNESS) then
+					mod.level:RemoveCurses(LevelCurse.CURSE_OF_DARKNESS)
+					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment")),false)
+				end
+				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_LABYRINTH) and not mod.LevelBlessing.CheckFlag(mod.LevelBlessing.GetId("Blessing of Order")) then
+					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Order")),false)
+				end
+				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_UNKNOWN) then
+					mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_UNKNOWN)
+					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Baptized")),false)
+				end
+				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_BLIND) then
+					mod.level:RemoveCurses(LevelCurse.CURSE_OF_BLIND)
+					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight")),false)
+				end
+				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_LOST) then
+					mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_LOST)
+					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Clarity")),false)
+				end
+				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_CURSED) then
+					mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_CURSED)
+					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Virtuous")),false)
+				end
+				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_GIANT) then
+					mod.level:RemoveCurses(LevelCurse.CURSE_OF_GIANT)
+					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Imperceptible")),false)
+				end
 			end
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] > 1 then
