@@ -1,6 +1,6 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effeccts", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.11"
+mod.Version = "2.33"
 local json = require("json")
 mod.game = Game()
 mod.room = mod.game:GetRoom()
@@ -80,6 +80,7 @@ function mod:SaveSomeData(isSaving)
 			saveData.PlayerData = json.encode(mod:GetData(player))
 			saveBirthright["player_"..tostring(i)]=saveData
 		end
+		saveBirthright.CurrentBlessing = mod.level:GetCurses()
 		saveBirthright.BirthrightfloorBought = mod.BirthrightfloorBought
 	end
 	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption.Settings)
@@ -138,11 +139,15 @@ function mod:LoadItBack(isContinued)
 				local player = Isaac.GetPlayer(i-1)
 				mod.taintedLazBirthright[i] = loadBirthright["player_"..tostring(i)].taintedLazBirthright
 				mod.fliped[i] = loadBirthright["player_"..tostring(i)].flipTimeCharge
-				--if loadBirthright["player_"..tostring(i)].ApollyonStatUps then
-					player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
-				--end
+				player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
 			end
 			mod.BirthrightfloorBought = loadBirthright.BirthrightfloorBought
+			local blessings = loadBirthright.CurrentBlessing
+			for _,blessname in ipairs(mod.LevelBlessing.Name) do
+				if mod.LevelBlessing.CheckFlag(blessings, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(blessname))) then
+					Game():GetLevel():AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(blessname)),false)
+				end
+			end
 		end
 		
 		mod.MCMOption.Settings = json.decode(loadBirthright.ModConfigMenu)

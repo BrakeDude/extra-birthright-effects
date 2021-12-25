@@ -97,7 +97,7 @@ function mod:BlessingsUpdate(player)
                     Aura.Color=AuraColor
                     Aura.DepthOffset=-999
                 end
-                local enemies = Isaac.FindInRadius(player.Position, 100, EntityPartition.ENEMY)
+                local enemies = Isaac.FindInRadius(player.Position, 130, EntityPartition.ENEMY)
                 for _,entity in ipairs(enemies) do
                     if mod.game:GetFrameCount() % 10 == 0 and entity:IsVulnerableEnemy() and not entity:HasEntityFlags(EntityFlag.FLAG_BURN | EntityFlag.FLAG_FRIENDLY) then
                         entity:AddBurn(EntityRef(player), 10, player.Damage)
