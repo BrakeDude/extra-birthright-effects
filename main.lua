@@ -1,6 +1,6 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effeccts", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.33"
+mod.Version = "2.35"
 local json = require("json")
 mod.game = Game()
 mod.room = mod.game:GetRoom()
@@ -143,9 +143,9 @@ function mod:LoadItBack(isContinued)
 			end
 			mod.BirthrightfloorBought = loadBirthright.BirthrightfloorBought
 			local blessings = loadBirthright.CurrentBlessing
-			for _,blessname in ipairs(mod.LevelBlessing.Name) do
-				if mod.LevelBlessing.CheckFlag(blessings, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(blessname))) then
-					Game():GetLevel():AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(blessname)),false)
+			for i = 1, #mod.LevelBlessing.Blessings do
+				if mod.LevelBlessing.CheckFlag(blessings, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i]))) then
+					Game():GetLevel():AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i])),false)
 				end
 			end
 		end
@@ -281,39 +281,14 @@ function mod:CheckBirthrightAll(player)
 			local curse = mod.level:GetCurses()
 			if (curse == LevelCurse.CURSE_NONE) then
 				local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
-				local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Name[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Name + 1])
+				local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % (#mod.LevelBlessing.Blessings - 2) + 1])
 				mod.level:AddCurse(mod.LevelBlessing.GetFlag(randBless),false)
 			else
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_MAZE) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_MAZE)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Prevailing")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_DARKNESS) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_DARKNESS)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_LABYRINTH) and not mod.LevelBlessing.CheckFlag(mod.LevelBlessing.GetId("Blessing of Order")) then
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Order")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_UNKNOWN) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_UNKNOWN)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Baptized")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_BLIND) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_BLIND)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_LOST) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_LOST)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Clarity")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_CURSED) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_CURSED)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Virtuous")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_GIANT) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_GIANT)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Imperceptible")),false)
+				for i = 1, #mod.LevelBlessing.Curses do
+					if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.Curses[i]) then
+						mod.level:RemoveCurses(mod.LevelBlessing.Curses[i])
+						mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i]),false))
+					end
 				end
 			end
 		end

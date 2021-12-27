@@ -1,7 +1,7 @@
 local mod = ExtraBirthright
 
 mod.LevelBlessing = {
-    Name = {
+    Blessings = {
         "Blessing of the Prevailing", --Maze
         "Blessing of Enlightenment", --Darkness
         "Blessing of Order", --Labyrinth
@@ -9,7 +9,17 @@ mod.LevelBlessing = {
         "Blessing of Foresight", --Blind
         "Blessing of Clarity", --Lost
         "Blessing of the Virtuous", --Curse
-        "Blessing of the Imperceptible", --Unknown
+        "Blessing of the Imperceptible", --Giant
+    },
+    Curses = {
+        LevelCurse.CURSE_OF_MAZE,
+        LevelCurse.CURSE_OF_DARKNESS,
+        LevelCurse.CURSE_OF_LABYRINTH,
+        LevelCurse.CURSE_OF_THE_UNKNOWN,
+        LevelCurse.CURSE_OF_BLIND,
+        LevelCurse.CURSE_OF_THE_LOST,
+        LevelCurse.CURSE_OF_THE_CURSED,
+        LevelCurse.CURSE_OF_GIANT,
     },
     GetId = function(name)
         return Isaac.GetCurseIdByName(name)
@@ -22,66 +32,48 @@ mod.LevelBlessing = {
     end
 }
 
-function mod:ReverseCurse(curse)
-    if (curse == LevelCurse.CURSE_NONE) then
+function mod:BethHasBirthright()
+    for i = 1, mod.game:GetNumPlayers() do
+        local player = Isaac.GetPlayer(i-1)
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
-        local rng = Isaac.GetPlayer(0):GetCollectibleRNG(collectible)
-        local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Name[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Name + 1])
-        return mod.LevelBlessing.GetFlag(randBless)
-    else
-        if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_MAZE) then
-            return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Prevailing"))
-        end
-        if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_DARKNESS) then
-            return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment"))
-        end
-        if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_LABYRINTH) and not mod.LevelBlessing.CheckFlag(mod.LevelBlessing.GetId("Blessing of Order")) then
-            return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Order"))
-        end
-        if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_UNKNOWN) then
-            return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Baptized"))
-        end
-        if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_BLIND) then
-            return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight"))
-        end
-        if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_LOST) then
-            return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Clarity"))
-        end
-        if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_CURSED) then
-            return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Virtuous"))
-        end
-        if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_GIANT) then
-            return mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Imperceptible"))
+        if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) then
+            return true
         end
     end
-    return curse
+    return false
+end
+
+function mod:ReverseCurse(curses)
+    if mod.MCMOption.Settings["Bethany"] > 1 then
+        if mod:BethHasBirthright() then
+            if (curses == LevelCurse.CURSE_NONE) then
+                local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
+                local rng = Isaac.GetPlayer(0):GetCollectibleRNG(collectible)
+                local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % (#mod.LevelBlessing.Blessings - 2) + 1])
+                return mod.LevelBlessing.GetFlag(randBless)
+            else
+                local newcurse = 0
+                for i = 1, #mod.LevelBlessing.Curses do
+                    if mod.LevelBlessing.CheckFlag(curses, mod.LevelBlessing.Curses[i]) then
+                        newcurse = newcurse | mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i]))
+                    end
+                end
+                return newcurse
+            end
+        end
+    end
+    return curses
 end
 
 function mod:BlessingsUpdate(player)
+    local curse = mod.game:GetLevel():GetCurses()
     if mod.MCMOption.Settings["Bethany"] > 1 then
-        local curse = mod.level:GetCurses()
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
         if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) then
-            if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_MAZE) then
-                mod.level:RemoveCurses(LevelCurse.CURSE_OF_MAZE)
-            end
-            if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_DARKNESS) then
-                mod.level:RemoveCurses(LevelCurse.CURSE_OF_DARKNESS)
-            end
-            if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_UNKNOWN) then
-                mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_UNKNOWN)
-            end
-            if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_BLIND) then
-                mod.level:RemoveCurses(LevelCurse.CURSE_OF_BLIND)
-            end
-            if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_LOST) then
-                mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_LOST)
-            end
-            if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_CURSED) then
-                mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_CURSED)
-            end
-            if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_GIANT) then
-                mod.level:RemoveCurses(LevelCurse.CURSE_OF_GIANT)
+            for i = 1, #mod.LevelBlessing.Curses do
+                if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.Curses[i]) then
+                    mod.level:RemoveCurses(mod.LevelBlessing.Curses[i])
+                end
             end
             if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment"))) then
                 local Aura=mod:GetData(player).BlessingPrevailAura
@@ -111,10 +103,24 @@ function mod:BlessingsUpdate(player)
                 mod.level:ApplyBlueMapEffect()
                 mod.level:ApplyCompassEffect(true)
             end
+            if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight"))) and 
+            player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
+                local items = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
+                for _,item in ipairs(items) do
+                    item = item:ToPickup()
+                    local sprite = item:GetSprite()
+                    local newitem = Isaac.GetItemConfig():GetCollectible(item.SubType)
+                    sprite:ReplaceSpritesheet(1, newitem.GfxFileName)
+                    sprite:LoadGraphics()
+                end
+            end
         end
     else
-        for i = 1,#mod.LevelBlessing.Name do
-            mod.game:GetLevel():RemoveCurses(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Name[i])))
+        for i = 1, #mod.LevelBlessing.Blessings do
+            if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i])) then
+                mod.level:RemoveCurses(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i])))
+                mod.level:AddCurse(mod.LevelBlessing.Curses[i] ,false)
+            end
         end
     end
 end
@@ -128,7 +134,7 @@ function mod:BlessingOfPrevailingEffect()
             if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Prevailing"))) and 
             player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
                 local rng = player:GetCollectibleRNG(collectible)
-                if rng:RandomInt(100) < 5 then
+                if rng:RandomInt(100) < 15 then
                     player:UseCard(Card.CARD_SOUL_CAIN, UseFlag.USE_NOANNOUNCER | UseFlag.USE_NOANIM)
                 end
             end
@@ -136,19 +142,6 @@ function mod:BlessingOfPrevailingEffect()
     end
 end
 
-function mod:BlessingOfForesightEffect(player)
-    if mod.MCMOption.Settings["Bethany"] > 1 then
-        player = player:ToPlayer()
-        local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
-        local curse = mod.level:GetCurses()
-        if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight"))) and 
-        player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY and mod.room:IsFirstVisit() then
-            player:UseActiveItem(CollectibleType.COLLECTIBLE_GLOWING_HOUR_GLASS)
-        end
-    end
-end
-
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.BlessingsUpdate)
 mod:AddCallback(ModCallbacks.MC_POST_CURSE_EVAL, mod.ReverseCurse)
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.BlessingOfPrevailingEffect)
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.BlessingOfForesightEffect, EntityType.ENTITY_PLAYER)
