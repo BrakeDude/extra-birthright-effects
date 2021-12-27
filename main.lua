@@ -258,7 +258,6 @@ function mod:CheckBirthrightAll(player)
 		if player:GetPlayerType() == PlayerType.PLAYER_SAMSON and mod.MCMOption.Settings["Samson"] > 1 then
 			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
 			player:EvaluateItems()
-			--player:AddCollectible(CollectibleType.COLLECTIBLE_MOMS_BRACELET, 1, false, ActiveSlot.SLOT_POCKET, 0)
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] > 1 then
 			local trinket1 = player:GetTrinket(0)
@@ -283,13 +282,6 @@ function mod:CheckBirthrightAll(player)
 				local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
 				local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Blessings + 1])
 				mod.level:AddCurse(mod.LevelBlessing.GetFlag(randBless),false)
-			else
-				for i = 1, #mod.LevelBlessing.Curses do
-					if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.Curses[i]) then
-						mod.level:RemoveCurses(mod.LevelBlessing.Curses[i])
-						mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i]),false))
-					end
-				end
 			end
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] > 1 then
