@@ -49,7 +49,7 @@ function mod:ReverseCurse(curses)
             if (curses == LevelCurse.CURSE_NONE) then
                 local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
                 local rng = Isaac.GetPlayer(0):GetCollectibleRNG(collectible)
-                local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % (#mod.LevelBlessing.Blessings - 2) + 1])
+                local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Blessings + 1])
                 return mod.LevelBlessing.GetFlag(randBless)
             else
                 local newcurse = 0
@@ -114,6 +114,11 @@ function mod:BlessingsUpdate(player)
                     sprite:LoadGraphics()
                 end
             end
+            if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Imperceptible"))) then
+                player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_CAMO_UNDIES)
+                player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_PLUTO)
+                player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_MERCURY)
+            end
         end
     else
         for i = 1, #mod.LevelBlessing.Blessings do
@@ -142,6 +147,24 @@ function mod:BlessingOfPrevailingEffect()
     end
 end
 
+function mod:BlessingOfImperceptibleEffect(tear)
+    if mod.MCMOption.Settings["Bethany"] > 1 then
+        local player = mod:GetPlayerFromTear(tear)
+        if player then 
+            local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
+            local curse = mod.level:GetCurses()
+            if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Virtuous"))) and 
+            player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
+                local rng = player:GetCollectibleRNG(collectible)
+                if rng:RandomInt(100) < 10 then
+                    tear:AddTearFlags(TearFlags.TEAR_ENEMY_TO_WISP)
+                end
+            end
+        end
+    end
+end
+
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.BlessingsUpdate)
 mod:AddCallback(ModCallbacks.MC_POST_CURSE_EVAL, mod.ReverseCurse)
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.BlessingOfPrevailingEffect)
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, mod.BlessingOfImperceptibleEffect)

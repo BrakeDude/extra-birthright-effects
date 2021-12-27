@@ -281,7 +281,7 @@ function mod:CheckBirthrightAll(player)
 			local curse = mod.level:GetCurses()
 			if (curse == LevelCurse.CURSE_NONE) then
 				local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
-				local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % (#mod.LevelBlessing.Blessings - 2) + 1])
+				local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Blessings + 1])
 				mod.level:AddCurse(mod.LevelBlessing.GetFlag(randBless),false)
 			else
 				for i = 1, #mod.LevelBlessing.Curses do
