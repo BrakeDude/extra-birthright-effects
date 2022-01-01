@@ -4,7 +4,7 @@ function mod:JudasBecomesStansPuppet(entity)
 	local player = entity:ToPlayer()
 	local data = mod:GetData(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Judas"],true)
-	if (player:HasCollectible(collectible) and mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) and player:GetPlayerType() == PlayerType.PLAYER_JUDAS then
+	if player:HasCollectible(collectible) and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) and player:GetPlayerType() == PlayerType.PLAYER_JUDAS then
 		local rngtrack = player:GetCollectibleRNG(collectible):RandomFloat()
 		if rngtrack <= 0.2 and not data.JudasBirthBrimstone then
 			player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_BRIMSTONE,true,1)
