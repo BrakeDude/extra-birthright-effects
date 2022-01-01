@@ -9,8 +9,7 @@ mod.rng = RNG()
 mod.substituteBirthright = Isaac.GetItemIdByName("Fake Birthright")
 mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 mod.wasThereBoss = false
-mod.ZERO_VECTOR = Vector(0,0)
-mod.bossposition = Vector(0,0)
+mod.bossposition = Vector.Zero
 mod.taintedLazBirthright = {false,false,false,false,false,false,false,false}
 mod.fliped = {0,0,0,0,0,0,0,0}
 mod.BirthrightfloorBought = false
@@ -273,7 +272,7 @@ function mod:CheckBirthrightAll(player)
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) then
 			for x = 1,3 do
-				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN,2, Isaac.GetFreeNearPosition(player.Position,0),mod.ZERO_VECTOR,nil)
+				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN,2, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
 			end
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
@@ -301,7 +300,7 @@ function mod:CheckBirthrightAll(player)
 		if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and (mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4) then
 			for x = 1,20 do
 				local rnglocust = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT):RandomInt(5)+1
-				Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, mod.ZERO_VECTOR, player)
+				Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
 			end
 		end
 		if (player:GetPlayerType() == PlayerType.PLAYER_JACOB_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B) and (mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4) then

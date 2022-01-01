@@ -71,7 +71,7 @@ function mod:BlessingsUpdate(player)
             if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment"))) then
                 local Aura=mod:GetData(player).BlessingPrevailAura
                 if not Aura or Aura:IsDead() then
-                    mod:GetData(player).BlessingPrevailAura = Isaac.Spawn(1000,123,2,player.Position,mod.ZERO_VECTOR,player):ToEffect()
+                    mod:GetData(player).BlessingPrevailAura = Isaac.Spawn(1000,123,2,player.Position,Vector.Zero,player):ToEffect()
                     Aura=mod:GetData(player).BlessingPrevailAura
                     Aura:GetSprite():ReplaceSpritesheet(0,'gfx/effects/effect_hallowedground.png')
                     Aura:GetSprite():LoadGraphics()
