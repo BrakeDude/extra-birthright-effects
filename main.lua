@@ -276,12 +276,7 @@ function mod:CheckBirthrightAll(player)
 			end
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
-			local curse = mod.level:GetCurses()
-			if (curse == LevelCurse.CURSE_NONE) then
-				local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
-				local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Blessings + 1])
-				mod.level:AddCurse(mod.LevelBlessing.GetFlag(randBless),false)
-			end
+			data.Bethany = PlayerType.PLAYER_BETHANY
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] > 1 then
 			player:GetOtherTwin():AddCollectible(CollectibleType.COLLECTIBLE_RED_STEW)

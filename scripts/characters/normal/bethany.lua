@@ -62,10 +62,16 @@ function mod:BlessingsUpdate(player)
     if mod.MCMOption.Settings["Bethany"] > 1 then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
         if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) then
-            for i = 1, #mod.LevelBlessing.Curses do
-                if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.Curses[i]) then
-                    mod.level:RemoveCurses(mod.LevelBlessing.Curses[i])
-                    mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i])) ,false)
+            if (curse == LevelCurse.CURSE_NONE) then
+                local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
+                local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Blessings + 1])
+                mod.level:AddCurse(mod.LevelBlessing.GetFlag(randBless),false)
+            else
+                for i = 1, #mod.LevelBlessing.Curses do
+                    if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.Curses[i]) then
+                        mod.level:RemoveCurses(mod.LevelBlessing.Curses[i])
+                        mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i])),false)
+                    end
                 end
             end
             if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment"))) then
@@ -100,11 +106,15 @@ function mod:BlessingsUpdate(player)
             player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
                 local items = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
                 for _,item in ipairs(items) do
-                    item = item:ToPickup()
-                    local sprite = item:GetSprite()
-                    local newitem = Isaac.GetItemConfig():GetCollectible(item.SubType)
-                    sprite:ReplaceSpritesheet(1, newitem.GfxFileName)
-                    sprite:LoadGraphics()
+                    if item.SubType ~= CollectibleType.COLLECTIBLE_NULL then
+                        item = item:ToPickup()
+                        local sprite = item:GetSprite()
+                        local newitem = Isaac.GetItemConfig():GetCollectible(item.SubType)
+                        if sprite:GetFilename() ~= newitem.GfxFileName then 
+                            sprite:ReplaceSpritesheet(1, newitem.GfxFileName)
+                            sprite:LoadGraphics()
+                        end
+                    end
                 end
             end
         end
@@ -152,7 +162,17 @@ function mod:BlessingOfVirtuousEffect(tear)
     end
 end
 
-function mod:BlessingOfImperceptibleEffect()
+function mod:CantChange(ptype)
+    local cantCange = {4, 12, 14, 16, 17, 19, 20, 21, 24, 25, 29, 33, 35, 36, 38, 39, 40}
+    for i = 1, #cantCange do
+        if ptype == cantCange[i] then
+            return true
+        end
+    end
+    return false
+end
+
+function mod:BlessingOfImperceptibleAndBaptizedEffect()
     if mod.MCMOption.Settings["Bethany"] > 1 then
         local curse = mod.game:GetLevel():GetCurses()
         if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Imperceptible"))) then
@@ -174,6 +194,33 @@ function mod:BlessingOfImperceptibleEffect()
                 end
             end
         end
+        if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Baptized"))) then
+            for i = 1, mod.game:GetNumPlayers() do
+                local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
+                local player = Isaac.GetPlayer(i-1)
+                local data = mod:GetData(player)
+                local rng = player:GetCollectibleRNG(collectible)
+                if rng:RandomInt(100) < 105 and mod.room:GetType() ~= RoomType.ROOM_BOSS and mod.room:GetType() ~= RoomType.ROOM_BOSSRUSH and data.Bethany then
+                    local randPlayer = rng:RandomInt(41)
+                    while mod:CantChange(randPlayer) do
+                        randPlayer = rng:RandomInt(41)
+                    end
+                    if (randPlayer == 10 or randPlayer == 31) and not player:GetEffects():HasNullEffect(NullItemID.ID_LOST_CURSE) then
+                        player:GetEffects():AddNullEffect(NullItemID.ID_LOST_CURSE)
+                        data.BethanyLost = true
+                        player:ChangePlayerType(PlayerType.PLAYER_BETHANY)
+                    elseif randPlayer ~= 10 and randPlayer ~= 31 then
+                        player:ChangePlayerType(randPlayer)
+                        if data.BethanyLost and not mod.room:IsMirrorWorld() then
+                            player:GetEffects():RemoveNullEffect(NullItemID.ID_LOST_CURSE)
+                            data.BethanyLost = nil
+                        end
+                    end
+                elseif player:GetPlayerType() ~= PlayerType.PLAYER_BETHANY and data.Bethany then
+                    player:ChangePlayerType(PlayerType.PLAYER_BETHANY)
+                end
+            end
+        end
     end
 end
 
@@ -181,4 +228,4 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.BlessingsUpdate)
 mod:AddCallback(ModCallbacks.MC_POST_CURSE_EVAL, mod.ReverseCurse)
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.BlessingOfPrevailingEffect)
 mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, mod.BlessingOfVirtuousEffect)
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.BlessingOfImperceptibleEffect)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.BlessingOfImperceptibleAndBaptizedEffect)
