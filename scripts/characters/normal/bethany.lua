@@ -200,17 +200,24 @@ function mod:BlessingOfImperceptibleAndBaptizedEffect()
                 local player = Isaac.GetPlayer(i-1)
                 local data = mod:GetData(player)
                 local rng = player:GetCollectibleRNG(collectible)
-                if rng:RandomInt(100) < 105 and mod.room:GetType() ~= RoomType.ROOM_BOSS and mod.room:GetType() ~= RoomType.ROOM_BOSSRUSH and data.Bethany then
+                if rng:RandomInt(100) < 105 and mod.room:GetType() ~= RoomType.ROOM_BOSS and mod.room:GetType() ~= RoomType.ROOM_BOSSRUSH
+                and mod.room:GetType() ~= RoomType.ROOM_BLACK_MARKET and mod.room:GetType() ~= RoomType.ROOM_GREED_EXIT
+                and mod.room:GetType() ~= RoomType.ROOM_SECRET_EXIT and mod.room:GetType() ~= RoomType.ROOM_BARREN
+                and mod.room:GetType() ~= RoomType.ROOM_ISAACS and mod.room:GetType() ~= RoomType.ROOM_ERROR and data.Bethany then
                     local randPlayer = rng:RandomInt(41)
                     while mod:CantChange(randPlayer) do
                         randPlayer = rng:RandomInt(41)
                     end
-                    if (randPlayer == 10 or randPlayer == 31) and not player:GetEffects():HasNullEffect(NullItemID.ID_LOST_CURSE) then
+                    if (randPlayer == 10 or randPlayer == 31) and not player:GetEffects():HasNullEffect(NullItemID.ID_LOST_CURSE) and not mod.room:HasCurseMist() then
                         player:GetEffects():AddNullEffect(NullItemID.ID_LOST_CURSE)
                         data.BethanyLost = true
                         player:ChangePlayerType(PlayerType.PLAYER_BETHANY)
-                    elseif randPlayer ~= 10 and randPlayer ~= 31 then
-                        player:ChangePlayerType(randPlayer)
+                    elseif randPlayer ~= 10 and randPlayer ~= 31 or mod.room:HasCurseMist() then
+                        if mod.room:HasCurseMist() then
+                            player:ChangePlayerType(PlayerType.PLAYER_BETHANY)
+                        else
+                            player:ChangePlayerType(randPlayer)
+                        end
                         if data.BethanyLost and not mod.room:IsMirrorWorld() then
                             player:GetEffects():RemoveNullEffect(NullItemID.ID_LOST_CURSE)
                             data.BethanyLost = nil
@@ -218,6 +225,18 @@ function mod:BlessingOfImperceptibleAndBaptizedEffect()
                     end
                 elseif player:GetPlayerType() ~= PlayerType.PLAYER_BETHANY and data.Bethany then
                     player:ChangePlayerType(PlayerType.PLAYER_BETHANY)
+                end
+            end
+        else
+            for i = 1, mod.game:GetNumPlayers() do
+                local player = Isaac.GetPlayer(i-1)
+                local data = mod:GetData(player)
+                if data.Bethany then
+                    player:ChangePlayerType(PlayerType.PLAYER_BETHANY)
+                    if data.BethanyLost and not mod.room:IsMirrorWorld() then
+                        player:GetEffects():RemoveNullEffect(NullItemID.ID_LOST_CURSE)
+                        data.BethanyLost = nil
+                    end
                 end
             end
         end
