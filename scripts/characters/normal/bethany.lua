@@ -163,7 +163,7 @@ function mod:BlessingOfVirtuousEffect(tear)
 end
 
 function mod:CantChange(ptype)
-    local cantCange = {4, 12, 14, 16, 17, 19, 20, 21, 24, 25, 29, 33, 35, 36, 38, 39, 40}
+    local cantCange = {4, 12, 14, 16, 17, 20, 21, 24, 25, 29, 33, 35, 36, 38, 39, 40}
     for i = 1, #cantCange do
         if ptype == cantCange[i] then
             return true
