@@ -49,7 +49,7 @@ mod.MCMOption ={
 		3, --Blue Baby
 		1, --Eve
 		3, --Samson
-		1, --Azazel
+		3, --Azazel
 		1, --Lazarus
 		1, --Lazarus Risen
 		1, --Eden
@@ -134,7 +134,7 @@ mod.MCMOption ={
 		{"1: Soul hearts boost stats depending on their number. Non soul hearts become other pickup (cards, pills, keys, coins, batteries)."},--Blue Baby
 		{"Comming soon."},--Eve
 		{"1: Damage up. Samson can pick up and throw objects."},--Samson
-		{"Comming soon."},--Azazel
+		{"1: 20% chance to shoot in 8 directions on hit."},--Azazel
 		{"Comming soon."},--Lazarus
 		{"Comming soon."},--Lazarus Risen
 		{"Comming soon."},--Eden
