@@ -14,8 +14,11 @@ mod.taintedLazBirthright = {false,false,false,false,false,false,false,false}
 mod.fliped = {0,0,0,0,0,0,0,0}
 mod.BirthrightfloorBought = false
 mod.doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
+mod.Timer = -1
 
 mod.JacobDeathAnim = Isaac.GetEntityTypeByName("Tainted Jacob Death Animation")
+
+mod.VisitedRooms = {}
 
 mod.Books = {
 	CollectibleType.COLLECTIBLE_ANARCHIST_COOKBOOK,
@@ -82,6 +85,8 @@ function mod:SaveSomeData(isSaving)
 		end
 		saveBirthright.CurrentBlessing = mod.level:GetCurses()
 		saveBirthright.BirthrightfloorBought = mod.BirthrightfloorBought
+		saveBirthright.VisitedRooms = mod.VisitedRooms
+		saveBirthright.Timer = mod.Timer
 	end
 	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption.Settings)
 	saveBirthright.ModConfigMenuHearts = json.encode(mod.EBHeartsDrops.Settings)
@@ -132,6 +137,7 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.InitData)
 
 function mod:LoadItBack(isContinued)
 	mod.taintedLazBirthright = {false,false,false,false,false,false,false,false}
+	mod.VisitedRooms = {}
 	if mod:HasData() then
 		local loadBirthright = json.decode(mod:LoadData())
 		if isContinued then
@@ -142,6 +148,8 @@ function mod:LoadItBack(isContinued)
 				player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
 			end
 			mod.BirthrightfloorBought = loadBirthright.BirthrightfloorBought
+			mod.VisitedRooms = loadBirthright.VisitedRooms or {}
+			mod.Timer = loadBirthright.Timer or -1
 			local blessings = loadBirthright.CurrentBlessing
 			for i = 1, #mod.LevelBlessing.Blessings do
 				if mod.LevelBlessing.CheckFlag(blessings, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i]))) then
@@ -275,9 +283,6 @@ function mod:CheckBirthrightAll(player)
 			for x = 1,3 do
 				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN,2, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
 			end
-		end
-		if player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
-			data.Bethany = PlayerType.PLAYER_BETHANY
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] > 1 then
 			player:GetOtherTwin():AddCollectible(CollectibleType.COLLECTIBLE_RED_STEW)
