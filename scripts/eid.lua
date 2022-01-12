@@ -90,7 +90,7 @@ mod.EBEIDDesc = {
 		{EID.descriptions["spa"].birthright[5][3],"{{ArrowUp}}{{SoulHeart}}Los corazones de alma dan un aumento de daño, lágrimas, velocidad y alcance en base a cuantos tengas#Los otros corazones se convertirán en otros recolectables",EID.descriptions["spa"].birthright[13][3].."#Efecto extra:{{CR}}{{ArrowUp}}{{SoulHeart}}Los corazones de alma dan un aumento de daño, lágrimas, velocidad y alcance en base a cuantos tengas#Los otros corazones se convertirán en otros recolectables"},--Blue Baby
 		{EID.descriptions["spa"].birthright[6][3],"Pronto", EID.descriptions["spa"].birthright[6][3].."#{{ColorRainbow}}Efecto extra:#Pronto"},--Eve
 		{EID.descriptions["spa"].birthright[7][3],"{{ArrowUp}} +4 de daño#Adquieres la capacidad de tomar y lanzar cosas", EID.descriptions["spa"].birthright[7][3].."#{{ColorRainbow}}Efecto extra:#{{ArrowUp}} +4 de daño#Adquieres la capacidad de tomar y lanzar cosas"},--Samson
-		{EID.descriptions["spa"].birthright[8][3],"Pronto", EID.descriptions["spa"].birthright[8][3].."#{{ColorRainbow}}Efecto extra:#Pronto"},--Azazel
+		{EID.descriptions["spa"].birthright[8][3],"Pronto", EID.descriptions["spa"].birthright[8][3].."#{{ColorRainbow}}Efecto extra:#20% de posibilidad de disparar en 8 direcciones al recibir daño"},--Azazel
 		{EID.descriptions["spa"].birthright[9][3],"Pronto", EID.descriptions["spa"].birthright[9][3].."#{{ColorRainbow}}Efecto extra:#Pronto"},--Lazarus
 		{EID.descriptions["spa"].birthright[12][3],"Pronto", EID.descriptions["spa"].birthright[12][3].."#{{ColorRainbow}}Efecto extra:#Pronto"},--Lazarus Risen
 		{EID.descriptions["spa"].birthright[10][3],"Pronto", EID.descriptions["spa"].birthright[10][3].."#{{ColorRainbow}}Efecto extra:#Pronto"},--Eden
