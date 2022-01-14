@@ -20,6 +20,7 @@ function mod:EveExtraBloodBaby(entitytype,variant,subtype,position,velocity,spaw
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, mod.EveExtraBloodBaby)
 
 function mod:BetterBloodBabies(baby)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eve"])
@@ -41,7 +42,5 @@ function mod:BetterBloodBabies(baby)
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.BetterBloodBabies,FamiliarVariant.BLOOD_BABY)
-mod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, mod.EveExtraBloodBaby)
 --#endregion

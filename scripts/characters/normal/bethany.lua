@@ -74,6 +74,7 @@ function mod:ReverseCurse(curses)
     end
     return curses
 end
+mod:AddCallback(ModCallbacks.MC_POST_CURSE_EVAL, mod.ReverseCurse)
 
 function mod:BlessingsUpdate(player)
     local curse = mod.game:GetLevel():GetCurses()
@@ -164,6 +165,7 @@ function mod:BlessingsUpdate(player)
         end
     end
 end
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.BlessingsUpdate)
 
 function mod:BlessingOfPrevailingandOrderEffect()
     mod.Timer = -1
@@ -199,6 +201,7 @@ function mod:BlessingOfPrevailingandOrderEffect()
         end
     end
 end
+mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.BlessingOfPrevailingandOrderEffect)
 
 function mod:BlessingOfVirtuousEffect(tear)
     if mod.MCMOption.Settings["Bethany"] > 1 then
@@ -216,6 +219,7 @@ function mod:BlessingOfVirtuousEffect(tear)
         end
     end
 end
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, mod.BlessingOfVirtuousEffect)
 
 function mod.CantChange(ptype)
     local cantCange = {4, 12, 14, 16, 17, 20, 21, 24, 25, 29, 33, 35, 36, 38, 39, 40}
@@ -242,6 +246,7 @@ function mod:NewLevelBethany()
         end
     end
 end
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.NewLevelBethany)
 
 function mod:BlessingOfImperceptibleAndBaptizedEffect()
     mod.Timer = -1
@@ -293,7 +298,7 @@ function mod:BlessingOfImperceptibleAndBaptizedEffect()
                 local player = Isaac.GetPlayer(i-1)
                 local data = mod:GetData(player)
                 local rng = player:GetCollectibleRNG(collectible)
-                if rng:RandomInt(100) < 40 and mod.room:GetType() ~= RoomType.ROOM_BOSS and mod.room:GetType() ~= RoomType.ROOM_BOSSRUSH
+                if rng:RandomInt(100) < 35 and mod.room:GetType() ~= RoomType.ROOM_BOSS and mod.room:GetType() ~= RoomType.ROOM_BOSSRUSH
                 and mod.room:GetType() ~= RoomType.ROOM_BLACK_MARKET and mod.room:GetType() ~= RoomType.ROOM_GREED_EXIT
                 and mod.room:GetType() ~= RoomType.ROOM_SECRET_EXIT and mod.room:GetType() ~= RoomType.ROOM_BARREN
                 and mod.room:GetType() ~= RoomType.ROOM_ISAACS and mod.room:GetType() ~= RoomType.ROOM_ERROR
@@ -336,6 +341,7 @@ function mod:BlessingOfImperceptibleAndBaptizedEffect()
         end
     end
 end
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.BlessingOfImperceptibleAndBaptizedEffect)
 
 function mod:TimerRender()
     if mod.MCMOption.Settings["Bethany"] > 1 then
@@ -356,6 +362,7 @@ function mod:TimerRender()
         end
     end
 end
+mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.TimerRender)
 
 function mod:ClickerCheck(collectible,_,player)
     local data = mod:GetData(player)
@@ -363,12 +370,6 @@ function mod:ClickerCheck(collectible,_,player)
         data.Bethany = nil
     end
 end
-
-mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.TimerRender)
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.BlessingsUpdate)
-mod:AddCallback(ModCallbacks.MC_POST_CURSE_EVAL, mod.ReverseCurse)
-mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.BlessingOfPrevailingandOrderEffect)
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, mod.BlessingOfVirtuousEffect)
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.BlessingOfImperceptibleAndBaptizedEffect)
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.NewLevelBethany)
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.ClickerCheck)
+
+

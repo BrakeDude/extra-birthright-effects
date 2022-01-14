@@ -15,19 +15,21 @@ function mod:JudasBecomesStansPuppet(entity)
 	end
 	return nil
 end
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.JudasBecomesStansPuppet, EntityType.ENTITY_PLAYER)
 
 function mod:JudasBirthBrimRemove()
 	for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
 		mod:GetData(player).JudasBirthBrimstone = false
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.JudasBirthBrimRemove)
 
 function mod:JudasDamageAsStansPuppet(player,flag)
 	if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and flag == CacheFlag.CACHE_DAMAGE and mod:GetData(player).JudasBirthBrimstone then
 		player.Damage = player.Damage + 5
 	end
 end
-
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.JudasDamageAsStansPuppet)
 
 function mod:AntibirthUseTheBook(_,_,player)
 	if ((player:GetPlayerType() == PlayerType.PLAYER_JUDAS and mod.MCMOption.Settings["Judas"] == 3)
@@ -47,10 +49,7 @@ function mod.AddBookToBirthrightEffect(collectible)
 	end
 end
 
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.JudasBecomesStansPuppet, EntityType.ENTITY_PLAYER)
 for _, book in ipairs(mod.Books) do
 	mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.AntibirthUseTheBook, book)
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.JudasDamageAsStansPuppet)
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.JudasBirthBrimRemove)
 --#endregion

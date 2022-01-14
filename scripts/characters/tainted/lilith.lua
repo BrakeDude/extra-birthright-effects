@@ -35,6 +35,7 @@ function mod.CreepFromBellyUpdate(_, creep)
 					data.Spawner)
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, mod.CreepFromBellyUpdate, EffectVariant.PLAYER_CREEP_RED)
 
 function mod:CreepFromBelly(entity)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Lilith"])
@@ -51,6 +52,7 @@ function mod:CreepFromBelly(entity)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.CreepFromBelly, FamiliarVariant.UMBILICAL_BABY)
 
 function mod:CreepHemorrhage(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Lilith"])
@@ -63,8 +65,5 @@ function mod:CreepHemorrhage(player)
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.CreepHemorrhage)
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.CreepFromBelly, FamiliarVariant.UMBILICAL_BABY)
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, mod.CreepFromBellyUpdate, EffectVariant.PLAYER_CREEP_RED)
 --#endregion

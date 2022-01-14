@@ -11,6 +11,7 @@ function mod:SamsonStronk(player)
         end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.SamsonStronk)
 
 function mod:SamsonCache(player,cache)
 	if mod.MCMOption.Settings["Samson"] > 1 then
@@ -22,6 +23,4 @@ function mod:SamsonCache(player,cache)
 		end
 	end
 end
-
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.SamsonStronk)
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.SamsonCache, CacheFlag.CACHE_DAMAGE)

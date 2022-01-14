@@ -1,6 +1,5 @@
 local mod = ExtraBirthright
 --#region Tainted Jacob
-
 function mod:HesMine(player,_,_,newtarget)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
 	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
@@ -18,6 +17,7 @@ function mod:HesMine(player,_,_,newtarget)
 	end
 	return nil
 end
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.HesMine, EntityType.ENTITY_PLAYER)
 
 function mod:YouDie(npc,collider,low)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
@@ -57,6 +57,7 @@ function mod:YouDie(npc,collider,low)
 	end
 	return nil
 end
+mod:AddCallback(ModCallbacks.MC_PRE_NPC_COLLISION, mod.YouDie, EntityType.ENTITY_DARK_ESAU)
 
 function mod:FriendlyPissedEsau(Esau)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
@@ -77,6 +78,7 @@ function mod:FriendlyPissedEsau(Esau)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, mod.FriendlyPissedEsau, EntityType.ENTITY_DARK_ESAU)
 
 function mod:JacobStatsCache(player,cacheFlag)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
@@ -93,7 +95,7 @@ function mod:JacobStatsCache(player,cacheFlag)
 		end
 	end
 end
-
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.JacobStatsCache)
 
 function mod:SecondItem()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
@@ -125,10 +127,5 @@ function mod:SecondItem()
 		end
 	end
 end
-
-mod:AddCallback(ModCallbacks.MC_PRE_NPC_COLLISION, mod.YouDie, EntityType.ENTITY_DARK_ESAU)
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.JacobStatsCache)
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.SecondItem)
-mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, mod.FriendlyPissedEsau, EntityType.ENTITY_DARK_ESAU)
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.HesMine, EntityType.ENTITY_PLAYER)
 --#endregion

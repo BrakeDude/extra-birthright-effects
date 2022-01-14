@@ -42,6 +42,7 @@ function mod:LocustHolyAura(locust)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.LocustHolyAura,FamiliarVariant.ABYSS_LOCUST)
 
 function mod:NewLocusts()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Apollyon"],true)
@@ -59,7 +60,5 @@ function mod:NewLocusts()
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.NewLocusts);
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.LocustHolyAura,FamiliarVariant.ABYSS_LOCUST)
 --#endregion

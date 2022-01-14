@@ -19,10 +19,12 @@ function mod:OneFreebie(player)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.OneFreebie)
 
 function mod:NewFloorNewDeal()
     mod.BirthrightfloorBought = false
 end
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.NewFloorNewDeal)
 
 function mod:PickupYourPrize(entity, collider)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Keeper"])
@@ -41,8 +43,5 @@ function mod:PickupYourPrize(entity, collider)
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, mod.PickupYourPrize)
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.NewFloorNewDeal)
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.OneFreebie)
 --#endregion

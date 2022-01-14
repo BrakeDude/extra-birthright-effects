@@ -10,6 +10,5 @@ function mod:DarkJudasGetsBonked(entity)
 	end
 	return nil
 end
-
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.DarkJudasGetsBonked, EntityType.ENTITY_PLAYER)
 --#endregion

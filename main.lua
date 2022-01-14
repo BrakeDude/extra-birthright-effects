@@ -101,8 +101,7 @@ function mod:SaveSomeData(isSaving)
 end
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.SaveSomeData)
 --#endregion
---#region Loading
-
+--#region DataInit
 function mod:InitData(player)
 	local pType = player:GetPlayerType()
 	if pType <= 40 then
@@ -132,9 +131,9 @@ function mod:InitData(player)
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.InitData)
-
+--#endregion
+--#region Loading
 function mod:LoadItBack(isContinued)
 	mod.taintedLazBirthright = {false,false,false,false,false,false,false,false}
 	mod.VisitedRooms = {}
@@ -157,7 +156,6 @@ function mod:LoadItBack(isContinued)
 				end
 			end
 		end
-		
 		mod.MCMOption.Settings = json.decode(loadBirthright.ModConfigMenu)
 		for i = 1, #mod.MCMOption.Name do
 			if mod.MCMOption.Settings[mod.MCMOption.Name[i]] == nil then
@@ -175,7 +173,7 @@ function mod:LoadItBack(isContinued)
 end
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.LoadItBack)
 --#endregion
---#region Init, CMD commands
+--#region Init
 function mod:Init(player)
 	local data = mod:GetData(player)
 	data.gotBirthright = true
@@ -187,11 +185,8 @@ function mod:Init(player)
 	mod.wasThereBoss = false
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.Init);
-
-
 --#endregion
 --#region Birthright check for first pickup effect
-
 function mod:CheckBirthrightAll(player)
 	mod.game = Game()
 	mod.level = mod.game:GetLevel()

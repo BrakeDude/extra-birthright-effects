@@ -11,6 +11,5 @@ function mod:Azazel8Brim(player)
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.Azazel8Brim, EntityType.ENTITY_PLAYER)
 --#endregion
