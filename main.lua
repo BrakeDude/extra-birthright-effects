@@ -1,6 +1,6 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effeccts", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.33"
+mod.Version = "2.35"
 local json = require("json")
 mod.game = Game()
 mod.room = mod.game:GetRoom()
@@ -9,14 +9,16 @@ mod.rng = RNG()
 mod.substituteBirthright = Isaac.GetItemIdByName("Fake Birthright")
 mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 mod.wasThereBoss = false
-mod.ZERO_VECTOR = Vector(0,0)
-mod.bossposition = Vector(0,0)
+mod.bossposition = Vector.Zero
 mod.taintedLazBirthright = {false,false,false,false,false,false,false,false}
 mod.fliped = {0,0,0,0,0,0,0,0}
 mod.BirthrightfloorBought = false
 mod.doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
+mod.Timer = -1
 
 mod.JacobDeathAnim = Isaac.GetEntityTypeByName("Tainted Jacob Death Animation")
+
+mod.VisitedRooms = {}
 
 mod.Books = {
 	CollectibleType.COLLECTIBLE_ANARCHIST_COOKBOOK,
@@ -51,6 +53,7 @@ include("scripts/characters/normal/maggie.lua")
 include("scripts/characters/normal/cain.lua")
 include("scripts/characters/normal/judas.lua")
 include("scripts/characters/normal/judasblack.lua")
+include("scripts/characters/normal/azazel.lua")
 include("scripts/characters/normal/bb.lua")
 include("scripts/characters/normal/samson.lua")
 include("scripts/characters/normal/lilith.lua")
@@ -82,6 +85,8 @@ function mod:SaveSomeData(isSaving)
 		end
 		saveBirthright.CurrentBlessing = mod.level:GetCurses()
 		saveBirthright.BirthrightfloorBought = mod.BirthrightfloorBought
+		saveBirthright.VisitedRooms = mod.VisitedRooms
+		saveBirthright.Timer = mod.Timer
 	end
 	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption.Settings)
 	saveBirthright.ModConfigMenuHearts = json.encode(mod.EBHeartsDrops.Settings)
@@ -96,8 +101,7 @@ function mod:SaveSomeData(isSaving)
 end
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.SaveSomeData)
 --#endregion
---#region Loading
-
+--#region DataInit
 function mod:InitData(player)
 	local pType = player:GetPlayerType()
 	if pType <= 40 then
@@ -127,11 +131,12 @@ function mod:InitData(player)
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.InitData)
-
+--#endregion
+--#region Loading
 function mod:LoadItBack(isContinued)
 	mod.taintedLazBirthright = {false,false,false,false,false,false,false,false}
+	mod.VisitedRooms = {}
 	if mod:HasData() then
 		local loadBirthright = json.decode(mod:LoadData())
 		if isContinued then
@@ -142,14 +147,15 @@ function mod:LoadItBack(isContinued)
 				player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
 			end
 			mod.BirthrightfloorBought = loadBirthright.BirthrightfloorBought
+			mod.VisitedRooms = loadBirthright.VisitedRooms or {}
+			mod.Timer = loadBirthright.Timer or -1
 			local blessings = loadBirthright.CurrentBlessing
-			for _,blessname in ipairs(mod.LevelBlessing.Name) do
-				if mod.LevelBlessing.CheckFlag(blessings, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(blessname))) then
-					Game():GetLevel():AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(blessname)),false)
+			for i = 1, #mod.LevelBlessing.Blessings do
+				if mod.LevelBlessing.CheckFlag(blessings, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i]))) then
+					Game():GetLevel():AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i])),false)
 				end
 			end
 		end
-		
 		mod.MCMOption.Settings = json.decode(loadBirthright.ModConfigMenu)
 		for i = 1, #mod.MCMOption.Name do
 			if mod.MCMOption.Settings[mod.MCMOption.Name[i]] == nil then
@@ -167,7 +173,7 @@ function mod:LoadItBack(isContinued)
 end
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.LoadItBack)
 --#endregion
---#region Init, CMD commands
+--#region Init
 function mod:Init(player)
 	local data = mod:GetData(player)
 	data.gotBirthright = true
@@ -179,11 +185,8 @@ function mod:Init(player)
 	mod.wasThereBoss = false
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.Init);
-
-
 --#endregion
 --#region Birthright check for first pickup effect
-
 function mod:CheckBirthrightAll(player)
 	mod.game = Game()
 	mod.level = mod.game:GetLevel()
@@ -258,7 +261,6 @@ function mod:CheckBirthrightAll(player)
 		if player:GetPlayerType() == PlayerType.PLAYER_SAMSON and mod.MCMOption.Settings["Samson"] > 1 then
 			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
 			player:EvaluateItems()
-			--player:AddCollectible(CollectibleType.COLLECTIBLE_MOMS_BRACELET, 1, false, ActiveSlot.SLOT_POCKET, 0)
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] > 1 then
 			local trinket1 = player:GetTrinket(0)
@@ -274,47 +276,7 @@ function mod:CheckBirthrightAll(player)
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) then
 			for x = 1,3 do
-				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN,2, Isaac.GetFreeNearPosition(player.Position,0),mod.ZERO_VECTOR,nil)
-			end
-		end
-		if player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
-			local curse = mod.level:GetCurses()
-			if (curse == LevelCurse.CURSE_NONE) then
-				local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
-				local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Name[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Name + 1])
-				mod.level:AddCurse(mod.LevelBlessing.GetFlag(randBless),false)
-			else
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_MAZE) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_MAZE)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Prevailing")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_DARKNESS) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_DARKNESS)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_LABYRINTH) and not mod.LevelBlessing.CheckFlag(mod.LevelBlessing.GetId("Blessing of Order")) then
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Order")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_UNKNOWN) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_UNKNOWN)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Baptized")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_BLIND) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_BLIND)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_LOST) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_LOST)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Clarity")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_THE_CURSED) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_THE_CURSED)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Virtuous")),false)
-				end
-				if mod.LevelBlessing.CheckFlag(curse, LevelCurse.CURSE_OF_GIANT) then
-					mod.level:RemoveCurses(LevelCurse.CURSE_OF_GIANT)
-					mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Imperceptible")),false)
-				end
+				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN,2, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
 			end
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] > 1 then
@@ -334,7 +296,7 @@ function mod:CheckBirthrightAll(player)
 		if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and (mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4) then
 			for x = 1,20 do
 				local rnglocust = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT):RandomInt(5)+1
-				Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, mod.ZERO_VECTOR, player)
+				Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
 			end
 		end
 		if (player:GetPlayerType() == PlayerType.PLAYER_JACOB_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B) and (mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4) then

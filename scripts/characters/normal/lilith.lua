@@ -3,7 +3,7 @@ local mod = ExtraBirthright
 function mod:SpawnMinisaacs()
 	local MiniIsaacs = Isaac.FindByType(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC)
 	for _,minisaac in pairs(MiniIsaacs) do
-		if minisaac:GetData().BoxOfFriendRemove then
+		if mod:GetData(minisaac).BoxOfFriendRemove then
 			minisaac:Remove()
 		end
 	end
@@ -19,8 +19,8 @@ function mod:SpawnMinisaacs()
 						count = 4
 					end
 					for i=1, count do
-						local minisaac = Isaac.Spawn(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC,2,pos,mod.ZERO_VECTOR,player):ToFamiliar()--player:AddMinisaac(pos, false):ToFamiliar()
-						minisaac:GetData().FromBirthright = true
+						local minisaac = Isaac.Spawn(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC,2,pos,Vector.Zero,player):ToFamiliar()--player:AddMinisaac(pos, false):ToFamiliar()
+						mod:GetData(minisaac).FromBirthright = true
 					end
 				end
 			end
@@ -32,7 +32,7 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.SpawnMinisaacs)
 function mod:DespawnMinisaacsOnNewLevel()
 	local MiniIsaacs = Isaac.FindByType(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC)
 	for _,minisaac in pairs(MiniIsaacs) do
-		if minisaac:GetData().FromBirthright then
+		if mod:GetData(minisaac).FromBirthright then
 			minisaac:Remove()
 		end
 	end
@@ -46,8 +46,8 @@ function mod:MiniBoxFriends(_,_,player)
 			local MinIsaacs = Isaac.FindByType(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC)
 			for _,minisaac in ipairs(MinIsaacs) do
 				if minisaac:ToFamiliar().Player.ControllerIndex == player.ControllerIndex then
-					local isaac = Isaac.Spawn(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC,2,minisaac.Position,mod.ZERO_VECTOR,minisaac:ToFamiliar().Player):ToFamiliar()--minisaac:ToFamiliar().Player:AddMinisaac(minisaac.Position, false)
-					isaac:ToFamiliar():GetData().BoxOfFriendRemove = true
+					local isaac = Isaac.Spawn(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC,2,minisaac.Position,Vector.Zero,minisaac:ToFamiliar().Player):ToFamiliar()--minisaac:ToFamiliar().Player:AddMinisaac(minisaac.Position, false)
+					mod:GetData(isaac:ToFamiliar()).BoxOfFriendRemove = true
 				end
 			end
 		end

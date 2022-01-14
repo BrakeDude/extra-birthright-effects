@@ -1,6 +1,5 @@
 local mod = ExtraBirthright
 --#region Tainted Judas
-
 function mod:DarkFu(_, _, player)
     if mod.MCMOption.Settings["Tainted Judas"] > 1 then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Judas"])
@@ -10,6 +9,7 @@ function mod:DarkFu(_, _, player)
 	end
 	return true
 end
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.DarkFu, mod.substituteDarkArts)
 
 function mod:DarkFuItem(player)
     if player:GetPlayerType() == PlayerType.PLAYER_JUDAS_B then
@@ -27,7 +27,5 @@ function mod:DarkFuItem(player)
 		end
 	end
 end
-
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.DarkFu, mod.substituteDarkArts)
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.DarkFuItem)
 --#endregion

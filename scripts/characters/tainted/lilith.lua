@@ -6,7 +6,7 @@ function mod.shoot_creep(creep_variant, position, direction_vector, puddle_num, 
 		return nil
 	end
 
-	local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, creep_variant, 0, position, mod.ZERO_VECTOR, spawner):ToEffect()
+	local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, creep_variant, 0, position, Vector.Zero, spawner):ToEffect()
 	creep.Scale = puddle_scale
 	creep.CollisionDamage = puddle_dmg
 	creep:SetTimeout(puddle_timeout)
@@ -35,6 +35,7 @@ function mod.CreepFromBellyUpdate(_, creep)
 					data.Spawner)
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, mod.CreepFromBellyUpdate, EffectVariant.PLAYER_CREEP_RED)
 
 function mod:CreepFromBelly(entity)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Lilith"])
@@ -51,20 +52,18 @@ function mod:CreepFromBelly(entity)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.CreepFromBelly, FamiliarVariant.UMBILICAL_BABY)
 
 function mod:CreepHemorrhage(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Lilith"])
 	if mod.MCMOption.Settings["Tainted Lilith"] > 1 then
 		if player.FrameCount%5 == 1 and player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_LILITH_B then
-			local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, player.Position, mod.ZERO_VECTOR, player):ToEffect()
+			local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, player.Position, Vector.Zero, player):ToEffect()
 			creep.Scale = 1.2
 			creep.CollisionDamage = player.Damage * 2.5
 			creep:SetTimeout(10)
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.CreepHemorrhage)
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.CreepFromBelly, FamiliarVariant.UMBILICAL_BABY)
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, mod.CreepFromBellyUpdate, EffectVariant.PLAYER_CREEP_RED)
 --#endregion

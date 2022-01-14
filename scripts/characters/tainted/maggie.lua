@@ -13,5 +13,4 @@ function mod:TaintedRegeneration()
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.TaintedRegeneration)

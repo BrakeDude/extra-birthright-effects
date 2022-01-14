@@ -26,14 +26,23 @@ Here is the list of characters that currently have their extra Birthright functi
 [*][b]??? (Blue Baby)[/b]: Number of soul hearts give stat ups. Non soul (black) hearts become soul hearts or other pickups (cards, runes, keys, bombs and others). Compatable with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2274218818]Double Soul Hearts[/url] mod.
 [*][b]Eve[/b]: Coming soon.
 [*][b]Samson[/b]: +4 damage up. Gets ability to pickup rocks (and other objects) by pressing &quot;Drop&quot; button ([b]Left CTRL[/b] on keyboard or [b]RT[/b] on controller by default) and throw them. (Yes, it's Mom's Bracelet without Mom's Bracelet.)
-[*][b]Azazel[/b]: Coming soon.
+[*][b]Azazel[/b]: 20% chance to shoot in 8 directions on hit.
 [*][b]Lazarus[/b]: Coming soon.
 [*][b]Eden[/b]: Coming soon.
 [*][b]The Lost[/b]: Coming soon.
 [*][b]Lilith[/b]: Spawns 2 mini Isaacs when entering hostile room, 4 - big room (L-shaped included). Box of Friends now affects mini Isaacs.
 [*][b]Keeper[/b]: One free item that costs money per floor, effects of Silver Dollar and Rib of Greed.
 [*][b]Apollyon[/b]: Void becomes pocket active. Voiding passive items with quality higher then 0 will give random extra stat ups. Higher qulity items give more stats.
-[*][b]Bethany[/b]: Curses become blessings and always appear on floor.
+[*][b]Bethany[/b]: Curses become blessings and always appear on floor, even if floor wouldn't have one.[olist]
+[*]Blessing of the Prevailing: 20% chance for red doors to appear. Oposite of Curse of the Maze.
+[*]Blessing of Enlightenment: Bethany has a large aura around her that burns enemies inside it. Oposite of Curse of Darkness
+[*]Blessing of Order: 30% chance to teleport into unvisited special room in order: Treasure or Planetarium, Shop, Secret or Super Secret, Devil or Angel, Boss. Oposite of Curse of the Labyrinth.
+[*]Blessing of the Baptized: 35% chance to transform into a random character when entering a room. Can't transform in Greed mode and when entering Boss, Boss rush, Black market, Isaac's room, Error, Angel and Devil. Can't transform into ???, Dark Judas, Keeper, The Forgotter, Tainted Isaac, Tainted Judas, Tainted ???, Tainted Lazarus, Tainted Keeper, Tainted Forgotten, Tainted Bethany. Oposite of Curse of the Unknown.
+[*]Blessing of Foresight: after 5 seconds activates Glowing Hour Glass effect when entering for the first time into hostile, Treasure, Shop, Curse, Devil rooms. Reviels hidden item in alt floors. Oposite of Curse of the Blind.
+[*]Blessing of Clarity: full mapping effect. Oposite of Curse of the Lost.
+[*]Blessing of the Virtuous: 5% chance for tears morph enemy into random wisp. Oposite of Curse of the Cursed.
+[*]Blessing of the Imperceptible: doors are always open and effect of Camo Undies. Oposite of Curse of the Giant.
+[/olist]
 [*][b]Jacob and Esau[/b]: Coming soon.
 [*][b]Tainted Isaac[/b]: Coming soon.
 [*][b]Tainted Magdalene[/b]: [b][u]Only combined variant[/u][/b]. Every cleared room restores one red heart.
@@ -53,7 +62,7 @@ Here is the list of characters that currently have their extra Birthright functi
 [*]Abyss locusts have small Godhead aura.
 [/olist]
 [*][b]Tainted Forgotten[/b]: Coming soon.
-[*][b]Tainted Bethany[/b]: [b][u]Only combined variant[/u][/b]. Item wisp shoot homing tears, that have her tear rage and 40% damage.
+[*][b]Tainted Bethany[/b]: [b][u]Only combined variant[/u][/b]. Item wisp shoot homing tears, that have her tear range and 40% damage.
 [*][b]Tainted Jacob[/b]: [olist]
 [*]Birthright gives +1 Health up, +0.3 Speed up, +50% Damage Multiplier, +1 Tears up. Damocles effect for Treasure, Secret/Super Secret and Devil rooms when entering them. Dark Esau chases enemy that damaged you before and kills Tainted Jacob in one hit no matter the form (normal or ghost). Having Isaac's Heart will make you a ghost even if you have Holy Mantle (and prevent from one hit KO).
 [*]Dark Esau becomes friendly. Targets enemies instead.

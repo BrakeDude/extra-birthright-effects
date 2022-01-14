@@ -36,8 +36,8 @@ function mod:CharmingScript(player)
 			--player:EvaluateItems()
 		end
 	end
-
 end
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.CharmingScript)
 
 function mod:YumHeartBuff(_,_,player)
 	if mod.MCMOption.Settings["Magdalene"] == 2 or mod.MCMOption.Settings["Magdalene"] == 4 then
@@ -48,6 +48,7 @@ function mod:YumHeartBuff(_,_,player)
 	end
 	return true
 end
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.YumHeartBuff, CollectibleType.COLLECTIBLE_YUM_HEART)
 
 function mod:MaggieStatsCache(player,cacheFlag)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
@@ -59,6 +60,7 @@ function mod:MaggieStatsCache(player,cacheFlag)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.MaggieStatsCache)
 
 function mod:MaggieSoulHeartNextLevel()
 	if mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5 then
@@ -71,9 +73,5 @@ function mod:MaggieSoulHeartNextLevel()
 		end
 	end
 end
-
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.YumHeartBuff, CollectibleType.COLLECTIBLE_YUM_HEART)
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.MaggieStatsCache)
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.MaggieSoulHeartNextLevel)
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.CharmingScript);
 --#endregion

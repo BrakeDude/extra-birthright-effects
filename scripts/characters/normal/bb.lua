@@ -28,6 +28,7 @@ function mod:BBHearts(player)
 		player:EvaluateItems()
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.BBHearts)
 
 function mod:BBStatsCache(player,cacheFlag)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Blue Baby"])
@@ -48,6 +49,7 @@ function mod:BBStatsCache(player,cacheFlag)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.BBStatsCache)
 
 function mod:HeartsTransform(heart)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Blue Baby"])
@@ -87,8 +89,5 @@ function mod:HeartsTransform(heart)
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.HeartsTransform)
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.BBStatsCache)
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.BBHearts)
 --#endregion

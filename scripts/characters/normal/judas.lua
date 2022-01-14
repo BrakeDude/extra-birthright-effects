@@ -4,7 +4,7 @@ function mod:JudasBecomesStansPuppet(entity)
 	local player = entity:ToPlayer()
 	local data = mod:GetData(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Judas"],true)
-	if (player:HasCollectible(collectible) and mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) and player:GetPlayerType() == PlayerType.PLAYER_JUDAS then
+	if player:HasCollectible(collectible) and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) and player:GetPlayerType() == PlayerType.PLAYER_JUDAS then
 		local rngtrack = player:GetCollectibleRNG(collectible):RandomFloat()
 		if rngtrack <= 0.2 and not data.JudasBirthBrimstone then
 			player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_BRIMSTONE,true,1)
@@ -15,19 +15,21 @@ function mod:JudasBecomesStansPuppet(entity)
 	end
 	return nil
 end
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.JudasBecomesStansPuppet, EntityType.ENTITY_PLAYER)
 
 function mod:JudasBirthBrimRemove()
 	for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
 		mod:GetData(player).JudasBirthBrimstone = false
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.JudasBirthBrimRemove)
 
 function mod:JudasDamageAsStansPuppet(player,flag)
 	if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and flag == CacheFlag.CACHE_DAMAGE and mod:GetData(player).JudasBirthBrimstone then
 		player.Damage = player.Damage + 5
 	end
 end
-
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.JudasDamageAsStansPuppet)
 
 function mod:AntibirthUseTheBook(_,_,player)
 	if ((player:GetPlayerType() == PlayerType.PLAYER_JUDAS and mod.MCMOption.Settings["Judas"] == 3)
@@ -47,10 +49,7 @@ function mod.AddBookToBirthrightEffect(collectible)
 	end
 end
 
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.JudasBecomesStansPuppet, EntityType.ENTITY_PLAYER)
 for _, book in ipairs(mod.Books) do
 	mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.AntibirthUseTheBook, book)
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.JudasDamageAsStansPuppet)
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.JudasBirthBrimRemove)
 --#endregion

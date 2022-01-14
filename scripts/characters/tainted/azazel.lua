@@ -1,6 +1,5 @@
 local mod = ExtraBirthright
 --#region Tainted Azazel
-
 function mod:TAzazelFlight(player,cacheFlag)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Azazel"])
 	if mod.MCMOption.Settings["Tainted Azazel"] > 1 then
@@ -11,6 +10,7 @@ function mod:TAzazelFlight(player,cacheFlag)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.TAzazelFlight)
 
 function mod:TAzazelBrim(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Azazel"])
@@ -30,6 +30,5 @@ function mod:TAzazelBrim(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.TAzazelFlight)
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.TAzazelBrim)
 --#endregion

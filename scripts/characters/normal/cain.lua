@@ -12,9 +12,9 @@ function mod:GimmeYourSuff(NPC)
 					if dropTheRinG <= 0.22 then
 						if not NPC:IsBoss() then
 							local pickup = mod.MyRandomPickup(player:GetCollectibleRNG(collectible))
-							Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,Isaac.GetFreeNearPosition(NPC.Position,0),mod.ZERO_VECTOR,nil)
+							Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,Isaac.GetFreeNearPosition(NPC.Position,0),Vector.Zero,nil)
 							if NPC:IsChampion() then
-								Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,Isaac.GetFreeNearPosition(NPC.Position,0),mod.ZERO_VECTOR,nil)
+								Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,Isaac.GetFreeNearPosition(NPC.Position,0),Vector.Zero,nil)
 							end
 						elseif dropTheRinG <= 0.12 then
 							mod.bossposition = Isaac.GetFreeNearPosition(NPC.Position,0)
@@ -26,6 +26,7 @@ function mod:GimmeYourSuff(NPC)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, mod.GimmeYourSuff);
 
 function mod:BossItemSuff()
 	for _,players in ipairs(Isaac.FindByType(1)) do
@@ -40,6 +41,8 @@ function mod:BossItemSuff()
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.BossItemSuff)
+
 function mod:GoldenBreak(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Cain"],true)
 	if (mod.MCMOption.Settings["Cain"] == 3 or mod.MCMOption.Settings["Cain"] == 5) and player:HasCollectible(collectible) then
@@ -48,8 +51,5 @@ function mod:GoldenBreak(player)
 		end
 	end
 end
-
-mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, mod.GimmeYourSuff);
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.GoldenBreak);
-mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.BossItemSuff)
 --#endregion

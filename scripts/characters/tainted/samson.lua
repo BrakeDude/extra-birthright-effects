@@ -15,6 +15,7 @@ function mod:TSamsonCache(player,cache)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE,mod.TSamsonCache, CacheFlag.CACHE_DAMAGE)
 
 function mod:SamsonNewLevel()
 	if mod.MCMOption.Settings["Tainted Samson"] > 1 then
@@ -27,6 +28,7 @@ function mod:SamsonNewLevel()
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL	,mod.SamsonNewLevel)
 
 function mod:TSamson(player)
 	if mod.MCMOption.Settings["Tainted Samson"] > 1 then
@@ -50,6 +52,7 @@ function mod:TSamson(player)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE,mod.TSamson)
 
 function mod:TSamsonDamaged(player)
 	player = player:ToPlayer()
@@ -65,9 +68,5 @@ function mod:TSamsonDamaged(player)
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG,mod.TSamsonDamaged, EntityType.ENTITY_PLAYER)
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE,mod.TSamsonCache, CacheFlag.CACHE_DAMAGE)
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE,mod.TSamson)
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL	,mod.SamsonNewLevel)
 --#endregion

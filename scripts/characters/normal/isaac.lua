@@ -33,6 +33,7 @@ function mod:D6Buff(_,rng,player)
 	end
 	return nil
 end
+mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, mod.D6Buff,CollectibleType.COLLECTIBLE_D6);
 
 function mod:D6PassiveBuff(player)
 	if mod.MCMOption.Settings["Isaac"] > 1 then
@@ -50,5 +51,4 @@ function mod:D6PassiveBuff(player)
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.D6PassiveBuff);
-mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, mod.D6Buff,CollectibleType.COLLECTIBLE_D6);
 --#endregion

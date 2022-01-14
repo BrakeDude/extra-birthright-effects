@@ -19,6 +19,7 @@ function mod:DaSwitcharu2pointO(player)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.DaSwitcharu2pointO)
 
 function mod:FlipTheSwitchLazarus2pointO(Collectible,_,player,_,slot)
 	if slot == ActiveSlot.SLOT_POCKET then
@@ -26,8 +27,5 @@ function mod:FlipTheSwitchLazarus2pointO(Collectible,_,player,_,slot)
 	end
 	return nil
 end
-
-
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.DaSwitcharu2pointO);
 mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, mod.FlipTheSwitchLazarus2pointO, 711)
 --#endregion

@@ -27,7 +27,6 @@ function mod:Stats(player,rng,list)
 	end
 end
 
-
 function mod:Succ(collectible,rng,player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
 	if mod.MCMOption.Settings["Apollyon"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_APOLLYON 
@@ -38,6 +37,7 @@ function mod:Succ(collectible,rng,player)
 		player:EvaluateItems()
 	end
 end
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.Succ, CollectibleType.COLLECTIBLE_VOID);
 
 function mod:SuccStats(player,cache)
 	if mod.MCMOption.Settings["Apollyon"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then
@@ -55,6 +55,7 @@ function mod:SuccStats(player,cache)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.SuccStats)
 
 function mod:PocketVoid(player)
 	if mod.MCMOption.Settings["Apollyon"] > 1 then
@@ -71,8 +72,5 @@ function mod:PocketVoid(player)
 		end
 	end
 end
-
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.Succ, CollectibleType.COLLECTIBLE_VOID);
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.SuccStats);
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.PocketVoid);
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.PocketVoid)
 --#endregion

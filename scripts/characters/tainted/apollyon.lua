@@ -11,7 +11,7 @@ function mod:LocustHolyAura(locust)
 				if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and player:HasCollectible(collectible) then
 					local Aura=locust:GetData().Godhead
 					if not Aura or Aura:IsDead() then
-						locust:GetData().Godhead=Isaac.Spawn(1000,123,2,locust.Position,mod.ZERO_VECTOR,locust):ToEffect()
+						locust:GetData().Godhead=Isaac.Spawn(1000,123,2,locust.Position,Vector.Zero,locust):ToEffect()
 						Aura=locust:GetData().Godhead
 						Aura:FollowParent(locust)
 						Aura:GetSprite():ReplaceSpritesheet(0,'gfx/effects/effect_hallowedground.png')
@@ -42,6 +42,7 @@ function mod:LocustHolyAura(locust)
 		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.LocustHolyAura,FamiliarVariant.ABYSS_LOCUST)
 
 function mod:NewLocusts()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Apollyon"],true)
@@ -53,13 +54,11 @@ function mod:NewLocusts()
 				spawncount = spawncount < 2 and 2 or spawncount
 				for x = 1,spawncount do
 					local rnglocust = player:GetCollectibleRNG(collectible):RandomInt(5)+1
-					Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, mod.ZERO_VECTOR, player)
+					Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
 				end
 			end
 		end
 	end
 end
-
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.NewLocusts);
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.LocustHolyAura,FamiliarVariant.ABYSS_LOCUST)
 --#endregion
