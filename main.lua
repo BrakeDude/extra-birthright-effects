@@ -192,7 +192,7 @@ function mod:CheckBirthrightAll(player)
 	mod.level = mod.game:GetLevel()
 	mod.room = mod.game:GetRoom()
 	local data = mod:GetData(player)
-	if player:GetPlayerType() <= 40 then
+	if player:GetPlayerType() <= 40 and player.FrameCount < 10 then
 		player:AddCacheFlags(CacheFlag.CACHE_ALL)
 		player:EvaluateItems()
 	end
