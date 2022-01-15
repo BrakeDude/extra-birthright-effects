@@ -1,6 +1,6 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effeccts", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.35.2"
+mod.Version = "2.36"
 local json = require("json")
 mod.game = Game()
 mod.room = mod.game:GetRoom()
@@ -53,9 +53,10 @@ include("scripts/characters/normal/maggie.lua")
 include("scripts/characters/normal/cain.lua")
 include("scripts/characters/normal/judas.lua")
 include("scripts/characters/normal/judasblack.lua")
-include("scripts/characters/normal/azazel.lua")
 include("scripts/characters/normal/bb.lua")
 include("scripts/characters/normal/samson.lua")
+include("scripts/characters/normal/azazel.lua")
+include("scripts/characters/normal/eden.lua")
 include("scripts/characters/normal/lilith.lua")
 include("scripts/characters/normal/keeper.lua")
 include("scripts/characters/normal/apollyon.lua")
@@ -64,8 +65,8 @@ include("scripts/characters/tainted/maggie.lua")
 include("scripts/characters/tainted/judas.lua")
 include("scripts/characters/tainted/bb.lua")
 include("scripts/characters/tainted/eve.lua")
-include("scripts/characters/tainted/azazel.lua")
 include("scripts/characters/tainted/samson.lua")
+include("scripts/characters/tainted/azazel.lua")
 include("scripts/characters/tainted/lazarus.lua")
 include("scripts/characters/tainted/lilith.lua")
 include("scripts/characters/tainted/apollyon.lua")
@@ -207,7 +208,7 @@ function mod:CheckBirthrightAll(player)
 	player:GetPlayerType() == PlayerType.PLAYER_AZAZEL and mod.MCMOption.Settings["Azazel"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] == 2 or
-	player:GetPlayerType() == PlayerType.PLAYER_EDEN and mod.MCMOption.Settings["Eden"] == 2 or
+	--player:GetPlayerType() == PlayerType.PLAYER_EDEN and mod.MCMOption.Settings["Eden"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_THELOST and mod.MCMOption.Settings["The Lost"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_LILITH and mod.MCMOption.Settings["Lilith"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or

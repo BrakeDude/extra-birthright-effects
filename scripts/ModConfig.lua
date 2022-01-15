@@ -52,7 +52,7 @@ mod.MCMOption ={
 		3, --Azazel
 		1, --Lazarus
 		1, --Lazarus Risen
-		1, --Eden
+		2, --Eden
 		1, --Lost
 		3, --Lilith
 		3, --Keeper
@@ -137,7 +137,7 @@ mod.MCMOption ={
 		{"1: 20% chance to shoot in 8 directions on hit."},--Azazel
 		{"Comming soon."},--Lazarus
 		{"Comming soon."},--Lazarus Risen
-		{"Comming soon."},--Eden
+		{"COMBINED ONLY! 1: 25% chance get random passive item effect when entering room."},--Eden
 		{"Comming soon."},--Lost
 		{"1: Spawns 2 mini Isaacs when entering hostile room, 4 - big room (L-shaped included). Box of Friends now affects mini Isaacs."},--Lilith
 		{"1: Effects of Silver Dollar and Rib of Greed. One free item per floor that costs money."},--Keeper
@@ -505,7 +505,7 @@ if ModConfigMenu then
 							option = option + 1
 						end
 					end
-					if (mod.MCMOption.Name[i] == "Tainted Bethany" or mod.MCMOption.Name[i] == "Tainted Magdalene") and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 2 then
+					if (mod.MCMOption.Name[i] == "Eden" or mod.MCMOption.Name[i] == "Tainted Bethany" or mod.MCMOption.Name[i] == "Tainted Magdalene") and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 2 then
 						option = 4
 					end
 					return mod.MCMOption.Name[i]..': ' .. mod.MCMOption.Options[option]
