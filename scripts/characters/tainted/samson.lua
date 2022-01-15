@@ -28,7 +28,7 @@ function mod:SamsonNewLevel()
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL	,mod.SamsonNewLevel)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.SamsonNewLevel)
 
 function mod:TSamson(player)
 	if mod.MCMOption.Settings["Tainted Samson"] > 1 then
@@ -45,8 +45,8 @@ function mod:TSamson(player)
 				if enemycount ~= data.RoomEnemies or data.HairLock ~= player:HasTrinket(TrinketType.TRINKET_SAMSONS_LOCK,true) then
 					data.RoomEnemies = enemycount
 					data.HairLock = player:HasTrinket(TrinketType.TRINKET_SAMSONS_LOCK,true)
-					--player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-					--player:EvaluateItems()
+					player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+					player:EvaluateItems()
 				end
 			end
 		end
@@ -62,8 +62,8 @@ function mod:TSamsonDamaged(player)
 			local data = mod:GetData(player)
 			if player:HasCollectible(collectible) then
 				data.GotHit = data.GotHit + 1
-				--player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-				--player:EvaluateItems()
+				player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+				player:EvaluateItems()
 			end
 		end
 	end
