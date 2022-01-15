@@ -22,18 +22,18 @@ function mod:CharmingScript(player)
 		if (mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5) then
 			if not data.MaggieHearts then
 				data.MaggieHearts = player:GetHearts()
-				--player:AddCacheFlags(CacheFlag.CACHE_SPEED)
-				--player:EvaluateItems()
+				player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+				player:EvaluateItems()
 			end
 			if data.MaggieHearts ~= player:GetHearts() then
 				data.MaggieHearts = player:GetHearts()
-				--player:AddCacheFlags(CacheFlag.CACHE_SPEED)
-				--player:EvaluateItems()
+				player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+				player:EvaluateItems()
 			end
 		elseif data.MaggieHearts then
 			data.MaggieHearts = nil
-			--player:AddCacheFlags(CacheFlag.CACHE_SPEED)
-			--player:EvaluateItems()
+			player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+			player:EvaluateItems()
 		end
 	end
 end

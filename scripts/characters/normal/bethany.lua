@@ -250,7 +250,7 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.NewLevelBethany)
 
 function mod:BlessingOfImperceptibleAndBaptizedEffect()
     mod.Timer = -1
-    local roomDescriptor = mod.level:GetCurrentRoomDesc()
+    local roomDescriptor = mod.game:GetLevel():GetCurrentRoomDesc()
     local visitedCount = roomDescriptor.VisitedCount
     local listIndex = roomDescriptor.ListIndex
     local type = roomDescriptor.Data.Type

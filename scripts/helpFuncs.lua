@@ -187,6 +187,23 @@ function mod.GetOptionsBirthright(option,extra)
 	extra = extra or false
 	return (option == 2 or option == 3 and extra) and mod.substituteBirthright or CollectibleType.COLLECTIBLE_BIRTHRIGHT
 end
+
+function mod.GetMaxCollectibleID()
+    return Isaac.GetItemConfig():GetCollectibles().Size -1
+end
+
+function mod.GetMaxTrinketID()
+    return Isaac.GetItemConfig():GetTrinkets().Size -1
+end
+
+function mod.Shuffle(list,rng)
+	local size, shuffled  = #list, list
+    for i = size, 2, -1 do
+		local j = rng:RandomInt(i) + 1
+		shuffled[i], shuffled[j] = shuffled[j], shuffled[i]
+	end
+    return shuffled
+end
 -----------------------------------
 --Helper Functions (thanks piber)--
 -----------------------------------
