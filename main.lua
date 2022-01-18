@@ -185,8 +185,67 @@ function mod:Init(player)
 	mod.BirthrightfloorBought = false
 	mod.wasThereBoss = false
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.Init);
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.Init)
 --#endregion
+function mod:BirthrightChange(pickup)
+	if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT or pickup.SubType == mod.substituteBirthright then
+		local players = Isaac.FindByType(EntityType.ENTITY_PLAYER)
+		local player = players[1]
+		for _,searchplayer in ipairs(players) do
+			if pickup.Position:Distance(searchplayer.Position) < pickup.Position:Distance(player.Position) then
+				player = searchplayer
+			end
+		end
+		player = player:ToPlayer()
+		if player:GetPlayerType() == PlayerType.PLAYER_ISAAC and mod.MCMOption.Settings["Isaac"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA and mod.MCMOption.Settings["Magdalene"] > 1 and mod.MCMOption.Settings["Magdalene"] < 4 or
+		player:GetPlayerType() == PlayerType.PLAYER_CAIN and mod.MCMOption.Settings["Cain"] > 1 and mod.MCMOption.Settings["Cain"] < 4 or
+		player:GetPlayerType() == PlayerType.PLAYER_JUDAS and mod.MCMOption.Settings["Judas"] > 1 and mod.MCMOption.Settings["Judas"] < 4 or
+		player:GetPlayerType() == PlayerType.PLAYER_BLACKJUDAS and mod.MCMOption.Settings["Dark Judas"] > 1 and mod.MCMOption.Settings["Dark Judas"] < 4 or	
+		player:GetPlayerType() == PlayerType.PLAYER_XXX and mod.MCMOption.Settings["Blue Baby"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_EVE and mod.MCMOption.Settings["Eve"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_SAMSON and mod.MCMOption.Settings["Samson"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_AZAZEL and mod.MCMOption.Settings["Azazel"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] == 2 or
+		--player:GetPlayerType() == PlayerType.PLAYER_EDEN and mod.MCMOption.Settings["Eden"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_THELOST and mod.MCMOption.Settings["The Lost"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_LILITH and mod.MCMOption.Settings["Lilith"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] == 2 or
+		(player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN or player:GetPlayerType() == PlayerType.PLAYER_THESOUL) and mod.MCMOption.Settings["The Forgotten"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_BETHANY and mod.MCMOption.Settings["Bethany"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_ISAAC_B and mod.MCMOption.Settings["Tainted Isaac"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA_B and mod.MCMOption.Settings["Tainted Magdalene"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_CAIN_B and mod.MCMOption.Settings["Tainted Cain"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_JUDAS_B and mod.MCMOption.Settings["Tainted Judas"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_XXX_B and mod.MCMOption.Settings["Tainted Blue Baby"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_EVE_B and mod.MCMOption.Settings["Tainted Eve"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B and mod.MCMOption.Settings["Tainted Samson"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_AZAZEL_B and mod.MCMOption.Settings["Tainted Azazel"] == 2 or
+		(player:GetPlayerType() == PlayerType.PLAYER_LAZARUS_B or player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2_B) and mod.MCMOption.Settings["Tainted Lazarus"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and mod.MCMOption.Settings["Tainted Eden"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_THELOST_B and mod.MCMOption.Settings["Tainted Lost"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_LILITH_B and mod.MCMOption.Settings["Tainted Lilith"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B and mod.MCMOption.Settings["Tainted Keeper"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and mod.MCMOption.Settings["Tainted Apollyon"] > 1 and mod.MCMOption.Settings["Tainted Apollyon"] < 4 or
+		(player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN_B or player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B) and mod.MCMOption.Settings["Tainted Forgotten"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_BETHANY_B and mod.MCMOption.Settings["Tainted Bethany"] == 2 or
+		(player:GetPlayerType() == PlayerType.PLAYER_JACOB_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B) and mod.MCMOption.Settings["Tainted Jacob"] > 1 and mod.MCMOption.Settings["Tainted Jacob"] < 4
+		then
+			if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT then
+				pickup:ToPickup():Morph(pickup.Type,pickup.Variant,mod.substituteBirthright,true,true,true)
+			end
+		else
+			if pickup.SubType == mod.substituteBirthright then
+				pickup:ToPickup():Morph(pickup.Type,pickup.Variant,CollectibleType.COLLECTIBLE_BIRTHRIGHT,true,true,true)
+			end
+		end
+	end
+end
+mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.BirthrightChange, PickupVariant.PICKUP_COLLECTIBLE)
 --#region Birthright check for first pickup effect
 function mod:CheckBirthrightAll(player)
 	mod.game = Game()
@@ -208,7 +267,7 @@ function mod:CheckBirthrightAll(player)
 	player:GetPlayerType() == PlayerType.PLAYER_AZAZEL and mod.MCMOption.Settings["Azazel"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] == 2 or
-	--player:GetPlayerType() == PlayerType.PLAYER_EDEN and mod.MCMOption.Settings["Eden"] == 2 or
+	player:GetPlayerType() == PlayerType.PLAYER_EDEN and mod.MCMOption.Settings["Eden"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_THELOST and mod.MCMOption.Settings["The Lost"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_LILITH and mod.MCMOption.Settings["Lilith"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or
@@ -218,7 +277,7 @@ function mod:CheckBirthrightAll(player)
 	player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_ISAAC_B and mod.MCMOption.Settings["Tainted Isaac"] == 2 or
-	--player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA_B and mod.MCMOption.Settings["Tainted Magdalene"] == 2 or
+	player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA_B and mod.MCMOption.Settings["Tainted Magdalene"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_CAIN_B and mod.MCMOption.Settings["Tainted Cain"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_JUDAS_B and mod.MCMOption.Settings["Tainted Judas"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_XXX_B and mod.MCMOption.Settings["Tainted Blue Baby"] == 2 or
@@ -232,7 +291,7 @@ function mod:CheckBirthrightAll(player)
 	player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B and mod.MCMOption.Settings["Tainted Keeper"] == 2 or
 	player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and mod.MCMOption.Settings["Tainted Apollyon"] > 1 and mod.MCMOption.Settings["Tainted Apollyon"] < 4 or
 	(player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN_B or player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B) and mod.MCMOption.Settings["Tainted Forgotten"] == 2 or
-	--player:GetPlayerType() == PlayerType.PLAYER_BETHANY_B and mod.MCMOption.Settings["Tainted Bethany"] == 2 or
+	player:GetPlayerType() == PlayerType.PLAYER_BETHANY_B and mod.MCMOption.Settings["Tainted Bethany"] == 2 or
 	(player:GetPlayerType() == PlayerType.PLAYER_JACOB_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B) and mod.MCMOption.Settings["Tainted Jacob"] > 1 and mod.MCMOption.Settings["Tainted Jacob"] < 4
 	then
 		if player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) then
@@ -247,10 +306,15 @@ function mod:CheckBirthrightAll(player)
 	end
 
 	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(mod.substituteBirthright)) and not data.gotBirthright then
-		if player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA and (mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5) then
-			player:AddCacheFlags(CacheFlag.CACHE_SPEED)
-			player:EvaluateItems()
-			data.MaggieHearts = player:GetHearts()
+		if player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then
+			if player:HasCollectible(mod.substituteBirthright) then
+				player:AddMaxHearts(2)
+			end
+			if (mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5) then
+				player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+				player:EvaluateItems()
+				data.MaggieHearts = player:GetHearts()
+			end
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_XXX and (mod.MCMOption.Settings["Blue Baby"] > 1) then
 			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)

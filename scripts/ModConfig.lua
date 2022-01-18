@@ -52,7 +52,7 @@ mod.MCMOption ={
 		3, --Azazel
 		1, --Lazarus
 		1, --Lazarus Risen
-		2, --Eden
+		3, --Eden
 		1, --Lost
 		3, --Lilith
 		3, --Keeper
@@ -62,7 +62,7 @@ mod.MCMOption ={
 		1, --Jacob
 		1, --Esau
 		1, --Tainted Isaac
-		2, --Tainted Magdalene
+		3, --Tainted Magdalene
 		1, --Tainted Cain
 		3, --Tainted Judas
 		3, --Tainted Blue Baby
@@ -76,7 +76,7 @@ mod.MCMOption ={
 		1, --Tainted Keeper
 		5, --Tainted Apollyon
 		1, --Tainted Forgotten
-		2, --Tainted Bethany
+		3, --Tainted Bethany
 		5 --Tainted Jacob
 	},
 	Options = {
@@ -137,7 +137,7 @@ mod.MCMOption ={
 		{"1: 20% chance to shoot in 8 directions on hit."},--Azazel
 		{"Comming soon."},--Lazarus
 		{"Comming soon."},--Lazarus Risen
-		{"COMBINED ONLY! 1: 25% chance get random passive item effect when entering room."},--Eden
+		{"1: 25% chance get random passive item effect when entering room."},--Eden
 		{"Comming soon."},--Lost
 		{"1: Spawns 2 mini Isaacs when entering hostile room, 4 - big room (L-shaped included). Box of Friends now affects mini Isaacs."},--Lilith
 		{"1: Effects of Silver Dollar and Rib of Greed. One free item per floor that costs money."},--Keeper
@@ -147,7 +147,7 @@ mod.MCMOption ={
 		{"Comming soon."},--Jacob
 		{"Comming soon."},--Esau
 		{"Comming soon."},--Tainted Isaac
-		{"COMBINED ONLY! 1: Regenerates red heart after clearing room."},--Tainted Magdalene
+		{"1: Regenerates red heart after clearing room."},--Tainted Magdalene
 		{"Comming soon."},--Tainted Cain
 		{"1: Dark Arts become Twisted Arts. Using Twisted Arts will freeze time in a room. Longer duration compared to Dark Arts."},--Tainted Judas
 		{"1: Chance to poop out friendly dip. Having special items have a chance to get different type of dip."},--Tainted BB
@@ -161,7 +161,7 @@ mod.MCMOption ={
 		{"Comming soon."},--Tainted Keeper
 		{"1: Spawns 20 random harbinger locusts on pickup. Entering hostile room will spawn 2-5 random locusts. 2: Abyss locusts have small Godhead aura."},--Tainted Apollyon
 		{"Comming soon."},--Tainted Forgotten
-		{"COMBINED ONLY! 1: Item wisps shoot homing tears. Tear rate is the same as player's. Wisp's tears deal 40% player's damage."},--Tainted Bethany
+		{"1: Item wisps shoot homing tears. Tear rate is the same as player's. Wisp's tears deal 40% player's damage."},--Tainted Bethany
 		{"1: +1 Health up, +50% Damage Multiplier, +1 Tears up and +0.3 Speed up. Dark Esau targets enemy that damaged Tainted Jacob, kills Tainted Jacob in one hit. 2: Dark Esau becomes friendly and targets enemies."}--Tainted Jacob
 	},
 }
@@ -505,9 +505,9 @@ if ModConfigMenu then
 							option = option + 1
 						end
 					end
-					if (mod.MCMOption.Name[i] == "Eden" or mod.MCMOption.Name[i] == "Tainted Bethany" or mod.MCMOption.Name[i] == "Tainted Magdalene") and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 2 then
-						option = 4
-					end
+					--if (mod.MCMOption.Name[i] == "Eden" or mod.MCMOption.Name[i] == "Tainted Bethany" or mod.MCMOption.Name[i] == "Tainted Magdalene") and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 2 then
+					--	option = 4
+					--end
 					return mod.MCMOption.Name[i]..': ' .. mod.MCMOption.Options[option]
 				end,
 				OnChange = function(currentNum)
