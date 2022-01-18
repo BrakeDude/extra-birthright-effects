@@ -4,7 +4,7 @@ function mod:EdenRandomItemEffect()
     if mod.MCMOption.Settings["Eden"] > 1 then
         for i = 1, mod.game:GetNumPlayers() do
             local player = Isaac.GetPlayer(i-1)
-            local collectible = CollectibleType.COLLECTIBLE_BIRTHRIGHT
+            local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Eden"])
             local rng = player:GetCollectibleRNG(collectible)
             if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_EDEN then
                 local randItems = {}
