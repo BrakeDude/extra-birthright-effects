@@ -208,7 +208,7 @@ function mod:BirthrightChange(pickup)
 		player:GetPlayerType() == PlayerType.PLAYER_AZAZEL and mod.MCMOption.Settings["Azazel"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] == 2 or
-		--player:GetPlayerType() == PlayerType.PLAYER_EDEN and mod.MCMOption.Settings["Eden"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_EDEN and mod.MCMOption.Settings["Eden"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_THELOST and mod.MCMOption.Settings["The Lost"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_LILITH and mod.MCMOption.Settings["Lilith"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or
@@ -338,6 +338,46 @@ function mod:CheckBirthrightAll(player)
 			player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER,false,false,true,false)
 			if trinket1 ~= 0 then player:AddTrinket(trinket1) end
 			if trinket2 ~= 0 then player:AddTrinket(trinket2) end
+		end
+		if player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] > 1 then
+			local esau = player:GetOtherTwin()
+			local randItems = {}
+			local rng = player:GetCollectibleRNG(mod.GetOptionsBirthright(mod.MCMOption.Settings["Jacob"]))
+			for item = 1, mod.GetMaxCollectibleID() do
+				if Isaac.GetItemConfig():GetCollectible(item) then
+					if esau:HasCollectible(item) and Isaac.GetItemConfig():GetCollectible(item).Type ~= ItemType.ITEM_ACTIVE
+					and item ~= CollectibleType.COLLECTIBLE_KNIFE_PIECE_1
+					and item ~= CollectibleType.COLLECTIBLE_KNIFE_PIECE_2
+					and item ~= CollectibleType.COLLECTIBLE_DADS_NOTE
+					and item ~= CollectibleType.COLLECTIBLE_DOGMA
+					and item ~= CollectibleType.COLLECTIBLE_KEY_PIECE_1
+					and item ~= CollectibleType.COLLECTIBLE_KEY_PIECE_2
+					and item ~= CollectibleType.COLLECTIBLE_MARS
+					and item ~= CollectibleType.COLLECTIBLE_BROKEN_SHOVEL_1
+					and item ~= CollectibleType.COLLECTIBLE_BROKEN_SHOVEL_2
+					and item ~= CollectibleType.COLLECTIBLE_POLAROID
+					and item ~= CollectibleType.COLLECTIBLE_NEGATIVE
+					then
+						for i = 1, esau:GetCollectibleNum(item) do
+							table.insert(randItems,item)
+						end
+					end
+				end
+			end
+			randItems = mod.Shuffle(randItems,rng)
+			local length = #randItems
+			if length > 1 then
+				repeat
+					local i = rng:RandomInt(#randItems)+1
+					player:AddCollectible(randItems[i])
+					esau:RemoveCollectible(randItems[i])
+					table.remove(randItems,i)
+				until #randItems < length / 2
+			elseif length == 1 then
+				player:AddCollectible(randItems[1])
+				esau:RemoveCollectible(randItems[1])
+			end
+			esau:AnimateCollectible(CollectibleType.COLLECTIBLE_RED_STEW)
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) then
 			for x = 1,3 do

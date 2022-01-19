@@ -59,7 +59,7 @@ mod.MCMOption ={
 		3, --Apollyon
 		1, --Forgotten
 		3, --Bethany
-		1, --Jacob
+		3, --Jacob
 		1, --Esau
 		1, --Tainted Isaac
 		3, --Tainted Magdalene
@@ -144,7 +144,7 @@ mod.MCMOption ={
 		{"1: Void becomes pocket active. Voiding passive items with quality higher then 0 will give random extra stat ups. Higher qulity items give more stats."},--Apollyon
 		{"Comming soon."},--Forgotten
 		{"1: Curses become blessings. 100% chance for blessing."},--Bethany
-		{"Comming soon."},--Jacob
+		{"1: Esau gives half of his non story passive items to Jacob in exchange for Red Stew."},--Jacob
 		{"Comming soon."},--Esau
 		{"Comming soon."},--Tainted Isaac
 		{"1: Regenerates red heart after clearing room."},--Tainted Magdalene
