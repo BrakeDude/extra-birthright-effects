@@ -276,7 +276,7 @@ function mod:BirthrightDesc()
 			elseif playerID == PlayerType.PLAYER_THESOUL then i,j,name =17,mod.MCMOption.Settings["The Forgotten"],18
 			elseif playerID == PlayerType.PLAYER_BETHANY then i,j,name =18,mod.MCMOption.Settings["Bethany"],19
 			elseif playerID == PlayerType.PLAYER_JACOB then i,j,name =19,mod.MCMOption.Settings["Jacob"],20
-			elseif playerID == PlayerType.PLAYER_ESAU then i,j,name =20,mod.MCMOption.Settings["Esau"],21
+			--elseif playerID == PlayerType.PLAYER_ESAU then i,j,name =20,mod.MCMOption.Settings["Esau"],21
 			elseif playerID == PlayerType.PLAYER_ISAAC_B then i,j,name =21,mod.MCMOption.Settings["Tainted Isaac"],22
 			elseif playerID == PlayerType.PLAYER_MAGDALENA_B then i,j,name =22,mod.MCMOption.Settings["Tainted Magdalene"],23
 			elseif playerID == PlayerType.PLAYER_CAIN_B then i,j,name =23,mod.MCMOption.Settings["Tainted Cain"],24
@@ -301,6 +301,14 @@ function mod:BirthrightDesc()
 			stringEN[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["spa"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.EN[i][j]
 			stringRU[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["ru"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.RU[i][j]
 			stringSPA[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["spa"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.SPA[i][j]
+			if playerID == PlayerType.PLAYER_JACOB then
+				playerID = player:GetOtherTwin():GetPlayerType()
+				icon = EID:getIcon("Player"..playerID) ~= EID.InlineIcons["ERROR"] and "{{Player"..playerID.."}}" or "{{CustomTransformation}}"
+				i,j,name =20,mod.MCMOption.Settings["Esau"],21
+				stringEN[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["spa"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.EN[i][j]
+				stringRU[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["ru"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.RU[i][j]
+				stringSPA[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["spa"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.SPA[i][j]
+			end
 		end
 		local longStringEN,longStringRU,longStringSPA = "","",""
 		for i = 1,37 do
