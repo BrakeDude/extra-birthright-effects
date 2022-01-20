@@ -32,6 +32,16 @@ mod.LevelBlessing = {
     end
 }
 
+function mod.HasBlessing()
+    local curse = mod.level:GetCurses()
+    for i = 1, #mod.LevelBlessing.Blessings do
+        if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i])) then
+            return true
+        end
+    end
+    return false
+end
+
 function mod.WasRoomVisited(roomtype)
     for ____, info in ipairs(mod.VisitedRooms) do
         if info.Type == roomtype then
@@ -64,7 +74,7 @@ end
 function mod:ReverseCurse(curses)
     if mod.MCMOption.Settings["Bethany"] > 1 then
         if mod:BethHasBirthright() then
-            if (curses == LevelCurse.CURSE_NONE) then
+            if (curses == LevelCurse.CURSE_NONE) and not mod.level:IsAscent() then
                 local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
                 local rng = Isaac.GetPlayer(0):GetCollectibleRNG(collectible)
                 local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Blessings + 1])
@@ -85,19 +95,22 @@ function mod:BlessingsUpdate(player)
 			data.Bethany = PlayerType.PLAYER_BETHANY
 		end
         if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) then
-            if (curse == LevelCurse.CURSE_NONE) then
-                local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
-                local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Blessings + 1])
-                mod.level:AddCurse(mod.LevelBlessing.GetFlag(randBless),false)
-            else
-                for i = 1, #mod.LevelBlessing.Curses do
-                    if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.Curses[i]) then
-                        mod.level:RemoveCurses(mod.LevelBlessing.Curses[i])
-                        mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i])),false)
+            if not mod.level:IsAscent() then
+                if (curse == LevelCurse.CURSE_NONE) then
+                    local rng = player:GetCollectibleRNG(collectible)
+                    local randBless = mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % #mod.LevelBlessing.Blessings + 1])
+                    mod.level:AddCurse(mod.LevelBlessing.GetFlag(randBless),false)
+                else
+                    for i = 1, #mod.LevelBlessing.Curses do
+                        if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.Curses[i]) then
+                            mod.level:RemoveCurses(mod.LevelBlessing.Curses[i])
+                            mod.level:AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i])),false)
+                        end
                     end
                 end
             end
-            if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment"))) then
+           
+            if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment"))) and not mod.room:HasCurseMist() then
                 local Aura=mod:GetData(player).BlessingPrevailAura
                 if not Aura or Aura:IsDead() then
                     mod:GetData(player).BlessingPrevailAura = Isaac.Spawn(1000,123,2,player.Position,Vector.Zero,player):ToEffect()
@@ -130,7 +143,7 @@ function mod:BlessingsUpdate(player)
                 player:ChangePlayerType(PlayerType.PLAYER_BETHANY)
             end
             if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight"))) and 
-            player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
+            player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY and not mod.room:HasCurseMist() then
                 local items = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
                 for _,item in ipairs(items) do
                     if item.SubType ~= CollectibleType.COLLECTIBLE_NULL then
@@ -152,6 +165,7 @@ function mod:BlessingsUpdate(player)
                     player:UseActiveItem(CollectibleType.COLLECTIBLE_GLOWING_HOUR_GLASS, UseFlag.USE_NOANIM)
                 end
             end
+          
         end
     else
         for i = 1, #mod.LevelBlessing.Blessings do
@@ -175,7 +189,7 @@ function mod:BlessingOfPrevailingandOrderEffect()
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
             local curse = mod.level:GetCurses()
             local rng = player:GetCollectibleRNG(collectible)
-            if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) then
+            if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) and not mod.room:HasCurseMist() then
                 if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Prevailing")))  then
                     if rng:RandomInt(100) < 20 then
                         player:UseCard(Card.CARD_SOUL_CAIN, UseFlag.USE_NOANNOUNCER | UseFlag.USE_NOANIM)
@@ -210,7 +224,7 @@ function mod:BlessingOfVirtuousEffect(tear)
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
             local curse = mod.level:GetCurses()
             if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Virtuous"))) and 
-            player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY then
+            player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY and not mod.room:HasCurseMist() then
                 local rng = player:GetCollectibleRNG(collectible)
                 if rng:RandomInt(100) < 5 then
                     tear:AddTearFlags(TearFlags.TEAR_ENEMY_TO_WISP)
@@ -264,7 +278,7 @@ function mod:BlessingOfImperceptibleAndBaptizedEffect()
     if willAdd then
         table.insert(mod.VisitedRooms, {Index = listIndex, VisitCount = visitedCount, Type = type})
     end
-    if mod.MCMOption.Settings["Bethany"] > 1 then
+    if mod.MCMOption.Settings["Bethany"] > 1 and not mod.room:HasCurseMist() then
         local curse = mod.game:GetLevel():GetCurses()
         if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Imperceptible"))) then
             for i = 1, mod.game:GetNumPlayers() do
@@ -288,11 +302,11 @@ function mod:BlessingOfImperceptibleAndBaptizedEffect()
 
         if (not mod.room:IsClear() or type == RoomType.ROOM_TREASURE or type == RoomType.ROOM_DEVIL or type == RoomType.ROOM_CURSE or type == RoomType.ROOM_SHOP)
         and mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight"))) 
-        and willAdd then
+        and willAdd and not mod.room:HasCurseMist() then
             mod.Timer = 300
         end
         if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Baptized")))
-        and not mod.room:IsClear() then
+        and not mod.room:IsClear() and not mod.room:HasCurseMist() then
             for i = 1, mod.game:GetNumPlayers() do
                 local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
                 local player = Isaac.GetPlayer(i-1)
@@ -347,7 +361,7 @@ function mod:TimerRender()
     if mod.MCMOption.Settings["Bethany"] > 1 then
         local curse = mod.game:GetLevel():GetCurses()
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
-        if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight"))) then
+        if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight"))) and not mod.room:HasCurseMist() then
             if mod.Timer > 0 then
                 local f = Font()
                 f:Load("font/teammeatfont16.fnt")
