@@ -28,7 +28,7 @@ mod.LevelBlessing = {
         return 1 << (blessing - 1)
     end,
     CheckFlag = function (mask, flag)
-        return mask & flag == flag
+        return mask & flag >= flag
     end
 }
 
