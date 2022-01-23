@@ -63,7 +63,7 @@ mod.MCMOption ={
 		1, --Esau
 		1, --Tainted Isaac
 		3, --Tainted Magdalene
-		1, --Tainted Cain
+		3, --Tainted Cain
 		3, --Tainted Judas
 		3, --Tainted Blue Baby
 		3, --Tainted Eve
@@ -148,7 +148,7 @@ mod.MCMOption ={
 		{"Comming soon."},--Esau
 		{"Comming soon."},--Tainted Isaac
 		{"1: Regenerates red heart after clearing room."},--Tainted Magdalene
-		{"Comming soon."},--Tainted Cain
+		{"1: Can pickup 1 item on current floor. If Tainted Cain doesn't have Birthright, he has 25% chance to pickup Birthright without it reducing into pickups."},--Tainted Cain
 		{"1: Dark Arts become Twisted Arts. Using Twisted Arts will freeze time in a room. Longer duration compared to Dark Arts."},--Tainted Judas
 		{"1: Chance to poop out friendly dip. Having special items have a chance to get different type of dip."},--Tainted BB
 		{"1: Chance to spawn additional clot of the same type for free. Clots become more durable."},--Tainted Eve

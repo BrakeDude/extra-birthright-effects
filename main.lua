@@ -62,6 +62,7 @@ include("scripts/characters/normal/keeper.lua")
 include("scripts/characters/normal/apollyon.lua")
 include("scripts/characters/normal/bethany.lua")
 include("scripts/characters/tainted/maggie.lua")
+include("scripts/characters/tainted/cain.lua")
 include("scripts/characters/tainted/judas.lua")
 include("scripts/characters/tainted/bb.lua")
 include("scripts/characters/tainted/eve.lua")
@@ -180,6 +181,9 @@ function mod:Init(player)
 	data.gotBirthright = true
 	if player:GetPlayerType() == PlayerType.PLAYER_EVE_B then
 		data.BirthrightBloodBabyCooldown = data.BirthrightBloodBabyCooldown or 2
+	end
+	if player:GetPlayerType() == PlayerType.PLAYER_CAIN_B then
+		data.TaintedCainPickedItem = data.TaintedCainPickedItem or false
 	end
 	mod.taintedLazBirthright[mod.EsauCheck(player)] = false
 	mod.BirthrightfloorBought = false
