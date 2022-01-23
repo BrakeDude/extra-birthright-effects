@@ -125,6 +125,10 @@ end
 
 function mod:BirthrightDesc()
 	if EID then
+		local EsauName = EID:getDescriptionEntry("birthright", PlayerType.PLAYER_ESAU+1)[1] or "Esau"
+		local JandE_EN_EID = mod.EBEIDDesc.EN[19][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.EN[20][mod.MCMOption.Settings["Esau"]]
+		local JandE_RU_EID = mod.EBEIDDesc.RU[19][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.RU[20][mod.MCMOption.Settings["Esau"]]
+		local JandE_SPA_EID = mod.EBEIDDesc.SPA[19][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.SPA[20][mod.MCMOption.Settings["Esau"]]
 		EID:addBirthright(PlayerType.PLAYER_ISAAC, mod.EBEIDDesc.EN[1][mod.MCMOption.Settings["Isaac"]])
 		EID:addBirthright(PlayerType.PLAYER_MAGDALENA, mod.EBEIDDesc.EN[2][mod.MCMOption.Settings["Magdalene"]])
 		EID:addBirthright(PlayerType.PLAYER_CAIN, mod.EBEIDDesc.EN[3][mod.MCMOption.Settings["Cain"]])
@@ -144,7 +148,7 @@ function mod:BirthrightDesc()
 		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN, mod.EBEIDDesc.EN[17][mod.MCMOption.Settings["The Forgotten"]])
 		EID:addBirthright(PlayerType.PLAYER_THESOUL, mod.EBEIDDesc.EN[17][mod.MCMOption.Settings["The Forgotten"]])
 		EID:addBirthright(PlayerType.PLAYER_BETHANY, mod.EBEIDDesc.EN[18][mod.MCMOption.Settings["Bethany"]])
-		EID:addBirthright(PlayerType.PLAYER_JACOB, mod.EBEIDDesc.EN[19][mod.MCMOption.Settings["Jacob"]])
+		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_EN_EID)
 		EID:addBirthright(PlayerType.PLAYER_ESAU, mod.EBEIDDesc.EN[20][mod.MCMOption.Settings["Esau"]])
 		EID:addBirthright(PlayerType.PLAYER_ISAAC_B, mod.EBEIDDesc.EN[21][mod.MCMOption.Settings["Tainted Isaac"]])
 		EID:addBirthright(PlayerType.PLAYER_MAGDALENA_B, mod.EBEIDDesc.EN[22][mod.MCMOption.Settings["Tainted Magdalene"]])
@@ -186,7 +190,7 @@ function mod:BirthrightDesc()
 		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN, mod.EBEIDDesc.RU[17][mod.MCMOption.Settings["The Forgotten"]],EID.descriptions["ru"].birthright[17][1],"ru")
 		EID:addBirthright(PlayerType.PLAYER_THESOUL, mod.EBEIDDesc.RU[17][mod.MCMOption.Settings["The Forgotten"]],EID.descriptions["ru"].birthright[18][1],"ru")
 		EID:addBirthright(PlayerType.PLAYER_BETHANY, mod.EBEIDDesc.RU[18][mod.MCMOption.Settings["Bethany"]],EID.descriptions["ru"].birthright[1][19],"ru")
-		EID:addBirthright(PlayerType.PLAYER_JACOB, mod.EBEIDDesc.RU[19][mod.MCMOption.Settings["Jacob"]],EID.descriptions["ru"].birthright[20][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_RU_EID,EID.descriptions["ru"].birthright[20][1],"ru")
 		EID:addBirthright(PlayerType.PLAYER_ESAU, mod.EBEIDDesc.RU[20][mod.MCMOption.Settings["Esau"]],EID.descriptions["ru"].birthright[21][1],"ru")
 		EID:addBirthright(PlayerType.PLAYER_ISAAC_B, mod.EBEIDDesc.RU[21][mod.MCMOption.Settings["Tainted Isaac"]],EID.descriptions["ru"].birthright[22][1],"ru")
 		EID:addBirthright(PlayerType.PLAYER_MAGDALENA_B, mod.EBEIDDesc.RU[22][mod.MCMOption.Settings["Tainted Magdalene"]],EID.descriptions["ru"].birthright[23][1],"ru")
@@ -228,7 +232,7 @@ function mod:BirthrightDesc()
 		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN, mod.EBEIDDesc.SPA[17][mod.MCMOption.Settings["The Forgotten"]],EID.descriptions["spa"].birthright[17][1],"spa")
 		EID:addBirthright(PlayerType.PLAYER_THESOUL, mod.EBEIDDesc.SPA[17][mod.MCMOption.Settings["The Forgotten"]],EID.descriptions["spa"].birthright[18][1],"spa")
 		EID:addBirthright(PlayerType.PLAYER_BETHANY, mod.EBEIDDesc.SPA[18][mod.MCMOption.Settings["Bethany"]],EID.descriptions["spa"].birthright[1][19],"spa")
-		EID:addBirthright(PlayerType.PLAYER_JACOB, mod.EBEIDDesc.SPA[19][mod.MCMOption.Settings["Jacob"]],EID.descriptions["spa"].birthright[20][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_SPA_EID,EID.descriptions["spa"].birthright[20][1],"spa")
 		EID:addBirthright(PlayerType.PLAYER_ESAU, mod.EBEIDDesc.SPA[20][mod.MCMOption.Settings["Esau"]],EID.descriptions["spa"].birthright[21][1],"spa")
 		EID:addBirthright(PlayerType.PLAYER_ISAAC_B, mod.EBEIDDesc.SPA[21][mod.MCMOption.Settings["Tainted Isaac"]],EID.descriptions["spa"].birthright[22][1],"spa")
 		EID:addBirthright(PlayerType.PLAYER_MAGDALENA_B, mod.EBEIDDesc.SPA[22][mod.MCMOption.Settings["Tainted Magdalene"]],EID.descriptions["spa"].birthright[23][1],"spa")
@@ -276,7 +280,7 @@ function mod:BirthrightDesc()
 			elseif playerID == PlayerType.PLAYER_THESOUL then i,j,name =17,mod.MCMOption.Settings["The Forgotten"],18
 			elseif playerID == PlayerType.PLAYER_BETHANY then i,j,name =18,mod.MCMOption.Settings["Bethany"],19
 			elseif playerID == PlayerType.PLAYER_JACOB then i,j,name =19,mod.MCMOption.Settings["Jacob"],20
-			--elseif playerID == PlayerType.PLAYER_ESAU then i,j,name =20,mod.MCMOption.Settings["Esau"],21
+			elseif playerID == PlayerType.PLAYER_ESAU then i,j,name =20,mod.MCMOption.Settings["Esau"],21
 			elseif playerID == PlayerType.PLAYER_ISAAC_B then i,j,name =21,mod.MCMOption.Settings["Tainted Isaac"],22
 			elseif playerID == PlayerType.PLAYER_MAGDALENA_B then i,j,name =22,mod.MCMOption.Settings["Tainted Magdalene"],23
 			elseif playerID == PlayerType.PLAYER_CAIN_B then i,j,name =23,mod.MCMOption.Settings["Tainted Cain"],24
@@ -297,18 +301,13 @@ function mod:BirthrightDesc()
 			elseif playerID == PlayerType.PLAYER_BETHANY_B then i,j,name =36,mod.MCMOption.Settings["Tainted Bethany"],37
 			elseif playerID == PlayerType.PLAYER_JACOB_B then i,j,name = 37,mod.MCMOption.Settings["Tainted Jacob"],38
 			elseif playerID == PlayerType.PLAYER_JACOB2_B then i,j,name = 37,mod.MCMOption.Settings["Tainted Jacob"],39 end
+			local birthrightDesc = EID:getDescriptionEntry("birthright", playerID+1)
+			local playerName = birthrightDesc[1] or player:GetName()
 			local icon = EID:getIcon("Player"..playerID) ~= EID.InlineIcons["ERROR"] and "{{Player"..playerID.."}}" or "{{CustomTransformation}}"
-			stringEN[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["spa"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.EN[i][j]
-			stringRU[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["ru"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.RU[i][j]
-			stringSPA[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["spa"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.SPA[i][j]
-			if playerID == PlayerType.PLAYER_JACOB then
-				playerID = player:GetOtherTwin():GetPlayerType()
-				icon = EID:getIcon("Player"..playerID) ~= EID.InlineIcons["ERROR"] and "{{Player"..playerID.."}}" or "{{CustomTransformation}}"
-				i,j,name =20,mod.MCMOption.Settings["Esau"],21
-				stringEN[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["spa"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.EN[i][j]
-				stringRU[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["ru"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.RU[i][j]
-				stringSPA[i] = "#"..icon.." {{ColorGray}}"..EID.descriptions["spa"].birthright[name][1].."{{CR}}#"..mod.EBEIDDesc.SPA[i][j]
-			end
+			stringEN[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.EN[i][j]
+			stringRU[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.RU[i][j]
+			stringSPA[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.SPA[i][j]
+			
 		end
 		local longStringEN,longStringRU,longStringSPA = "","",""
 		for i = 1,37 do
