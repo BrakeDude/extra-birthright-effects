@@ -28,7 +28,7 @@ mod.LevelBlessing = {
         return 1 << (blessing - 1)
     end,
     CheckFlag = function (mask, flag)
-        return mask & flag >= flag
+        return mask & flag == flag
     end
 }
 
@@ -89,6 +89,7 @@ mod:AddCallback(ModCallbacks.MC_POST_CURSE_EVAL, mod.ReverseCurse)
 function mod:BlessingsUpdate(player)
     local curse = mod.game:GetLevel():GetCurses()
     local data = mod:GetData(player)
+    mod.level = mod.game:GetLevel()
     if mod.MCMOption.Settings["Bethany"] > 1 then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
         if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) then
