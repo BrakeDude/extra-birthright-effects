@@ -349,18 +349,11 @@ function mod:CheckBirthrightAll(player)
 			local rng = player:GetCollectibleRNG(mod.GetOptionsBirthright(mod.MCMOption.Settings["Jacob"]))
 			for item = 1, mod.GetMaxCollectibleID() do
 				if Isaac.GetItemConfig():GetCollectible(item) then
-					if esau:HasCollectible(item) and Isaac.GetItemConfig():GetCollectible(item).Type ~= ItemType.ITEM_ACTIVE
-					and item ~= CollectibleType.COLLECTIBLE_KNIFE_PIECE_1
-					and item ~= CollectibleType.COLLECTIBLE_KNIFE_PIECE_2
-					and item ~= CollectibleType.COLLECTIBLE_DADS_NOTE
-					and item ~= CollectibleType.COLLECTIBLE_DOGMA
-					and item ~= CollectibleType.COLLECTIBLE_KEY_PIECE_1
-					and item ~= CollectibleType.COLLECTIBLE_KEY_PIECE_2
-					and item ~= CollectibleType.COLLECTIBLE_MARS
-					and item ~= CollectibleType.COLLECTIBLE_BROKEN_SHOVEL_1
-					and item ~= CollectibleType.COLLECTIBLE_BROKEN_SHOVEL_2
-					and item ~= CollectibleType.COLLECTIBLE_POLAROID
-					and item ~= CollectibleType.COLLECTIBLE_NEGATIVE
+					local itemConf = Isaac.GetItemConfig():GetCollectible(item)
+					if esau:HasCollectible(item) and itemConf.Type ~= ItemType.ITEM_ACTIVE
+					and (itemConf.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST)
+					and item.SubType ~= CollectibleType.COLLECTIBLE_BIRTHRIGHT
+					and item.SubType ~= mod.substituteBirthright
 					then
 						for i = 1, esau:GetCollectibleNum(item) do
 							table.insert(randItems,item)
@@ -373,12 +366,12 @@ function mod:CheckBirthrightAll(player)
 			if length > 1 then
 				repeat
 					local i = rng:RandomInt(#randItems)+1
-					player:AddCollectible(randItems[i])
+					player:AddCollectible(randItems[i],0,false)
 					esau:RemoveCollectible(randItems[i])
 					table.remove(randItems,i)
 				until #randItems < length / 2
 			elseif length == 1 then
-				player:AddCollectible(randItems[1])
+				player:AddCollectible(randItems[1],0,false)
 				esau:RemoveCollectible(randItems[1])
 			end
 			esau:AnimateCollectible(CollectibleType.COLLECTIBLE_RED_STEW)
