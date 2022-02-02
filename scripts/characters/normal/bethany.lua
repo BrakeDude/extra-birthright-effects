@@ -33,7 +33,7 @@ mod.LevelBlessing = {
 }
 
 function mod.HasBlessing()
-    local curse = mod.level:GetCurses()
+    local curse = mod.game:GetLevel():GetCurses()
     for i = 1, #mod.LevelBlessing.Blessings do
         if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i])) then
             return true

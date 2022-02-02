@@ -1,6 +1,6 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effeccts", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.37"
+mod.Version = "2.37.1"
 local json = require("json")
 mod.game = Game()
 mod.room = mod.game:GetRoom()
