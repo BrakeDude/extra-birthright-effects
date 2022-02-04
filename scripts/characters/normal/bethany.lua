@@ -359,7 +359,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.BlessingOfImperceptibleAndBaptizedEffect)
 
 function mod:TimerRender()
-    if mod.MCMOption.Settings["Bethany"] > 1 then
+    if mod.MCMOption.Settings["Bethany"] > 1 and (Game():GetHUD():IsVisible() or not Game():GetSeeds():HasSeedEffect(SeedEffect.SEED_NO_HUD)) then
         local curse = mod.game:GetLevel():GetCurses()
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
         if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Foresight"))) and not mod.room:HasCurseMist() then
