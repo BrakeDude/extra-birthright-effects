@@ -1,4 +1,49 @@
 local mod = ExtraBirthright
+
+mod.FakeBirthrightDesc = {
+	[1] = {"Pocket destiny"}, --Isaac
+	[2] = {"Lovely looks","Script from the past"}, --Magdalene
+	[3] = {"Bloody loot","Locks don't stand a chance"}, --Cain
+	[4] = {"The inner demon","Knowledge is power"}, --Judas
+	[5] = {"Soul power"}, --Blue Baby
+	[6] = {"Your very own murder", "Birds of prey"}, --Eve
+	[7] = {"Rock and throw"}, --Samson
+	[8] = {"Hell circle"}, --Azazel
+	[9] = {""}, --Lazarus
+	[10] = {"Random effect"}, --Eden
+	[11] = {""}, --The Lost
+	[12] = {""}, -- Lazarus Risen
+	[13] = {"Payback","Knowledge is power"}, --Dark Judas
+	[14] = {"Motherhood"}, --Lilith
+	[15] = {"Free deal"}, --Keeper
+	[16] = {"Pocket void"}, --Apollyon
+	[17] = {""}, --The Forgotten
+	[18] = {""}, --The Soul
+	[19] = {"Blessed"}, --Bethany
+	[20] = {"Trade"}, --Jacob
+	[21] = {""}, --Esau
+	[22] = {""}, --Tainted Isaac
+	[23] = {"Wounds heal"}, --Tainted Magdalene
+	[24] = {"Destiny stealer"}, --Tainted Cain
+	[25] = {"Master of shadows"}, --Tainted Judas
+	[26] = {"Stinky friends"}, --Tainted Blue Baby
+	[27] = {"Stronger clots"}, --Tainted Eve
+	[28] = {"Close combat"}, --Tainted Samson
+	[29] = {"Wings of destruction"}, --Tainted Azazel
+	[30] = {"Alive and Dead"}, --Tainted Lazarus
+	[31] = {""}, --Tainted Eden
+	[32] = {""}, --Tainted Lost
+	[33] = {"Hemorrhage"}, --Tainted Lilith
+	[34] = {""}, --Tainted Keeper
+	[35] = {"Locusts of apocalypse","God flies"}, --Tainted Apollyon
+	[36] = {""}, --Tainted Forgotten
+	[37] = {"Better wisps"}, --Tainted Bethany
+	[38] = {"No mercy","Forgiven Soul"}, --Tainted Jacob
+	[39] = {"Dead and Alive"}, --Tainted Dead Lazarus
+	[40] = {"No mercy","Forgiven Soul"}, --Tainted Jacob Lost
+	[41] = {""} --Tainted Soul
+}
+
 mod.EBEIDDesc = {}
 if EID then
 mod.EBEIDDesc = {
@@ -9,7 +54,7 @@ mod.EBEIDDesc = {
 		{EID.descriptions["en_us"].birthright[4][3],"Spawns 3 nickels on pickup#{{ArrowUp}} +5.0 Damage up and {{Collectible118}}Brimstone effect when getting hit for current room. 20% chance to proc","Using books activates {{Collectible35}}Necronomicon effect", EID.descriptions["en_us"].birthright[4][3].."#{{ColorRainbow}}Extra effects:#Spawns 3 nickels on pickup#{{ArrowUp}} +5.0 Damage up and {{Collectible118}}Brimstone effect when getting hit for current room. 20% chance to proc",EID.descriptions["en_us"].birthright[4][3].."#{{ColorRainbow}}Extra effects:#Using books activates {{Collectible35}}Necronomicon effect"},--Judas
 		{EID.descriptions["en_us"].birthright[13][3],"Activates {{Collectible35}}Necronomicon effect when getting hit","Using books activates {{Collectible35}}Necronomicon effect", EID.descriptions["en_us"].birthright[13][3].."#{{ColorRainbow}}Extra effects:#Activates {{Collectible35}}Necronomicon effect when getting hit",EID.descriptions["en_us"].birthright[13][3].."#{{ColorRainbow}}Extra effects:#Using books activates {{Collectible35}}Necronomicon effect"},--Dark Judas
 		{EID.descriptions["en_us"].birthright[5][3],"{{ArrowUp}}{{SoulHeart}}Soul hearts give Damage up, Tears up, Speed up and Range up depending on their number#Non soul hearts become other pickups", EID.descriptions["en_us"].birthright[5][3].."#{{ColorRainbow}}Extra effects:#{{ArrowUp}}{{SoulHeart}}Soul hearts give Damage up, Tears up, Speed up and Range up depending on their number#Non soul hearts become other pickups"},--Blue Baby
-		{EID.descriptions["en_us"].birthright[6][3],"Coming soon", EID.descriptions["en_us"].birthright[6][3].."#{{ColorRainbow}}Extra effects:#Coming soon"},--Eve
+		{EID.descriptions["en_us"].birthright[6][3],"Getting hit will occasionally spawn additional Dead Birds that persist between rooms", EID.descriptions["en_us"].birthright[6][3].."#{{ColorRainbow}}Extra effects:#Getting hit will occasionally spawn additional Dead Birds that persist between rooms"},--Eve
 		{EID.descriptions["en_us"].birthright[7][3],"{{ArrowUp}} +4 Damage up#Gets ability to pick up and throw objects", EID.descriptions["en_us"].birthright[7][3].."#{{ColorRainbow}}Extra effects:#{{ArrowUp}} +4 Damage up#Gets ability to pick up and throw objects"},--Samson
 		{EID.descriptions["en_us"].birthright[8][3],"20% chance to shoot in 8 directions on hit", EID.descriptions["en_us"].birthright[8][3].."#{{ColorRainbow}}Extra effects:#20% chance to shoot in 8 directions on hit"},--Azazel
 		{EID.descriptions["en_us"].birthright[9][3],"Coming soon", EID.descriptions["en_us"].birthright[9][3].."#{{ColorRainbow}}Extra effects:#Coming soon"},--Lazarus
@@ -49,7 +94,7 @@ mod.EBEIDDesc = {
 		{EID.descriptions["ru"].birthright[4][3],"При подборе появляются 3 пятака#{{ArrowUp}} +5.0 к урону и эффект {{Collectible118}}Серы при получении урона в данной комнате. 20% шанс на срабатывание","Использование книг активирует эффект {{Collectible35}}некрономикона", EID.descriptions["ru"].birthright[4][3].."#{{ColorRainbow}}Дополнительные еффекты:#При подборе появляются 3 пятака#{{ArrowUp}} +5.0 к урону и эффект {{Collectible118}}Серы при получении урона в данной комнате. 20% шанс на срабатывание",EID.descriptions["ru"].birthright[4][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}} Использование книг активирует эффект {{Collectible35}}некрономикона"},--Judas
 		{EID.descriptions["ru"].birthright[13][3],"Активируется эффект {{Collectible35}}некрономикона при получении урона","Использование книг активирует эффект {{Collectible35}}некрономикона", EID.descriptions["ru"].birthright[13][3].."#{{ColorRainbow}}Дополнительные еффекты:#Активируется эффект {{Collectible35}}некрономикона при получении урона",EID.descriptions["ru"].birthright[13][3].."#{{ColorRainbow}}Дополнительные еффекты:#Использование книг активирует эффект {{Collectible35}}некрономикона"},--Dark Judas
 		{EID.descriptions["ru"].birthright[5][3],"{{ArrowUp}}{{SoulHeart}}Синие сердца увеличивают урон, скорострельность, скорость и дальность в зависимости от их количества#Не синие серца превращаются в другие предметы", EID.descriptions["ru"].birthright[5][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{ArrowUp}}{{SoulHeart}}Синие сердца увеличивают урон, скорострельность, скорость и дальность в зависимости от их количества#Не синие серца превращаются в другие предметы"},--Blue Baby
-		{EID.descriptions["ru"].birthright[6][3],"Скоро", EID.descriptions["ru"].birthright[6][3].."#{{ColorRainbow}}Дополнительные еффекты:#Скоро"},--Eve
+		{EID.descriptions["ru"].birthright[6][3],"Получение урона иногда порождает дополнительных мертвых птиц, которые остаются при переходе в другие комнаты", EID.descriptions["ru"].birthright[6][3].."#{{ColorRainbow}}Дополнительные еффекты:#Получение урона иногда порождает дополнительных мертвых птиц, которые остаются при переходе в другие комнаты"},--Eve
 		{EID.descriptions["ru"].birthright[7][3],"{{ArrowUp}} +4 к урону#Получает способность поднимать и кидать объекты", EID.descriptions["ru"].birthright[7][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{ArrowUp}} +4 к урону#Получает способность поднимать и кидать объекты"},--Samson
 		{EID.descriptions["ru"].birthright[8][3],"20% шанс выстрелить в 8 направлениях при получении урона", EID.descriptions["ru"].birthright[8][3].."#{{ColorRainbow}}Дополнительные еффекты:#20% шанс выстрелить в 8 направлениях при получении урона"},--Azazel
 		{EID.descriptions["ru"].birthright[9][3],"Скоро", EID.descriptions["ru"].birthright[9][3].."#{{ColorRainbow}}Дополнительные еффекты:#Скоро"},--Lazarus
@@ -317,9 +362,9 @@ function mod:BirthrightDesc()
 				longStringSPA = longStringSPA..stringSPA[i]
 			end
 		end
-		EID:addCollectible(mod.substituteBirthright, longStringEN,"Fake Birthright")
-		EID:addCollectible(mod.substituteBirthright, longStringRU,"Поддельное право первородства","ru")
-		EID:addCollectible(mod.substituteBirthright, longStringSPA,"Primogenitura falso","spa")
+		EID:addCollectible(mod.substituteBirthright, longStringEN,"Birthright")
+		EID:addCollectible(mod.substituteBirthright, longStringRU,"Право первородства","ru")
+		EID:addCollectible(mod.substituteBirthright, longStringSPA,"Primogenitura","spa")
 	
 	end
 end

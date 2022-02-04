@@ -47,7 +47,7 @@ mod.MCMOption ={
 		5, --Judas
 		5, --Dark Judas
 		3, --Blue Baby
-		1, --Eve
+		3, --Eve
 		3, --Samson
 		3, --Azazel
 		1, --Lazarus
@@ -132,7 +132,7 @@ mod.MCMOption ={
 		{"1: 3 nickels. Chance to get on hit +5 damage and Brimsone effect for current room. 2: Using books activates Necronomicon effect (Antibirth)."},--Judas
 		{"1: Getting hit damages all enemies. 2: Same as Judas second effect."},--Dark Judas
 		{"1: Soul hearts boost stats depending on their number. Non soul hearts become other pickup (cards, pills, keys, coins, batteries)."},--Blue Baby
-		{"Comming soon."},--Eve
+		{"1: Getting hit will occasionally spawn additional Dead Birds that persist between rooms."},--Eve
 		{"1: Damage up. Samson can pick up and throw objects."},--Samson
 		{"1: 20% chance to shoot in 8 directions on hit."},--Azazel
 		{"Comming soon."},--Lazarus

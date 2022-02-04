@@ -20,50 +20,6 @@ mod.JacobDeathAnim = Isaac.GetEntityTypeByName("Tainted Jacob Death Animation")
 
 mod.VisitedRooms = {}
 
-mod.FakeBirthrightDesc = {
-	[1] = {"Pocket destiny"}, --Isaac
-	[2] = {"Lovely looks","Script from the past"}, --Magdalene
-	[3] = {"Bloody loot","Locks don't stand a chance"}, --Cain
-	[4] = {"The inner demon","Knowledge is power"}, --Judas
-	[5] = {"Soul power"}, --Blue Baby
-	[6] = {""}, --Eve
-	[7] = {"Rock and throw"}, --Samson
-	[8] = {"Hell circle"}, --Azazel
-	[9] = {""}, --Lazarus
-	[10] = {"Random effect"}, --Eden
-	[11] = {""}, --The Lost
-	[12] = {""}, -- Lazarus Risen
-	[13] = {"Payback","Knowledge is power"}, --Dark Judas
-	[14] = {"Motherhood"}, --Lilith
-	[15] = {"Free deal"}, --Keeper
-	[16] = {"Pocket void"}, --Apollyon
-	[17] = {""}, --The Forgotten
-	[18] = {""}, --The Soul
-	[19] = {"Blessed"}, --Bethany
-	[20] = {"Trade"}, --Jacob
-	[21] = {""}, --Esau
-	[22] = {""}, --Tainted Isaac
-	[23] = {"Wounds heal"}, --Tainted Magdalene
-	[24] = {"Destiny stealer"}, --Tainted Cain
-	[25] = {"Master of shadows"}, --Tainted Judas
-	[26] = {"Stinky friends"}, --Tainted Blue Baby
-	[27] = {"Stronger clots"}, --Tainted Eve
-	[28] = {"Close combat"}, --Tainted Samson
-	[29] = {"Wings of destruction"}, --Tainted Azazel
-	[30] = {"Alive and Dead"}, --Tainted Lazarus
-	[31] = {""}, --Tainted Eden
-	[32] = {""}, --Tainted Lost
-	[33] = {"Hemorrhage"}, --Tainted Lilith
-	[34] = {""}, --Tainted Keeper
-	[35] = {"No mercy","God flies"}, --Tainted Apollyon
-	[36] = {""}, --Tainted Forgotten
-	[37] = {"Better wisps"}, --Tainted Bethany
-	[38] = {"No mercy","Forgiven Soul"}, --Tainted Jacob
-	[39] = {"Dead and Alive"}, --Tainted Dead Lazarus
-	[40] = {"No mercy","Forgiven Soul"}, --Tainted Jacob Lost
-	[41] = {""} --Tainted Soul
-}
-
 mod.Books = {
 	CollectibleType.COLLECTIBLE_ANARCHIST_COOKBOOK,
 	CollectibleType.COLLECTIBLE_BIBLE,
@@ -98,6 +54,7 @@ include("scripts/characters/normal/cain.lua")
 include("scripts/characters/normal/judas.lua")
 include("scripts/characters/normal/judasblack.lua")
 include("scripts/characters/normal/bb.lua")
+include("scripts/characters/normal/eve.lua")
 include("scripts/characters/normal/samson.lua")
 include("scripts/characters/normal/azazel.lua")
 include("scripts/characters/normal/eden.lua")
@@ -194,6 +151,7 @@ function mod:LoadItBack(isContinued)
 				mod.taintedLazBirthright[i] = loadBirthright["player_"..tostring(i)].taintedLazBirthright
 				mod.fliped[i] = loadBirthright["player_"..tostring(i)].flipTimeCharge
 				player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
+				player:GetData().ExtraBirthright.isSubstituteBirthrightOverHead = false
 			end
 			mod.BirthrightfloorBought = loadBirthright.BirthrightfloorBought
 			mod.VisitedRooms = loadBirthright.VisitedRooms or {}
@@ -355,51 +313,54 @@ function mod:CheckBirthrightAll(player)
 			player:AddCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT,0,false)
 		end
 	end
-	if not data.isSubstituteBirthrightOverHead and player.QueuedItem.Item.ID == mod.substituteBirthright then
-		data.isSubstituteBirthrightOverHead = true
-		local charName = ""
-		if player:GetPlayerType() == PlayerType.PLAYER_ISAAC then charName = "Isaac"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then charName = "Magdalene"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_CAIN then charName = "Cain"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_JUDAS then charName = "Judas"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_BLACKJUDAS then charName = "Dark Judas"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_XXX then charName = "Blue Baby"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_EVE then charName = "Eve"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_SAMSON then charName = "Samson"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_AZAZEL then charName = "Azazel"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_LAZARUS then charName = "Lazarus"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 then charName = "Lazarus Risen"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_EDEN then charName = "Eden"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_THELOST then charName = "The Lost"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_LILITH then charName = "Lilith"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_KEEPER then charName = "Keeper"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then charName = "Apollyon"
-		elseif (player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN or player:GetPlayerType() == PlayerType.PLAYER_THESOUL) then charName = "The Forgotten"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_BETHANY then charName = "Bethany"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_JACOB then charName = "Jacob"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_ESAU then charName = "Esau"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_ISAAC_B then charName = "Tainted Isaac"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA_B then charName = "Tainted Magdalene"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_CAIN_B then charName = "Tainted Cain"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_JUDAS_B then charName = "Tainted Judas"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_XXX_B then charName = "Tainted Blue Baby"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_EVE_B then charName = "Tainted Eve"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B then charName = "Tainted Samson"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_AZAZEL_B then charName = "Tainted Azazel"
-		elseif (player:GetPlayerType() == PlayerType.PLAYER_LAZARUS_B or player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2_B) then charName = "Tainted Lazarus"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_EDEN_B then charName = "Tainted Eden"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_THELOST_B then charName = "Tainted Lost"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_LILITH_B then charName = "Tainted Lilith"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B then charName = "Tainted Keeper"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B then charName = "Tainted Apollyon"
-		elseif (player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN_B or player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B) then charName = "Tainted Forgotten"
-		elseif player:GetPlayerType() == PlayerType.PLAYER_BETHANY_B then charName = "Tainted Bethany"
-		elseif (player:GetPlayerType() == PlayerType.PLAYER_JACOB_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B) then charName = "Tainted Jacob"
+	if not data.isSubstituteBirthrightOverHead and player.QueuedItem.Item then
+		if player.QueuedItem.Item.ID == mod.substituteBirthright then
+			data.isSubstituteBirthrightOverHead = true
+			local charName = ""
+			if player:GetPlayerType() == PlayerType.PLAYER_ISAAC then charName = 1
+			elseif player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then charName = 2
+			elseif player:GetPlayerType() == PlayerType.PLAYER_CAIN then charName = 3
+			elseif player:GetPlayerType() == PlayerType.PLAYER_JUDAS then charName = 4
+			elseif player:GetPlayerType() == PlayerType.PLAYER_BLACKJUDAS then charName = 5
+			elseif player:GetPlayerType() == PlayerType.PLAYER_XXX then charName = 6
+			elseif player:GetPlayerType() == PlayerType.PLAYER_EVE then charName = 7
+			elseif player:GetPlayerType() == PlayerType.PLAYER_SAMSON then charName = 8
+			elseif player:GetPlayerType() == PlayerType.PLAYER_AZAZEL then charName = 9
+			elseif player:GetPlayerType() == PlayerType.PLAYER_LAZARUS then charName = 10
+			elseif player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 then charName = 11
+			elseif player:GetPlayerType() == PlayerType.PLAYER_EDEN then charName = 12
+			elseif player:GetPlayerType() == PlayerType.PLAYER_THELOST then charName = 13
+			elseif player:GetPlayerType() == PlayerType.PLAYER_LILITH then charName = 14
+			elseif player:GetPlayerType() == PlayerType.PLAYER_KEEPER then charName = 15
+			elseif player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then charName = 16
+			elseif (player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN or player:GetPlayerType() == PlayerType.PLAYER_THESOUL) then charName = 17
+			elseif player:GetPlayerType() == PlayerType.PLAYER_BETHANY then charName = 18
+			elseif player:GetPlayerType() == PlayerType.PLAYER_JACOB then charName = 19
+			elseif player:GetPlayerType() == PlayerType.PLAYER_ESAU then charName = 20
+			elseif player:GetPlayerType() == PlayerType.PLAYER_ISAAC_B then charName = 21
+			elseif player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA_B then charName = 22
+			elseif player:GetPlayerType() == PlayerType.PLAYER_CAIN_B then charName = 23
+			elseif player:GetPlayerType() == PlayerType.PLAYER_JUDAS_B then charName = 24
+			elseif player:GetPlayerType() == PlayerType.PLAYER_XXX_B then charName = 25
+			elseif player:GetPlayerType() == PlayerType.PLAYER_EVE_B then charName = 26
+			elseif player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B then charName = 27
+			elseif player:GetPlayerType() == PlayerType.PLAYER_AZAZEL_B then charName = 28
+			elseif (player:GetPlayerType() == PlayerType.PLAYER_LAZARUS_B or player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2_B) then charName = 29
+			elseif player:GetPlayerType() == PlayerType.PLAYER_EDEN_B then charName = 30
+			elseif player:GetPlayerType() == PlayerType.PLAYER_THELOST_B then charName = 31
+			elseif player:GetPlayerType() == PlayerType.PLAYER_LILITH_B then charName = 32
+			elseif player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B then charName = 33
+			elseif player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B then charName = 34
+			elseif (player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN_B or player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B) then charName = 35
+			elseif player:GetPlayerType() == PlayerType.PLAYER_BETHANY_B then charName = 36
+			elseif (player:GetPlayerType() == PlayerType.PLAYER_JACOB_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B) then charName = 37
+			end
+			Game():GetHUD():ShowItemText("Birthright", mod.FakeBirthrightDesc[player:GetPlayerType()+1][mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1], false)
 		end
-		
-		Game():GetHUD():ShowItemText("Birthright", mod.FakeBirthrightDesc[player:GetPlayerType()][math.ceil(math.fmod(mod.MCMOption.Settings[charName],4))], false)
 	end
+
 	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(mod.substituteBirthright)) and not data.gotBirthright then
+		data.isSubstituteBirthrightOverHead = false
 		if player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then
 			if player:HasCollectible(mod.substituteBirthright) then
 				player:AddMaxHearts(2)
