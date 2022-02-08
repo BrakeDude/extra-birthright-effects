@@ -9,7 +9,8 @@ function mod:CainDestitnyItem(pickup, collider)
             local rng = player:GetCollectibleRNG(collectible)
             if player:GetPlayerType() == PlayerType.PLAYER_CAIN_B and pickup.SubType > 0 and player:IsItemQueueEmpty() then
                 local data = mod:GetData(player)
-                if not data.TaintedCainPickedItem and (player:HasCollectible(collectible) or pickup.SubType == collectible and rng:RandomInt(4) == 1) then
+                local chance = rng:RandomInt(100) + 1
+                if not data.TaintedCainPickedItem and (player:HasCollectible(collectible) or pickup.SubType == collectible and chance <= mod.MCMTCainBirthright["BirthrightYoink"]) then
                     data.TaintedCainPickedItem = true
                     local itemConf = Isaac.GetItemConfig():GetCollectible(pickup.SubType)
                     local changeTo = CollectibleType.COLLECTIBLE_NULL

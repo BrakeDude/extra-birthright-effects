@@ -99,6 +99,7 @@ function mod:SaveSomeData(isSaving)
 	saveBirthright.ModConfigMenuKeys = json.encode(mod.EBKeysDrops.Settings)
 	saveBirthright.ModConfigMenuCoins = json.encode(mod.EBCoinsDrops.Settings)
 	saveBirthright.ModConfigMenuBatteries = json.encode(mod.EBBatteriesDrops.Settings)
+	saveBirthright.BirthrightStealChance = mod.MCMTCainBirthright["BirthrightYoink"]
 	saveBirthright.Version = mod.Version
 	mod:SaveData(json.encode(saveBirthright))
 end
@@ -163,19 +164,38 @@ function mod:LoadItBack(isContinued)
 				end
 			end
 		end
-		mod.MCMOption.Settings = json.decode(loadBirthright.ModConfigMenu)
-		for i = 1, #mod.MCMOption.Name do
-			if mod.MCMOption.Settings[mod.MCMOption.Name[i]] == nil then
-				mod.MCMOption.Settings[mod.MCMOption.Name[i]] = 1
+		if loadBirthright.ModConfigMenu then
+			mod.MCMOption.Settings = json.decode(loadBirthright.ModConfigMenu)
+			for i = 1, #mod.MCMOption.Name do
+				if mod.MCMOption.Settings[mod.MCMOption.Name[i]] == nil then
+					mod.MCMOption.Settings[mod.MCMOption.Name[i]] = 1
+				end
 			end
 		end
-		mod.EBHeartsDrops.Settings = json.decode(loadBirthright.ModConfigMenuHearts)
-		mod.EBPillsDrops.Settings = json.decode(loadBirthright.ModConfigMenuPills)
-		mod.EBBombsDrops.Settings = json.decode(loadBirthright.ModConfigMenuBombs)
-		mod.EBCoinsDrops.Settings = json.decode(loadBirthright.ModConfigMenuCoins)
-		mod.EBKeysDrops.Settings = json.decode(loadBirthright.ModConfigMenuKeys)
-		mod.EBBatteriesDrops.Settings = json.decode(loadBirthright.ModConfigMenuBatteries)
-		mod.EBCardsAndRunesDrops.Settings = json.decode(loadBirthright.ModConfigCardsAndRunes)
+		if loadBirthright.ModConfigMenuHearts then
+			mod.EBHeartsDrops.Settings = json.decode(loadBirthright.ModConfigMenuHearts)
+		end
+		if loadBirthright.ModConfigMenuPills then
+			mod.EBPillsDrops.Settings = json.decode(loadBirthright.ModConfigMenuPills)
+		end
+		if loadBirthright.ModConfigMenuBombs then
+			mod.EBBombsDrops.Settings = json.decode(loadBirthright.ModConfigMenuBombs)
+		end
+		if loadBirthright.ModConfigMenuCoins then
+			mod.EBCoinsDrops.Settings = json.decode(loadBirthright.ModConfigMenuCoins)
+		end
+		if loadBirthright.ModConfigMenuKeys then
+			mod.EBKeysDrops.Settings = json.decode(loadBirthright.ModConfigMenuKeys)
+		end
+		if loadBirthright.ModConfigMenuBatteries then
+			mod.EBBatteriesDrops.Settings = json.decode(loadBirthright.ModConfigMenuBatteries)
+		end
+		if loadBirthright.ModConfigCardsAndRunes then
+			mod.EBCardsAndRunesDrops.Settings = json.decode(loadBirthright.ModConfigCardsAndRunes)
+		end
+		if loadBirthright.BirthrightStealChance then
+			mod.MCMTCainBirthright["BirthrightYoink"] = loadBirthright.BirthrightStealChance
+		end
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.LoadItBack)
@@ -261,7 +281,7 @@ function mod:CheckBirthrightAll(player)
 	mod.level = mod.game:GetLevel()
 	mod.room = mod.game:GetRoom()
 	local data = mod:GetData(player)
-	if player:GetPlayerType() <= 40 and player.FrameCount < 10 then
+	if player:GetPlayerType() <= 40 and player.FrameCount == 1 then
 		player:AddCacheFlags(CacheFlag.CACHE_ALL)
 		player:EvaluateItems()
 	end
