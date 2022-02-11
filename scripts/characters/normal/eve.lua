@@ -1,7 +1,6 @@
 local mod = ExtraBirthright
 
 function mod:MoreBirds(player,_,damageflag)
-    print(damageflag)
     if damageflag & DamageFlag.DAMAGE_IV_BAG ~= DamageFlag.DAMAGE_IV_BAG and damageflag & DamageFlag.DAMAGE_FAKE ~= DamageFlag.DAMAGE_FAKE and
     damageflag & DamageFlag.DAMAGE_RED_HEARTS ~= DamageFlag.DAMAGE_RED_HEARTS and damageflag & DamageFlag.DAMAGE_INVINCIBLE ~= DamageFlag.DAMAGE_INVINCIBLE and
     damageflag & DamageFlag.DAMAGE_SPIKES ~= DamageFlag.DAMAGE_SPIKES and damageflag & DamageFlag.DAMAGE_POOP ~= DamageFlag.DAMAGE_POOP and
