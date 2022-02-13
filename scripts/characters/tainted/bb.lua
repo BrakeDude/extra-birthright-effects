@@ -146,7 +146,7 @@ function mod:BBShooting(tear)
                     type = dipVariant.DIP_CORNY
                 end
                 player:AddFriendlyDip(type,player.Position)
-                mod.game:Fart(player.Position, 30, player,1,0,Color(1.8,0.7,1.5))
+                Game():Fart(player.Position, 30, player,1,0,Color(1.8,0.7,1.5))
             end
         end
     end

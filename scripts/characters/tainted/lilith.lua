@@ -2,7 +2,7 @@ local mod = ExtraBirthright
 
 --#region Tainted Lilith
 function mod.shoot_creep(creep_variant, position, direction_vector, puddle_num, puddle_dmg, puddle_scale, puddle_delay, puddle_timeout, spawner)
-	if (puddle_num <= 0) or not mod.game:GetRoom():IsPositionInRoom(position, 0.0) then
+	if (puddle_num <= 0) or not  Game():GetRoom():IsPositionInRoom(position, 0.0) then
 		return nil
 	end
 

@@ -1,11 +1,7 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effeccts", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.37.1"
+mod.Version = "2.38"
 local json = require("json")
-mod.game = Game()
-mod.room = mod.game:GetRoom()
-mod.sfx = SFXManager()
-mod.rng = RNG()
 mod.substituteBirthright = Isaac.GetItemIdByName("Fake Birthright")
 mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 mod.wasThereBoss = false
@@ -62,6 +58,7 @@ include("scripts/characters/normal/lilith.lua")
 include("scripts/characters/normal/keeper.lua")
 include("scripts/characters/normal/apollyon.lua")
 include("scripts/characters/normal/bethany.lua")
+include("scripts/characters/normal/esau.lua")
 include("scripts/characters/tainted/maggie.lua")
 include("scripts/characters/tainted/cain.lua")
 include("scripts/characters/tainted/judas.lua")
@@ -77,8 +74,10 @@ include("scripts/characters/tainted/jacob.lua")
 --#region Saving
 function mod:SaveSomeData(isSaving)
 	local saveBirthright = {}
+	local game = Game()
+	local level = game:GetLevel()
 	if isSaving then
-		for i = 1, mod.game:GetNumPlayers() do
+		for i = 1, game:GetNumPlayers() do
 			local saveData = {}
 			local player = Isaac.GetPlayer(i-1)
 			saveData.taintedLazBirthright = mod.taintedLazBirthright[i]
@@ -86,7 +85,7 @@ function mod:SaveSomeData(isSaving)
 			saveData.PlayerData = json.encode(mod:GetData(player))
 			saveBirthright["player_"..tostring(i)]=saveData
 		end
-		saveBirthright.CurrentBlessing = mod.level:GetCurses()
+		saveBirthright.CurrentBlessing = level:GetCurses()
 		saveBirthright.BirthrightfloorBought = mod.BirthrightfloorBought
 		saveBirthright.VisitedRooms = mod.VisitedRooms
 		saveBirthright.Timer = mod.Timer
@@ -99,6 +98,7 @@ function mod:SaveSomeData(isSaving)
 	saveBirthright.ModConfigMenuKeys = json.encode(mod.EBKeysDrops.Settings)
 	saveBirthright.ModConfigMenuCoins = json.encode(mod.EBCoinsDrops.Settings)
 	saveBirthright.ModConfigMenuBatteries = json.encode(mod.EBBatteriesDrops.Settings)
+	saveBirthright.ModConfigMenuChests = json.encode(mod.EBChestsDrops.Settings)
 	saveBirthright.BirthrightStealChance = mod.MCMTCainBirthright["BirthrightYoink"]
 	saveBirthright.Version = mod.Version
 	mod:SaveData(json.encode(saveBirthright))
@@ -144,10 +144,11 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.InitData)
 function mod:LoadItBack(isContinued)
 	mod.taintedLazBirthright = {false,false,false,false,false,false,false,false}
 	mod.VisitedRooms = {}
+	local game = Game()
 	if mod:HasData() then
 		local loadBirthright = json.decode(mod:LoadData())
 		if isContinued then
-			for i = 1, mod.game:GetNumPlayers()  do
+			for i = 1, game:GetNumPlayers()  do
 				local player = Isaac.GetPlayer(i-1)
 				mod.taintedLazBirthright[i] = loadBirthright["player_"..tostring(i)].taintedLazBirthright
 				mod.fliped[i] = loadBirthright["player_"..tostring(i)].flipTimeCharge
@@ -277,9 +278,8 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.BirthrightChange, PickupVariant.PICKUP_COLLECTIBLE)
 --#region Birthright check for first pickup effect
 function mod:CheckBirthrightAll(player)
-	mod.game = Game()
-	mod.level = mod.game:GetLevel()
-	mod.room = mod.game:GetRoom()
+	local game = Game()
+	local level = game:GetLevel()
 	local data = mod:GetData(player)
 	if player:GetPlayerType() <= 40 and player.FrameCount == 1 then
 		player:AddCacheFlags(CacheFlag.CACHE_ALL)
@@ -447,6 +447,9 @@ function mod:CheckBirthrightAll(player)
 			end
 			esau:AnimateCollectible(CollectibleType.COLLECTIBLE_RED_STEW)
 		end
+		if player:GetPlayerType() == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] > 1 then
+			level:DisableDevilRoom()
+		end
 		if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) then
 			for x = 1,3 do
 				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN,2, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
@@ -486,8 +489,9 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.CheckBirthrightAll);
 
 function mod:UpdateTheRoom()
+	local room = Game():GetRoom()
 	mod.wasThereBoss = false
-	mod.clearedroom = mod.room:IsClear() and mod.room:IsFirstVisit()
+	mod.clearedroom = room:IsClear() and room:IsFirstVisit()
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.UpdateTheRoom);
 --#endregion

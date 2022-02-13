@@ -2,7 +2,9 @@
 local mod = ExtraBirthright
 
 function mod:CainDestitnyItem(pickup, collider)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Cain"])
+	local game = Game()
+    local room = game:GetRoom()
+    local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Cain"])
 	if mod.MCMOption.Settings["Tainted Cain"] > 1 then
         if collider.Type == EntityType.ENTITY_PLAYER then
             local player = collider:ToPlayer()
@@ -78,15 +80,15 @@ function mod:CainDestitnyItem(pickup, collider)
                             end
                         end
                     end
-                    Game():GetHUD():ShowItemText(player, itemConf)
+                    game:GetHUD():ShowItemText(player, itemConf)
                     local sfx = SFXManager()
-                    if mod.room:GetType() == RoomType.ROOM_TREASURE then
+                    if room:GetType() == RoomType.ROOM_TREASURE then
                         sfx:Play(128)
-                    elseif mod.room:GetType() == RoomType.ROOM_BOSS then
+                    elseif room:GetType() == RoomType.ROOM_BOSS then
                         sfx:Play(129)
-                    elseif mod.room:GetType() == RoomType.ROOM_SHOP then
+                    elseif room:GetType() == RoomType.ROOM_SHOP then
                         sfx:Play(130)
-                    elseif mod.room:GetType() == RoomType.ROOM_DEVIL then
+                    elseif room:GetType() == RoomType.ROOM_DEVIL then
                         sfx:Play(316)
                     else
                         sfx:Play(23)
@@ -101,7 +103,7 @@ end
 mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, mod.CainDestitnyItem, PickupVariant.PICKUP_COLLECTIBLE)
 
 function mod:TaintedCainItemPickupReset()
-    for i = 1, mod.game:GetNumPlayers() do
+    for i = 1, Game():GetNumPlayers() do
         local player = Isaac.GetPlayer(i-1)
         local data = mod:GetData(player)
         if data.TaintedCainPickedItem then

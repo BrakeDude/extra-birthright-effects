@@ -45,12 +45,12 @@ function mod:SuccStats(player,cache)
 		if player:HasCollectible(collectible) then
 			local data = mod:GetData(player)
 			if cache == CacheFlag.CACHE_ALL then
-				player.MoveSpeed = player.MoveSpeed + data.ApollyonStatUps.Speed / 60
-				player.MaxFireDelay = player.MaxFireDelay / (1 + data.ApollyonStatUps.FireDelay / 55)
-				player.Damage = player.Damage + data.ApollyonStatUps.Damage / 8.5
-				player.TearRange = player.TearRange + data.ApollyonStatUps.Range * 2.5
-				player.ShotSpeed = player.ShotSpeed + data.ApollyonStatUps.ShotSpeed / 120
-				player.Luck = player.Luck + data.ApollyonStatUps.Luck / 40
+				player.MoveSpeed = player.MoveSpeed + data.ApollyonStatUps.Speed / 57
+				player.MaxFireDelay = player.MaxFireDelay / (1 + data.ApollyonStatUps.FireDelay / 52)
+				player.Damage = player.Damage + data.ApollyonStatUps.Damage / 6.5
+				player.TearRange = player.TearRange + data.ApollyonStatUps.Range * 3
+				player.ShotSpeed = player.ShotSpeed + data.ApollyonStatUps.ShotSpeed / 110
+				player.Luck = player.Luck + data.ApollyonStatUps.Luck / 35
 			end
 		end
 	end

@@ -53,8 +53,9 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.BBStatsCache)
 
 function mod:HeartsTransform(heart)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Blue Baby"])
+	local game = Game()
 	if mod.MCMOption.Settings["Blue Baby"] > 1 then
-		for i = 1, mod.game:GetNumPlayers() do
+		for i = 1, game:GetNumPlayers() do
 			local player = Isaac.GetPlayer(i-1)
 			if player:GetPlayerType() == PlayerType.PLAYER_XXX and player:HasCollectible(collectible) then
 				if (heart.Variant == PickupVariant.PICKUP_HEART and heart.SubType ~= HeartSubType.HEART_HALF_SOUL and heart.SubType ~= HeartSubType.HEART_SOUL and heart.SubType ~= HeartSubType.HEART_BLACK)

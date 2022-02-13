@@ -19,7 +19,7 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE,mod.TSamsonCache, CacheFlag.CACHE
 
 function mod:SamsonNewLevel()
 	if mod.MCMOption.Settings["Tainted Samson"] > 1 then
-		for i = 1,mod.game:GetNumPlayers() do
+		for i = 1, Game():GetNumPlayers() do
 			local player = Isaac.GetPlayer(i-1)
 			if player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B then
 				local data = mod:GetData(player)

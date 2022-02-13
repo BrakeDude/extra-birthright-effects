@@ -8,7 +8,7 @@ function mod:TaintedRegeneration()
 			if player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA_B then
 				if player:HasCollectible(collectible) then
 					player:AddHearts(1)
-					mod.sfx:Play(SoundEffect.SOUND_VAMP_GULP,1,2,false)
+					SFXManager():Play(SoundEffect.SOUND_VAMP_GULP,1,2,false)
 				end
 			end
 		end
