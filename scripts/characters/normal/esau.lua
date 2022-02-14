@@ -7,9 +7,9 @@ function mod:postGetCollectible(id, pool, decrease, seed)
             local player = Isaac.GetPlayer(i-1)
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
             if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
-                local itemConfig = Isaac.GetItemConfig()
+                local itemConfig = Isaac.GetItemConfig():GetCollectible(id)
                 local itemPool = game:GetItemPool()
-                if itemConfig:GetCollectible(id).Quality ~= 2 and itemConfig:GetCollectible(id).Quality ~= 3 and itemConfig.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST then
+                if itemConfig.Quality ~= 2 and itemConfig.Quality ~= 3 and itemConfig.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST then
                     return itemPool:GetCollectible(pool, decrease, seed)
                 end
             end
@@ -20,6 +20,7 @@ mod:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, mod.postGetCollectible)
 
 function mod:EsauReward(rng,spawnpos)
     local game = Game()
+    local room = game:GetRoom()
     local level = game:GetLevel()
     if mod.MCMOption.Settings["Esau"] > 1
     and not game:IsGreedMode() then
@@ -33,7 +34,7 @@ function mod:EsauReward(rng,spawnpos)
             local player = Isaac.GetPlayer(i-1)
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
             if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
-                local room = level:GetRoomByIdx(mod.level:GetCurrentRoomIndex())
+                
                 local pickup
                 local chance = rng:RandomInt(20)
                 if chance <= 12 then
@@ -51,20 +52,19 @@ function mod:EsauReward(rng,spawnpos)
                 elseif chance <= 17 then
                     pickup = mod.getChest(rng)
                 else
-                    pickup = {variant = PickupVariant.PICKUP_TRINKET, subtype = Game():GetItemPool():GetTrinket()}
+                    pickup = {variant = PickupVariant.PICKUP_TRINKET, subtype = game:GetItemPool():GetTrinket()}
                 end
                 if (room:GetType() == RoomType.ROOM_BOSSRUSH or room:GetType() == RoomType.ROOM_CHALLENGE) and room:IsAmbushDone()then
                     for j = 1,isContract do
                         Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,room:FindFreePickupSpawnPosition(spawnpos, 1),Vector.Zero,nil)
-                        print(pickup.variant..":"..pickup.subtype)
                     end
                 elseif room:GetType() ~= RoomType.ROOM_BOSS then
                     for j = 1,isContract do
                         Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,room:FindFreePickupSpawnPosition(spawnpos, 1),Vector.Zero,nil)
                     end
                     return true
-                elseif mod.level:CanSpawnDevilRoom() and rng:RandomInt(2) == 0 and room:IsCurrentRoomLastBoss() then
-                    mod.level:InitializeDevilAngelRoom(false, true)
+                elseif level:CanSpawnDevilRoom() and rng:RandomInt(2) == 0 and room:IsCurrentRoomLastBoss() then
+                    level:InitializeDevilAngelRoom(false, true)
                     room:TrySpawnDevilRoomDoor(true,true)
                 end
             end

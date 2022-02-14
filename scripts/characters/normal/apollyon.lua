@@ -4,7 +4,8 @@ local mod = ExtraBirthright
 function mod:Stats(player,rng,list)
 	for _,entity in ipairs(list) do
 		if entity:Exists() and entity.SubType > 0 then
-			if Isaac.GetItemConfig():GetCollectible(entity.SubType).Type ~= ItemType.ITEM_ACTIVE and not entity:ToPickup():IsShopItem() then 
+			if Isaac.GetItemConfig():GetCollectible(entity.SubType).Type ~= ItemType.ITEM_ACTIVE and not entity:ToPickup():IsShopItem() 
+			and (Isaac.GetItemConfig():GetCollectible(entity.SubType).Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST) then 
 				local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
 				local itemrng = player:GetCollectibleRNG(collectible)
 				local data = mod:GetData(player)
@@ -12,7 +13,7 @@ function mod:Stats(player,rng,list)
 				local maxstat = quality * 360
 				local statsNames = {"Speed","FireDelay","Damage","Range","ShotSpeed","Luck"}
 				local statsNum = rng:RandomInt(quality + 2) + 1
-				statsNum = statsNum >= quality and statsNum or quality
+				statsNum = statsNum > quality and statsNum or quality
 				for i = 1, statsNum do
 					if maxstat > 0 then
 						local j = itemrng:RandomInt(#statsNames) + 1
@@ -25,19 +26,19 @@ function mod:Stats(player,rng,list)
 			end
 		end
 	end
+	player:AddCacheFlags(CacheFlag.CACHE_ALL)
+	player:EvaluateItems()
 end
 
 function mod:Succ(collectible,rng,player)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
+	local collectibleB = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
 	if mod.MCMOption.Settings["Apollyon"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_APOLLYON 
-	and player:HasCollectible(collectible) then
+	and player:HasCollectible(collectibleB) then
 		local itemList = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
 		mod:Stats(player,rng,itemList)
-		player:AddCacheFlags(CacheFlag.CACHE_ALL)
-		player:EvaluateItems()
 	end
 end
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.Succ, CollectibleType.COLLECTIBLE_VOID);
+mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, mod.Succ, CollectibleType.COLLECTIBLE_VOID);
 
 function mod:SuccStats(player,cache)
 	if mod.MCMOption.Settings["Apollyon"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then

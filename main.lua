@@ -423,8 +423,8 @@ function mod:CheckBirthrightAll(player)
 					local itemConf = Isaac.GetItemConfig():GetCollectible(item)
 					if esau:HasCollectible(item) and itemConf.Type ~= ItemType.ITEM_ACTIVE
 					and (itemConf.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST)
-					and item.SubType ~= CollectibleType.COLLECTIBLE_BIRTHRIGHT
-					and item.SubType ~= mod.substituteBirthright
+					and item ~= CollectibleType.COLLECTIBLE_BIRTHRIGHT
+					and item ~= mod.substituteBirthright
 					then
 						for i = 1, esau:GetCollectibleNum(item) do
 							table.insert(randItems,item)
@@ -454,9 +454,6 @@ function mod:CheckBirthrightAll(player)
 			for x = 1,3 do
 				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN,2, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
 			end
-		end
-		if player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] > 1 then
-			player:GetOtherTwin():AddCollectible(CollectibleType.COLLECTIBLE_RED_STEW)
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_JUDAS_B and mod.MCMOption.Settings["Tainted Judas"] > 1 then
 			player:RemoveCollectible(705,false,ActiveSlot.SLOT_POCKET)
