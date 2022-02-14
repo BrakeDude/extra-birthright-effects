@@ -16,9 +16,10 @@ function mod:Stats(player,rng,list)
 				statsNum = statsNum > quality and statsNum or quality
 				for i = 1, statsNum do
 					if maxstat > 0 then
+						statsNames = mod.Shuffle(statsNames,rng)
 						local j = itemrng:RandomInt(#statsNames) + 1
 						local stat = i == statsNum and maxstat or (rng:RandomInt(math.ceil(maxstat/(statsNum - i + 1))+1))
-						data.ApollyonStatUps[statsNames[j]] = data.ApollyonStatUps[statsNames[j]] + stat / 100
+						data.ApollyonStatUps[statsNames[j]] = data.ApollyonStatUps[statsNames[j]] + stat / 120
 						maxstat = maxstat - statsNum
 						table.remove(statsNames,j)
 					end
@@ -26,16 +27,13 @@ function mod:Stats(player,rng,list)
 			end
 		end
 	end
-	player:AddCacheFlags(CacheFlag.CACHE_ALL)
-	player:EvaluateItems()
 end
 
 function mod:Succ(collectible,rng,player)
-	local collectibleB = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
-	if mod.MCMOption.Settings["Apollyon"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_APOLLYON 
-	and player:HasCollectible(collectibleB) then
+	if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then
 		local itemList = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
 		mod:Stats(player,rng,itemList)
+		player:EvaluateItems()
 	end
 end
 mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, mod.Succ, CollectibleType.COLLECTIBLE_VOID);
@@ -45,14 +43,12 @@ function mod:SuccStats(player,cache)
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
 		if player:HasCollectible(collectible) then
 			local data = mod:GetData(player)
-			if cache == CacheFlag.CACHE_ALL then
-				player.MoveSpeed = player.MoveSpeed + data.ApollyonStatUps.Speed / 57
-				player.MaxFireDelay = player.MaxFireDelay / (1 + data.ApollyonStatUps.FireDelay / 52)
-				player.Damage = player.Damage + data.ApollyonStatUps.Damage / 6.5
-				player.TearRange = player.TearRange + data.ApollyonStatUps.Range * 3
-				player.ShotSpeed = player.ShotSpeed + data.ApollyonStatUps.ShotSpeed / 110
-				player.Luck = player.Luck + data.ApollyonStatUps.Luck / 35
-			end
+			player.MoveSpeed = player.MoveSpeed + data.ApollyonStatUps.Speed / 180
+			player.MaxFireDelay = player.MaxFireDelay / (1 + data.ApollyonStatUps.FireDelay / 120)
+			player.Damage = player.Damage + data.ApollyonStatUps.Damage / 17
+			player.TearRange = player.TearRange + data.ApollyonStatUps.Range * 2.5
+			player.ShotSpeed = player.ShotSpeed + data.ApollyonStatUps.ShotSpeed / 150
+			player.Luck = player.Luck + data.ApollyonStatUps.Luck / 60
 		end
 	end
 end

@@ -150,8 +150,10 @@ function mod:LoadItBack(isContinued)
 		if isContinued then
 			for i = 1, game:GetNumPlayers()  do
 				local player = Isaac.GetPlayer(i-1)
-				mod.taintedLazBirthright[i] = loadBirthright["player_"..tostring(i)].taintedLazBirthright
-				mod.fliped[i] = loadBirthright["player_"..tostring(i)].flipTimeCharge
+				if loadBirthright["player_"..tostring(i)].taintedLazBirthright then
+					mod.taintedLazBirthright[i] = loadBirthright["player_"..tostring(i)].taintedLazBirthright
+					mod.fliped[i] = loadBirthright["player_"..tostring(i)].flipTimeCharge
+				end
 				player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
 				player:GetData().ExtraBirthright.isSubstituteBirthrightOverHead = false
 			end
