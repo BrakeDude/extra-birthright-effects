@@ -141,7 +141,7 @@ mod.MCMOption ={
 		{"Comming soon."},--Lost
 		{"1: Spawns 2 mini Isaacs when entering hostile room, 4 - big room (L-shaped included). Box of Friends now affects mini Isaacs."},--Lilith
 		{"1: Effects of Silver Dollar and Rib of Greed. One free item per floor that costs money."},--Keeper
-		{"1: Void becomes pocket active. Voiding passive items with quality higher then 0 will give random extra stat ups with higher qulity items giving more stats. Extra stat ups will be given even before getting Birthright and will be added after getting it."},--Apollyon
+		{"1: Void becomes pocket active. Voiding passive items with quality higher then 0 will give random extra stat ups with higher quality items giving more stats. Extra stat ups will be given even before getting Birthright and will be added after getting it."},--Apollyon
 		{"Comming soon."},--Forgotten
 		{"1: Curses become blessings. 100% chance for blessing."},--Bethany
 		{"1: Esau gives half of his non story passive items to Jacob in exchange for Red Stew."},--Jacob
