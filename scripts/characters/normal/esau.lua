@@ -58,14 +58,16 @@ function mod:EsauReward(rng,spawnpos)
                     for j = 1,isContract do
                         Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,room:FindFreePickupSpawnPosition(spawnpos, 1),Vector.Zero,nil)
                     end
-                elseif room:GetType() ~= RoomType.ROOM_BOSS then
-                    for j = 1,isContract do
-                        Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,room:FindFreePickupSpawnPosition(spawnpos, 1),Vector.Zero,nil)
-                    end
-                    return true
                 elseif level:CanSpawnDevilRoom() and rng:RandomInt(2) == 0 and room:IsCurrentRoomLastBoss() then
                     level:InitializeDevilAngelRoom(false, true)
                     room:TrySpawnDevilRoomDoor(true,true)
+                    for j = 1,isContract do
+                        Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,room:FindFreePickupSpawnPosition(spawnpos, 1),Vector.Zero,nil)
+                    end
+                else
+                    for j = 1,isContract do
+                        Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,room:FindFreePickupSpawnPosition(spawnpos, 1),Vector.Zero,nil)
+                    end
                 end
             end
         end
