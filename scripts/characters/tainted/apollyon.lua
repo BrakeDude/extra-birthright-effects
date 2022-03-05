@@ -45,11 +45,13 @@ end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.LocustHolyAura,FamiliarVariant.ABYSS_LOCUST)
 
 function mod:NewLocusts()
+	local game = Game()
+	local room = game:GetRoom()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Apollyon"],true)
 	if mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4 then
-		for i = 1,mod.game:GetNumPlayers() do
+		for i = 1, game:GetNumPlayers() do
 			local player = Isaac.GetPlayer(i-1)
-			if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and player:HasCollectible(collectible) and mod.room:IsFirstVisit() and not mod.room:IsClear() then
+			if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and player:HasCollectible(collectible) and room:IsFirstVisit() and not room:IsClear() then
 				local spawncount = player:GetCollectibleRNG(collectible):RandomInt(5)+1
 				spawncount = spawncount < 2 and 2 or spawncount
 				for x = 1,spawncount do

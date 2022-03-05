@@ -1,8 +1,9 @@
 --#region Cain
 local mod = ExtraBirthright
 function mod:GimmeYourSuff(NPC)
+	local game = Game()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Cain"],true)
-	for i = 1,mod.game:GetNumPlayers() do
+	for i = 1,game:GetNumPlayers() do
 		local player = Isaac.GetPlayer(i-1)
 		if (mod.MCMOption.Settings["Cain"] == 2 or mod.MCMOption.Settings["Cain"] == 4) and player:HasCollectible(collectible) then
 			local drop = NPC:GetDropRNG()
@@ -29,13 +30,15 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, mod.GimmeYourSuff);
 
 function mod:BossItemSuff()
+	local game = Game()
+	local room = game:GetRoom()
 	for _,players in ipairs(Isaac.FindByType(1)) do
 		local player = players:ToPlayer()
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Cain"],true)
 		if (mod.MCMOption.Settings["Cain"] == 2 or mod.MCMOption.Settings["Cain"] == 4) and player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_CAIN then
 			if mod.wasThereBoss then
-				local ItemPool = mod.game:GetItemPool():GetPoolForRoom(mod.room:GetType(),mod.rng:GetSeed())
-				Isaac.Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,mod.game:GetItemPool():GetCollectible(ItemPool),mod.bossposition,Vector(0, 0),nil)
+				local ItemPool = game:GetItemPool():GetPoolForRoom(room:GetType(),RNG():GetSeed())
+				Isaac.Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,game:GetItemPool():GetCollectible(ItemPool),mod.bossposition,Vector(0, 0),nil)
 				mod.wasThereBoss = false
 			end
 		end

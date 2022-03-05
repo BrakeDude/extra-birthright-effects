@@ -167,12 +167,30 @@ function mod.MyRandomPickup(rng)
 end
 --#endregion
 
+function mod.getChest(rng)
+	local pickup = {variant=nil,subtype=nil}
+	pickup.subtype = 1
+	if rng:RandomFloat() <= 0.05 and mod.EBChestsDrops["Mega Chest"] then
+		pickup.variant = PickupVariant.PICKUP_MEGACHEST
+	elseif rng:RandomFloat() <= 0.2 then
+		pickup.variant = PickupVariant.PICKUP_BOMBCHEST
+	elseif rng:RandomFloat() <= 0.40 then
+		pickup.variant = PickupVariant.PICKUP_LOCKEDCHEST
+	elseif rng:RandomFloat() <= 0.60 then
+		pickup.variant = PickupVariant.PICKUP_CHEST
+	else
+		pickup.variant = PickupVariant.PICKUP_SPIKEDCHEST
+	end
+	return pickup
+end
+
+
 function mod.EsauCheck(player)
 	if not player or (player and not player.GetData) then
 		return nil
 	end
 	local currentPlayer = 1
-	for i=1, mod.game:GetNumPlayers() do
+	for i=1, Game():GetNumPlayers() do
 		local otherPlayer = Isaac.GetPlayer(i-1)
 		local searchPlayer = i
 		--added GetPlayerType() to get Jacob and Easu seperatly

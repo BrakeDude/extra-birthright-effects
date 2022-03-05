@@ -6,7 +6,8 @@ function mod:BetterWisps(wisp)
 			local player = wisp.SpawnerEntity
 			if player.Type == EntityType.ENTITY_PLAYER then
 				player = player:ToPlayer()
-				if player:GetPlayerType() == PlayerType.PLAYER_BETHANY_B and player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) then
+				local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Bethany"])
+				if player:GetPlayerType() == PlayerType.PLAYER_BETHANY_B and player:HasCollectible(collectible) then
 					local fire_direction = player:GetFireDirection()
 					if fire_direction ~= Direction.NO_DIRECTION then
 						local tear_vector = mod.shootDirecton[fire_direction]:Normalized()

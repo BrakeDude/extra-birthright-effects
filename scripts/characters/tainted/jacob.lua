@@ -98,24 +98,26 @@ end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.JacobStatsCache)
 
 function mod:SecondItem()
+	local game = Game()
+	local room = game:GetRoom()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
 	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
-		for i = 1,mod.game:GetNumPlayers() do
+		for i = 1, game:GetNumPlayers() do
 			local player = Isaac.GetPlayer(i-1)
 			if (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B)
-			and player:HasCollectible(collectible) and mod.room:IsFirstVisit() and
-			(mod.room:GetType() == RoomType.ROOM_DEVIL or mod.room:GetType() == RoomType.ROOM_TREASURE
-			or mod.room:GetType() == RoomType.ROOM_SECRET or mod.room:GetType() == RoomType.ROOM_SUPERSECRET)
+			and player:HasCollectible(collectible) and room:IsFirstVisit() and
+			(room:GetType() == RoomType.ROOM_DEVIL or room:GetType() == RoomType.ROOM_TREASURE
+			or room:GetType() == RoomType.ROOM_SECRET or room:GetType() == RoomType.ROOM_SUPERSECRET)
 			then
 				local items = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
 				for _,item in ipairs(items) do
-					local ItemPool = mod.game:GetItemPool():GetPoolForRoom(mod.room:GetType(),mod.rng:GetSeed())
-					local id = mod.game:GetItemPool():GetCollectible(ItemPool)
+					local ItemPool = game:GetItemPool():GetPoolForRoom(room:GetType(),RNG():GetSeed())
+					local id = game:GetItemPool():GetCollectible(ItemPool)
 					local newitem = Isaac.Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,id,Isaac.GetFreeNearPosition(item.Position,3),Vector(0, 0),nil):ToPickup()
 					if item:ToPickup():IsShopItem() then
-						if mod.room:GetType() == RoomType.ROOM_DEVIL then
+						if room:GetType() == RoomType.ROOM_DEVIL then
 							newitem.Price = Isaac.GetItemConfig():GetCollectible(id).DevilPrice
-						elseif mod.room:GetType() == RoomType.ROOM_ANGEL then
+						elseif room:GetType() == RoomType.ROOM_ANGEL then
 							newitem:Remove()
 						else
 							newitem.Price = Isaac.GetItemConfig():GetCollectible(id).ShopPrice

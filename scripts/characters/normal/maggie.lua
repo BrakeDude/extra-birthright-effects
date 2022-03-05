@@ -65,7 +65,7 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.MaggieStatsCache)
 function mod:MaggieSoulHeartNextLevel()
 	if mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5 then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
-		for i = 1,mod.game:GetNumPlayers() do
+		for i = 1, Game():GetNumPlayers() do
 			local player = Isaac.GetPlayer(i-1)
 			if player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA and player:HasCollectible(collectible) then
 				player:AddSoulHearts(2)

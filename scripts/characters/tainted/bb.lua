@@ -122,30 +122,32 @@ function mod:BBShooting(tear)
     local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Blue Baby"])
 	if mod.MCMOption.Settings["Tainted Blue Baby"] > 1 then
         local player = mod:GetPlayerFromTear(tear)
-        local rng = player:GetCollectibleRNG(collectible)
-        local dirtyMind = player:HasCollectible(CollectibleType.COLLECTIBLE_DIRTY_MIND) and 3 or 1
-        if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_XXX_B and rng:RandomFloat() < 0.15 * dirtyMind then
-            local dipVariant = mod.DipVariant
-            local type = dipVariant.DIP_NORMAL
-            if mod:HasItemInList(player,mod.RedList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                type = dipVariant.DIP_RED
-            elseif mod:HasItemInList(player,mod.AshList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                type = dipVariant.DIP_BLACK
-            elseif mod:HasItemInList(player,mod.FireList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                type = dipVariant.DIP_FLAMING
-            elseif mod:HasItemInList(player,mod.StoneList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                type = dipVariant.DIP_STONE
-            elseif mod:HasItemInList(player,mod.VirusList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                type = dipVariant.DIP_POISON
-            elseif mod:HasItemInList(player,mod.GoldList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                type = dipVariant.DIP_GOLDEN
-            elseif mod:HasItemInList(player,mod.HolyList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                type = dipVariant.DIP_HOLY
-            elseif mod:HasItemInList(player,mod.CornList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                type = dipVariant.DIP_CORNY
+        if player then
+            local rng = player:GetCollectibleRNG(collectible)
+            local dirtyMind = player:HasCollectible(CollectibleType.COLLECTIBLE_DIRTY_MIND) and 3 or 1
+            if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_XXX_B and rng:RandomFloat() < 0.15 * dirtyMind then
+                local dipVariant = mod.DipVariant
+                local type = dipVariant.DIP_NORMAL
+                if mod:HasItemInList(player,mod.RedList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                    type = dipVariant.DIP_RED
+                elseif mod:HasItemInList(player,mod.AshList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                    type = dipVariant.DIP_BLACK
+                elseif mod:HasItemInList(player,mod.FireList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                    type = dipVariant.DIP_FLAMING
+                elseif mod:HasItemInList(player,mod.StoneList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                    type = dipVariant.DIP_STONE
+                elseif mod:HasItemInList(player,mod.VirusList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                    type = dipVariant.DIP_POISON
+                elseif mod:HasItemInList(player,mod.GoldList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                    type = dipVariant.DIP_GOLDEN
+                elseif mod:HasItemInList(player,mod.HolyList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                    type = dipVariant.DIP_HOLY
+                elseif mod:HasItemInList(player,mod.CornList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                    type = dipVariant.DIP_CORNY
+                end
+                player:AddFriendlyDip(type,player.Position)
+                Game():Fart(player.Position, 30, player,1,0,Color(1.8,0.7,1.5))
             end
-            player:AddFriendlyDip(type,player.Position)
-            mod.game:Fart(player.Position, 30, player,1,0,Color(1.8,0.7,1.5))
         end
     end
 end

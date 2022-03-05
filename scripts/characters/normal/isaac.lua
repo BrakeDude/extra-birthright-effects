@@ -1,12 +1,14 @@
 local mod = ExtraBirthright
 --#region Isaac
 function mod:D6Buff(_,rng,player)
+	local game = Game()
+	local room = game:GetRoom()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Isaac"])
 	if mod.MCMOption.Settings["Isaac"] > 1 and player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_ISAAC then
-			local itemPool = mod.game:GetItemPool()
+			local itemPool = game:GetItemPool()
 			local PoolTable = {}
-			local roomPool = itemPool:GetPoolForRoom(mod.room:GetType(),rng:GetSeed())
-			if mod.game:IsGreedMode() then
+			local roomPool = itemPool:GetPoolForRoom(room:GetType(),rng:GetSeed())
+			if game:IsGreedMode() then
 				table.insert(PoolTable,ItemPoolType.POOL_GREED_TREASURE)
 				table.insert(PoolTable,ItemPoolType.POOL_GREED_DEVIL)
 				table.insert(PoolTable,ItemPoolType.POOL_GREED_ANGEL)

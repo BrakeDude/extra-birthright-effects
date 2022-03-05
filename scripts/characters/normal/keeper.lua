@@ -30,7 +30,7 @@ function mod:PickupYourPrize(entity, collider)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Keeper"])
 	if mod.MCMOption.Settings["Keeper"] > 1 then
 		local trigger = false
-		for i = 1,mod.game:GetNumPlayers() do
+		for i = 1, Game():GetNumPlayers() do
 			local player = Isaac.GetPlayer(i-1)
 			if player:GetPlayerType() == PlayerType.PLAYER_KEEPER and player:HasCollectible(collectible) then
 				trigger = true
