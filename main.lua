@@ -1,6 +1,6 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effeccts", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.38"
+mod.Version = "2.38.1"
 local json = require("json")
 mod.substituteBirthright = Isaac.GetItemIdByName("Fake Birthright")
 mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
@@ -448,6 +448,7 @@ function mod:CheckBirthrightAll(player)
 				esau:RemoveCollectible(randItems[1])
 			end
 			esau:AnimateCollectible(CollectibleType.COLLECTIBLE_RED_STEW)
+			esau:QueueItem(Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_RED_STEW))
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] > 1 then
 			level:DisableDevilRoom()
