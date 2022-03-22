@@ -1,27 +1,58 @@
 local mod = ExtraBirthright
 --#region Samson
-
+local ChargeBar = Sprite()
+ChargeBar:Load("gfx/chargebar_berserk.anm2",true)
+ChargeBar:LoadGraphics()
 function mod:TSamson(player)
-	if mod.MCMOption.Settings["Tainted Samson"] > 1 then
-		if player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B then
-			local data = mod:GetData(player)
-			local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Samson"],false)
-			if player:HasCollectible(collectible) then
-				if Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex) and data.RageMeter >= 100000 and not player:HasWeaponType(WeaponType.WEAPON_BONE) then
+	if mod.MCMOption.Settings["Tainted Samson"] > 1 then	
+		local data = mod:GetData(player)
+		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Samson"],false)
+		if player:HasCollectible(collectible) then
+
+			if player.SamsonBerserkCharge > 0 then
+				data.RageMeter = data.RageMeter + player.SamsonBerserkCharge * 1.5
+				player.SamsonBerserkCharge = 0
+			end
+			if data.RageMeter > 100000 then
+				data.RageMeter = 100000
+			end
+			if not player:HasWeaponType(WeaponType.WEAPON_BONE) then
+				if Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex) and data.RageMeter >= 100000 then
 					player.SamsonBerserkCharge = math.floor(data.RageMeter)
 					data.RageMeter = 0
 					player:TakeDamage(0,DamageFlag.DAMAGE_FAKE,EntityRef(player),10)
-				end
-				if player.SamsonBerserkCharge > 0 then
-					data.RageMeter = data.RageMeter + player.SamsonBerserkCharge * 1.5
-					player.SamsonBerserkCharge = 0
-				end
-				if data.RageMeter > 100000 then
-					data.RageMeter = 100000
 				end
 			end
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE,mod.TSamson)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE,mod.TSamson,0)
+
+function mod:TSamsonChargeBar(player)
+	if mod.MCMOption.Settings["Tainted Samson"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B then
+		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Samson"],false)
+		if not player:HasWeaponType(WeaponType.WEAPON_BONE) and player:HasCollectible(collectible) then
+			local data = mod:GetData(player)
+			if not Game():IsPaused() then
+				if data.RageMeter >= 100000 then
+					if not ChargeBar:IsPlaying("Charged") then
+						ChargeBar:Play("Charged")
+						ChargeBar.PlaybackSpeed = 1
+					else
+						ChargeBar:Update()
+					end
+				else
+					if not ChargeBar:IsPlaying("Charging") then
+						ChargeBar:Play("Charging")
+					else
+						ChargeBar:SetFrame(math.floor(data.RageMeter/1000))
+					end
+				end
+			end
+			ChargeBar.Offset = Vector(-12,-35)
+			ChargeBar:Render(Game():GetRoom():WorldToScreenPosition(player.Position), Vector.Zero, Vector.Zero)
+		end
+	end
+end
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER,mod.TSamsonChargeBar, 0)
 --#endregion
