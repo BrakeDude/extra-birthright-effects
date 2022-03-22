@@ -123,14 +123,8 @@ function mod:InitData(player)
 			end
 		end
 		if pType == PlayerType.PLAYER_SAMSON_B then
-			if not data.RoomEnemies then
-				data.RoomEnemies = 0
-			end
-			if not data.GotHit then
-				data.GotHit = 0
-			end
-			if data.HairLock == nil then
-				data.HairLock = false
+			if not data.RageMeter then
+				data.RageMeter = 0
 			end
 		end
 		if data.isSubstituteBirthrightOverHead == nil then

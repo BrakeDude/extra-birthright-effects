@@ -152,7 +152,7 @@ mod.MCMOption ={
 		{"1: Dark Arts become Twisted Arts. Using Twisted Arts will freeze time in a room. Longer duration compared to Dark Arts."},--Tainted Judas
 		{"1: Chance to poop out friendly dip. Having special items have a chance to get different type of dip."},--Tainted BB
 		{"1: Chance to spawn additional clot of the same type for free. Clots become more durable."},--Tainted Eve
-		{"1: Extra damage that changes depending of how many enemies in radius of 100 around Tainted Samson and how many times he got hit. Bonus from number of hits Tainted Samson recived lasts for currnet floor."},--Tainted Samson
+		{"1: Berserk charges faster and activates on player's command by pressing 'Drop' button."},--Tainted Samson
 		{"1: Gets Brimstone effect and ability to fly."},--Tainted Azazel
 		{"1: Flip charges overtime."},--Tainted Lazarus
 		{"Comming soon."},--Tainted Eden
