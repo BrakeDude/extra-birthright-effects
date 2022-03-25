@@ -28,7 +28,7 @@ mod.FakeBirthrightDesc = {
 	[25] = {"Master of shadows"}, --Tainted Judas
 	[26] = {"Stinky friends"}, --Tainted Blue Baby
 	[27] = {"Stronger clots"}, --Tainted Eve
-	[28] = {"Control yourself"}, --Tainted Samson
+	[28] = {"Controlled rage"}, --Tainted Samson
 	[29] = {"Wings of destruction"}, --Tainted Azazel
 	[30] = {"Alive and Dead"}, --Tainted Lazarus
 	[31] = {""}, --Tainted Eden
@@ -74,7 +74,7 @@ mod.EBEIDDesc = {
 		{EID.descriptions["en_us"].birthright[25][3],"{{Collectible705}}Dark Arts become Twisted Arts#Using Twisted Arts will freeze time in a room#Longer duration compared to Dark Arts",EID.descriptions["en_us"].birthright[25][3].."#{{ColorRainbow}}Extra effects:#{{Collectible705}}Dark Arts become Twisted Arts#Using Twisted Arts will freeze time in a room#Longer duration compared to Dark Arts"},--Tainted Judas
 		{EID.descriptions["en_us"].birthright[26][3],"Chance to poop out friendly dip#Having special items have a chance to get different type of dip", EID.descriptions["en_us"].birthright[26][3].."#{{ColorRainbow}}Extra effects:#Chance to poop out friendly dip#Having special items have a chance to get different type of dip"}, -- Tainted BB
 		{EID.descriptions["en_us"].birthright[27][3],"Chance to spawn additional clot for free#Сlot take more hits to be killed",EID.descriptions["en_us"].birthright[27][3].."#{{ColorRainbow}}Extra effects:#Chance to spawn additional clot for free#Сlot take more hits to be killed"},--Tainted Eve
-		{EID.descriptions["en_us"].birthright[28][3],"Berserk charges faster#Berserk activate on player's command (by pressing 'Drop' button)", EID.descriptions["en_us"].birthright[28][3].."#{{ColorRainbow}}Extra effects:{{ArrowUp}} #Berserk charges faster#Berserk activate on player's command (by pressing 'Drop' button)"}, -- Tainted Samson
+		{EID.descriptions["en_us"].birthright[28][3],"Berserk charges faster#Berserk activates on player's command (by pressing 'Drop' button)", EID.descriptions["en_us"].birthright[28][3].."#{{ColorRainbow}}Extra effects:{{ArrowUp}} #Berserk charges faster#Berserk activate on player's command (by pressing 'Drop' button)"}, -- Tainted Samson
 		{EID.descriptions["en_us"].birthright[29][3],"Gets {{Collectible118}}Brimstone effect and ability to fly",EID.descriptions["en_us"].birthright[29][3].."#{{ColorRainbow}}Extra effects:#Gets {{Collectible118}}Brimstone effect and ability to fly"},--Tainted Azazel
 		{EID.descriptions["en_us"].birthright[30][3],"{{Collectible711}}Flip charges over time",EID.descriptions["en_us"].birthright[30][3].."#{{ColorRainbow}}Extra effects:#{{Collectible711}} Flip charges over time"},--Tainted Lazarus
 		{EID.descriptions["en_us"].birthright[31][3],"Coming soon", EID.descriptions["en_us"].birthright[31][3].."#{{ColorRainbow}}Extra effects:#Coming soon"}, -- Tainted Eden
