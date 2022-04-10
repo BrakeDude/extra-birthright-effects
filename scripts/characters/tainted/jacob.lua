@@ -48,6 +48,7 @@ function mod:YouDie(npc,collider,low)
 			if player:HasCollectible(collectible) and not isaacheart then
 				if not player:GetEffects():HasNullEffect(NullItemID.ID_LOST_CURSE) then
 					local deadJacob = Isaac.Spawn(mod.JacobDeathAnim,0,0,player.Position,Vector.Zero,nil)
+					deadJacob:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
 					deadJacob = deadJacob:GetSprite()
 					deadJacob:Play("Death",true)
 				end
