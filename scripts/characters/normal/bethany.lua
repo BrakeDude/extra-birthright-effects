@@ -97,8 +97,6 @@ function mod:BlessingsUpdate(player)
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
         if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) then
 			data.Bethany = PlayerType.PLAYER_BETHANY
-		end
-        if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) then
             if not level:IsAscent() then
                 if (curse == LevelCurse.CURSE_NONE) then
                     local rng = player:GetCollectibleRNG(collectible)
@@ -116,17 +114,21 @@ function mod:BlessingsUpdate(player)
            
             if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Enlightenment"))) and not room:HasCurseMist() then
                 local Aura=mod:GetData(player).BlessingPrevailAura
-                if not Aura or Aura:IsDead() then
-                    mod:GetData(player).BlessingPrevailAura = Isaac.Spawn(1000,123,2,player.Position,Vector.Zero,player):ToEffect()
-                    Aura=mod:GetData(player).BlessingPrevailAura
-                    Aura:GetSprite():ReplaceSpritesheet(0,'gfx/effects/effect_hallowedground.png')
-                    Aura:GetSprite():LoadGraphics()
-                    Aura.SpriteScale=Vector(2.5,2.5)
+                if not Aura then
+                    Aura = Sprite()
+                    Aura:Load("gfx/1000.112_hallowed ground.anm2",true)
+                    Aura:LoadGraphics()
+                    Aura.PlaybackSpeed = 0.6
+                    Aura.Scale=Vector(2.5,2.5)
                     local AuraColor=Color(1,1,1,1)
                     AuraColor:SetColorize(1,1,0.5,1)
-                    Aura:GetSprite().Offset=Vector(20,50)
+                    --Aura.Offset=Vector(20,50)
                     Aura.Color=AuraColor
-                    Aura.DepthOffset=-999
+                    --Aura.DepthOffset=-999
+                    mod:GetData(player).BlessingPrevailAura = Aura
+                    Aura:Play("Appear")
+                elseif Aura:IsFinished("Appear") and not Aura:IsPlaying("Idle") then
+                    Aura:Play("Idle")
                 end
                 local enemies = Isaac.FindInRadius(player.Position, 220, EntityPartition.ENEMY)
                 for _,entity in ipairs(enemies) do
@@ -135,7 +137,12 @@ function mod:BlessingsUpdate(player)
                     end
                 end
             elseif mod:GetData(player).BlessingPrevailAura then
-                (mod:GetData(player).BlessingPrevailAura):GetSprite().Color = Color(1,1,1,0)
+                local Aura = mod:GetData(player).BlessingPrevailAura
+                if Aura:IsPlaying("Idle") then
+                    Aura:Play("Disappear")
+                elseif Aura:IsFinished("Disappear") then
+                    mod:GetData(player).BlessingPrevailAura = nil
+                end
             end
             if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Clarity"))) then
                 level:ApplyMapEffect()
@@ -184,6 +191,28 @@ function mod:BlessingsUpdate(player)
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.BlessingsUpdate)
+
+function mod:AuraRender()
+    for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER,-1,PlayerType.PLAYER_BETHANY)) do
+        player = player:ToPlayer()
+        local data = mod:GetData(player)
+        local Aura = data.BlessingPrevailAura
+        if Aura then
+            Aura:Render(Game():GetRoom():WorldToScreenPosition(player.Position), Vector.Zero, Vector.Zero)
+            if not Game():IsPaused() then
+                if data.AuraPulse == nil then
+                    data.AuraPulse = Vector(0.01,0.01)
+                end
+                data.AuraPulse = Aura.Scale.X < 2.48 and Vector(0.0005,0.0005) or (Aura.Scale.X > 2.52 and Vector(-0.0005,-0.0005) or data.AuraPulse)
+                Aura.Scale = Aura.Scale + data.AuraPulse
+                Aura:Update()
+            end
+        elseif data.AuraPulse ~= nil then
+            data.AuraPulse = nil
+        end
+    end
+end
+mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.AuraRender)
 
 function mod:BlessingOfPrevailingandOrderEffect()
     mod.Timer = -1
