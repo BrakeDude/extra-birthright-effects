@@ -4,25 +4,31 @@ local ChargeBar = Sprite()
 ChargeBar:Load("gfx/chargebar_berserk.anm2",true)
 ChargeBar:LoadGraphics()
 function mod:TSamson(player)
-	if mod.MCMOption.Settings["Tainted Samson"] > 1 then	
-		local data = mod:GetData(player)
-		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Samson"],false)
-		if player:HasCollectible(collectible) then
+	local data = mod:GetData(player)
+	if player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B then
+		if mod.MCMOption.Settings["Tainted Samson"] > 1 then	
+			local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Samson"],false)
+			if player:HasCollectible(collectible) then
 
-			if player.SamsonBerserkCharge > 0 then
-				data.RageMeter = data.RageMeter + player.SamsonBerserkCharge * 1.5
-				player.SamsonBerserkCharge = 0
-			end
-			if data.RageMeter > 100000 then
-				data.RageMeter = 100000
-			end
-			if not player:HasWeaponType(WeaponType.WEAPON_BONE) then
-				if Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex) and data.RageMeter >= 100000 then
-					player.SamsonBerserkCharge = math.floor(data.RageMeter)
-					data.RageMeter = 0
-					player:TakeDamage(0,DamageFlag.DAMAGE_FAKE,EntityRef(player),10)
+				if player.SamsonBerserkCharge > 0 then
+					data.RageMeter = data.RageMeter + player.SamsonBerserkCharge * 1.5
+					player.SamsonBerserkCharge = 0
+				end
+				if data.RageMeter > 100000 then
+					data.RageMeter = 100000
+				end
+				if not player:HasWeaponType(WeaponType.WEAPON_BONE) then
+					if Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex) and data.RageMeter >= 100000 then
+						player.SamsonBerserkCharge = math.floor(data.RageMeter)
+						data.RageMeter = 0
+						player:TakeDamage(0,DamageFlag.DAMAGE_FAKE,EntityRef(player),1)
+						player:GetSprite():Stop()
+					end
 				end
 			end
+		elseif data.RageMeter and data.RageMeter > 0 then
+			player.SamsonBerserkCharge = data.RageMeter
+			data.RageMeter = 0
 		end
 	end
 end

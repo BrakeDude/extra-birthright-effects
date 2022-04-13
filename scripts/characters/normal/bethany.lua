@@ -229,6 +229,7 @@ function mod:BlessingOfPrevailingandOrderEffect()
                 if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of the Prevailing")))  then
                     if rng:RandomInt(100) < 20 then
                         player:UseCard(Card.CARD_SOUL_CAIN, UseFlag.USE_NOANNOUNCER | UseFlag.USE_NOANIM)
+                        SFXManager():Stop(SoundEffect.SOUND_GOLDENKEY)
                     end
                 end
                 if mod.LevelBlessing.CheckFlag(curse, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId("Blessing of Order"))) and 
