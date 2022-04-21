@@ -7,11 +7,10 @@ function mod:LostLastChance(player)
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Lost"])
         local data = mod:GetData(player)
         if player:GetPlayerType() == PlayerType.PLAYER_THELOST then
-            if player:HasCollectible(collectible) and not player:WillPlayerRevive() and player:IsDead() and player:GetSprite():GetFrame() > 35 then--and not data.LostChance then
+            if player:HasCollectible(collectible) and not player:WillPlayerRevive() and player:IsDead() and player:GetSprite():GetFrame() > 35 and not data.LostChance then
                 data.LostChance = true
                 Game():StartRoomTransition(level:GetPreviousRoomIndex(), Direction.NO_DIRECTION, RoomTransitionAnim.WALK)
                 player:Revive()
-                player:RemoveCollectible(collectible)
                 for item = 1, mod.GetMaxCollectibleID() do
                     if Isaac.GetItemConfig():GetCollectible(item) then
                         local itemConf = Isaac.GetItemConfig():GetCollectible(item)
