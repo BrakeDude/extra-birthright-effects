@@ -23,6 +23,7 @@ function mod:TSamson(player)
 						data.RageMeter = 0
 						player:TakeDamage(0,DamageFlag.DAMAGE_FAKE,EntityRef(player),1)
 						player:GetSprite():Stop()
+						SFXManager():Stop(SoundEffect.SOUND_ISAAC_HURT_GRUNT)
 					end
 				end
 			end
