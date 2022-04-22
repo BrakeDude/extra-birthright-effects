@@ -5,10 +5,13 @@ function mod:LostLastChance(player)
     local room = Game():GetRoom()
     if mod.MCMOption.Settings["The Lost"] > 1 then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Lost"])
-        local data = mod:GetData(player)
         if player:GetPlayerType() == PlayerType.PLAYER_THELOST then
-            if player:HasCollectible(collectible) and not player:WillPlayerRevive() and player:IsDead() and player:GetSprite():GetFrame() > 35 and not data.LostChance then
-                data.LostChance = true
+            local data = mod:GetData(player)
+            if not data.LostChance then
+                data.LostChance = 0
+            end
+            if player:HasCollectible(collectible) and not player:WillPlayerRevive() and player:IsDead() and player:GetSprite():GetFrame() > 35 and data.LostChance < player:GetCollectibleNum(collectible) then
+                data.LostChance = data.LostChance + 1
                 Game():StartRoomTransition(level:GetPreviousRoomIndex(), Direction.NO_DIRECTION, RoomTransitionAnim.WALK)
                 player:Revive()
                 for item = 1, mod.GetMaxCollectibleID() do
@@ -20,14 +23,14 @@ function mod:LostLastChance(player)
                         and item ~= mod.substituteBirthright
                         and item ~= CollectibleType.COLLECTIBLE_HOLY_MANTLE
                         then
-                            for i = 1, player:GetCollectibleNum(item) do
-                                player:AddCollectible(item,0,false)
-                            end
+                            --for i = 1, player:GetCollectibleNum(item) do
+                            player:AddCollectible(item,0,false)
+                            --end
                         end
                     end
                 end
             end
-            if data.LostChance and room:GetFrameCount() == 0 then
+            if data.LostChance > 0 and room:GetFrameCount() == 0 then
                 player:GetEffects():RemoveCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE)
             end
         end
