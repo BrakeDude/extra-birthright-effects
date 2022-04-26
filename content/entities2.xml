@@ -1,5 +1,0 @@
-<entities anm2root="gfx/" version="5">
-    <entity anm2path="t_jacob_death.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="8" friction="1" id="8000" name="Tainted Jacob Death Animation" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="0">
-        <gibs amount="16" blood="1" bone="1" eye="0" gut="0" large="0" />
-    </entity>
-</entities>

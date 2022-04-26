@@ -33,6 +33,7 @@ function mod:LostLastChance(player)
             if data.LostChance > 0 and room:GetFrameCount() == 0 then
                 player:GetEffects():RemoveCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE)
             end
+            data.LostChance = data.LostChance > player:GetCollectibleNum(collectible) and player:GetCollectibleNum(collectible) or data.LostChance
         end
     end
 end

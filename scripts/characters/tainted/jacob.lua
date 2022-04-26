@@ -1,4 +1,13 @@
 local mod = ExtraBirthright
+local skin = {
+				[SkinColor.SKIN_PINK]="",
+				[SkinColor.SKIN_WHITE]="_white",
+				[SkinColor.SKIN_BLACK]="_black",
+				[SkinColor.SKIN_BLUE]="_blue",
+				[SkinColor.SKIN_RED]="_red",
+				[SkinColor.SKIN_GREEN]="_green",
+				[SkinColor.SKIN_GREY]="_grey",
+			 }
 --#region Tainted Jacob
 function mod:HesMine(player,_,_,newtarget)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
@@ -47,10 +56,18 @@ function mod:YouDie(npc,collider,low)
 			end
 			if player:HasCollectible(collectible) and not isaacheart then
 				if not player:GetEffects():HasNullEffect(NullItemID.ID_LOST_CURSE) then
-					local deadJacob = Isaac.Spawn(mod.JacobDeathAnim,0,0,player.Position,Vector.Zero,nil)
+					local deadJacob = Isaac.Spawn(1000,0,0,player.Position,Vector.Zero,nil):ToEffect()
 					deadJacob:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
-					deadJacob = deadJacob:GetSprite()
-					deadJacob:Play("Death",true)
+					deadJacob.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
+					deadJacob.GridCollisionClass = GridCollisionClass.COLLISION_NONE
+					local deadJacobSprites = deadJacob:GetSprite()
+					deadJacobSprites:Load("gfx/001.000_player.anm2",true)
+					print(player:GetBodyColor())
+					deadJacobSprites:ReplaceSpritesheet(PlayerSpriteLayer.SPRITE_EXTRA,"gfx/characters/costumes/character_019b_jacob"..skin[player:GetBodyColor()]..".png")
+					deadJacobSprites:ReplaceSpritesheet(PlayerSpriteLayer.SPRITE_GHOST,"gfx/characters/costumes/ghostnoghost.png")
+					deadJacobSprites:LoadGraphics()
+					deadJacobSprites:Play("Death",true)
+					deadJacobSprites:SetFrame(4)
 				end
 				player:ChangePlayerType(PlayerType.PLAYER_JACOB2_B)
 			end
