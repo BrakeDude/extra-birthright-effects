@@ -1,4 +1,4 @@
 <items gfxroot="gfx/Items/" deathanm2="gfx/death items.anm2" version="1">
     <active description="You are a shadow" id="1" maxcharges="300" chargetype="timed" cooldown="80" gfx = "collectibles_705_darkarts.png" name = "Twisted Arts" quality = "4" hidden="true" />
-	<passive description="Wait... This isn't right one" id="2" gfx = "collectibles_619_birthright.png" name = "Fake Birthright" quality = "3" hidden="true" />
+	<passive description="Wait... This isn't right one" id="2" gfx = "collectibles_619_birthright.png" name = "Fake Birthright" quality = "3" hidden="true" tags = "lazarusshared"/>
 </items> 

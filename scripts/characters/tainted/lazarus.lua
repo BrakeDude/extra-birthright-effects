@@ -2,9 +2,12 @@ local mod = ExtraBirthright
 --#region Tainted Lazarus
 function mod:DaSwitcharu2pointO(player)
 	if mod.MCMOption.Settings["Tainted Lazarus"] > 1 and (player:GetPlayerType() == PlayerType.PLAYER_LAZARUS_B or player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2_B) 
-	and mod.taintedLazBirthright[mod.EsauCheck(player)] then
+	and (player:HasCollectible(mod.substituteBirthright) or player:GetOtherTwin() ~= nil) then
 		local battery = (player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY) and 2 or 1)
 		local charge = player:GetActiveCharge(ActiveSlot.SLOT_POCKET) + player:GetBatteryCharge(ActiveSlot.SLOT_POCKET)
+		if mod.fliped[mod.EsauCheck(player)] == nil then
+			mod.fliped[mod.EsauCheck(player)] = 0
+		end
 		if charge < 6 * battery then
 			mod.fliped[mod.EsauCheck(player)] = mod.fliped[mod.EsauCheck(player)] + 1
 			if math.fmod(mod.fliped[mod.EsauCheck(player)],100) == 0 then
@@ -15,6 +18,7 @@ function mod:DaSwitcharu2pointO(player)
 				else
 					SFXManager():Play(SoundEffect.SOUND_BEEP)
 				end
+				mod.fliped[mod.EsauCheck(player)] = 1
 			end
 		end
 	end
@@ -23,7 +27,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.DaSwitcharu2pointO)
 
 function mod:FlipTheSwitchLazarus2pointO(Collectible,_,player,_,slot)
 	if slot == ActiveSlot.SLOT_POCKET then
-		mod.fliped[mod.EsauCheck(player)] = 0
+		mod.fliped[mod.EsauCheck(player)] = 1
 	end
 	return nil
 end

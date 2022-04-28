@@ -5,9 +5,8 @@ local json = require("json")
 mod.substituteBirthright = Isaac.GetItemIdByName("Fake Birthright")
 mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 mod.wasThereBoss = false
+mod.fliped = {}
 mod.bossposition = Vector.Zero
-mod.taintedLazBirthright = {false,false,false,false,false,false,false,false}
-mod.fliped = {0,0,0,0,0,0,0,0}
 mod.BirthrightfloorBought = false
 mod.doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
 mod.Timer = -1
@@ -81,8 +80,6 @@ function mod:SaveSomeData(isSaving)
 		for i = 1, game:GetNumPlayers() do
 			local saveData = {}
 			local player = Isaac.GetPlayer(i-1)
-			saveData.taintedLazBirthright = mod.taintedLazBirthright[i]
-			saveData.flipTimeCharge = mod.fliped[i]
 			saveData.PlayerData = json.encode(mod:GetData(player))
 			saveBirthright["player_"..tostring(i)]=saveData
 		end
@@ -137,7 +134,6 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.InitData)
 --#endregion
 --#region Loading
 function mod:LoadItBack(isContinued)
-	mod.taintedLazBirthright = {false,false,false,false,false,false,false,false}
 	mod.VisitedRooms = {}
 	local game = Game()
 	if mod:HasData() then
@@ -145,10 +141,6 @@ function mod:LoadItBack(isContinued)
 		if isContinued then
 			for i = 1, game:GetNumPlayers()  do
 				local player = Isaac.GetPlayer(i-1)
-				if loadBirthright["player_"..tostring(i)].taintedLazBirthright then
-					mod.taintedLazBirthright[i] = loadBirthright["player_"..tostring(i)].taintedLazBirthright
-					mod.fliped[i] = loadBirthright["player_"..tostring(i)].flipTimeCharge
-				end
 				player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
 				player:GetData().ExtraBirthright.isSubstituteBirthrightOverHead = false
 			end
@@ -208,7 +200,6 @@ function mod:Init(player)
 	if player:GetPlayerType() == PlayerType.PLAYER_CAIN_B then
 		data.TaintedCainPickedItem = data.TaintedCainPickedItem or false
 	end
-	mod.taintedLazBirthright[mod.EsauCheck(player)] = false
 	mod.BirthrightfloorBought = false
 	mod.wasThereBoss = false
 end
@@ -460,9 +451,6 @@ function mod:CheckBirthrightAll(player)
 		if player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B and mod.MCMOption.Settings["Tainted Samson"] > 1 then
 			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
 			player:EvaluateItems()
-		end
-		if (player:GetPlayerType() == PlayerType.PLAYER_LAZARUS_B or player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2_B) and mod.MCMOption.Settings["Tainted Lazarus"] > 1 then
-			mod.taintedLazBirthright[mod.EsauCheck(player)] = true
 		end
 		if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and (mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4) then
 			for x = 1,20 do
