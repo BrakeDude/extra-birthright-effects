@@ -12,7 +12,9 @@ function mod:LostLastChance(player)
             end
             if player:HasCollectible(collectible) and not player:WillPlayerRevive() and player:IsDead() and player:GetSprite():GetFrame() > 35 and data.LostChance < player:GetCollectibleNum(collectible) then
                 data.LostChance = data.LostChance + 1
-                Game():StartRoomTransition(level:GetPreviousRoomIndex(), Direction.NO_DIRECTION, RoomTransitionAnim.WALK)
+                local direction = math.fmod(room:GetDoor(level.EnterDoor).Direction,2)
+                level.LeaveDoor = room:GetDoor(level.EnterDoor).Slot
+                Game():StartRoomTransition(level:GetPreviousRoomIndex(), direction, RoomTransitionAnim.WALK)
                 player:Revive()
                 for item = 1, mod.GetMaxCollectibleID() do
                     if Isaac.GetItemConfig():GetCollectible(item) then
