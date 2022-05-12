@@ -61,7 +61,7 @@ mod.MCMOption ={
 		3, --Bethany
 		3, --Jacob
 		3, --Esau
-		1, --Tainted Isaac
+		3, --Tainted Isaac
 		3, --Tainted Magdalene
 		3, --Tainted Cain
 		3, --Tainted Judas
@@ -146,7 +146,7 @@ mod.MCMOption ={
 		{"1: Curses become blessings. 100% chance for blessing."},--Bethany
 		{"1: Esau gives half of his non story passive items to Jacob in exchange for Red Stew."},--Jacob
 		{"1: 100% chance for rewards to spawn after clearing room. Only devil rooms can appear with 50% chance. Only items of quality 2 and 3 will appear"},--Esau
-		{"Comming soon."},--Tainted Isaac
+		{"1: Spindown dice becomes a pocket active and using it has 10% chance for Soul of Isaac effect to proc."},--Tainted Isaac
 		{"1: Regenerates red heart after clearing room."},--Tainted Magdalene
 		{"1: Can pickup 1 item on current floor. If Tainted Cain doesn't have Birthright, he has chance to pickup Birthright without it reducing into pickups."},--Tainted Cain
 		{"1: Dark Arts become Twisted Arts. Using Twisted Arts will freeze time in a room. Longer duration compared to Dark Arts."},--Tainted Judas
