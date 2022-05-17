@@ -1,6 +1,6 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.39"
+mod.Version = "2.40"
 local json = require("json")
 mod.substituteBirthright = Isaac.GetItemIdByName("Fake Birthright")
 mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
