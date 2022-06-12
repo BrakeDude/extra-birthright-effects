@@ -11,8 +11,6 @@ mod.BirthrightfloorBought = false
 mod.doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
 mod.Timer = -1
 
-mod.JacobDeathAnim = Isaac.GetEntityTypeByName("Tainted Jacob Death Animation")
-
 mod.VisitedRooms = {}
 
 mod.Books = {
