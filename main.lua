@@ -210,11 +210,12 @@ function mod:BirthrightChange(pickup)
 		local players = Isaac.FindByType(EntityType.ENTITY_PLAYER)
 		local player = players[1]
 		for _,searchplayer in ipairs(players) do
-			if pickup.Position:Distance(searchplayer.Position) < pickup.Position:Distance(player.Position) then
+			if pickup.Position:Distance(searchplayer.Position) < pickup.Position:Distance(player.Position) and not searchplayer.Parent then
 				player = searchplayer
 			end
 		end
 		player = player:ToPlayer()
+		
 		if player:GetPlayerType() == PlayerType.PLAYER_ISAAC and mod.MCMOption.Settings["Isaac"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA and mod.MCMOption.Settings["Magdalene"] > 1 and mod.MCMOption.Settings["Magdalene"] < 4 or
 		player:GetPlayerType() == PlayerType.PLAYER_CAIN and mod.MCMOption.Settings["Cain"] > 1 and mod.MCMOption.Settings["Cain"] < 4 or
