@@ -34,7 +34,7 @@ mod.FakeBirthrightDesc = {
 	[31] = {""}, --Tainted Eden
 	[32] = {""}, --Tainted Lost
 	[33] = {"Hemorrhage"}, --Tainted Lilith
-	[34] = {""}, --Tainted Keeper
+	[34] = {"Golden strength"}, --Tainted Keeper
 	[35] = {"Locusts of apocalypse","God flies"}, --Tainted Apollyon
 	[36] = {""}, --Tainted Forgotten
 	[37] = {"Better wisps"}, --Tainted Bethany
@@ -80,7 +80,7 @@ mod.EBEIDDesc = {
 		{EID.descriptions["en_us"].birthright[31][3],"Coming soon", EID.descriptions["en_us"].birthright[31][3].."#{{ColorRainbow}}Extra effects:#Coming soon"}, -- Tainted Eden
 		{EID.descriptions["en_us"].birthright[32][3],"Coming soon", EID.descriptions["en_us"].birthright[32][3].."#{{ColorRainbow}}Extra effects:#Coming soon"}, -- Tainted Lost
 		{EID.descriptions["en_us"].birthright[33][3],"Spawn red creep that deals 250% damage#Every time Tainted Lilith shoots umbilical baby (fetus) spawns red creep trail that deals 150% damage",EID.descriptions["en_us"].birthright[33][3].."#{{ColorRainbow}}Extra effects:#Spawns red creep that deals 250% damage#Every time Tainted Lilith shoots umbilical baby (fetus) spawns red creep trail that deals 150% damage"},--Tainted Lilith
-		{EID.descriptions["en_us"].birthright[34][3],"Coming soon", EID.descriptions["en_us"].birthright[34][3].."#{{ColorRainbow}}Extra effects:#Coming soon"}, -- Tainted Keeper
+		{EID.descriptions["en_us"].birthright[34][3],"Picking up coins gives temporary damage that wears off over time", EID.descriptions["en_us"].birthright[34][3].."#{{ColorRainbow}}Extra effects:#Picking up coins gives temporary damage that wears off over time"}, -- Tainted Keeper
 		{EID.descriptions["en_us"].birthright[35][3],"Spawns 20 random horsemen locusts on pickup#2-5 random horsemen locusts spawn when entering hostile room","Gives abyss locust a small {{Collectible331}}Godhead aura",EID.descriptions["en_us"].birthright[35][3].."#{{ColorRainbow}}Extra effects:#Spawns 20 random horsemen locusts on pickup#2-5 random horsemen locusts spawn when entering hostile room",EID.descriptions["en_us"].birthright[35][3].."#{{ColorRainbow}}Extra effects:#Gives abyss locust a small {{Collectible331}} Godhead aura"},--Tainted Apollyon
 		{EID.descriptions["en_us"].birthright[36][3],"Coming soon", EID.descriptions["en_us"].birthright[36][3].."#{{ColorRainbow}}Extra effects:#Coming soon"}, -- Tainted Forgotten
 		{EID.descriptions["en_us"].birthright[37][3],"Item wisps shoot homing tears with Tainted Bethany's tear rate and deal 40% of her damage#Wisps take more hits to be destroyed",EID.descriptions["en_us"].birthright[37][3].."#{{ColorRainbow}}Extra effects:#Item wisps shoot homing tears with Tainted Bethany's tear rate and deal 40% of her damage#Wisps take more hits to be destroyed"},--Tainted Bethany
@@ -120,7 +120,7 @@ mod.EBEIDDesc = {
 		{EID.descriptions["ru"].birthright[31][3],"Скоро", EID.descriptions["ru"].birthright[31][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}} Скоро"}, -- Tainted Eden
 		{EID.descriptions["ru"].birthright[32][3],"Скоро", EID.descriptions["ru"].birthright[32][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}} Скоро"}, -- Tainted Lost
 		{EID.descriptions["ru"].birthright[33][3],"Создает красную лужу которая наносит 250% урона#Каждый раз когда Лилит выстреливает ребёнком с пуповиной (зародышем), создаётся след из кровавых луж, которые наносят 150% урона", EID.descriptions["ru"].birthright[33][3].."#{{ColorRainbow}}Дополнительные еффекты:#Создает красную лужу которая наносит 250% урона#Каждый раз когда Лилит выстреливает ребёнком с пуповиной (зародышем), создаётся след из кровавых луж, которые наносят 150% урона"},--Tainted Lilith
-		{EID.descriptions["ru"].birthright[34][3],"Скоро", EID.descriptions["ru"].birthright[34][3].."#{{ColorRainbow}}Дополнительные еффекты:#Скоро"}, -- Tainted Keeper
+		{EID.descriptions["ru"].birthright[34][3],"Даёт временный урон при подборе монет, который уменьшается со временем", EID.descriptions["ru"].birthright[34][3].."#{{ColorRainbow}}Дополнительные еффекты:#Даёт временный урон при подборе монет, который уменьшается со временем"}, -- Tainted Keeper
 		{EID.descriptions["ru"].birthright[35][3],"При подборе появляются 20 саранчи всадников#2-5 саранчи всадников появляются, когда заходите в комнату с врагами","Даёт саранче бездны маленькую ауру {{Collectible331}}Божественности",EID.descriptions["ru"].birthright[35][3].."#{{ColorRainbow}}Дополнительные еффекты:#При подборе появляются 20 саранчи всадников#2-5 саранчи всадников появляются, когда заходите в комнату с врагами",EID.descriptions["ru"].birthright[35][3].."#{{ColorRainbow}}Дополнительные еффекты:#Даёт саранче бездны маленькую ауру {{Collectible331}}Божественности"},--Tainted Apollyon
 		{EID.descriptions["ru"].birthright[36][3],"Скоро", EID.descriptions["ru"].birthright[36][3].."#{{ColorRainbow}}Дополнительные еффекты:#Скоро"}, -- Tainted Forgotten
 		{EID.descriptions["ru"].birthright[37][3],"Огоньки предметов стреляют самонаводящимися слезами со скорострельностью Порченой Вифании и 40% её урона#Огонькам нужно получить больше урона, чтобы их уничтожить", EID.descriptions["ru"].birthright[37][3].."#{{ColorRainbow}}Дополнительные еффекты:#Огоньки предметов стреляют самонаводящимися слезами со скорострельностью Порченой Вифании и 40% её урона#Огонькам нужно получить больше урона, чтобы их уничтожить"},--Tainted Bethany

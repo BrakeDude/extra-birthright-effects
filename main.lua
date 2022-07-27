@@ -1,6 +1,6 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.40"
+mod.Version = "2.41"
 local json = require("json")
 mod.substituteBirthright = Isaac.GetItemIdByName("Fake Birthright")
 mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
@@ -67,6 +67,7 @@ include("scripts/characters/tainted/samson.lua")
 include("scripts/characters/tainted/azazel.lua")
 include("scripts/characters/tainted/lazarus.lua")
 include("scripts/characters/tainted/lilith.lua")
+include("scripts/characters/tainted/keeper.lua")
 include("scripts/characters/tainted/apollyon.lua")
 include("scripts/characters/tainted/bethany.lua")
 include("scripts/characters/tainted/jacob.lua")

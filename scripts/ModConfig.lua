@@ -73,7 +73,7 @@ mod.MCMOption ={
 		1, --Tainted Eden
 		1, --Tainted Lost
 		3, --Tainted Lilith
-		1, --Tainted Keeper
+		3, --Tainted Keeper
 		5, --Tainted Apollyon
 		1, --Tainted Forgotten
 		3, --Tainted Bethany
@@ -158,7 +158,7 @@ mod.MCMOption ={
 		{"Comming soon."},--Tainted Eden
 		{"Comming soon."},--Tainted Lost
 		{"1: Spawn red creep that deals 250% player's damage. Every time umbilical baby is shot spawns red creep that deals 150% player's damage."},--Tainted Lilith
-		{"Comming soon."},--Tainted Keeper
+		{"1: Picking up coins gives temporary damage up that wears off over time."},--Tainted Keeper
 		{"1: Spawns 20 random harbinger locusts on pickup. Entering hostile room will spawn 2-5 random locusts. 2: Abyss locusts have small Godhead aura."},--Tainted Apollyon
 		{"Comming soon."},--Tainted Forgotten
 		{"1: Item wisps shoot homing tears. Tear rate is the same as player's. Wisp's tears deal 40% player's damage."},--Tainted Bethany
