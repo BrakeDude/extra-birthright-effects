@@ -369,4 +369,4 @@ function mod:BirthrightDesc()
 	end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.BirthrightDesc)
+--mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.BirthrightDesc)

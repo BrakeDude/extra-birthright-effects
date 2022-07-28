@@ -2,7 +2,7 @@ ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
 local mod = ExtraBirthright
 mod.Version = "2.41"
 local json = require("json")
-mod.substituteBirthright = Isaac.GetItemIdByName("Fake Birthright")
+mod.substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 mod.wasThereBoss = false
 mod.fliped = {}
@@ -36,9 +36,10 @@ mod.shootDirecton = {
 	[Direction.DOWN] = Vector(0, 1)
 }
 
+include("scripts/eid.lua")
+include("scripts/encyclopedia.lua")
 include("scripts/ModConfig.lua")
 include("scripts/helpFuncs.lua")
-include("scripts/eid.lua")
 include("scripts/cmd.lua")
 
 include("scripts/characters/normal/isaac.lua")
@@ -187,6 +188,7 @@ function mod:LoadItBack(isContinued)
 			mod.MCMTCainBirthright["BirthrightYoink"] = loadBirthright.BirthrightStealChance
 		end
 	end
+	mod:BirthrightDesc()
 end
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.LoadItBack)
 --#endregion
@@ -202,6 +204,7 @@ function mod:Init(player)
 	end
 	mod.BirthrightfloorBought = false
 	mod.wasThereBoss = false
+	mod:BirthrightDesc()
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.Init)
 --#endregion
@@ -480,7 +483,6 @@ function mod:UpdateTheRoom()
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.UpdateTheRoom);
 --#endregion
-
 
 
 Isaac.DebugString("Extra Birthright Effects loaded. Version ".. mod.Version)

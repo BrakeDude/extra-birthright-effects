@@ -525,6 +525,7 @@ if ModConfigMenu then
 				end,
 				OnChange = function(currentNum)
 					mod.MCMOption.Settings[mod.MCMOption.Name[i]] = currentNum
+					mod:BirthrightDesc()
 				end,
 				Info = mod.MCMOption.Labels[i]
 			})
