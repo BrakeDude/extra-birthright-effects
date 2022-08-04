@@ -57,7 +57,7 @@ mod.MCMOption ={
 		3, --Lilith
 		3, --Keeper
 		3, --Apollyon
-		1, --Forgotten
+		3, --Forgotten
 		3, --Bethany
 		3, --Jacob
 		3, --Esau

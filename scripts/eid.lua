@@ -9,16 +9,16 @@ mod.FakeBirthrightDesc = {
 	[6] = {"Your very own murder", "Birds of prey"}, --Eve
 	[7] = {"Rock and throw"}, --Samson
 	[8] = {"Hell circle"}, --Azazel
-	[9] = {""}, --Lazarus
+	[9] = {"Rebirth"}, --Lazarus
 	[10] = {"Random effect"}, --Eden
 	[11] = {"Last chance"}, --The Lost
-	[12] = {""}, -- Lazarus Risen
+	[12] = {"Afterbirth"}, -- Lazarus Risen
 	[13] = {"Payback","Knowledge is power"}, --Dark Judas
 	[14] = {"Motherhood"}, --Lilith
 	[15] = {"Free deal"}, --Keeper
 	[16] = {"Stronger void"}, --Apollyon
-	[17] = {""}, --The Forgotten
-	[18] = {""}, --The Soul
+	[17] = {"You're falling apart..."}, --The Forgotten
+	[18] = {"You're falling apart..."}, --The Soul
 	[19] = {"Blessed"}, --Bethany
 	[20] = {"Trade"}, --Jacob
 	[21] = {"Faithless reward"}, --Esau
@@ -304,55 +304,56 @@ function mod:BirthrightDesc()
 		for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
 			player = player:ToPlayer()
 			local playerID = player:GetPlayerType()
-			local i,j,name = 1,2,1
-			if playerID == PlayerType.PLAYER_ISAAC then i,j,name = 1,mod.MCMOption.Settings["Isaac"],1
-			elseif playerID == PlayerType.PLAYER_MAGDALENA then i,j,name = 2,mod.MCMOption.Settings["Magdalene"],2
-			elseif playerID == PlayerType.PLAYER_CAIN then i,j,name = 3,mod.MCMOption.Settings["Cain"],3
-			elseif playerID == PlayerType.PLAYER_JUDAS then i,j,name = 4,mod.MCMOption.Settings["Judas"],4
-			elseif playerID == PlayerType.PLAYER_BLACKJUDAS then i,j,name = 5,mod.MCMOption.Settings["Dark Judas"],13
-			elseif playerID == PlayerType.PLAYER_XXX then i,j,name =6,mod.MCMOption.Settings["Blue Baby"],5
-			elseif playerID == PlayerType.PLAYER_EVE then i,j,name =7,mod.MCMOption.Settings["Eve"],6
-			elseif playerID == PlayerType.PLAYER_SAMSON then i,j,name =8,mod.MCMOption.Settings["Samson"],7
-			elseif playerID == PlayerType.PLAYER_AZAZEL then i,j,name =9,mod.MCMOption.Settings["Azazel"],8
-			elseif playerID == PlayerType.PLAYER_LAZARUS then i,j,name =10,mod.MCMOption.Settings["Lazarus"],9
-			elseif playerID == PlayerType.PLAYER_LAZARUS2 then i,j,name =11,mod.MCMOption.Settings["Lazarus Risen"],12
-			elseif playerID == PlayerType.PLAYER_EDEN then i,j,name =12,mod.MCMOption.Settings["Eden"],10
-			elseif playerID == PlayerType.PLAYER_THELOST then i,j,name =13,mod.MCMOption.Settings["The Lost"],11
-			elseif playerID == PlayerType.PLAYER_LILITH then i,j,name =14,mod.MCMOption.Settings["Lilith"],14
-			elseif playerID == PlayerType.PLAYER_KEEPER then i,j,name =15,mod.MCMOption.Settings["Keeper"],15
-			elseif playerID == PlayerType.PLAYER_APOLLYON then i,j,name =16,mod.MCMOption.Settings["Apollyon"],16
-			elseif playerID == PlayerType.PLAYER_THEFORGOTTEN then i,j,name =17,mod.MCMOption.Settings["The Forgotten"],17
-			elseif playerID == PlayerType.PLAYER_THESOUL then i,j,name =17,mod.MCMOption.Settings["The Forgotten"],18
-			elseif playerID == PlayerType.PLAYER_BETHANY then i,j,name =18,mod.MCMOption.Settings["Bethany"],19
-			elseif playerID == PlayerType.PLAYER_JACOB then i,j,name =19,mod.MCMOption.Settings["Jacob"],20
-			elseif playerID == PlayerType.PLAYER_ESAU then i,j,name =20,mod.MCMOption.Settings["Esau"],21
-			elseif playerID == PlayerType.PLAYER_ISAAC_B then i,j,name =21,mod.MCMOption.Settings["Tainted Isaac"],22
-			elseif playerID == PlayerType.PLAYER_MAGDALENA_B then i,j,name =22,mod.MCMOption.Settings["Tainted Magdalene"],23
-			elseif playerID == PlayerType.PLAYER_CAIN_B then i,j,name =23,mod.MCMOption.Settings["Tainted Cain"],24
-			elseif playerID == PlayerType.PLAYER_JUDAS_B then i,j,name =24,mod.MCMOption.Settings["Tainted Judas"],25
-			elseif playerID == PlayerType.PLAYER_XXX_B then i,j,name =25,mod.MCMOption.Settings["Tainted Blue Baby"],26
-			elseif playerID == PlayerType.PLAYER_EVE_B then i,j,name =26,mod.MCMOption.Settings["Tainted Eve"],27
-			elseif playerID == PlayerType.PLAYER_SAMSON_B then i,j,name =27,mod.MCMOption.Settings["Tainted Samson"],28
-			elseif playerID == PlayerType.PLAYER_AZAZEL_B then i,j,name =28,mod.MCMOption.Settings["Tainted Azazel"],39
-			elseif playerID == PlayerType.PLAYER_LAZARUS_B then i,j,name =29,mod.MCMOption.Settings["Tainted Lazarus"],30
-			elseif playerID == PlayerType.PLAYER_LAZARUS2_B then i,j,name =29,mod.MCMOption.Settings["Tainted Lazarus"],39
-			elseif playerID == PlayerType.PLAYER_EDEN_B then i,j,name =30,mod.MCMOption.Settings["Tainted Eden"],31
-			elseif playerID == PlayerType.PLAYER_THELOST_B then i,j,name =31,mod.MCMOption.Settings["Tainted Lost"],32
-			elseif playerID == PlayerType.PLAYER_LILITH_B then i,j,name =32,mod.MCMOption.Settings["Tainted Lilith"],33
-			elseif playerID == PlayerType.PLAYER_KEEPER_B then i,j,name =33,mod.MCMOption.Settings["Tainted Apollyon"],34
-			elseif playerID == PlayerType.PLAYER_APOLLYON_B then i,j,name = 34,mod.MCMOption.Settings["Tainted Apollyon"],35
-			elseif playerID == PlayerType.PLAYER_THEFORGOTTEN_B then i,j,name =35,mod.MCMOption.Settings["Tainted Forgotten"],36
-			elseif playerID == PlayerType.PLAYER_THESOUL_B then i,j,name =35,mod.MCMOption.Settings["Tainted Forgotten"],41
-			elseif playerID == PlayerType.PLAYER_BETHANY_B then i,j,name =36,mod.MCMOption.Settings["Tainted Bethany"],37
-			elseif playerID == PlayerType.PLAYER_JACOB_B then i,j,name = 37,mod.MCMOption.Settings["Tainted Jacob"],38
-			elseif playerID == PlayerType.PLAYER_JACOB2_B then i,j,name = 37,mod.MCMOption.Settings["Tainted Jacob"],39 end
-			local birthrightDesc = EID:getDescriptionEntry("birthright", playerID+1)
-			local playerName = birthrightDesc[1] or player:GetName()
-			local icon = EID:getIcon("Player"..playerID) ~= EID.InlineIcons["ERROR"] and "{{Player"..playerID.."}}" or "{{CustomTransformation}}"
-			stringEN[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.EN[i][j]
-			stringRU[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.RU[i][j]
-			stringSPA[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.SPA[i][j]
-			
+			if playerID <= 40 then
+				local i,j,name = 1,2,1
+				if playerID == PlayerType.PLAYER_ISAAC then i,j,name = 1,mod.MCMOption.Settings["Isaac"],1
+				elseif playerID == PlayerType.PLAYER_MAGDALENA then i,j,name = 2,mod.MCMOption.Settings["Magdalene"],2
+				elseif playerID == PlayerType.PLAYER_CAIN then i,j,name = 3,mod.MCMOption.Settings["Cain"],3
+				elseif playerID == PlayerType.PLAYER_JUDAS then i,j,name = 4,mod.MCMOption.Settings["Judas"],4
+				elseif playerID == PlayerType.PLAYER_BLACKJUDAS then i,j,name = 5,mod.MCMOption.Settings["Dark Judas"],13
+				elseif playerID == PlayerType.PLAYER_XXX then i,j,name =6,mod.MCMOption.Settings["Blue Baby"],5
+				elseif playerID == PlayerType.PLAYER_EVE then i,j,name =7,mod.MCMOption.Settings["Eve"],6
+				elseif playerID == PlayerType.PLAYER_SAMSON then i,j,name =8,mod.MCMOption.Settings["Samson"],7
+				elseif playerID == PlayerType.PLAYER_AZAZEL then i,j,name =9,mod.MCMOption.Settings["Azazel"],8
+				elseif playerID == PlayerType.PLAYER_LAZARUS then i,j,name =10,mod.MCMOption.Settings["Lazarus"],9
+				elseif playerID == PlayerType.PLAYER_LAZARUS2 then i,j,name =11,mod.MCMOption.Settings["Lazarus Risen"],12
+				elseif playerID == PlayerType.PLAYER_EDEN then i,j,name =12,mod.MCMOption.Settings["Eden"],10
+				elseif playerID == PlayerType.PLAYER_THELOST then i,j,name =13,mod.MCMOption.Settings["The Lost"],11
+				elseif playerID == PlayerType.PLAYER_LILITH then i,j,name =14,mod.MCMOption.Settings["Lilith"],14
+				elseif playerID == PlayerType.PLAYER_KEEPER then i,j,name =15,mod.MCMOption.Settings["Keeper"],15
+				elseif playerID == PlayerType.PLAYER_APOLLYON then i,j,name =16,mod.MCMOption.Settings["Apollyon"],16
+				elseif playerID == PlayerType.PLAYER_THEFORGOTTEN then i,j,name =17,mod.MCMOption.Settings["The Forgotten"],17
+				elseif playerID == PlayerType.PLAYER_THESOUL then i,j,name =17,mod.MCMOption.Settings["The Forgotten"],18
+				elseif playerID == PlayerType.PLAYER_BETHANY then i,j,name =18,mod.MCMOption.Settings["Bethany"],19
+				elseif playerID == PlayerType.PLAYER_JACOB then i,j,name =19,mod.MCMOption.Settings["Jacob"],20
+				elseif playerID == PlayerType.PLAYER_ESAU then i,j,name =20,mod.MCMOption.Settings["Esau"],21
+				elseif playerID == PlayerType.PLAYER_ISAAC_B then i,j,name =21,mod.MCMOption.Settings["Tainted Isaac"],22
+				elseif playerID == PlayerType.PLAYER_MAGDALENA_B then i,j,name =22,mod.MCMOption.Settings["Tainted Magdalene"],23
+				elseif playerID == PlayerType.PLAYER_CAIN_B then i,j,name =23,mod.MCMOption.Settings["Tainted Cain"],24
+				elseif playerID == PlayerType.PLAYER_JUDAS_B then i,j,name =24,mod.MCMOption.Settings["Tainted Judas"],25
+				elseif playerID == PlayerType.PLAYER_XXX_B then i,j,name =25,mod.MCMOption.Settings["Tainted Blue Baby"],26
+				elseif playerID == PlayerType.PLAYER_EVE_B then i,j,name =26,mod.MCMOption.Settings["Tainted Eve"],27
+				elseif playerID == PlayerType.PLAYER_SAMSON_B then i,j,name =27,mod.MCMOption.Settings["Tainted Samson"],28
+				elseif playerID == PlayerType.PLAYER_AZAZEL_B then i,j,name =28,mod.MCMOption.Settings["Tainted Azazel"],39
+				elseif playerID == PlayerType.PLAYER_LAZARUS_B then i,j,name =29,mod.MCMOption.Settings["Tainted Lazarus"],30
+				elseif playerID == PlayerType.PLAYER_LAZARUS2_B then i,j,name =29,mod.MCMOption.Settings["Tainted Lazarus"],39
+				elseif playerID == PlayerType.PLAYER_EDEN_B then i,j,name =30,mod.MCMOption.Settings["Tainted Eden"],31
+				elseif playerID == PlayerType.PLAYER_THELOST_B then i,j,name =31,mod.MCMOption.Settings["Tainted Lost"],32
+				elseif playerID == PlayerType.PLAYER_LILITH_B then i,j,name =32,mod.MCMOption.Settings["Tainted Lilith"],33
+				elseif playerID == PlayerType.PLAYER_KEEPER_B then i,j,name =33,mod.MCMOption.Settings["Tainted Apollyon"],34
+				elseif playerID == PlayerType.PLAYER_APOLLYON_B then i,j,name = 34,mod.MCMOption.Settings["Tainted Apollyon"],35
+				elseif playerID == PlayerType.PLAYER_THEFORGOTTEN_B then i,j,name =35,mod.MCMOption.Settings["Tainted Forgotten"],36
+				elseif playerID == PlayerType.PLAYER_THESOUL_B then i,j,name =35,mod.MCMOption.Settings["Tainted Forgotten"],41
+				elseif playerID == PlayerType.PLAYER_BETHANY_B then i,j,name =36,mod.MCMOption.Settings["Tainted Bethany"],37
+				elseif playerID == PlayerType.PLAYER_JACOB_B then i,j,name = 37,mod.MCMOption.Settings["Tainted Jacob"],38
+				elseif playerID == PlayerType.PLAYER_JACOB2_B then i,j,name = 37,mod.MCMOption.Settings["Tainted Jacob"],39 end
+				local birthrightDesc = EID:getDescriptionEntry("birthright", playerID+1)
+				local playerName = birthrightDesc[1] or player:GetName()
+				local icon = EID:getIcon("Player"..playerID) ~= EID.InlineIcons["ERROR"] and "{{Player"..playerID.."}}" or "{{CustomTransformation}}"
+				stringEN[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.EN[i][j]
+				stringRU[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.RU[i][j]
+				stringSPA[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.SPA[i][j]
+			end
 		end
 		local longStringEN,longStringRU,longStringSPA = "","",""
 		for i = 1,37 do
