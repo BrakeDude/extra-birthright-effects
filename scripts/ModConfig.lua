@@ -135,14 +135,14 @@ mod.MCMOption ={
 		{"1: Getting hit will occasionally spawn additional Dead Birds that persist between rooms."},--Eve
 		{"1: Damage up. Samson can pick up and throw objects."},--Samson
 		{"1: 20% chance to shoot in 8 directions on hit."},--Azazel
-		{"Comming soon."},--Lazarus
-		{"Comming soon."},--Lazarus Risen
+		{"1: Gives pocket item Haven's Call on pickup and on new floor. Using it will kill Lazarus and deal damage to enemies in the room."},--Lazarus
+		{"1: Gives random 3 items from angel pool and Seraphim semi-transformation for the floor. Using Haven's Call will give 3 angel items for the current room."},--Lazarus Risen
 		{"1: 25% chance get random passive item effect when entering room."},--Eden
 		{"1: The Lost gets revived with copies of all of his items doubled (besides birthright, active and story items), but he can't have holy mantle effect. You can get mantle effect by using Holy Card but only for current room. After that effect disappears."},--Lost
 		{"1: Spawns 2 mini Isaacs when entering hostile room, 4 - big room (L-shaped included). Box of Friends now affects mini Isaacs."},--Lilith
 		{"1: Effects of Silver Dollar and Rib of Greed. One free item per floor that costs money."},--Keeper
 		{"1: Void becomes pocket active. Voiding passive items with quality higher then 0 will give random extra stat ups with higher quality items giving more stats. Extra stat ups will be given even before getting Birthright and will be added after getting it."},--Apollyon
-		{"Comming soon."},--Forgotten
+		{"1: Loosing Bone heart will create from 6 to 9 bone orbitals."},--Forgotten
 		{"1: Curses become blessings. 100% chance for blessing."},--Bethany
 		{"1: Esau gives half of his non story passive items to Jacob in exchange for Red Stew."},--Jacob
 		{"1: 100% chance for rewards to spawn after clearing room. Only devil rooms can appear with 50% chance. Only items of quality 2 and 3 will appear"},--Esau

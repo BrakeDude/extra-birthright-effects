@@ -4,6 +4,9 @@ function mod:GetCMDOption(arg,tainted)
 	if tainted then
 		start = 21
 	end
+	if string.find(arg,"Risen") then
+		return 11
+	end
 	for i = start, #mod.MCMOption.Name do
 		if string.find(arg,mod.MCMOption.Name[i])then
 			return i
@@ -75,7 +78,9 @@ end
 
 function mod:getCMD(args,s1,s2)
 	local commandstr = ""
+	print(string.find(args,"Risen"))
 	local tainted = string.find(args,"Tainted")
+	local char
 	if tainted == s2 + 2 then
 		char = mod:GetCMDOption(args,true)
 	else
@@ -84,6 +89,7 @@ function mod:getCMD(args,s1,s2)
 	if not char then
 		return nil
 	end
+	print(char)
 	commandstr = commandstr..mod.MCMOption.Name[char]
 	local check1,check2 = string.find(args,mod.MCMOption.Name[char])
 	if check2 ~= #args then
