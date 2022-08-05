@@ -2,6 +2,7 @@ ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
 local mod = ExtraBirthright
 mod.Version = "2.41"
 local json = require("json")
+mod.havenscall = Isaac.GetItemIdByName("Haven's Call")
 mod.substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 mod.wasThereBoss = false
@@ -10,6 +11,7 @@ mod.bossposition = Vector.Zero
 mod.BirthrightfloorBought = false
 mod.doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
 mod.Timer = -1
+
 
 mod.VisitedRooms = {}
 
@@ -53,6 +55,7 @@ include("scripts/characters/normal/samson.lua")
 include("scripts/characters/normal/azazel.lua")
 include("scripts/characters/normal/eden.lua")
 include("scripts/characters/normal/lost.lua")
+include("scripts/characters/normal/lazarus.lua")
 include("scripts/characters/normal/lilith.lua")
 include("scripts/characters/normal/keeper.lua")
 include("scripts/characters/normal/apollyon.lua")
@@ -449,6 +452,9 @@ function mod:CheckBirthrightAll(player)
 			for x = 1,3 do
 				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN,2, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
 			end
+		end
+		if (ptype == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] > 1) or (ptype == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] > 1) then
+			player:SetPocketActiveItem(mod.havenscall)
 		end
 		if ptype == PlayerType.PLAYER_JUDAS_B and mod.MCMOption.Settings["Tainted Judas"] > 1 then
 			player:RemoveCollectible(705,false,ActiveSlot.SLOT_POCKET)

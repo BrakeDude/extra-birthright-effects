@@ -50,8 +50,8 @@ mod.MCMOption ={
 		3, --Eve
 		3, --Samson
 		3, --Azazel
-		1, --Lazarus
-		1, --Lazarus Risen
+		3, --Lazarus
+		3, --Lazarus Risen
 		3, --Eden
 		3, --Lost
 		3, --Lilith

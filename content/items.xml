@@ -1,4 +1,5 @@
 <items gfxroot="gfx/Items/" deathanm2="gfx/death items.anm2" version="1">
     <active description="You are a shadow" id="1" maxcharges="300" chargetype="timed" cooldown="80" gfx = "collectibles_705_darkarts.png" achievement = "587" name = "Twisted Arts" quality = "4" hidden="true" />
 	<passive description="???" id="2" gfx = "collectibles_619_birthright.png" name = "Birthright (Alt)" achievement = "431" quality = "3" hidden="true" tags = "lazarusshared"/>
+	<active description="My faith is the power" id="3" gfx = "collectibles_619_birthright.png" maxcharges="0" name = "Haven's Call" achievement = "431" quality = "4" hidden="true"/>
 </items> 
