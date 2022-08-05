@@ -18,7 +18,7 @@ mod.FakeBirthrightDesc = {
 	[15] = {"Free deal"}, --Keeper
 	[16] = {"Stronger void"}, --Apollyon
 	[17] = {"You're falling apart..."}, --The Forgotten
-	[18] = {"You're falling apart..."}, --The Soul
+	[18] = {"You're fading away..."}, --The Soul
 	[19] = {"Blessed"}, --Bethany
 	[20] = {"Trade"}, --Jacob
 	[21] = {"Faithless reward"}, --Esau
@@ -58,13 +58,14 @@ mod.EBEIDDesc = {
 		{EID.descriptions["en_us"].birthright[7][3],"{{ArrowUp}} +4 Damage up#Gets ability to pick up and throw objects", EID.descriptions["en_us"].birthright[7][3].."#{{ColorRainbow}}Extra effects:#{{ArrowUp}} +4 Damage up#Gets ability to pick up and throw objects"},--Samson
 		{EID.descriptions["en_us"].birthright[8][3],"20% chance to shoot in 8 directions on hit", EID.descriptions["en_us"].birthright[8][3].."#{{ColorRainbow}}Extra effects:#20% chance to shoot in 8 directions on hit"},--Azazel
 		{EID.descriptions["en_us"].birthright[9][3],"Gives pocket item Haven's Call on pickup and on new floor#Using Haven's Call will kill Lazarus and damage enemies in room", EID.descriptions["en_us"].birthright[9][3].."#{{ColorRainbow}}Extra effects:#Gives pocket item Haven's Call#Using Haven's Call will kill Lazarus and damage enemies in room"},--Lazarus
-		{EID.descriptions["en_us"].birthright[12][3],"Gives pocket item Haven's Call on pickup and on new floor#Gives 3 random Angel items (contributes to Seraphim) that and Seraphim semi-transformation#Using Haven's Call gives 3 random Angel items for current room", EID.descriptions["en_us"].birthright[12][3].."#{{ColorRainbow}}Extra effects:#Gives pocket item Haven's Call on pickup and on new floor#Gives 3 random Angel items (contributes to Seraphim) that and Seraphim semi-transformation#Using Haven's Call gives 3 random Angel items for current room"},--Lazarus Risen
+		{EID.descriptions["en_us"].birthright[12][3],"Gives pocket item Haven's Call on pickup and on new floor#Gives 3 random Angel items (contributes to Seraphim) and Seraphim semi-transformation for the floor#Using Haven's Call gives 3 random Angel items for current room", EID.descriptions["en_us"].birthright[12][3].."#{{ColorRainbow}}Extra effects:#Gives pocket item Haven's Call on pickup and on new floor#Gives 3 random Angel items (contributes to Seraphim) and Seraphim semi-transformation for the floor#Using Haven's Call gives 3 random Angel items for current room"},--Lazarus Risen
 		{EID.descriptions["en_us"].birthright[10][3], "25% chance get random passive item effect when entering room", EID.descriptions["en_us"].birthright[10][3].."#{{ColorRainbow}}Extra effects:#25% chance get random passive item effect when entering room"},--Eden
 		{EID.descriptions["en_us"].birthright[11][3],"The Lost gets revived with copies of all of his items (besides birthright, active and story items), but he can't have {{Collectible313}}Holy Mantle effect. You can get mantle effect by using {{Card51}}Holy Card but only for current room. After that effect disappears", EID.descriptions["en_us"].birthright[11][3].."#{{ColorRainbow}}Extra effects:#The Lost gets revived with copies of all his items doubled (besides birthright, active and story items), but he can't have {{Collectible313}}Holy Mantle effect. You can get mantle effect by using {{Card51}}Holy Card but only for current room. After that effect disappears"},--Lost
 		{EID.descriptions["en_us"].birthright[14][3],"Spawns 2 mini Isaacs when entering hostile room, 4 - big room#All mini Isaac despawn when going to new level#{{Collectible357}}Box of Friends now duplicates mini Isaacs for current room",EID.descriptions["en_us"].birthright[14][3].."#{{ColorRainbow}}Extra effects:#Spawns 2 mini Isaacs when entering hostile room, 4 - big room#All mini Isaac despawn when going to new level#{{Collectible357}}Box of Friends now duplicates mini Isaacs for current room"},--Lilith
 		{EID.descriptions["en_us"].birthright[15][3],"One item or pickup that costs money is free per level#Shops (and secret rooms) won't have Greed / Super Greed#Shops will spawn in Womb and Corpse",EID.descriptions["en_us"].birthright[15][3].."#{{ColorRainbow}}Extra effects:#One item or pickup that costs money is free per level#Shops (and secret rooms) won't have Greed / Super Greed#Shops will spawn in Womb and Corpse"},--Keeper
 		{EID.descriptions["en_us"].birthright[16][3],"{{Collectible477}}Void becomes pocket active#Voiding passive items with quality higher then 0 will give random extra stat ups#Higher quality items give more stats#Voiding items before picking up Birthright still will give bonus stats, that will be added after pickup it up",EID.descriptions["en_us"].birthright[16][3].."#{{ColorRainbow}}Extra effects:#{{Collectible477}}Void becomes pocket active#Voiding passive items with quality higher then 0 will give random extra stat ups#Higher quality items give more stats#Voiding items before picking up Birthright still will give bonus stats, that will be added after pickup it up"},--Apollyon
-		{EID.descriptions["en_us"].birthright[17][3],"Coming soon", EID.descriptions["en_us"].birthright[17][3].."#Extra effects:{{CR}} Coming soon"},--Forgotten
+		{EID.descriptions["en_us"].birthright[17][3],"Loosing Bone heart will create 6-9 bone orbitals", EID.descriptions["en_us"].birthright[17][3].."#{{ColorRainbow}}Extra effects:#Loosing Bone heart will create from 6 to 9 bone orbitals"},--Forgotten
+		{EID.descriptions["en_us"].birthright[18][3],"Loosing Soul heart will create 1-2 wisps", EID.descriptions["en_us"].birthright[18][3].."#{{ColorRainbow}}Extra effects:#Loosing Soul heart will create 1-2 wisps"},--Soul
 		{EID.descriptions["en_us"].birthright[19][3],"Curses become blessings#100% chance to get a random blessing or curse's opposite", EID.descriptions["en_us"].birthright[19][3].."#{{ColorRainbow}}Extra effects:#Curses become blessings#100% chance to get a random blessing or curse's opposite"},--Bethany
 		{EID.descriptions["en_us"].birthright[20][3],"Esau gives half of his non story passive items to Jacob in exchange for {{Collectible621}}Red Stew", EID.descriptions["en_us"].birthright[20][3].."#{{ColorRainbow}}Extra effects:#Esau gives half of his non story passive items to Jacob in exchange for {{Collectible621}}Red Stew"}, --Jacob
 		{EID.descriptions["en_us"].birthright[21][3],"100% chance for extra reward spawning after clearing room#Only items of quality 2 and 3 will appear# {{DevilRoom}}Devil rooms have flat 50% chance to spawn# {{AngelRoom}}Angel rooms can't appear", EID.descriptions["en_us"].birthright[21][3].."#{{ColorRainbow}}Extra effects:#100% chance for extra reward spawning after clearing room#Only items of quality 2 and 3 will appear# {{DevilRoom}}Devil rooms have flat 50% chance to spawn# {{AngelRoom}}Angel rooms can't appear"}, -- Esau
@@ -97,14 +98,15 @@ mod.EBEIDDesc = {
 		{EID.descriptions["ru"].birthright[6][3],"Получение урона иногда порождает дополнительных мертвых птиц, которые остаются при переходе в другие комнаты", EID.descriptions["ru"].birthright[6][3].."#{{ColorRainbow}}Дополнительные еффекты:#Получение урона иногда порождает дополнительных мертвых птиц, которые остаются при переходе в другие комнаты"},--Eve
 		{EID.descriptions["ru"].birthright[7][3],"{{ArrowUp}} +4 к урону#Получает способность поднимать и кидать объекты", EID.descriptions["ru"].birthright[7][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{ArrowUp}} +4 к урону#Получает способность поднимать и кидать объекты"},--Samson
 		{EID.descriptions["ru"].birthright[8][3],"20% шанс выстрелить в 8 направлениях при получении урона", EID.descriptions["ru"].birthright[8][3].."#{{ColorRainbow}}Дополнительные еффекты:#20% шанс выстрелить в 8 направлениях при получении урона"},--Azazel
-		{EID.descriptions["ru"].birthright[9][3],"Скоро", EID.descriptions["ru"].birthright[9][3].."#{{ColorRainbow}}Дополнительные еффекты:#Скоро"},--Lazarus
-		{EID.descriptions["ru"].birthright[12][3],"Скоро", EID.descriptions["ru"].birthright[12][3].."#{{ColorRainbow}}Дополнительные еффекты:#Скоро"},--Lazarus Risen
+		{EID.descriptions["ru"].birthright[9][3],"Даёт карманный предмет Зов Небес при получении и на новом этаже#Используя Зов Небес Лазарь умрёт и нанесёт урон по врагам в комнате", EID.descriptions["ru"].birthright[9][3].."#{{ColorRainbow}}Дополнительные еффекты:#Даёт карманный предмет Зов Небес при получении и на новом этаже#Используя Зов Небес Лазарь умрёт и нанесёт урон по врагам в комнате"},--Lazarus
+		{EID.descriptions["ru"].birthright[12][3],"Даёт карманный предмет Зов Небес при получении и на новом этаже#Даёт 3 случайных ангельских предмета (которые дают Серафима) и полутрансформацию в Серафима на этаж#Используя Зов Небес даёт 3 случайных ангельских предмета на комнату", EID.descriptions["ru"].birthright[12][3].."#{{ColorRainbow}}Дополнительные еффекты:#Даёт карманный предмет Зов Небес при получении и на новом этаже#Даёт 3 случайных ангельских предмета (которые дают Серафима) и полутрансформацию в Серафима на этаж#Используя Зов Небес даёт 3 случайных ангельских предмета на комнату"},--Lazarus Risen
 		{EID.descriptions["ru"].birthright[10][3],"25% шанс получить эффект случайого пассивного предмета при входе в комнату", EID.descriptions["ru"].birthright[10][3].."#{{ColorRainbow}}Дополнительные еффекты:#25% шанс получить эффект случайого пассивного предмета при входе в комнату"},--Eden
 		{EID.descriptions["ru"].birthright[11][3],"Потерянный возрождается с копиями всех его предметов (кроме права первородства, активных и сюжетных предметов), но у него не может быть эффекта {{Collectible313}}Святой мантии. Вы можете получить эффект мантии, используя {{Card51}}Святую карту, но только для текущей комнаты. После этого эффект исчезает", EID.descriptions["ru"].birthright[11][3].."#{{ColorRainbow}}Дополнительные еффекты:#Потерянный возрождается с копиями всех его предметов (кроме права первородства, активных и сюжетных предметов), но у него не может быть эффекта {{Collectible313}}Святой мантии. Вы можете получить эффект мантии, используя {{Card51}}Святую карту, но только для текущей комнаты. После этого эффект исчезает"},--Lost
 		{EID.descriptions["ru"].birthright[14][3],"Появляются 2 мини Исаака, когда заходите в комнату с врагами, 4 - в большую комнату#Все мини Исааки исчезают при переходе на новый уровень#{{Collectible357}}Коробка с друзьями теперь дублирует мини Исааков в текущей комнате", EID.descriptions["ru"].birthright[14][3].."#{{ColorRainbow}}Дополнительные еффекты:#Появляются 2 мини Исаака, когда заходите в комнату с врагами, 4 - в большую комнату#Все мини Исааки исчезают при переходе на новый уровень#{{Collectible357}}Коробка с друзьями теперь дублирует мини Исааков в текущей комнате"},--Lilith
 		{EID.descriptions["ru"].birthright[15][3],"Один бесплатный предмет или подбираемый предмет на каждом уровене#В магазинах (и секретных комнатах) не будет Жадности / Супер Жадности#Магазины будут появлятся в Матке и Трупе",EID.descriptions["ru"].birthright[15][3].."#{{ColorRainbow}}Дополнительные еффекты:#Один бесплатный предмет или подбираемый предмет на каждом уровене#В магазинах (и секретных комнатах) не будет Жадности / Супер Жадности#Магазины будут появлятся в Матке и Трупе"},--Keeper
 		{EID.descriptions["ru"].birthright[16][3],"{{Collectible477}}Пустота становится карманным предметом#Поглащая пассивные предметы с качеством выше 0 дополнительно увеличиваются случайные характеристики#Предметы с качеством выше 0 дают больше характеристик#Чем выше качество предмета, тем больше характеристик будет добавлено#Поглащая предметы до получения Права первородства всё равно даст бонусные характеристики, которые будут добавлены после его получения",EID.descriptions["ru"].birthright[16][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{Collectible477}}Пустота становится карманным предметом#Поглащая пассивные предметы с качеством выше 0 дополнительно увеличиваются случайные характеристики#Предметы с качеством выше 0 дают больше характеристик#Чем выше качество предмета, тем больше характеристик будет добавлено#Поглащая предметы до получения Права первородства всё равно даст бонусные характеристики, которые будут добавлены после его получения"},--Apollyon
-		{EID.descriptions["ru"].birthright[17][3],"Скоро", EID.descriptions["ru"].birthright[17][3].."#{{ColorRainbow}}Дополнительные еффекты:#Скоро"},--Forgotten
+		{EID.descriptions["ru"].birthright[17][3],"Теряя костяное сердце создает 6-9 орбитальных костей", EID.descriptions["ru"].birthright[17][3].."#{{ColorRainbow}}Дополнительные еффекты:#Теряя костяное сердце создает 6-9 орбитальных костей"},--Forgotten
+		{EID.descriptions["ru"].birthright[18][3],"Теряя синее сердце создает 1-2 виспа", EID.descriptions["ru"].birthright[18][3].."#{{ColorRainbow}}Дополнительные еффекты:#Теряя синее сердце создает 1-2 виспа"},--Soul
 		{EID.descriptions["ru"].birthright[19][3],"Проклятия становятся благословениями#100% шанс получить случайное благословение или противоположное проклятию", EID.descriptions["ru"].birthright[19][3].."#{{ColorRainbow}}Дополнительные еффекты:#Проклятия становятся благословениями#100% шанс получить случайное благословение или противоположное проклятию"},--Bethany
 		{EID.descriptions["ru"].birthright[20][3],"Исав отдает половину своих несюжетных пассивных предметов Якову в обмен на {{Collectible621}}Красною похлёбку",EID.descriptions["ru"].birthright[20][3].."#{{ColorRainbow}}Дополнительные еффекты:#Исав отдает половину своих несюжетных пассивных предметов Якову в обмен на {{Collectible621}}Красною похлёбку"}, -- Jacob
 		{EID.descriptions["ru"].birthright[21][3],"100% шанс появления дополнительной награды после зачистки комнаты#Только предметы качества 2 и 3 будут появляться# {{DevilRoom}}Дьявольские имеют постоянный 50% шанс появления# {{AngelRoom}}Ангельские комнаты не могут появиться", EID.descriptions["ru"].birthright[21][3].."#{{ColorRainbow}}Дополнительные еффекты:#100% шанс появления награды после зачистки комнаты#Только предметы качества 2 и 3 будут появляться# {{DevilRoom}}Дьявольские комнаты имеют постоянный 50% шанс появления# {{AngelRoom}}Ангельские комнаты не могут появиться"}, -- Esau
@@ -144,6 +146,7 @@ SPA = {
 		{EID.descriptions["spa"].birthright[15][3],"Un objeto o recolectable que cueste dinero será gratis por nivel#Las tiendas (y salas secretas) no tendrán a Avaricia ni a Superavaricia, las tiendas aparecerán en la Matriz y el Cadaver",EID.descriptions["spa"].birthright[15][3].."#{{ColorRainbow}}Efecto extra:#Un objeto o recolectable que cueste dinero será gratis por nivel#Las tiendas (y salas secretas) no tendrán a Avaricia ni a Superavaricia, las tiendas aparecerán en la Matriz y el Cadaver"},--Keeper
 		{EID.descriptions["spa"].birthright[16][3],"{{Collectible477}} Vacío se convierte en un activo de bolsillo#Absorber objetos pasivos de calidad mayor a 0 dará aumentos de estadísticas aleatorios#Mayor Calidad = Más aumento de estadísticas",EID.descriptions["spa"].birthright[16][3].."{{ColorRainbow}}#Efecto extra:#{{Collectible477}} Vacío se convierte en un activo de bolsillo# Absorber objetos pasivos de calidad mayor a 0 dará aumentos de estadísticas aleatorios#Mayor Calidad = Más aumento de estadísticas"},--Apollyon
 		{EID.descriptions["spa"].birthright[17][3],"Pronto", EID.descriptions["spa"].birthright[17][3].."#{{ColorRainbow}}Efecto extra:#Pronto"},--Forgotten
+		{EID.descriptions["spa"].birthright[18][3],"Pronto", EID.descriptions["spa"].birthright[18][3].."#{{ColorRainbow}}Efecto extra:#Pronto"},--Soul
 		{EID.descriptions["spa"].birthright[19][3],"Las maldiciones se convierten en bendiciones#100% de posibilidad de tener una bendición o invertir una maldición", EID.descriptions["spa"].birthright[19][3].."#{{ColorRainbow}}:#Las maldiciones se convierten en bendiciones#100% de posibilidad de tener una bendición o invertir una maldición"},--Bethany
 		{EID.descriptions["spa"].birthright[20][3],"Esaú dará la mitad de sus objetos (no relacionados a la historia) a cambio del {{Collectible621}} Guisado Rojo", EID.descriptions["spa"].birthright[20][3].."#{{ColorRainbow}}Efecto extra:#Esaú dará la mitad de sus objetos (no relacionados a la historia) a cambio del {{Collectible621}} Guisado Rojo"}, -- Jacob
 		{EID.descriptions["spa"].birthright[21][3],"100% de posibilidad una recompensa extra al limpiar una sala#Sólo podrán aparecer objetos de calidad {{Quality2}} o {{Quality3}}#{{DevilChance}} La posibilidad de pacto con el Diablo se fijará en 50%#{{AngelChance}} Las Salas de Ángel no podrán aparecer", EID.descriptions["spa"].birthright[21][3].."#{{ColorRainbow}}Efecto extra:#100% de posibilidad una recompensa extra al limpiar una sala#Sólo podrán aparecer objetos de calidad {{Quality2}} o {{Quality3}}#{{DevilChance}} La posibilidad de pacto con el Diablo se fijará en 50%#{{AngelChance}} Las Salas de Ángel no podrán aparecer"}, -- Esau
@@ -171,9 +174,9 @@ end
 function mod:BirthrightDesc()
 	if EID then
 		local EsauName = EID:getDescriptionEntry("birthright", PlayerType.PLAYER_ESAU+1)[1] or "Esau"
-		local JandE_EN_EID = mod.EBEIDDesc.EN[19][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.EN[20][mod.MCMOption.Settings["Esau"]]
-		local JandE_RU_EID = mod.EBEIDDesc.RU[19][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.RU[20][mod.MCMOption.Settings["Esau"]]
-		local JandE_SPA_EID = mod.EBEIDDesc.SPA[19][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.SPA[20][mod.MCMOption.Settings["Esau"]]
+		local JandE_EN_EID = mod.EBEIDDesc.EN[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.EN[20][mod.MCMOption.Settings["Esau"]]
+		local JandE_RU_EID = mod.EBEIDDesc.RU[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.RU[20][mod.MCMOption.Settings["Esau"]]
+		local JandE_SPA_EID = mod.EBEIDDesc.SPA[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.SPA[20][mod.MCMOption.Settings["Esau"]]
 		EID:addBirthright(PlayerType.PLAYER_ISAAC, mod.EBEIDDesc.EN[1][mod.MCMOption.Settings["Isaac"]])
 		EID:addBirthright(PlayerType.PLAYER_MAGDALENA, mod.EBEIDDesc.EN[2][mod.MCMOption.Settings["Magdalene"]])
 		EID:addBirthright(PlayerType.PLAYER_CAIN, mod.EBEIDDesc.EN[3][mod.MCMOption.Settings["Cain"]])
@@ -191,30 +194,30 @@ function mod:BirthrightDesc()
 		EID:addBirthright(PlayerType.PLAYER_KEEPER, mod.EBEIDDesc.EN[15][mod.MCMOption.Settings["Keeper"]])
 		EID:addBirthright(PlayerType.PLAYER_APOLLYON, mod.EBEIDDesc.EN[16][mod.MCMOption.Settings["Apollyon"]])
 		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN, mod.EBEIDDesc.EN[17][mod.MCMOption.Settings["The Forgotten"]])
-		EID:addBirthright(PlayerType.PLAYER_THESOUL, mod.EBEIDDesc.EN[17][mod.MCMOption.Settings["The Forgotten"]])
-		EID:addBirthright(PlayerType.PLAYER_BETHANY, mod.EBEIDDesc.EN[18][mod.MCMOption.Settings["Bethany"]])
+		EID:addBirthright(PlayerType.PLAYER_THESOUL, mod.EBEIDDesc.EN[18][mod.MCMOption.Settings["The Soul"]])
+		EID:addBirthright(PlayerType.PLAYER_BETHANY, mod.EBEIDDesc.EN[19][mod.MCMOption.Settings["Bethany"]])
 		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_EN_EID)
-		EID:addBirthright(PlayerType.PLAYER_ESAU, mod.EBEIDDesc.EN[20][mod.MCMOption.Settings["Esau"]])
-		EID:addBirthright(PlayerType.PLAYER_ISAAC_B, mod.EBEIDDesc.EN[21][mod.MCMOption.Settings["Tainted Isaac"]])
-		EID:addBirthright(PlayerType.PLAYER_MAGDALENA_B, mod.EBEIDDesc.EN[22][mod.MCMOption.Settings["Tainted Magdalene"]])
-		EID:addBirthright(PlayerType.PLAYER_CAIN_B, mod.EBEIDDesc.EN[23][mod.MCMOption.Settings["Tainted Cain"]])
-		EID:addBirthright(PlayerType.PLAYER_JUDAS_B, mod.EBEIDDesc.EN[24][mod.MCMOption.Settings["Tainted Judas"]])
-		EID:addBirthright(PlayerType.PLAYER_XXX_B, mod.EBEIDDesc.EN[25][mod.MCMOption.Settings["Tainted Blue Baby"]])
-		EID:addBirthright(PlayerType.PLAYER_EVE_B, mod.EBEIDDesc.EN[26][mod.MCMOption.Settings["Tainted Eve"]])
-		EID:addBirthright(PlayerType.PLAYER_SAMSON_B, mod.EBEIDDesc.EN[27][mod.MCMOption.Settings["Tainted Samson"]])
-		EID:addBirthright(PlayerType.PLAYER_AZAZEL_B, mod.EBEIDDesc.EN[28][mod.MCMOption.Settings["Tainted Azazel"]])
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS_B, mod.EBEIDDesc.EN[29][mod.MCMOption.Settings["Tainted Lazarus"]])
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.EN[29][mod.MCMOption.Settings["Tainted Lazarus"]])
-		EID:addBirthright(PlayerType.PLAYER_EDEN_B, mod.EBEIDDesc.EN[30][mod.MCMOption.Settings["Tainted Eden"]])
-		EID:addBirthright(PlayerType.PLAYER_THELOST_B, mod.EBEIDDesc.EN[31][mod.MCMOption.Settings["Tainted Lost"]])
-		EID:addBirthright(PlayerType.PLAYER_LILITH_B, mod.EBEIDDesc.EN[32][mod.MCMOption.Settings["Tainted Lilith"]])
-		EID:addBirthright(PlayerType.PLAYER_KEEPER_B, mod.EBEIDDesc.EN[33][mod.MCMOption.Settings["Tainted Keeper"]])
-		EID:addBirthright(PlayerType.PLAYER_APOLLYON_B, mod.EBEIDDesc.EN[34][mod.MCMOption.Settings["Tainted Apollyon"]])
-		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN_B, mod.EBEIDDesc.EN[35][mod.MCMOption.Settings["Tainted Forgotten"]])
-		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.EN[35][mod.MCMOption.Settings["Tainted Forgotten"]])
-		EID:addBirthright(PlayerType.PLAYER_BETHANY_B, mod.EBEIDDesc.EN[36][mod.MCMOption.Settings["Tainted Bethany"]])
-		EID:addBirthright(PlayerType.PLAYER_JACOB_B, mod.EBEIDDesc.EN[37][mod.MCMOption.Settings["Tainted Jacob"]])
-		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.EN[37][mod.MCMOption.Settings["Tainted Jacob"]])
+		EID:addBirthright(PlayerType.PLAYER_ESAU, mod.EBEIDDesc.EN[21][mod.MCMOption.Settings["Esau"]])
+		EID:addBirthright(PlayerType.PLAYER_ISAAC_B, mod.EBEIDDesc.EN[22][mod.MCMOption.Settings["Tainted Isaac"]])
+		EID:addBirthright(PlayerType.PLAYER_MAGDALENA_B, mod.EBEIDDesc.EN[23][mod.MCMOption.Settings["Tainted Magdalene"]])
+		EID:addBirthright(PlayerType.PLAYER_CAIN_B, mod.EBEIDDesc.EN[24][mod.MCMOption.Settings["Tainted Cain"]])
+		EID:addBirthright(PlayerType.PLAYER_JUDAS_B, mod.EBEIDDesc.EN[25][mod.MCMOption.Settings["Tainted Judas"]])
+		EID:addBirthright(PlayerType.PLAYER_XXX_B, mod.EBEIDDesc.EN[26][mod.MCMOption.Settings["Tainted Blue Baby"]])
+		EID:addBirthright(PlayerType.PLAYER_EVE_B, mod.EBEIDDesc.EN[27][mod.MCMOption.Settings["Tainted Eve"]])
+		EID:addBirthright(PlayerType.PLAYER_SAMSON_B, mod.EBEIDDesc.EN[28][mod.MCMOption.Settings["Tainted Samson"]])
+		EID:addBirthright(PlayerType.PLAYER_AZAZEL_B, mod.EBEIDDesc.EN[29][mod.MCMOption.Settings["Tainted Azazel"]])
+		EID:addBirthright(PlayerType.PLAYER_LAZARUS_B, mod.EBEIDDesc.EN[30][mod.MCMOption.Settings["Tainted Lazarus"]])
+		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.EN[30][mod.MCMOption.Settings["Tainted Lazarus"]])
+		EID:addBirthright(PlayerType.PLAYER_EDEN_B, mod.EBEIDDesc.EN[31][mod.MCMOption.Settings["Tainted Eden"]])
+		EID:addBirthright(PlayerType.PLAYER_THELOST_B, mod.EBEIDDesc.EN[32][mod.MCMOption.Settings["Tainted Lost"]])
+		EID:addBirthright(PlayerType.PLAYER_LILITH_B, mod.EBEIDDesc.EN[33][mod.MCMOption.Settings["Tainted Lilith"]])
+		EID:addBirthright(PlayerType.PLAYER_KEEPER_B, mod.EBEIDDesc.EN[34][mod.MCMOption.Settings["Tainted Keeper"]])
+		EID:addBirthright(PlayerType.PLAYER_APOLLYON_B, mod.EBEIDDesc.EN[35][mod.MCMOption.Settings["Tainted Apollyon"]])
+		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN_B, mod.EBEIDDesc.EN[36][mod.MCMOption.Settings["Tainted Forgotten"]])
+		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.EN[36][mod.MCMOption.Settings["Tainted Forgotten"]])
+		EID:addBirthright(PlayerType.PLAYER_BETHANY_B, mod.EBEIDDesc.EN[37][mod.MCMOption.Settings["Tainted Bethany"]])
+		EID:addBirthright(PlayerType.PLAYER_JACOB_B, mod.EBEIDDesc.EN[38][mod.MCMOption.Settings["Tainted Jacob"]])
+		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.EN[38][mod.MCMOption.Settings["Tainted Jacob"]])
 
 		EID:addBirthright(PlayerType.PLAYER_ISAAC, mod.EBEIDDesc.RU[1][mod.MCMOption.Settings["Isaac"]],EID.descriptions["ru"].birthright[1][1],"ru")
 		EID:addBirthright(PlayerType.PLAYER_MAGDALENA, mod.EBEIDDesc.RU[2][mod.MCMOption.Settings["Magdalene"]],EID.descriptions["ru"].birthright[2][1],"ru")
@@ -233,30 +236,30 @@ function mod:BirthrightDesc()
 		EID:addBirthright(PlayerType.PLAYER_KEEPER, mod.EBEIDDesc.RU[15][mod.MCMOption.Settings["Keeper"]],EID.descriptions["ru"].birthright[15][1],"ru")
 		EID:addBirthright(PlayerType.PLAYER_APOLLYON, mod.EBEIDDesc.RU[16][mod.MCMOption.Settings["Apollyon"]],EID.descriptions["ru"].birthright[16][1],"ru")
 		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN, mod.EBEIDDesc.RU[17][mod.MCMOption.Settings["The Forgotten"]],EID.descriptions["ru"].birthright[17][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_THESOUL, mod.EBEIDDesc.RU[17][mod.MCMOption.Settings["The Forgotten"]],EID.descriptions["ru"].birthright[18][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_BETHANY, mod.EBEIDDesc.RU[18][mod.MCMOption.Settings["Bethany"]],EID.descriptions["ru"].birthright[1][19],"ru")
+		EID:addBirthright(PlayerType.PLAYER_THESOUL, mod.EBEIDDesc.RU[18][mod.MCMOption.Settings["The Soul"]],EID.descriptions["ru"].birthright[18][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_BETHANY, mod.EBEIDDesc.RU[19][mod.MCMOption.Settings["Bethany"]],EID.descriptions["ru"].birthright[1][19],"ru")
 		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_RU_EID,EID.descriptions["ru"].birthright[20][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_ESAU, mod.EBEIDDesc.RU[20][mod.MCMOption.Settings["Esau"]],EID.descriptions["ru"].birthright[21][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_ISAAC_B, mod.EBEIDDesc.RU[21][mod.MCMOption.Settings["Tainted Isaac"]],EID.descriptions["ru"].birthright[22][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_MAGDALENA_B, mod.EBEIDDesc.RU[22][mod.MCMOption.Settings["Tainted Magdalene"]],EID.descriptions["ru"].birthright[23][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_CAIN_B, mod.EBEIDDesc.RU[23][mod.MCMOption.Settings["Tainted Cain"]],EID.descriptions["ru"].birthright[24][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_JUDAS_B, mod.EBEIDDesc.RU[24][mod.MCMOption.Settings["Tainted Judas"]],EID.descriptions["ru"].birthright[25][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_XXX_B, mod.EBEIDDesc.RU[25][mod.MCMOption.Settings["Tainted Blue Baby"]],EID.descriptions["ru"].birthright[26][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_EVE_B, mod.EBEIDDesc.RU[26][mod.MCMOption.Settings["Tainted Eve"]],EID.descriptions["ru"].birthright[27][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_SAMSON_B, mod.EBEIDDesc.RU[27][mod.MCMOption.Settings["Tainted Samson"]],EID.descriptions["ru"].birthright[28][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_AZAZEL_B, mod.EBEIDDesc.RU[28][mod.MCMOption.Settings["Tainted Azazel"]],EID.descriptions["ru"].birthright[29][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS_B, mod.EBEIDDesc.RU[29][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["ru"].birthright[30][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.RU[29][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["ru"].birthright[39][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_EDEN_B, mod.EBEIDDesc.RU[30][mod.MCMOption.Settings["Tainted Eden"]],EID.descriptions["ru"].birthright[31][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_THELOST_B, mod.EBEIDDesc.RU[31][mod.MCMOption.Settings["Tainted Lost"]],EID.descriptions["ru"].birthright[32][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_LILITH_B, mod.EBEIDDesc.RU[32][mod.MCMOption.Settings["Tainted Lilith"]],EID.descriptions["ru"].birthright[33][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_KEEPER_B, mod.EBEIDDesc.RU[33][mod.MCMOption.Settings["Tainted Keeper"]],EID.descriptions["ru"].birthright[34][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_APOLLYON_B, mod.EBEIDDesc.RU[34][mod.MCMOption.Settings["Tainted Apollyon"]],EID.descriptions["ru"].birthright[35][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN_B, mod.EBEIDDesc.RU[35][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["ru"].birthright[36][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.RU[35][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["ru"].birthright[41][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_BETHANY_B, mod.EBEIDDesc.RU[36][mod.MCMOption.Settings["Tainted Bethany"]],EID.descriptions["ru"].birthright[37][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_JACOB_B, mod.EBEIDDesc.RU[37][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["ru"].birthright[38][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.RU[37][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["ru"].birthright[39][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_ESAU, mod.EBEIDDesc.RU[21][mod.MCMOption.Settings["Esau"]],EID.descriptions["ru"].birthright[21][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_ISAAC_B, mod.EBEIDDesc.RU[22][mod.MCMOption.Settings["Tainted Isaac"]],EID.descriptions["ru"].birthright[22][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_MAGDALENA_B, mod.EBEIDDesc.RU[23][mod.MCMOption.Settings["Tainted Magdalene"]],EID.descriptions["ru"].birthright[23][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_CAIN_B, mod.EBEIDDesc.RU[24][mod.MCMOption.Settings["Tainted Cain"]],EID.descriptions["ru"].birthright[24][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_JUDAS_B, mod.EBEIDDesc.RU[25][mod.MCMOption.Settings["Tainted Judas"]],EID.descriptions["ru"].birthright[25][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_XXX_B, mod.EBEIDDesc.RU[26][mod.MCMOption.Settings["Tainted Blue Baby"]],EID.descriptions["ru"].birthright[26][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_EVE_B, mod.EBEIDDesc.RU[27][mod.MCMOption.Settings["Tainted Eve"]],EID.descriptions["ru"].birthright[27][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_SAMSON_B, mod.EBEIDDesc.RU[28][mod.MCMOption.Settings["Tainted Samson"]],EID.descriptions["ru"].birthright[28][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_AZAZEL_B, mod.EBEIDDesc.RU[29][mod.MCMOption.Settings["Tainted Azazel"]],EID.descriptions["ru"].birthright[29][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_LAZARUS_B, mod.EBEIDDesc.RU[30][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["ru"].birthright[30][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.RU[30][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["ru"].birthright[39][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_EDEN_B, mod.EBEIDDesc.RU[31][mod.MCMOption.Settings["Tainted Eden"]],EID.descriptions["ru"].birthright[31][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_THELOST_B, mod.EBEIDDesc.RU[32][mod.MCMOption.Settings["Tainted Lost"]],EID.descriptions["ru"].birthright[32][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_LILITH_B, mod.EBEIDDesc.RU[33][mod.MCMOption.Settings["Tainted Lilith"]],EID.descriptions["ru"].birthright[33][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_KEEPER_B, mod.EBEIDDesc.RU[34][mod.MCMOption.Settings["Tainted Keeper"]],EID.descriptions["ru"].birthright[34][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_APOLLYON_B, mod.EBEIDDesc.RU[35][mod.MCMOption.Settings["Tainted Apollyon"]],EID.descriptions["ru"].birthright[35][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN_B, mod.EBEIDDesc.RU[36][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["ru"].birthright[36][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.RU[36][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["ru"].birthright[41][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_BETHANY_B, mod.EBEIDDesc.RU[37][mod.MCMOption.Settings["Tainted Bethany"]],EID.descriptions["ru"].birthright[37][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_JACOB_B, mod.EBEIDDesc.RU[38][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["ru"].birthright[38][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.RU[38][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["ru"].birthright[39][1],"ru")
 
 		EID:addBirthright(PlayerType.PLAYER_ISAAC, mod.EBEIDDesc.SPA[1][mod.MCMOption.Settings["Isaac"]],EID.descriptions["spa"].birthright[1][1],"spa")
 		EID:addBirthright(PlayerType.PLAYER_MAGDALENA, mod.EBEIDDesc.SPA[2][mod.MCMOption.Settings["Magdalene"]],EID.descriptions["spa"].birthright[2][1],"spa")
@@ -276,29 +279,29 @@ function mod:BirthrightDesc()
 		EID:addBirthright(PlayerType.PLAYER_APOLLYON, mod.EBEIDDesc.SPA[16][mod.MCMOption.Settings["Apollyon"]],EID.descriptions["spa"].birthright[16][1],"spa")
 		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN, mod.EBEIDDesc.SPA[17][mod.MCMOption.Settings["The Forgotten"]],EID.descriptions["spa"].birthright[17][1],"spa")
 		EID:addBirthright(PlayerType.PLAYER_THESOUL, mod.EBEIDDesc.SPA[17][mod.MCMOption.Settings["The Forgotten"]],EID.descriptions["spa"].birthright[18][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_BETHANY, mod.EBEIDDesc.SPA[18][mod.MCMOption.Settings["Bethany"]],EID.descriptions["spa"].birthright[1][19],"spa")
+		EID:addBirthright(PlayerType.PLAYER_BETHANY, mod.EBEIDDesc.SPA[19][mod.MCMOption.Settings["Bethany"]],EID.descriptions["spa"].birthright[1][19],"spa")
 		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_SPA_EID,EID.descriptions["spa"].birthright[20][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_ESAU, mod.EBEIDDesc.SPA[20][mod.MCMOption.Settings["Esau"]],EID.descriptions["spa"].birthright[21][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_ISAAC_B, mod.EBEIDDesc.SPA[21][mod.MCMOption.Settings["Tainted Isaac"]],EID.descriptions["spa"].birthright[22][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_MAGDALENA_B, mod.EBEIDDesc.SPA[22][mod.MCMOption.Settings["Tainted Magdalene"]],EID.descriptions["spa"].birthright[23][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_CAIN_B, mod.EBEIDDesc.SPA[23][mod.MCMOption.Settings["Tainted Cain"]],EID.descriptions["spa"].birthright[24][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_JUDAS_B, mod.EBEIDDesc.SPA[24][mod.MCMOption.Settings["Tainted Judas"]],EID.descriptions["spa"].birthright[25][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_XXX_B, mod.EBEIDDesc.SPA[25][mod.MCMOption.Settings["Tainted Blue Baby"]],EID.descriptions["spa"].birthright[26][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_EVE_B, mod.EBEIDDesc.SPA[26][mod.MCMOption.Settings["Tainted Eve"]],EID.descriptions["spa"].birthright[27][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_SAMSON_B, mod.EBEIDDesc.SPA[27][mod.MCMOption.Settings["Tainted Samson"]],EID.descriptions["spa"].birthright[28][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_AZAZEL_B, mod.EBEIDDesc.SPA[28][mod.MCMOption.Settings["Tainted Azazel"]],EID.descriptions["spa"].birthright[29][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS_B, mod.EBEIDDesc.SPA[29][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["spa"].birthright[30][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.SPA[29][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["spa"].birthright[39][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_EDEN_B, mod.EBEIDDesc.SPA[30][mod.MCMOption.Settings["Tainted Eden"]],EID.descriptions["spa"].birthright[31][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_THELOST_B, mod.EBEIDDesc.SPA[31][mod.MCMOption.Settings["Tainted Lost"]],EID.descriptions["spa"].birthright[32][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_LILITH_B, mod.EBEIDDesc.SPA[32][mod.MCMOption.Settings["Tainted Lilith"]],EID.descriptions["spa"].birthright[33][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_KEEPER_B, mod.EBEIDDesc.SPA[33][mod.MCMOption.Settings["Tainted Keeper"]],EID.descriptions["spa"].birthright[34][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_APOLLYON_B, mod.EBEIDDesc.SPA[34][mod.MCMOption.Settings["Tainted Apollyon"]],EID.descriptions["spa"].birthright[35][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN_B, mod.EBEIDDesc.SPA[35][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["spa"].birthright[36][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.SPA[35][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["spa"].birthright[41][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_BETHANY_B, mod.EBEIDDesc.SPA[36][mod.MCMOption.Settings["Tainted Bethany"]],EID.descriptions["spa"].birthright[37][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_JACOB_B, mod.EBEIDDesc.SPA[37][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["spa"].birthright[38][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.SPA[37][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["spa"].birthright[39][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_ESAU, mod.EBEIDDesc.SPA[21][mod.MCMOption.Settings["Esau"]],EID.descriptions["spa"].birthright[21][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_ISAAC_B, mod.EBEIDDesc.SPA[22][mod.MCMOption.Settings["Tainted Isaac"]],EID.descriptions["spa"].birthright[22][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_MAGDALENA_B, mod.EBEIDDesc.SPA[23][mod.MCMOption.Settings["Tainted Magdalene"]],EID.descriptions["spa"].birthright[23][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_CAIN_B, mod.EBEIDDesc.SPA[24][mod.MCMOption.Settings["Tainted Cain"]],EID.descriptions["spa"].birthright[24][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_JUDAS_B, mod.EBEIDDesc.SPA[25][mod.MCMOption.Settings["Tainted Judas"]],EID.descriptions["spa"].birthright[25][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_XXX_B, mod.EBEIDDesc.SPA[26][mod.MCMOption.Settings["Tainted Blue Baby"]],EID.descriptions["spa"].birthright[26][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_EVE_B, mod.EBEIDDesc.SPA[27][mod.MCMOption.Settings["Tainted Eve"]],EID.descriptions["spa"].birthright[27][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_SAMSON_B, mod.EBEIDDesc.SPA[28][mod.MCMOption.Settings["Tainted Samson"]],EID.descriptions["spa"].birthright[28][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_AZAZEL_B, mod.EBEIDDesc.SPA[29][mod.MCMOption.Settings["Tainted Azazel"]],EID.descriptions["spa"].birthright[29][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_LAZARUS_B, mod.EBEIDDesc.SPA[30][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["spa"].birthright[30][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.SPA[30][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["spa"].birthright[39][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_EDEN_B, mod.EBEIDDesc.SPA[31][mod.MCMOption.Settings["Tainted Eden"]],EID.descriptions["spa"].birthright[31][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_THELOST_B, mod.EBEIDDesc.SPA[32][mod.MCMOption.Settings["Tainted Lost"]],EID.descriptions["spa"].birthright[32][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_LILITH_B, mod.EBEIDDesc.SPA[33][mod.MCMOption.Settings["Tainted Lilith"]],EID.descriptions["spa"].birthright[33][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_KEEPER_B, mod.EBEIDDesc.SPA[34][mod.MCMOption.Settings["Tainted Keeper"]],EID.descriptions["spa"].birthright[34][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_APOLLYON_B, mod.EBEIDDesc.SPA[35][mod.MCMOption.Settings["Tainted Apollyon"]],EID.descriptions["spa"].birthright[35][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_THEFORGOTTEN_B, mod.EBEIDDesc.SPA[36][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["spa"].birthright[36][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.SPA[36][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["spa"].birthright[41][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_BETHANY_B, mod.EBEIDDesc.SPA[37][mod.MCMOption.Settings["Tainted Bethany"]],EID.descriptions["spa"].birthright[37][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_JACOB_B, mod.EBEIDDesc.SPA[38][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["spa"].birthright[38][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.SPA[38][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["spa"].birthright[39][1],"spa")
 
 		local stringEN,stringRU,stringSPA = {}, {}, {}
 		for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
@@ -323,30 +326,30 @@ function mod:BirthrightDesc()
 				elseif playerID == PlayerType.PLAYER_KEEPER then i,j,name =15,mod.MCMOption.Settings["Keeper"],15
 				elseif playerID == PlayerType.PLAYER_APOLLYON then i,j,name =16,mod.MCMOption.Settings["Apollyon"],16
 				elseif playerID == PlayerType.PLAYER_THEFORGOTTEN then i,j,name =17,mod.MCMOption.Settings["The Forgotten"],17
-				elseif playerID == PlayerType.PLAYER_THESOUL then i,j,name =17,mod.MCMOption.Settings["The Forgotten"],18
-				elseif playerID == PlayerType.PLAYER_BETHANY then i,j,name =18,mod.MCMOption.Settings["Bethany"],19
-				elseif playerID == PlayerType.PLAYER_JACOB then i,j,name =19,mod.MCMOption.Settings["Jacob"],20
-				elseif playerID == PlayerType.PLAYER_ESAU then i,j,name =20,mod.MCMOption.Settings["Esau"],21
-				elseif playerID == PlayerType.PLAYER_ISAAC_B then i,j,name =21,mod.MCMOption.Settings["Tainted Isaac"],22
-				elseif playerID == PlayerType.PLAYER_MAGDALENA_B then i,j,name =22,mod.MCMOption.Settings["Tainted Magdalene"],23
-				elseif playerID == PlayerType.PLAYER_CAIN_B then i,j,name =23,mod.MCMOption.Settings["Tainted Cain"],24
-				elseif playerID == PlayerType.PLAYER_JUDAS_B then i,j,name =24,mod.MCMOption.Settings["Tainted Judas"],25
-				elseif playerID == PlayerType.PLAYER_XXX_B then i,j,name =25,mod.MCMOption.Settings["Tainted Blue Baby"],26
-				elseif playerID == PlayerType.PLAYER_EVE_B then i,j,name =26,mod.MCMOption.Settings["Tainted Eve"],27
-				elseif playerID == PlayerType.PLAYER_SAMSON_B then i,j,name =27,mod.MCMOption.Settings["Tainted Samson"],28
-				elseif playerID == PlayerType.PLAYER_AZAZEL_B then i,j,name =28,mod.MCMOption.Settings["Tainted Azazel"],39
-				elseif playerID == PlayerType.PLAYER_LAZARUS_B then i,j,name =29,mod.MCMOption.Settings["Tainted Lazarus"],30
-				elseif playerID == PlayerType.PLAYER_LAZARUS2_B then i,j,name =29,mod.MCMOption.Settings["Tainted Lazarus"],39
-				elseif playerID == PlayerType.PLAYER_EDEN_B then i,j,name =30,mod.MCMOption.Settings["Tainted Eden"],31
-				elseif playerID == PlayerType.PLAYER_THELOST_B then i,j,name =31,mod.MCMOption.Settings["Tainted Lost"],32
-				elseif playerID == PlayerType.PLAYER_LILITH_B then i,j,name =32,mod.MCMOption.Settings["Tainted Lilith"],33
-				elseif playerID == PlayerType.PLAYER_KEEPER_B then i,j,name =33,mod.MCMOption.Settings["Tainted Apollyon"],34
-				elseif playerID == PlayerType.PLAYER_APOLLYON_B then i,j,name = 34,mod.MCMOption.Settings["Tainted Apollyon"],35
-				elseif playerID == PlayerType.PLAYER_THEFORGOTTEN_B then i,j,name =35,mod.MCMOption.Settings["Tainted Forgotten"],36
-				elseif playerID == PlayerType.PLAYER_THESOUL_B then i,j,name =35,mod.MCMOption.Settings["Tainted Forgotten"],41
-				elseif playerID == PlayerType.PLAYER_BETHANY_B then i,j,name =36,mod.MCMOption.Settings["Tainted Bethany"],37
-				elseif playerID == PlayerType.PLAYER_JACOB_B then i,j,name = 37,mod.MCMOption.Settings["Tainted Jacob"],38
-				elseif playerID == PlayerType.PLAYER_JACOB2_B then i,j,name = 37,mod.MCMOption.Settings["Tainted Jacob"],39 end
+				elseif playerID == PlayerType.PLAYER_THESOUL then i,j,name =18,mod.MCMOption.Settings["The Soul"],18
+				elseif playerID == PlayerType.PLAYER_BETHANY then i,j,name =19,mod.MCMOption.Settings["Bethany"],19
+				elseif playerID == PlayerType.PLAYER_JACOB then i,j,name =20,mod.MCMOption.Settings["Jacob"],20
+				elseif playerID == PlayerType.PLAYER_ESAU then i,j,name =21,mod.MCMOption.Settings["Esau"],21
+				elseif playerID == PlayerType.PLAYER_ISAAC_B then i,j,name =22,mod.MCMOption.Settings["Tainted Isaac"],22
+				elseif playerID == PlayerType.PLAYER_MAGDALENA_B then i,j,name =23,mod.MCMOption.Settings["Tainted Magdalene"],23
+				elseif playerID == PlayerType.PLAYER_CAIN_B then i,j,name =24,mod.MCMOption.Settings["Tainted Cain"],24
+				elseif playerID == PlayerType.PLAYER_JUDAS_B then i,j,name =25,mod.MCMOption.Settings["Tainted Judas"],25
+				elseif playerID == PlayerType.PLAYER_XXX_B then i,j,name =26,mod.MCMOption.Settings["Tainted Blue Baby"],26
+				elseif playerID == PlayerType.PLAYER_EVE_B then i,j,name =27,mod.MCMOption.Settings["Tainted Eve"],27
+				elseif playerID == PlayerType.PLAYER_SAMSON_B then i,j,name =28,mod.MCMOption.Settings["Tainted Samson"],28
+				elseif playerID == PlayerType.PLAYER_AZAZEL_B then i,j,name =29,mod.MCMOption.Settings["Tainted Azazel"],39
+				elseif playerID == PlayerType.PLAYER_LAZARUS_B then i,j,name =30,mod.MCMOption.Settings["Tainted Lazarus"],30
+				elseif playerID == PlayerType.PLAYER_LAZARUS2_B then i,j,name =30,mod.MCMOption.Settings["Tainted Lazarus"],39
+				elseif playerID == PlayerType.PLAYER_EDEN_B then i,j,name =31,mod.MCMOption.Settings["Tainted Eden"],31
+				elseif playerID == PlayerType.PLAYER_THELOST_B then i,j,name =32,mod.MCMOption.Settings["Tainted Lost"],32
+				elseif playerID == PlayerType.PLAYER_LILITH_B then i,j,name =33,mod.MCMOption.Settings["Tainted Lilith"],33
+				elseif playerID == PlayerType.PLAYER_KEEPER_B then i,j,name =34,mod.MCMOption.Settings["Tainted Apollyon"],34
+				elseif playerID == PlayerType.PLAYER_APOLLYON_B then i,j,name = 35,mod.MCMOption.Settings["Tainted Apollyon"],35
+				elseif playerID == PlayerType.PLAYER_THEFORGOTTEN_B then i,j,name =36,mod.MCMOption.Settings["Tainted Forgotten"],36
+				elseif playerID == PlayerType.PLAYER_THESOUL_B then i,j,name =36,mod.MCMOption.Settings["Tainted Forgotten"],41
+				elseif playerID == PlayerType.PLAYER_BETHANY_B then i,j,name =37,mod.MCMOption.Settings["Tainted Bethany"],37
+				elseif playerID == PlayerType.PLAYER_JACOB_B then i,j,name = 38,mod.MCMOption.Settings["Tainted Jacob"],38
+				elseif playerID == PlayerType.PLAYER_JACOB2_B then i,j,name = 38,mod.MCMOption.Settings["Tainted Jacob"],39 end
 				local birthrightDesc = EID:getDescriptionEntry("birthright", playerID+1)
 				local playerName = birthrightDesc[1] or player:GetName()
 				local icon = EID:getIcon("Player"..playerID) ~= EID.InlineIcons["ERROR"] and "{{Player"..playerID.."}}" or "{{CustomTransformation}}"
@@ -356,7 +359,7 @@ function mod:BirthrightDesc()
 			end
 		end
 		local longStringEN,longStringRU,longStringSPA = "","",""
-		for i = 1,37 do
+		for i = 1,38 do
 			if stringEN[i] then
 				longStringEN = longStringEN..stringEN[i]
 				longStringRU = longStringRU..stringRU[i]

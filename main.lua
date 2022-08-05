@@ -60,6 +60,7 @@ include("scripts/characters/normal/lilith.lua")
 include("scripts/characters/normal/keeper.lua")
 include("scripts/characters/normal/apollyon.lua")
 include("scripts/characters/normal/forgotten.lua")
+include("scripts/characters/normal/soul.lua")
 include("scripts/characters/normal/bethany.lua")
 include("scripts/characters/normal/esau.lua")
 include("scripts/characters/tainted/isaac.lua")
@@ -239,7 +240,8 @@ function mod:BirthrightChange(pickup)
 		player:GetPlayerType() == PlayerType.PLAYER_LILITH and mod.MCMOption.Settings["Lilith"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] == 2 or
-		(player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN or player:GetPlayerType() == PlayerType.PLAYER_THESOUL) and mod.MCMOption.Settings["The Forgotten"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and mod.MCMOption.Settings["The Forgotten"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_THESOUL and mod.MCMOption.Settings["The Soul"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_BETHANY and mod.MCMOption.Settings["Bethany"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] == 2 or
@@ -298,7 +300,8 @@ function mod:CheckBirthrightAll(player)
 	ptype == PlayerType.PLAYER_LILITH and mod.MCMOption.Settings["Lilith"] == 2 or
 	ptype == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or
 	ptype == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] == 2 or
-	(ptype == PlayerType.PLAYER_THEFORGOTTEN or ptype == PlayerType.PLAYER_THESOUL) and mod.MCMOption.Settings["The Forgotten"] == 2 or
+	ptype == PlayerType.PLAYER_THEFORGOTTEN and mod.MCMOption.Settings["The Forgotten"] == 2 or
+	ptype == PlayerType.PLAYER_THESOUL and mod.MCMOption.Settings["The Soul"] == 2 or
 	ptype == PlayerType.PLAYER_BETHANY and mod.MCMOption.Settings["Bethany"] == 2 or
 	ptype == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] == 2 or
 	ptype == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] == 2 or
@@ -350,27 +353,28 @@ function mod:CheckBirthrightAll(player)
 			elseif ptype == PlayerType.PLAYER_LILITH then charName = 14
 			elseif ptype == PlayerType.PLAYER_KEEPER then charName = 15
 			elseif ptype == PlayerType.PLAYER_APOLLYON then charName = 16
-			elseif (ptype == PlayerType.PLAYER_THEFORGOTTEN or ptype == PlayerType.PLAYER_THESOUL) then charName = 17
-			elseif ptype == PlayerType.PLAYER_BETHANY then charName = 18
-			elseif ptype == PlayerType.PLAYER_JACOB then charName = 19
-			elseif ptype == PlayerType.PLAYER_ESAU then charName = 20
-			elseif ptype == PlayerType.PLAYER_ISAAC_B then charName = 21
-			elseif ptype == PlayerType.PLAYER_MAGDALENA_B then charName = 22
-			elseif ptype == PlayerType.PLAYER_CAIN_B then charName = 23
-			elseif ptype == PlayerType.PLAYER_JUDAS_B then charName = 24
-			elseif ptype == PlayerType.PLAYER_XXX_B then charName = 25
-			elseif ptype == PlayerType.PLAYER_EVE_B then charName = 26
-			elseif ptype == PlayerType.PLAYER_SAMSON_B then charName = 27
-			elseif ptype == PlayerType.PLAYER_AZAZEL_B then charName = 28
-			elseif (ptype == PlayerType.PLAYER_LAZARUS_B or ptype == PlayerType.PLAYER_LAZARUS2_B) then charName = 29
-			elseif ptype == PlayerType.PLAYER_EDEN_B then charName = 30
-			elseif ptype == PlayerType.PLAYER_THELOST_B then charName = 31
-			elseif ptype == PlayerType.PLAYER_LILITH_B then charName = 32
-			elseif ptype == PlayerType.PLAYER_KEEPER_B then charName = 33
-			elseif ptype == PlayerType.PLAYER_APOLLYON_B then charName = 34
-			elseif (ptype == PlayerType.PLAYER_THEFORGOTTEN_B or ptype == PlayerType.PLAYER_THESOUL_B) then charName = 35
-			elseif ptype == PlayerType.PLAYER_BETHANY_B then charName = 36
-			elseif (ptype == PlayerType.PLAYER_JACOB_B or ptype == PlayerType.PLAYER_JACOB2_B) then charName = 37
+			elseif ptype == PlayerType.PLAYER_THEFORGOTTEN then charName = 17
+			elseif ptype == PlayerType.PLAYER_THESOUL then charName = 18
+			elseif ptype == PlayerType.PLAYER_BETHANY then charName = 19
+			elseif ptype == PlayerType.PLAYER_JACOB then charName = 20
+			elseif ptype == PlayerType.PLAYER_ESAU then charName = 21
+			elseif ptype == PlayerType.PLAYER_ISAAC_B then charName = 22
+			elseif ptype == PlayerType.PLAYER_MAGDALENA_B then charName = 23
+			elseif ptype == PlayerType.PLAYER_CAIN_B then charName = 24
+			elseif ptype == PlayerType.PLAYER_JUDAS_B then charName = 25
+			elseif ptype == PlayerType.PLAYER_XXX_B then charName = 26
+			elseif ptype == PlayerType.PLAYER_EVE_B then charName = 27
+			elseif ptype == PlayerType.PLAYER_SAMSON_B then charName = 28
+			elseif ptype == PlayerType.PLAYER_AZAZEL_B then charName = 29
+			elseif (ptype == PlayerType.PLAYER_LAZARUS_B or ptype == PlayerType.PLAYER_LAZARUS2_B) then charName = 30
+			elseif ptype == PlayerType.PLAYER_EDEN_B then charName = 31
+			elseif ptype == PlayerType.PLAYER_THELOST_B then charName = 32
+			elseif ptype == PlayerType.PLAYER_LILITH_B then charName = 33
+			elseif ptype == PlayerType.PLAYER_KEEPER_B then charName = 34
+			elseif ptype == PlayerType.PLAYER_APOLLYON_B then charName = 35
+			elseif (ptype == PlayerType.PLAYER_THEFORGOTTEN_B or ptype == PlayerType.PLAYER_THESOUL_B) then charName = 36
+			elseif ptype == PlayerType.PLAYER_BETHANY_B then charName = 37
+			elseif (ptype == PlayerType.PLAYER_JACOB_B or ptype == PlayerType.PLAYER_JACOB2_B) then charName = 38
 			end
 			Game():GetHUD():ShowItemText("Birthright", mod.FakeBirthrightDesc[ptype+1][mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1], false)
 		end
@@ -480,6 +484,15 @@ function mod:CheckBirthrightAll(player)
 		end
 	end
 	data.gotBirthright = player:HasCollectible(mod.substituteBirthright) or player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
+	if player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN or player:GetPlayerType() == PlayerType.PLAYER_THESOUL then
+		if not data.ForgottenType then
+			data.ForgottenType = player:GetPlayerType()
+		end
+		if data.ForgottenType ~= player:GetPlayerType() then
+			data.ForgottenType = player:GetPlayerType()
+			mod:BirthrightDesc()
+		end
+	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.CheckBirthrightAll);
 

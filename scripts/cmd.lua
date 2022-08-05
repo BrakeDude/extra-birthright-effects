@@ -53,6 +53,14 @@ function mod:changeCMD(args,s1,s2)
 		return nil
 	end
 	mod.MCMOption.Settings[commandstr] = num
+	if commandstr == "The Forgotten" then
+		mod.MCMOption.Settings["The Soul"] = num
+		commandstr = commandstr.." and The Soul"
+	end
+	if commandstr == "The Soul" then
+		mod.MCMOption.Settings["The Forgotten"] = num
+		commandstr = commandstr.." and The Forgotten"
+	end
 	local option = (mod.MCMOption.OptionsMaxNum[char] == 3 and num == 3) and (num + 1) or ((mod.MCMOption.OptionsMaxNum[char] == 2 and num == 2) and num + 2 or num)
 	print("Changed "..commandstr.." Birthright to "..mod.MCMOption.Options[option])
 end
@@ -78,7 +86,6 @@ end
 
 function mod:getCMD(args,s1,s2)
 	local commandstr = ""
-	print(string.find(args,"Risen"))
 	local tainted = string.find(args,"Tainted")
 	local char
 	if tainted == s2 + 2 then
@@ -89,26 +96,27 @@ function mod:getCMD(args,s1,s2)
 	if not char then
 		return nil
 	end
-	print(char)
 	commandstr = commandstr..mod.MCMOption.Name[char]
 	local check1,check2 = string.find(args,mod.MCMOption.Name[char])
 	if check2 ~= #args then
 		return nil
 	end
 	local num = mod.MCMOption.Settings[mod.MCMOption.Name[char]]
-	print(mod.MCMOption.Name[char])
 	local option = (mod.MCMOption.OptionsMaxNum[char] == 3 and num == 3) and (num + 1) or num
 	print(commandstr.." Birthright effect current option is "..mod.MCMOption.Options[option])
 	print("You can change effect from 1 to "..mod.MCMOption.OptionsMaxNum[char])
+	print("Changing effect of The Forgotten or The Soul will change it for both of them")
 end
 
 function mod:defaultCMD(args,s1,s2)
 	local commandstr = ""
 	local tainted = string.find(args,"Tainted")
+	local char
 	if tainted == s2 + 2 then
-		commandstr = "Tainted "
+		char = mod:GetCMDOption(args,true)
+	else
+		char = mod:GetCMDOption(args,false)
 	end
-	local char = mod:GetCMDOption(args,commandstr)
 	if not char then
 		return nil
 	end
@@ -119,7 +127,15 @@ function mod:defaultCMD(args,s1,s2)
 		return nil
 	end
 	mod.MCMOption.Settings[commandstr] = 1
-	print(commandstr.." Birthright effect is set to default")
+	if commandstr == "The Forgotten" then
+		mod.MCMOption.Settings["The Soul"] = 1
+		commandstr = commandstr.." and The Soul"
+	end
+	if commandstr == "The Soul" then
+		mod.MCMOption.Settings["The Forgotten"] = 1
+		commandstr = commandstr.." and The Forgotten"
+	end
+	print(commandstr.." Birthright effect(s) is/are set to default")
 end
 
 function mod:CmdCommands(command,args)
@@ -136,6 +152,7 @@ function mod:CmdCommands(command,args)
 		if string.find(args,"default") == 1 then
 			mod:defaultCMD(args,string.find(args,"default"))
 		end
+		mod:BirthrightDesc()
 	end
 	return nil
 end

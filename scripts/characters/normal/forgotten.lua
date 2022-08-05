@@ -3,7 +3,7 @@ local mod = ExtraBirthright
 function mod:ForgottenHit(entity)
 	local player = entity:ToPlayer()
 	local data = mod:GetData(player)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"],true)
+	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"])
 	if player:HasCollectible(collectible) and mod.MCMOption.Settings["The Forgotten"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN then
         data.ForgottenHearts = player:GetBoneHearts()
 	end
@@ -14,7 +14,7 @@ mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.ForgottenHit, EntityType.EN
 function mod:ForgottenBones(player)
 	if mod.MCMOption.Settings["The Forgotten"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN then
 		local data = mod:GetData(player)
-	    local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"],true)
+	    local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"])
         if data.ForgottenHearts and player:HasCollectible(collectible) then
             if player:GetBoneHearts() < data.ForgottenHearts then
                 for i = 1, math.min(6,player:GetCollectibleRNG(collectible):RandomInt(10)) do
