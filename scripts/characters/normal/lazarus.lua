@@ -41,7 +41,7 @@ function mod:Laz2Ser(player)
     if (mod.MCMOption.Settings["Lazarus"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS) then
         local data = mod:GetData(player)
         if data.RisenUsed and not player:IsDead() then
-            player:Kill()
+            player:Die()
         end
     elseif (mod.MCMOption.Settings["Lazarus Risen"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2) then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus Risen"])
