@@ -140,6 +140,11 @@ end
 
 function mod:CmdCommands(command,args)
 	if command == "extrabirthright" then
+		if string.find(args,"resetModConfig") == 1 then
+			mod:ResetMCM()
+			print("done")
+			return nil
+		end
 		if string.find(args,"change") == 1 then
 			mod:changeCMD(args,string.find(args,"change"))
 		end

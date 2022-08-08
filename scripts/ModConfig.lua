@@ -496,358 +496,368 @@ mod.MCMTCainBirthright = {
 	["BirthrightYoink"] = 0
 }
 
-if ModConfigMenu then
-	local MCMExtraBirthright = "Birthright Effects"
-	ModConfigMenu.UpdateCategory(MCMExtraBirthright, {
-		Info = {"Birthright effects configuration.",}
-	})
-	ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Normal characters")
-	for i=1,#mod.MCMOption.Name do
-			if mod.MCMOption.Name[i] == "Tainted Isaac" then
-				ModConfigMenu.AddSpace(MCMExtraBirthright,"Settings")
-				ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Tainted characters")
-			end
-			ModConfigMenu.AddSetting(MCMExtraBirthright, "Settings",
-			{
-				Type = ModConfigMenu.OptionType.NUMBER,
-				CurrentSetting = function()
-					return mod.MCMOption.Settings[mod.MCMOption.Name[i]]
-				end,
-				Minimum = 1,
-				Maximum = mod.MCMOption.OptionsMaxNum[i],
-				Display = function()
-					local option = mod.MCMOption.Settings[mod.MCMOption.Name[i]]
-					if mod.MCMOption.OptionsMaxNum[i] == 3 then
-						if mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 3 then
-							option = option + 1
-						end
-					end
-					--if (mod.MCMOption.Name[i] == "Eden" or mod.MCMOption.Name[i] == "Tainted Bethany" or mod.MCMOption.Name[i] == "Tainted Magdalene") and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 2 then
-					--	option = 4
-					--end
-					return mod.MCMOption.Name[i]..': ' .. mod.MCMOption.Options[option]
-				end,
-				OnChange = function(currentNum)
-					mod.MCMOption.Settings[mod.MCMOption.Name[i]] = currentNum
-					if i == 17 then
-						mod.MCMOption.Settings[mod.MCMOption.Name[i+1]] = currentNum
-					elseif i == 18 then
-						mod.MCMOption.Settings[mod.MCMOption.Name[i-1]] = currentNum
-					end
-					mod:BirthrightDesc()
-				end,
-				Info = mod.MCMOption.Labels[i]
-			})
-	end
-
-	ModConfigMenu.AddSetting(MCMExtraBirthright, "The Hoarder",
-	{
-		Type = ModConfigMenu.OptionType.NUMBER,
-		CurrentSetting = function()
-			return mod.MCMTCainBirthright["BirthrightYoink"]
-		end,
-		Minimum = 0,
-		Maximum = 100,
-		Display = function ()
-			return "Birthright pickup chance: " ..mod.MCMTCainBirthright["BirthrightYoink"].. "%"
-		end,
-		OnChange = function (value)
-			mod.MCMTCainBirthright["BirthrightYoink"]= value
-		end,
-		Info = {"Chance for Tainted Cain to pickup Birthright"}
-	})
-
-	ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
-	{
-		Type = ModConfigMenu.OptionType.BOOLEAN,
-		CurrentSetting = function()
-			
-			return mod.EBBombsDrops.Settings[mod.EBBombsDrops.Name[1]]
-		end,
-		Default = mod.EBBombsDrops.Settings[mod.EBBombsDrops.Name[1]],
-		Display = function()
-			local displaystring = mod.EBBombsDrops.Name[1]..' drops: '
-			if mod.EBBombsDrops.Settings[mod.EBBombsDrops.Name[1]] then
-				displaystring = displaystring.."Enabled"
-			else
-				displaystring = displaystring.."Disabled"
-			end
-			return displaystring
-		end,
-		OnChange = function(value)
-			mod.EBBombsDrops.Settings[mod.EBBombsDrops.Name[1]] = value
-		end,
-		Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn."
-	})
-
-	ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
-	{
-		Type = ModConfigMenu.OptionType.BOOLEAN,
-		CurrentSetting = function()
-			
-			return mod.EBKeysDrops.Settings[mod.EBKeysDrops.Name[1]]
-		end,
-		Default = mod.EBKeysDrops.Settings[mod.EBKeysDrops.Name[1]],
-		Display = function()
-			local displaystring = mod.EBKeysDrops.Name[1]..' drops: '
-			if mod.EBKeysDrops.Settings[mod.EBKeysDrops.Name[1]] then
-				displaystring = displaystring.."Enabled"
-			else
-				displaystring = displaystring.."Disabled"
-			end
-			return displaystring
-		end,
-		OnChange = function(value)
-			mod.EBKeysDrops.Settings[mod.EBKeysDrops.Name[1]] = value
-		end,
-		Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
-	})
-	ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
-	{
-		Type = ModConfigMenu.OptionType.BOOLEAN,
-		CurrentSetting = function()
-			
-			return mod.EBBatteriesDrops.Settings[mod.EBBatteriesDrops.Name[1]]
-		end,
-		Default = mod.EBBatteriesDrops.Settings[mod.EBBatteriesDrops.Name[1]],
-		Display = function()
-			local displaystring = mod.EBBatteriesDrops.Name[1]..' drops: '
-			if mod.EBBatteriesDrops.Settings[mod.EBBatteriesDrops.Name[1]] then
-				displaystring = displaystring.."Enabled"
-			else
-				displaystring = displaystring.."Disabled"
-			end
-			return displaystring
-		end,
-		OnChange = function(value)
-			mod.EBBatteriesDrops.Settings[mod.EBBatteriesDrops.Name[1]] = value
-		end,
-		Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
-	})
-	
-	ModConfigMenu.AddSpace(MCMExtraBirthright,"Reg. Drops")
-	ModConfigMenu.AddText(MCMExtraBirthright,"Reg. Drops","Coins")
-	for i=1,#mod.EBCoinsDrops.Name do
-			ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
-			{
-				Type = ModConfigMenu.OptionType.BOOLEAN,
-				CurrentSetting = function()
-					return mod.EBCoinsDrops.Settings[mod.EBCoinsDrops.Name[i]]
-				end,
-				Default = mod.EBCoinsDrops.Settings[mod.EBCoinsDrops.Name[i]],
-				Display = function()
-					local displaystring = mod.EBCoinsDrops.Name[i]..' drops: '
-					if mod.EBCoinsDrops.Settings[mod.EBCoinsDrops.Name[i]] then
-						displaystring = displaystring.."Enabled"
-					else
-						displaystring = displaystring.."Disabled"
-					end
-					return displaystring
-				end,
-				OnChange = function(value)
-					mod.EBCoinsDrops.Settings[mod.EBCoinsDrops.Name[i]] = value
-				end,
-				Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
-			})
-	end
-	
-	ModConfigMenu.AddSpace(MCMExtraBirthright,"Reg. Drops")
-	ModConfigMenu.AddText(MCMExtraBirthright,"Reg. Drops","Pills")
-	for i=1,#mod.EBPillsDrops.Name do
-			ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
-			{
-				Type = ModConfigMenu.OptionType.BOOLEAN,
-				CurrentSetting = function()
-					return mod.EBPillsDrops.Settings[mod.EBPillsDrops.Name[i]]
-				end,
-				Default = mod.EBPillsDrops.Settings[mod.EBPillsDrops.Name[i]],
-				Display = function()
-					local displaystring = mod.EBPillsDrops.Name[i]..' drops: '
-					if mod.EBPillsDrops.Settings[mod.EBPillsDrops.Name[i]] then
-						displaystring = displaystring.."Enabled"
-					else
-						displaystring = displaystring.."Disabled"
-					end
-					return displaystring
-				end,
-				OnChange = function(value)
-					mod.EBPillsDrops.Settings[mod.EBPillsDrops.Name[i]] = value
-				end,
-				Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
-			})
-	end
-
-	ModConfigMenu.AddSpace(MCMExtraBirthright,"Reg. Drops")
-	ModConfigMenu.AddText(MCMExtraBirthright,"Reg. Drops","Hearts")
-	for i=1,#mod.EBHeartsDrops.Name do
-			ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
-			{
-				Type = ModConfigMenu.OptionType.BOOLEAN,
-				CurrentSetting = function()
-					return mod.EBHeartsDrops.Settings[mod.EBHeartsDrops.Name[i]]
-				end,
-				Default = mod.EBHeartsDrops.Settings[mod.EBHeartsDrops.Name[i]],
-				Display = function()
-					local displaystring = mod.EBHeartsDrops.Name[i]..' drops: '
-					if mod.EBHeartsDrops.Settings[mod.EBHeartsDrops.Name[i]] then
-						displaystring = displaystring.."Enabled"
-					else
-						displaystring = displaystring.."Disabled"
-					end
-					return displaystring
-				end,
-				OnChange = function(value)
-					mod.EBHeartsDrops.Settings[mod.EBHeartsDrops.Name[i]] = value
-				end,
-				Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
-			})
-	end
-
-	ModConfigMenu.AddSpace(MCMExtraBirthright,"Reg. Drops")
-	ModConfigMenu.AddText(MCMExtraBirthright,"Reg. Drops","Other")
-
-	ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
-	{
-		Type = ModConfigMenu.OptionType.BOOLEAN,
-		CurrentSetting = function()
-			return mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[1]]
-		end,
-		Default = mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[1]],
-		Display = function()
-			local displaystring = mod.EBCardsAndRunesDrops.Name[1]..': '
-			if mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[1]] then
-				displaystring = displaystring.."Enabled"
-			else
-				displaystring = displaystring.."Disabled"
-			end
-			return displaystring
-		end,
-		OnChange = function(value)
-			mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[1]] = value
-		end,
-		Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
-	})
-
-	ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
-	{
-		Type = ModConfigMenu.OptionType.BOOLEAN,
-		CurrentSetting = function()
-			return mod.EBChestsDrops.Settings[mod.EBChestsDrops.Name[1]]
-		end,
-		Default = mod.EBChestsDrops.Settings[mod.EBChestsDrops.Name[1]],
-		Display = function()
-			local displaystring = mod.EBChestsDrops.Name[1]..': '
-			if mod.EBChestsDrops.Settings[mod.EBChestsDrops.Name[1]] then
-				displaystring = displaystring.."Enabled"
-			else
-				displaystring = displaystring.."Disabled"
-			end
-			return displaystring
-		end,
-		OnChange = function(value)
-			mod.EBChestsDrops.Settings[mod.EBChestsDrops.Name[1]] = value
-		end,
-		Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
-	})
-
-
-
-	for i=2,17 do	
-		ModConfigMenu.AddSetting(MCMExtraBirthright, "Cards",
-		{
-			Type = ModConfigMenu.OptionType.BOOLEAN,
-			CurrentSetting = function()
-				return mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]]
-			end,
-			Default = mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]],
-			Display = function()
-				local displaystring = mod.EBCardsAndRunesDrops.Name[i]..': '
-				if mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] then
-					displaystring = displaystring.."Enabled"
-				else
-					displaystring = displaystring.."Disabled"
-				end
-				return displaystring
-			end,
-			OnChange = function(value)
-				mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] = value
-			end,
-			Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
-		})
-	end
-
-	for i=18,39 do
-		ModConfigMenu.AddSetting(MCMExtraBirthright, "Rev. Cards",
-		{
-			Type = ModConfigMenu.OptionType.BOOLEAN,
-			CurrentSetting = function()
-				return mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]]
-			end,
-			Default = mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]],
-			Display = function()
-				local displaystring = mod.EBCardsAndRunesDrops.Name[i]..': '
-				if mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] then
-					displaystring = displaystring.."Enabled"
-				else
-					displaystring = displaystring.."Disabled"
-				end
-				return displaystring
-			end,
-			OnChange = function(value)
-				mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] = value
-			end,
-			Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
-		})
-	end
-
-	for i=40,49 do
-
-		ModConfigMenu.AddSetting(MCMExtraBirthright, "Runes",
-		{
-			Type = ModConfigMenu.OptionType.BOOLEAN,
-			CurrentSetting = function()
-				return mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]]
-			end,
-			Default = mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]],
-			Display = function()
-				local displaystring = mod.EBCardsAndRunesDrops.Name[i]..' drops: '
-				if mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] then
-					displaystring = displaystring.."Enabled"
-				else
-					displaystring = displaystring.."Disabled"
-				end
-				return displaystring
-			end,
-			OnChange = function(value)
-				mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] = value
-			end,
-			Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
-		})
-	end
-
-	for i=50,66 do
-
-		ModConfigMenu.AddSetting(MCMExtraBirthright, "Soul Stones",
-		{
-			Type = ModConfigMenu.OptionType.BOOLEAN,
-			CurrentSetting = function()
-				return mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]]
-			end,
-			Default = mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]],
-			Display = function()
-				local displaystring = mod.EBCardsAndRunesDrops.Name[i]..' drops: '
-				if mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] then
-					displaystring = displaystring.."Enabled"
-				else
-					displaystring = displaystring.."Disabled"
-				end
-				return displaystring
-			end,
-			OnChange = function(value)
-				mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] = value
-			end,
-			Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
-		})
+function mod:ResetMCM()
+	if ModConfigMenu then
+		ModConfigMenu.RemoveCategory("Birthright Effects")
+		mod:AddMCM()
 	end
 end
+
+function mod:AddMCM()
+	if ModConfigMenu then
+		local MCMExtraBirthright = "Birthright Effects"
+		ModConfigMenu.UpdateCategory(MCMExtraBirthright, {
+			Info = {"Birthright effects configuration.",}
+		})
+		ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Normal characters")
+		for i=1,#mod.MCMOption.Name do
+				if mod.MCMOption.Name[i] == "Tainted Isaac" then
+					ModConfigMenu.AddSpace(MCMExtraBirthright,"Settings")
+					ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Tainted characters")
+				end
+				ModConfigMenu.AddSetting(MCMExtraBirthright, "Settings",
+				{
+					Type = ModConfigMenu.OptionType.NUMBER,
+					CurrentSetting = function()
+						return mod.MCMOption.Settings[mod.MCMOption.Name[i]]
+					end,
+					Minimum = 1,
+					Maximum = mod.MCMOption.OptionsMaxNum[i],
+					Display = function()
+						local option = mod.MCMOption.Settings[mod.MCMOption.Name[i]]
+						if mod.MCMOption.OptionsMaxNum[i] == 3 then
+							if mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 3 then
+								option = option + 1
+							end
+						end
+						--if (mod.MCMOption.Name[i] == "Eden" or mod.MCMOption.Name[i] == "Tainted Bethany" or mod.MCMOption.Name[i] == "Tainted Magdalene") and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 2 then
+						--	option = 4
+						--end
+						return mod.MCMOption.Name[i]..': ' .. mod.MCMOption.Options[option]
+					end,
+					OnChange = function(currentNum)
+						mod.MCMOption.Settings[mod.MCMOption.Name[i]] = currentNum
+						if i == 17 then
+							mod.MCMOption.Settings[mod.MCMOption.Name[i+1]] = currentNum
+						elseif i == 18 then
+							mod.MCMOption.Settings[mod.MCMOption.Name[i-1]] = currentNum
+						end
+						mod:BirthrightDesc()
+					end,
+					Info = mod.MCMOption.Labels[i]
+				})
+		end
+
+		ModConfigMenu.AddSetting(MCMExtraBirthright, "The Hoarder",
+		{
+			Type = ModConfigMenu.OptionType.NUMBER,
+			CurrentSetting = function()
+				return mod.MCMTCainBirthright["BirthrightYoink"]
+			end,
+			Minimum = 0,
+			Maximum = 100,
+			Display = function ()
+				return "Birthright pickup chance: " ..mod.MCMTCainBirthright["BirthrightYoink"].. "%"
+			end,
+			OnChange = function (value)
+				mod.MCMTCainBirthright["BirthrightYoink"]= value
+			end,
+			Info = {"Chance for Tainted Cain to pickup Birthright"}
+		})
+
+		ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
+		{
+			Type = ModConfigMenu.OptionType.BOOLEAN,
+			CurrentSetting = function()
+				
+				return mod.EBBombsDrops.Settings[mod.EBBombsDrops.Name[1]]
+			end,
+			Default = mod.EBBombsDrops.Settings[mod.EBBombsDrops.Name[1]],
+			Display = function()
+				local displaystring = mod.EBBombsDrops.Name[1]..' drops: '
+				if mod.EBBombsDrops.Settings[mod.EBBombsDrops.Name[1]] then
+					displaystring = displaystring.."Enabled"
+				else
+					displaystring = displaystring.."Disabled"
+				end
+				return displaystring
+			end,
+			OnChange = function(value)
+				mod.EBBombsDrops.Settings[mod.EBBombsDrops.Name[1]] = value
+			end,
+			Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn."
+		})
+
+		ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
+		{
+			Type = ModConfigMenu.OptionType.BOOLEAN,
+			CurrentSetting = function()
+				
+				return mod.EBKeysDrops.Settings[mod.EBKeysDrops.Name[1]]
+			end,
+			Default = mod.EBKeysDrops.Settings[mod.EBKeysDrops.Name[1]],
+			Display = function()
+				local displaystring = mod.EBKeysDrops.Name[1]..' drops: '
+				if mod.EBKeysDrops.Settings[mod.EBKeysDrops.Name[1]] then
+					displaystring = displaystring.."Enabled"
+				else
+					displaystring = displaystring.."Disabled"
+				end
+				return displaystring
+			end,
+			OnChange = function(value)
+				mod.EBKeysDrops.Settings[mod.EBKeysDrops.Name[1]] = value
+			end,
+			Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
+		})
+		ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
+		{
+			Type = ModConfigMenu.OptionType.BOOLEAN,
+			CurrentSetting = function()
+				
+				return mod.EBBatteriesDrops.Settings[mod.EBBatteriesDrops.Name[1]]
+			end,
+			Default = mod.EBBatteriesDrops.Settings[mod.EBBatteriesDrops.Name[1]],
+			Display = function()
+				local displaystring = mod.EBBatteriesDrops.Name[1]..' drops: '
+				if mod.EBBatteriesDrops.Settings[mod.EBBatteriesDrops.Name[1]] then
+					displaystring = displaystring.."Enabled"
+				else
+					displaystring = displaystring.."Disabled"
+				end
+				return displaystring
+			end,
+			OnChange = function(value)
+				mod.EBBatteriesDrops.Settings[mod.EBBatteriesDrops.Name[1]] = value
+			end,
+			Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
+		})
+		
+		ModConfigMenu.AddSpace(MCMExtraBirthright,"Reg. Drops")
+		ModConfigMenu.AddText(MCMExtraBirthright,"Reg. Drops","Coins")
+		for i=1,#mod.EBCoinsDrops.Name do
+				ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
+				{
+					Type = ModConfigMenu.OptionType.BOOLEAN,
+					CurrentSetting = function()
+						return mod.EBCoinsDrops.Settings[mod.EBCoinsDrops.Name[i]]
+					end,
+					Default = mod.EBCoinsDrops.Settings[mod.EBCoinsDrops.Name[i]],
+					Display = function()
+						local displaystring = mod.EBCoinsDrops.Name[i]..' drops: '
+						if mod.EBCoinsDrops.Settings[mod.EBCoinsDrops.Name[i]] then
+							displaystring = displaystring.."Enabled"
+						else
+							displaystring = displaystring.."Disabled"
+						end
+						return displaystring
+					end,
+					OnChange = function(value)
+						mod.EBCoinsDrops.Settings[mod.EBCoinsDrops.Name[i]] = value
+					end,
+					Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
+				})
+		end
+		
+		ModConfigMenu.AddSpace(MCMExtraBirthright,"Reg. Drops")
+		ModConfigMenu.AddText(MCMExtraBirthright,"Reg. Drops","Pills")
+		for i=1,#mod.EBPillsDrops.Name do
+				ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
+				{
+					Type = ModConfigMenu.OptionType.BOOLEAN,
+					CurrentSetting = function()
+						return mod.EBPillsDrops.Settings[mod.EBPillsDrops.Name[i]]
+					end,
+					Default = mod.EBPillsDrops.Settings[mod.EBPillsDrops.Name[i]],
+					Display = function()
+						local displaystring = mod.EBPillsDrops.Name[i]..' drops: '
+						if mod.EBPillsDrops.Settings[mod.EBPillsDrops.Name[i]] then
+							displaystring = displaystring.."Enabled"
+						else
+							displaystring = displaystring.."Disabled"
+						end
+						return displaystring
+					end,
+					OnChange = function(value)
+						mod.EBPillsDrops.Settings[mod.EBPillsDrops.Name[i]] = value
+					end,
+					Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
+				})
+		end
+
+		ModConfigMenu.AddSpace(MCMExtraBirthright,"Reg. Drops")
+		ModConfigMenu.AddText(MCMExtraBirthright,"Reg. Drops","Hearts")
+		for i=1,#mod.EBHeartsDrops.Name do
+				ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
+				{
+					Type = ModConfigMenu.OptionType.BOOLEAN,
+					CurrentSetting = function()
+						return mod.EBHeartsDrops.Settings[mod.EBHeartsDrops.Name[i]]
+					end,
+					Default = mod.EBHeartsDrops.Settings[mod.EBHeartsDrops.Name[i]],
+					Display = function()
+						local displaystring = mod.EBHeartsDrops.Name[i]..' drops: '
+						if mod.EBHeartsDrops.Settings[mod.EBHeartsDrops.Name[i]] then
+							displaystring = displaystring.."Enabled"
+						else
+							displaystring = displaystring.."Disabled"
+						end
+						return displaystring
+					end,
+					OnChange = function(value)
+						mod.EBHeartsDrops.Settings[mod.EBHeartsDrops.Name[i]] = value
+					end,
+					Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
+				})
+		end
+
+		ModConfigMenu.AddSpace(MCMExtraBirthright,"Reg. Drops")
+		ModConfigMenu.AddText(MCMExtraBirthright,"Reg. Drops","Other")
+
+		ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
+		{
+			Type = ModConfigMenu.OptionType.BOOLEAN,
+			CurrentSetting = function()
+				return mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[1]]
+			end,
+			Default = mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[1]],
+			Display = function()
+				local displaystring = mod.EBCardsAndRunesDrops.Name[1]..': '
+				if mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[1]] then
+					displaystring = displaystring.."Enabled"
+				else
+					displaystring = displaystring.."Disabled"
+				end
+				return displaystring
+			end,
+			OnChange = function(value)
+				mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[1]] = value
+			end,
+			Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
+		})
+
+		ModConfigMenu.AddSetting(MCMExtraBirthright, "Reg. Drops",
+		{
+			Type = ModConfigMenu.OptionType.BOOLEAN,
+			CurrentSetting = function()
+				return mod.EBChestsDrops.Settings[mod.EBChestsDrops.Name[1]]
+			end,
+			Default = mod.EBChestsDrops.Settings[mod.EBChestsDrops.Name[1]],
+			Display = function()
+				local displaystring = mod.EBChestsDrops.Name[1]..': '
+				if mod.EBChestsDrops.Settings[mod.EBChestsDrops.Name[1]] then
+					displaystring = displaystring.."Enabled"
+				else
+					displaystring = displaystring.."Disabled"
+				end
+				return displaystring
+			end,
+			OnChange = function(value)
+				mod.EBChestsDrops.Settings[mod.EBChestsDrops.Name[1]] = value
+			end,
+			Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
+		})
+
+
+
+		for i=2,17 do	
+			ModConfigMenu.AddSetting(MCMExtraBirthright, "Cards",
+			{
+				Type = ModConfigMenu.OptionType.BOOLEAN,
+				CurrentSetting = function()
+					return mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]]
+				end,
+				Default = mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]],
+				Display = function()
+					local displaystring = mod.EBCardsAndRunesDrops.Name[i]..': '
+					if mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] then
+						displaystring = displaystring.."Enabled"
+					else
+						displaystring = displaystring.."Disabled"
+					end
+					return displaystring
+				end,
+				OnChange = function(value)
+					mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] = value
+				end,
+				Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
+			})
+		end
+
+		for i=18,39 do
+			ModConfigMenu.AddSetting(MCMExtraBirthright, "Rev. Cards",
+			{
+				Type = ModConfigMenu.OptionType.BOOLEAN,
+				CurrentSetting = function()
+					return mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]]
+				end,
+				Default = mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]],
+				Display = function()
+					local displaystring = mod.EBCardsAndRunesDrops.Name[i]..': '
+					if mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] then
+						displaystring = displaystring.."Enabled"
+					else
+						displaystring = displaystring.."Disabled"
+					end
+					return displaystring
+				end,
+				OnChange = function(value)
+					mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] = value
+				end,
+				Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
+			})
+		end
+
+		for i=40,49 do
+
+			ModConfigMenu.AddSetting(MCMExtraBirthright, "Runes",
+			{
+				Type = ModConfigMenu.OptionType.BOOLEAN,
+				CurrentSetting = function()
+					return mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]]
+				end,
+				Default = mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]],
+				Display = function()
+					local displaystring = mod.EBCardsAndRunesDrops.Name[i]..' drops: '
+					if mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] then
+						displaystring = displaystring.."Enabled"
+					else
+						displaystring = displaystring.."Disabled"
+					end
+					return displaystring
+				end,
+				OnChange = function(value)
+					mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] = value
+				end,
+				Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
+			})
+		end
+
+		for i=50,66 do
+
+			ModConfigMenu.AddSetting(MCMExtraBirthright, "Soul Stones",
+			{
+				Type = ModConfigMenu.OptionType.BOOLEAN,
+				CurrentSetting = function()
+					return mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]]
+				end,
+				Default = mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]],
+				Display = function()
+					local displaystring = mod.EBCardsAndRunesDrops.Name[i]..' drops: '
+					if mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] then
+						displaystring = displaystring.."Enabled"
+					else
+						displaystring = displaystring.."Disabled"
+					end
+					return displaystring
+				end,
+				OnChange = function(value)
+					mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.Name[i]] = value
+				end,
+				Info = "Configuration list of Cain's and Esau's Birthrights as workaround for people who don't want locked pickups to spawn.",
+			})
+		end
+	end
+end
+mod:AddMCM()
 --#endregion
