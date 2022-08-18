@@ -19,7 +19,6 @@ mod.MCMOption ={
 		"Keeper",
 		"Apollyon",
 		"The Forgotten",
-		"The Soul",
 		"Bethany",
 		"Jacob",
 		"Esau",
@@ -59,7 +58,6 @@ mod.MCMOption ={
 		3, --Keeper
 		3, --Apollyon
 		3, --Forgotten
-		3, --Soul
 		3, --Bethany
 		3, --Jacob
 		3, --Esau
@@ -106,7 +104,6 @@ mod.MCMOption ={
 		["Keeper"] = 1,
 		["Apollyon"] = 1,
 		["The Forgotten"] = 1,
-		["The Soul"] = 1,
 		["Bethany"] = 1,
 		["Jacob"] = 1,
 		["Esau"] = 1,
@@ -145,8 +142,7 @@ mod.MCMOption ={
 		{"1: Spawns 2 mini Isaacs when entering hostile room, 4 - big room (L-shaped included). Box of Friends now affects mini Isaacs."},--Lilith
 		{"1: Effects of Silver Dollar and Rib of Greed. One free item per floor that costs money."},--Keeper
 		{"1: Void becomes pocket active. Voiding passive items with quality higher then 0 will give random extra stat ups with higher quality items giving more stats. Extra stat ups will be given even before getting Birthright and will be added after getting it."},--Apollyon
-		{"1: Loosing Bone heart will create from 6 to 9 bone orbitals."},--Forgotten
-		{"1: Loosing Soul heart will create from 1 to 2 wisps."},--Soul
+		{"1: Loosing Bone heart will create from 6 to 9 bone orbitals. Loosing Soul heart will create from 1 to 2 wisps."},--Forgotten
 		{"1: Curses become blessings. 100% chance for blessing."},--Bethany
 		{"1: Esau gives half of his non story passive items to Jacob in exchange for Red Stew."},--Jacob
 		{"1: 100% chance for rewards to spawn after clearing room. Only devil rooms can appear with 50% chance. Only items of quality 2 and 3 will appear"},--Esau
@@ -537,11 +533,6 @@ function mod:AddMCM()
 					end,
 					OnChange = function(currentNum)
 						mod.MCMOption.Settings[mod.MCMOption.Name[i]] = currentNum
-						if i == 17 then
-							mod.MCMOption.Settings[mod.MCMOption.Name[i+1]] = currentNum
-						elseif i == 18 then
-							mod.MCMOption.Settings[mod.MCMOption.Name[i-1]] = currentNum
-						end
 						mod:BirthrightDesc()
 					end,
 					Info = mod.MCMOption.Labels[i]
