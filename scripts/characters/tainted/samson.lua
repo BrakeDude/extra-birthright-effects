@@ -36,6 +36,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE,mod.TSamson,0)
 
 function mod:TSamsonChargeBar(player)
+	if Game():GetRoom():GetRenderMode() == RenderMode.RENDER_WATER_REFLECT then return end
 	if mod.MCMOption.Settings["Tainted Samson"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Samson"],false)
 		if not player:HasWeaponType(WeaponType.WEAPON_BONE) and player:HasCollectible(collectible) then
