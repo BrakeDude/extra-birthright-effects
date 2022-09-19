@@ -403,6 +403,10 @@ function mod:CheckBirthrightAll(player)
 			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
 			player:EvaluateItems()
 		end
+		if ptype == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] > 1 then
+			player:AddCacheFlags(CacheFlag.CACHE_FLYING)
+			player:EvaluateItems()
+		end
 		if ptype == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] > 1 then
 			local trinket1 = player:GetTrinket(0)
 			local trinket2 = player:GetTrinket(1)
