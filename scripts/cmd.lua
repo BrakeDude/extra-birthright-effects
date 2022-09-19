@@ -24,7 +24,6 @@ function mod:changeCMD(args,s1,s2)
 	else
 		char = mod:GetCMDOption(args,false)
 	end
-	
 	if not char then
 		return nil
 	end
@@ -34,7 +33,6 @@ function mod:changeCMD(args,s1,s2)
 		return nil
 	end
 	commandstr = mod.MCMOption.Name[char]
-	
 	if tonumber(indx) < 0 and tonumber(indx) > mod.MCMOption.OptionsMaxNum[char] then
 		return nil
 	end

@@ -343,7 +343,7 @@ function mod:BirthrightDesc()
 				elseif playerID == PlayerType.PLAYER_EDEN_B then i,j,name =31,mod.MCMOption.Settings["Tainted Eden"],31
 				elseif playerID == PlayerType.PLAYER_THELOST_B then i,j,name =32,mod.MCMOption.Settings["Tainted Lost"],32
 				elseif playerID == PlayerType.PLAYER_LILITH_B then i,j,name =33,mod.MCMOption.Settings["Tainted Lilith"],33
-				elseif playerID == PlayerType.PLAYER_KEEPER_B then i,j,name =34,mod.MCMOption.Settings["Tainted Apollyon"],34
+				elseif playerID == PlayerType.PLAYER_KEEPER_B then i,j,name =34,mod.MCMOption.Settings["Tainted Keeper"],34
 				elseif playerID == PlayerType.PLAYER_APOLLYON_B then i,j,name = 35,mod.MCMOption.Settings["Tainted Apollyon"],35
 				elseif playerID == PlayerType.PLAYER_THEFORGOTTEN_B then i,j,name =36,mod.MCMOption.Settings["Tainted Forgotten"],36
 				elseif playerID == PlayerType.PLAYER_THESOUL_B then i,j,name =36,mod.MCMOption.Settings["Tainted Forgotten"],41
