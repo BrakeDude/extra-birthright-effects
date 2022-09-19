@@ -53,14 +53,6 @@ function mod:changeCMD(args,s1,s2)
 		return nil
 	end
 	mod.MCMOption.Settings[commandstr] = num
-	if commandstr == "The Forgotten" then
-		mod.MCMOption.Settings["The Soul"] = num
-		commandstr = commandstr.." and The Soul"
-	end
-	if commandstr == "The Soul" then
-		mod.MCMOption.Settings["The Forgotten"] = num
-		commandstr = commandstr.." and The Forgotten"
-	end
 	local option = (mod.MCMOption.OptionsMaxNum[char] == 3 and num == 3) and (num + 1) or ((mod.MCMOption.OptionsMaxNum[char] == 2 and num == 2) and num + 2 or num)
 	print("Changed "..commandstr.." Birthright to "..mod.MCMOption.Options[option])
 end
@@ -127,14 +119,6 @@ function mod:defaultCMD(args,s1,s2)
 		return nil
 	end
 	mod.MCMOption.Settings[commandstr] = 1
-	if commandstr == "The Forgotten" then
-		mod.MCMOption.Settings["The Soul"] = 1
-		commandstr = commandstr.." and The Soul"
-	end
-	if commandstr == "The Soul" then
-		mod.MCMOption.Settings["The Forgotten"] = 1
-		commandstr = commandstr.." and The Forgotten"
-	end
 	print(commandstr.." Birthright effect(s) is/are set to default")
 end
 

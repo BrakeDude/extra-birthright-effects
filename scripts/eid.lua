@@ -326,7 +326,7 @@ function mod:BirthrightDesc()
 				elseif playerID == PlayerType.PLAYER_KEEPER then i,j,name =15,mod.MCMOption.Settings["Keeper"],15
 				elseif playerID == PlayerType.PLAYER_APOLLYON then i,j,name =16,mod.MCMOption.Settings["Apollyon"],16
 				elseif playerID == PlayerType.PLAYER_THEFORGOTTEN then i,j,name =17,mod.MCMOption.Settings["The Forgotten"],17
-				elseif playerID == PlayerType.PLAYER_THESOUL then i,j,name =18,mod.MCMOption.Settings["The Soul"],18
+				elseif playerID == PlayerType.PLAYER_THESOUL then i,j,name =18,mod.MCMOption.Settings["The Forgotten"],18
 				elseif playerID == PlayerType.PLAYER_BETHANY then i,j,name =19,mod.MCMOption.Settings["Bethany"],19
 				elseif playerID == PlayerType.PLAYER_JACOB then i,j,name =20,mod.MCMOption.Settings["Jacob"],20
 				elseif playerID == PlayerType.PLAYER_ESAU then i,j,name =21,mod.MCMOption.Settings["Esau"],21

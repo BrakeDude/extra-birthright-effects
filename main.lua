@@ -241,7 +241,7 @@ function mod:BirthrightChange(pickup)
 		player:GetPlayerType() == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and mod.MCMOption.Settings["The Forgotten"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_THESOUL and mod.MCMOption.Settings["The Soul"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_THESOUL and mod.MCMOption.Settings["The Forgotten"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_BETHANY and mod.MCMOption.Settings["Bethany"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] == 2 or
@@ -301,7 +301,7 @@ function mod:CheckBirthrightAll(player)
 	ptype == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or
 	ptype == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] == 2 or
 	ptype == PlayerType.PLAYER_THEFORGOTTEN and mod.MCMOption.Settings["The Forgotten"] == 2 or
-	ptype == PlayerType.PLAYER_THESOUL and mod.MCMOption.Settings["The Soul"] == 2 or
+	ptype == PlayerType.PLAYER_THESOUL and mod.MCMOption.Settings["The Forgotten"] == 2 or
 	ptype == PlayerType.PLAYER_BETHANY and mod.MCMOption.Settings["Bethany"] == 2 or
 	ptype == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] == 2 or
 	ptype == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] == 2 or

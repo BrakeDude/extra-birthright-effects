@@ -2,8 +2,8 @@ local mod = ExtraBirthright
 
 function mod:ForgottenSoulHit(entity,damage)
 	local player = entity:ToPlayer()
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Soul"])
-	if player:HasCollectible(collectible) and mod.MCMOption.Settings["The Soul"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_THESOUL then
+	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"])
+	if player:HasCollectible(collectible) and mod.MCMOption.Settings["The Forgotten"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_THESOUL then
         print(math.floor(damage / 2) + player:GetSoulHearts() % 2)
         for i = 1,math.floor(damage / 2) + player:GetSoulHearts() % 2,1 do
             print(1)
