@@ -1,18 +1,18 @@
 local mod = ExtraBirthright
 
 mod.FakeBirthrightDesc = {
-	[1] = {"Pocket destiny"}, --Isaac
-	[2] = {"Lovely looks","Script from the past"}, --Magdalene
-	[3] = {"Bloody loot","Locks don't stand a chance"}, --Cain
-	[4] = {"The inner demon","Knowledge is power"}, --Judas
-	[5] = {"Soul power"}, --Blue Baby
-	[6] = {"Your very own murder", "Birds of prey"}, --Eve
-	[7] = {"Rock and throw"}, --Samson
-	[8] = {"Hell circle"}, --Azazel
-	[9] = {"Rebirth"}, --Lazarus
-	[10] = {"Random effect"}, --Eden
-	[11] = {"Last chance"}, --The Lost
-	[12] = {"Afterbirth"}, -- Lazarus Risen
+	[1] = {"en" = {"Pocket destiny"}, "ru" = {"Судьба в кармане"} }, --Isaac
+	[2] = {"en" = {"Lovely looks","Script from the past"}, "ru" = {"Прекрасная внешность", "Рукопись из прошлого"} }, --Magdalene
+	[3] = {"en" = {"Bloody loot","Locks don't stand a chance"}, "ru" = {"Кровавая добыча", "У замков нет шанса"} }, --Cain
+	[4] = {"en" = {"The inner demon","Knowledge is power"}, "ru" {"Внутренний демон","Знание - сила"}}, --Judas
+	[5] = {"en" = {"Soul power"}, "ru" = {"Сила души"}}, --Blue Baby
+	[6] = {"en" = {"Your very own murder", "Birds of prey"}, "ru" = {"Твой личный убийца","Хищные птицы"}}, --Eve
+	[7] = {"en" = {"Rock and throw"}, "ru" = {"Бери и бросай"}, --Samson
+	[8] = {"en" = {"Hell circle"}, "ru" = {"Адский круг"}}, --Azazel
+	[9] = {"en" = {"Rebirth"}, "ru" = {"Перерождение"}}, --Lazarus
+	[10] = {"en" = {"Random effect"}, "ru" = {"Случайный эффект"}}, --Eden
+	[11] = {"en" = {"Last chance"}, "ru" = {"Последний шанс"}}, --The Lost
+	[12] = {"en" = {"Rebirthed"}, "ru" = {"Перерожденный"}}, -- Lazarus Risen
 	[13] = {"Payback","Knowledge is power"}, --Dark Judas
 	[14] = {"Motherhood"}, --Lilith
 	[15] = {"Free deal"}, --Keeper
