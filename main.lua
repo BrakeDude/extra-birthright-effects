@@ -11,7 +11,7 @@ mod.bossposition = Vector.Zero
 mod.BirthrightfloorBought = false
 mod.doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
 mod.Timer = -1
-local BirthrightLangName = {en = "Birthright", ru = "Право первородства", es = ""}
+local BirthrightLangName = {en = "Birthright", ru = "Право первородства", es = "Primogenitura"}
 
 mod.VisitedRooms = {}
 
