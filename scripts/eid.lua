@@ -7,41 +7,41 @@ mod.FakeBirthrightDesc = {
 	[4] = {en = {"The inner demon","Knowledge is power"}, ru = {"Внутренний демон","Знание - сила"}}, --Judas
 	[5] = {en = {"Soul power"}, ru = {"Сила души"}}, --Blue Baby
 	[6] = {en = {"Your very own murder", "Birds of prey"}, ru = {"Твой личный убийца","Хищные птицы"}}, --Eve
-	[7] = {en = {"Rock and throw"}, ru = {"Бери и бросай"}, --Samson
+	[7] = {en = {"Rock and throw"}, ru = {"Бери и бросай"}}, --Samson
 	[8] = {en = {"Hell circle"}, ru = {"Адский круг"}}, --Azazel
 	[9] = {en = {"Rebirth"}, ru = {"Перерождение"}}, --Lazarus
 	[10] = {en = {"Random effect"}, ru = {"Случайный эффект"}}, --Eden
 	[11] = {en = {"Last chance"}, ru = {"Последний шанс"}}, --The Lost
 	[12] = {en = {"Rebirthed"}, ru = {"Перерожденный"}}, -- Lazarus Risen
-	[13] = {"Payback","Knowledge is power"}, --Dark Judas
-	[14] = {"Motherhood"}, --Lilith
-	[15] = {"Free deal"}, --Keeper
-	[16] = {"Stronger void"}, --Apollyon
-	[17] = {"You're falling apart..."}, --The Forgotten
-	[18] = {"You're fading away..."}, --The Soul
-	[19] = {"Blessed"}, --Bethany
-	[20] = {"Trade"}, --Jacob
-	[21] = {"Faithless reward"}, --Esau
-	[22] = {"Destiny-"}, --Tainted Isaac
-	[23] = {"Wounds heal"}, --Tainted Magdalene
-	[24] = {"Destiny stealer"}, --Tainted Cain
-	[25] = {"Master of shadows"}, --Tainted Judas
-	[26] = {"Stinky friends"}, --Tainted Blue Baby
-	[27] = {"Stronger clots"}, --Tainted Eve
-	[28] = {"Controlled rage"}, --Tainted Samson
-	[29] = {"Wings of destruction"}, --Tainted Azazel
-	[30] = {"Alive and Dead"}, --Tainted Lazarus
-	[31] = {""}, --Tainted Eden
-	[32] = {""}, --Tainted Lost
-	[33] = {"Hemorrhage"}, --Tainted Lilith
-	[34] = {"Power of Greed"}, --Tainted Keeper
-	[35] = {"Locusts of apocalypse","God flies"}, --Tainted Apollyon
-	[36] = {""}, --Tainted Forgotten
-	[37] = {"Better wisps"}, --Tainted Bethany
-	[38] = {"No mercy","Forgiven Soul"}, --Tainted Jacob
-	[39] = {"Dead and Alive"}, --Tainted Dead Lazarus
-	[40] = {"No mercy","Forgiven Soul"}, --Tainted Jacob Lost
-	[41] = {""} --Tainted Soul
+	[13] = {en = {"Payback","Knowledge is power"}, ru = {"Расплата","Знание - сила"}}, --Dark Judas
+	[14] = {en = {"Motherhood"}, ru = {"Материнство"}}, --Lilith
+	[15] = {en = {"Free deal"}, ru = {"Сделка за бесплатно"}}, --Keeper
+	[16] = {en = {"Stronger void"}, ru = {"Усиленная пустота"}}, --Apollyon
+	[17] = {en = {"You're falling apart..."}, ru = {"Ты рассыпаешься..."}}, --The Forgotten
+	[18] = {en = {"You're fading away..."}, ru = {"Ты исчезаешь..."}}, --The Soul
+	[19] = {en = {"Blessed"}, ru = {"Благословенная"}}, --Bethany
+	[20] = {en = {"Trade"}, ru = {"Обмен"}}, --Jacob
+	[21] = {en = {"Faithless reward"}, ru = {"Вероломный награда"}}, --Esau
+	[22] = {en = {"Destiny-"}, ru = {"Судьба-"}}, --Tainted Isaac
+	[23] = {en = {"Wounds heal"}, ru = {"Раны заживают"}}, --Tainted Magdalene
+	[24] = {en = {"Destiny stealer"}, ru = {"Похититель судьбы"}}, --Tainted Cain
+	[25] = {en = {"Master of shadows"}, ru = {"Мастер теней"}}, --Tainted Judas
+	[26] = {en = {"Stinky friends"}, ru = {"Вонючие друзья"}}, --Tainted Blue Baby
+	[27] = {en = {"Stronger clots"}, ru = {"Усиленные сгусточки"}}, --Tainted Eve
+	[28] = {en = {"Controlled rage"}, ru = {"Контролируеммая ярость"}}, --Tainted Samson
+	[29] = {en = {"Wings of destruction"}, ru = {"Крылья разрушения"}}, --Tainted Azazel
+	[30] = {en = {"Alive and Dead"}, ru = {"Живой и мёртвый"}}, --Tainted Lazarus
+	[31] = {en = {""}, ru = {""}}, --Tainted Eden
+	[32] = {en = {""}, ru = {""}}, --Tainted Lost
+	[33] = {en = {"Hemorrhage"}, ru = {"Кровотечение"}}, --Tainted Lilith
+	[34] = {en = {"Power of Greed"}, ru = {"Сила Жадности"}}, --Tainted Keeper
+	[35] = {en = {"Locusts of apocalypse","God flies"}, ru = {"Саранча апокалипсиса","Божественные мухи"}}, --Tainted Apollyon
+	[36] = {en = {""}, ru = {""}}, --Tainted Forgotten
+	[37] = {en = {"Better wisps"}, ru = {"Огоньки получше"}}, --Tainted Bethany
+	[38] = {en = {"No mercy","Forgiven Soul"}, ru = {"Без пощады","Прощённая душа"}}, --Tainted Jacob
+	[39] = {en = {"Dead and Alive"}, ru = {"Мёртвый и живой"}}, --Tainted Dead Lazarus
+	[40] = {en = {"No mercy","Forgiven Soul"}, ru = {"Без пощады","Прощённая душа"}}, --Tainted Jacob Lost
+	[41] = {en = {""}, ru = {""}} --Tainted Soul
 }
 
 mod.EBEIDDesc = {}

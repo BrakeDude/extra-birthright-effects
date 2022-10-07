@@ -11,7 +11,7 @@ mod.bossposition = Vector.Zero
 mod.BirthrightfloorBought = false
 mod.doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
 mod.Timer = -1
-
+local BirthrightLangName = {en = "Birthright", ru = "Право первородства"}
 
 mod.VisitedRooms = {}
 
@@ -376,7 +376,10 @@ function mod:CheckBirthrightAll(player)
 			elseif ptype == PlayerType.PLAYER_BETHANY_B then charName = 36
 			elseif (ptype == PlayerType.PLAYER_JACOB_B or ptype == PlayerType.PLAYER_JACOB2_B) then charName = 37
 			end
-			Game():GetHUD():ShowItemText("Birthright", mod.FakeBirthrightDesc[ptype+1][mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1], false)
+			local lang = Options.Language
+			local desc = mod.FakeBirthrightDesc[ptype+1][lang] or mod.FakeBirthrightDesc[ptype+1].en
+			local brname = BirthrightLangName[lang] or BirthrightLangName.en
+			Game():GetHUD():ShowItemText(brname, desc[mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1], false)
 		end
 	end
 
