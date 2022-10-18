@@ -15,21 +15,6 @@ local BirthrightLangName = {en = "Birthright", ru = "Право первород
 
 mod.VisitedRooms = {}
 
-mod.Books = {
-	CollectibleType.COLLECTIBLE_ANARCHIST_COOKBOOK,
-	CollectibleType.COLLECTIBLE_BIBLE,
-	CollectibleType.COLLECTIBLE_BOOK_OF_BELIAL,
-	CollectibleType.COLLECTIBLE_BOOK_OF_REVELATIONS,
-	CollectibleType.COLLECTIBLE_BOOK_OF_SECRETS,
-	CollectibleType.COLLECTIBLE_BOOK_OF_SHADOWS,
-	CollectibleType.COLLECTIBLE_BOOK_OF_SIN,
-	CollectibleType.COLLECTIBLE_SATANIC_BIBLE,
-	CollectibleType.COLLECTIBLE_TELEPATHY_BOOK,
-	CollectibleType.COLLECTIBLE_BOOK_OF_THE_DEAD,
-	CollectibleType.COLLECTIBLE_MONSTER_MANUAL,
-	CollectibleType.COLLECTIBLE_LEMEGETON
-}
-
 mod.shootDirecton = {
 	[Direction.NO_DIRECTION] = Vector(0,0),
 	[Direction.LEFT] = Vector(-1, 0),
