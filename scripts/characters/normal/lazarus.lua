@@ -10,7 +10,7 @@ function mod:GiveHavenCall()
         (mod.MCMOption.Settings["Lazarus Risen"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 and player:HasCollectible(collectible2)) then
             player:SetPocketActiveItem(mod.havenscall)
         end
-        local data = mod:GetData(player)
+        local data = mod.GetPersistentPlayerData(player)
         if data.RisenItems then
             for _,v in pairs(data.RisenItems) do
                 player:RemoveCollectible(v)
@@ -39,13 +39,13 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.LazCache, CacheFlag.CACHE_FL
 
 function mod:Laz2Ser(player)
     if (mod.MCMOption.Settings["Lazarus"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS) then
-        local data = mod:GetData(player)
+        local data = mod.GetPersistentPlayerData(player)
         if data.RisenUsed and not player:IsDead() then
             player:Die()
         end
     elseif (mod.MCMOption.Settings["Lazarus Risen"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2) then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus Risen"])
-        local data = mod:GetData(player)
+        local data = mod.GetPersistentPlayerData(player)
         if player:HasCollectible(collectible) and not data.RisenItems then
             player:AddNullCostume(NullItemID.ID_ANGEL)
             local itemPool = Game():GetItemPool()
@@ -94,7 +94,7 @@ function mod:LazFingDies(collectibleType, rng, player)
     if player:GetPlayerType() == PlayerType.PLAYER_LAZARUS then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus"])
         if player:HasCollectible(collectible) then
-            local data = mod:GetData(player)
+            local data = mod.GetPersistentPlayerData(player)
             data.RisenUsed = true
             for _,enemy in ipairs(Isaac.GetRoomEntities()) do
                 if enemy:IsEnemy() and enemy:IsActiveEnemy() and enemy:IsVulnerableEnemy() then
@@ -110,7 +110,7 @@ function mod:LazFingDies(collectibleType, rng, player)
     elseif player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus Risen"])
         if player:HasCollectible(collectible) then
-            local data = mod:GetData(player)
+            local data = mod.GetPersistentPlayerData(player)
             if not data.RisenItemsTemp then
                 data.RisenItemsTemp = {}
                 while #data.RisenItemsTemp < 3 do
@@ -132,7 +132,7 @@ mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.LazFingDies, mod.havenscall)
 function mod:LazTempItemsReset()
     for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
         player = player:ToPlayer()
-        local data = mod:GetData(player)
+        local data = mod.GetPersistentPlayerData(player)
         if data.RisenItemsTemp then
             for _,v in pairs(data.RisenItemsTemp) do
                 player:RemoveCollectible(v)

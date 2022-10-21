@@ -4,7 +4,7 @@ local ChargeBar = Sprite()
 ChargeBar:Load("gfx/chargebar_berserk.anm2",true)
 ChargeBar:LoadGraphics()
 function mod:TSamson(player)
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 	if player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B then
 		if mod.MCMOption.Settings["Tainted Samson"] > 1 then	
 			local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Samson"],false)
@@ -40,7 +40,7 @@ function mod:TSamsonChargeBar(player)
 	if mod.MCMOption.Settings["Tainted Samson"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Samson"],false)
 		if not player:HasWeaponType(WeaponType.WEAPON_BONE) and player:HasCollectible(collectible) then
-			local data = mod:GetData(player)
+			local data = mod.GetPersistentPlayerData(player)
 			if not Game():IsPaused() then
 				if data.RageMeter >= 100000 then
 					if not ChargeBar:IsPlaying("Charged") then

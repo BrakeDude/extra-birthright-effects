@@ -2,7 +2,7 @@ local mod = ExtraBirthright
 --#region Blue Baby
 function mod:BBHearts(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Blue Baby"])
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 	if player:HasCollectible(collectible) and (mod.MCMOption.Settings["Blue Baby"] > 1) and player:GetPlayerType() == PlayerType.PLAYER_XXX then
 		if not data.BBHearts then
 			data.BBHearts = player:GetSoulHearts()

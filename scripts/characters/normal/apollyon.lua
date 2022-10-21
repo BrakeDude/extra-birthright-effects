@@ -7,7 +7,7 @@ function mod:Stats(player,rng,list)
 			if not entity:ToPickup():IsShopItem() and (Isaac.GetItemConfig():GetCollectible(entity.SubType).Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST) then 
 				local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
 				local itemrng = player:GetCollectibleRNG(collectible)
-				local data = mod:GetData(player)
+				local data = mod.GetPersistentPlayerData(player)
 				local quality = Isaac.GetItemConfig():GetCollectible(entity.SubType).Quality
 				local maxstat = quality * 360
 				local statsNames = {"Speed","FireDelay","Damage","Range","ShotSpeed","Luck"}
@@ -42,7 +42,7 @@ function mod:SuccStats(player,cache)
 	if mod.MCMOption.Settings["Apollyon"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
 		if player:HasCollectible(collectible) then
-			local data = mod:GetData(player)
+			local data = mod.GetPersistentPlayerData(player)
 			if cache == CacheFlag.CACHE_SPEED then
 				player.MoveSpeed = player.MoveSpeed + data.ApollyonStatUps.Speed / 180
 			elseif cache == CacheFlag.CACHE_FIREDELAY then

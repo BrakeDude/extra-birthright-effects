@@ -1,7 +1,7 @@
 --#region Magdalene and Cain
 local mod = ExtraBirthright
 function mod:CharmingScript(player)
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
 	if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then
 		if mod.MCMOption.Settings["Magdalene"] == 2 or mod.MCMOption.Settings["Magdalene"] == 4 then

@@ -22,7 +22,7 @@ mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.MoreBirds, EntityType.ENTIT
 
 function mod:BirdsCache(player,cache)
     local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Eve"])
-    local data = mod:GetData(player)
+    local data = mod.GetPersistentPlayerData(player)
     if not data.EveBirds then
         data.EveBirds = 0
     end
@@ -37,7 +37,7 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.BirdsCache, CacheFlag.CACHE_
 function mod:BirdsReset()
     for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
         player = player:ToPlayer()
-        local data = mod:GetData(player)
+        local data = mod.GetPersistentPlayerData(player)
         data.EveBirds = 0
     end
 end

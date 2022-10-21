@@ -13,6 +13,8 @@ mod.doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
 mod.Timer = -1
 local BirthrightLangName = {en = "Birthright", ru = "Право первородства", es = "Primogenitura"}
 
+mod.PlayerData = {}
+
 mod.VisitedRooms = {}
 
 mod.shootDirecton = {
@@ -67,7 +69,7 @@ function mod:SaveSomeData(isSaving)
 	local saveBirthright = {}
 	local game = Game()
 	local level = game:GetLevel()
-	if isSaving then
+	--[[if isSaving then
 		for i = 1, game:GetNumPlayers() do
 			local saveData = {}
 			local player = Isaac.GetPlayer(i-1)
@@ -78,7 +80,10 @@ function mod:SaveSomeData(isSaving)
 		saveBirthright.BirthrightfloorBought = mod.BirthrightfloorBought
 		saveBirthright.VisitedRooms = mod.VisitedRooms
 		saveBirthright.Timer = mod.Timer
-	end
+	end]]
+
+	saveBirthright.PlayerData = json.encode(mod.PlayerData)
+
 	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption.Settings)
 	saveBirthright.ModConfigMenuHearts = json.encode(mod.EBHeartsDrops.Settings)
 	saveBirthright.ModConfigMenuPills = json.encode(mod.EBPillsDrops.Settings)
@@ -98,7 +103,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.SaveSomeData)
 function mod:InitData(player)
 	local pType = player:GetPlayerType()
 	if pType <= 40 then
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 		if pType == PlayerType.PLAYER_APOLLYON then
 			if not data.ApollyonStatUps then
 				data.ApollyonStatUps = {
@@ -116,8 +121,8 @@ function mod:InitData(player)
 				data.RageMeter = 0
 			end
 		end
-		if data.isSubstituteBirthrightOverHead == nil then
-			data.isSubstituteBirthrightOverHead = false
+		if mod:GetData(player).isSubstituteBirthrightOverHead == nil then
+			mod:GetData(player).isSubstituteBirthrightOverHead = false
 		end
 	end
 end
@@ -130,10 +135,14 @@ function mod:LoadItBack(isContinued)
 	if mod:HasData() then
 		local loadBirthright = json.decode(mod:LoadData())
 		if isContinued then
-			for i = 1, game:GetNumPlayers()  do
-				local player = Isaac.GetPlayer(i-1)
-				player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
-				player:GetData().ExtraBirthright.isSubstituteBirthrightOverHead = false
+			if tonumber(loadBirthright.Version) < tonumber(mod.Version) then
+				for i = 1, game:GetNumPlayers()  do
+					local player = Isaac.GetPlayer(i-1)
+					player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
+					player:GetData().ExtraBirthright.isSubstituteBirthrightOverHead = false
+				end
+			else
+				mod.PlayerData = loadBirthright.PlayerData
 			end
 			mod.BirthrightfloorBought = loadBirthright.BirthrightfloorBought
 			mod.VisitedRooms = loadBirthright.VisitedRooms or {}
@@ -184,7 +193,7 @@ mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.LoadItBack)
 --#endregion
 --#region Init
 function mod:Init(player)
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 	data.gotBirthright = true
 	if player:GetPlayerType() == PlayerType.PLAYER_EVE_B then
 		data.BirthrightBloodBabyCooldown = data.BirthrightBloodBabyCooldown or 2
@@ -264,7 +273,7 @@ function mod:CheckBirthrightAll(player)
 	local game = Game()
 	local level = game:GetLevel()
 	local ptype = player:GetPlayerType()
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 	if ptype <= 40 and player.FrameCount == 1 then
 		player:AddCacheFlags(CacheFlag.CACHE_ALL)
 		player:EvaluateItems()
@@ -318,9 +327,9 @@ function mod:CheckBirthrightAll(player)
 			player:AddCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT,0,false)
 		end
 	end
-	if not data.isSubstituteBirthrightOverHead and player.QueuedItem.Item then
+	if not mod:GetData(player).isSubstituteBirthrightOverHead and player.QueuedItem.Item then
 		if player.QueuedItem.Item.ID == mod.substituteBirthright then
-			data.isSubstituteBirthrightOverHead = true
+			mod:GetData(player).isSubstituteBirthrightOverHead = true
 			local charName = ""
 			if ptype == PlayerType.PLAYER_ISAAC then charName = 1
 			elseif ptype == PlayerType.PLAYER_MAGDALENA then charName = 2
@@ -369,7 +378,7 @@ function mod:CheckBirthrightAll(player)
 	end
 
 	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(mod.substituteBirthright)) and not data.gotBirthright then
-		data.isSubstituteBirthrightOverHead = false
+		mod:GetData(player).isSubstituteBirthrightOverHead = false
 		if ptype == PlayerType.PLAYER_MAGDALENA then
 			if player:HasCollectible(mod.substituteBirthright) then
 				player:AddMaxHearts(2)

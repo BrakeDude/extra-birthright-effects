@@ -6,7 +6,7 @@ function mod:LostLastChance(player)
     if mod.MCMOption.Settings["The Lost"] > 1 then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Lost"])
         if player:GetPlayerType() == PlayerType.PLAYER_THELOST then
-            local data = mod:GetData(player)
+            local data = mod.GetPersistentPlayerData(player)
             if not data.LostChance then
                 data.LostChance = 0
             end

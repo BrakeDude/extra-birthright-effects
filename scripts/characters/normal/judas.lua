@@ -2,7 +2,7 @@
 local mod = ExtraBirthright
 function mod:JudasBecomesStansPuppet(entity)
 	local player = entity:ToPlayer()
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Judas"],true)
 	if player:HasCollectible(collectible) and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) and player:GetPlayerType() == PlayerType.PLAYER_JUDAS then
 		local rngtrack = player:GetCollectibleRNG(collectible):RandomFloat()
@@ -21,13 +21,16 @@ local addedCallbacks = {}
 
 function mod:JudasBirthBrimRemove()
 	for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
-		mod:GetData(player).JudasBirthBrimstone = false
+		player = player:ToPlayer()
+		local data = mod.GetPersistentPlayerData(player)
+		data.JudasBirthBrimstone = false
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.JudasBirthBrimRemove)
 
 function mod:JudasDamageAsStansPuppet(player,flag)
-	if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and flag == CacheFlag.CACHE_DAMAGE and mod:GetData(player).JudasBirthBrimstone then
+	local data = mod.GetPersistentPlayerData(player)
+	if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and flag == CacheFlag.CACHE_DAMAGE and data.JudasBirthBrimstone then
 		player.Damage = player.Damage + 5
 	end
 end

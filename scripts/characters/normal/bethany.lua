@@ -92,7 +92,7 @@ function mod:BlessingsUpdate(player)
     local room = game:GetRoom()
     local level = game:GetLevel()
     local curse = game:GetLevel():GetCurses()
-    local data = mod:GetData(player)
+    local data = mod.GetPersistentPlayerData(player)
     if mod.MCMOption.Settings["Bethany"] > 1 then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
         if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) then
@@ -289,7 +289,7 @@ function mod:NewLevelBethany()
     mod.VisitedRooms = {}
     for i = 1, Game():GetNumPlayers() do
         local player = Isaac.GetPlayer(i-1)
-        local data = mod:GetData(player)
+        local data = mod.GetPersistentPlayerData(player)
         if data.Bethany and player:GetPlayerType() ~= PlayerType.PLAYER_BETHANY then
             player:ChangePlayerType(PlayerType.PLAYER_BETHANY)
             if data.BethanyLost then
@@ -351,7 +351,7 @@ function mod:BlessingOfImperceptibleAndBaptizedEffect()
             for i = 1, game:GetNumPlayers() do
                 local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
                 local player = Isaac.GetPlayer(i-1)
-                local data = mod:GetData(player)
+                local data = mod.GetPersistentPlayerData(player)
                 local rng = player:GetCollectibleRNG(collectible)
                 if rng:RandomInt(100) < 35 and room:GetType() ~= RoomType.ROOM_BOSS and room:GetType() ~= RoomType.ROOM_BOSSRUSH
                 and room:GetType() ~= RoomType.ROOM_BLACK_MARKET and room:GetType() ~= RoomType.ROOM_GREED_EXIT
@@ -384,7 +384,7 @@ function mod:BlessingOfImperceptibleAndBaptizedEffect()
         else
             for i = 1, game:GetNumPlayers() do
                 local player = Isaac.GetPlayer(i-1)
-                local data = mod:GetData(player)
+                local data = mod.GetPersistentPlayerData(player)
                 if data.Bethany and player:GetPlayerType() ~= PlayerType.PLAYER_BETHANY then
                     player:ChangePlayerType(PlayerType.PLAYER_BETHANY)
                     if data.BethanyLost and not room:IsMirrorWorld() then
@@ -410,7 +410,7 @@ function mod:TimerRender()
                 f:Load("font/teammeatfont16.fnt")
                 for i = 1,game:GetNumPlayers() do
                     local player = Isaac.GetPlayer(i-1)
-                    local data = mod:GetData(player)
+                    local data = mod.GetPersistentPlayerData(player)
                     if player:HasCollectible(collectible) and data.Bethany then
                         f:DrawStringScaled("Teleporting out in: "..math.ceil(mod.Timer/60),50,50,0.6,0.6,KColor(1,1,1,1,0,0,0),0,true)
                     end
@@ -422,7 +422,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.TimerRender)
 
 function mod:ClickerCheck(collectible,_,player)
-    local data = mod:GetData(player)
+    local data = mod.GetPersistentPlayerData(player)
     if collectible == CollectibleType.COLLECTIBLE_CLICKER or collectible == CollectibleType.COLLECTIBLE_ESAU_JR then
         data.Bethany = nil
     end
