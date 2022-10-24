@@ -75,7 +75,7 @@ mod.MCMOption ={
 		3, --Tainted Lilith
 		3, --Tainted Keeper
 		5, --Tainted Apollyon
-		1, --Tainted Forgotten
+		3, --Tainted Forgotten
 		3, --Tainted Bethany
 		5 --Tainted Jacob
 	},

@@ -62,6 +62,7 @@ include("scripts/characters/tainted/lazarus.lua")
 include("scripts/characters/tainted/lilith.lua")
 include("scripts/characters/tainted/keeper.lua")
 include("scripts/characters/tainted/apollyon.lua")
+include("scripts/characters/tainted/forgotten.lua")
 include("scripts/characters/tainted/bethany.lua")
 include("scripts/characters/tainted/jacob.lua")
 --#region Saving
