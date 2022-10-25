@@ -160,7 +160,7 @@ mod.MCMOption ={
 		{"1: Spawn red creep that deals 250% player's damage. Every time umbilical baby is shot spawns red creep that deals 150% player's damage."},--Tainted Lilith
 		{"1: Picking up coins gives temporary damage up that wears off over time."},--Tainted Keeper
 		{"1: Spawns 20 random harbinger locusts on pickup. Entering hostile room will spawn 2-5 random locusts. 2: Abyss locusts have small Godhead aura."},--Tainted Apollyon
-		{"Comming soon."},--Tainted Forgotten
+		{"1: Tainted Soul gets up to 5 defensive bone orbitals every room."},--Tainted Forgotten
 		{"1: Item wisps shoot homing tears. Tear rate is the same as player's. Wisp's tears deal 40% player's damage."},--Tainted Bethany
 		{"1: +1 Health up, +50% Damage Multiplier, +1 Tears up and +0.3 Speed up. Dark Esau targets enemy that damaged Tainted Jacob, kills Tainted Jacob in one hit. 2: Dark Esau becomes friendly and targets enemies."}--Tainted Jacob
 	},

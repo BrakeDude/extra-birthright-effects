@@ -377,7 +377,7 @@ function mod:CheckBirthrightAll(player)
 			Game():GetHUD():ShowItemText(brname, desc[mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1], false)
 		end
 	end
-
+	if ptype == PlayerType.PLAYER_THESOUL_B then return end
 	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(mod.substituteBirthright)) and not data.gotBirthright then
 		mod:GetData(player).isSubstituteBirthrightOverHead = false
 		if ptype == PlayerType.PLAYER_MAGDALENA then
@@ -475,6 +475,11 @@ function mod:CheckBirthrightAll(player)
 				local rnglocust = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT):RandomInt(5)+1
 				Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
 			end
+		end
+		if ptype == PlayerType.PLAYER_THEFORGOTTEN_B and mod.MCMOption.Settings["Tainted Forgotten"] > 1 then
+			mod:GetData(player).TriggerForgorBones = true
+			player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
+			player:EvaluateItems()
 		end
 		if (ptype == PlayerType.PLAYER_JACOB_B or ptype == PlayerType.PLAYER_JACOB2_B) and (mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4) then
 			player:AddMaxHearts(2, true)
