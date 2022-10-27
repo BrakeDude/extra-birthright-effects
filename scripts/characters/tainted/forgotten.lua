@@ -1,14 +1,19 @@
 local mod = ExtraBirthright
 
 function mod:TForgorBones(player,cache)  
-    if player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN_B then
+    if player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN_B and mod.MCMOption.Settings["Tainted Forgotten"] > 1 then
         local soul = player:GetOtherTwin()
         local data = mod:GetData(player)
         if soul and data.TriggerForgorBones then
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Forgotten"])
             if player:HasCollectible(collectible) then
-                soul:RespawnFamiliars()
-                soul:CheckFamiliar(FamiliarVariant.BONE_ORBITAL, 5, player:GetCollectibleRNG(collectible), nil, 0)
+                local bones = 0
+                for _,bone in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR,FamiliarVariant.BONE_ORBITAL,-1)) do
+                    if bone.SpawnerEntity and GetPtrHash(bone.SpawnerEntity) == GetPtrHash(soul) then
+                        bones = bones + 1
+                    end
+                end
+                soul:CheckFamiliar(FamiliarVariant.BONE_ORBITAL, math.min(5,5-math.max(0,bones)), player:GetCollectibleRNG(collectible), nil, 0)
             end
             data.TriggerForgorBones = nil
         end
