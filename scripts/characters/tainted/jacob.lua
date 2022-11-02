@@ -106,7 +106,7 @@ function mod:JacobStatsCache(player,cacheFlag)
 			if cacheFlag == CacheFlag.CACHE_DAMAGE then
 				player.Damage = player.Damage * 1.5
 			elseif cacheFlag == CacheFlag.CACHE_FIREDELAY then
-				player.MaxFireDelay = player.MaxFireDelay / (1 + 3.05 / 8)
+				player.MaxFireDelay = mod:tearsUp(player.MaxFireDelay,1.5)
 			elseif cacheFlag == CacheFlag.CACHE_SPEED then
 				player.MoveSpeed = player.MoveSpeed + 0.3
 			end

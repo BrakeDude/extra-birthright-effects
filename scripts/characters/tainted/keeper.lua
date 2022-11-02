@@ -10,7 +10,7 @@ function mod:KeeperStatsUpdate(player)
                 data.BonusKeeperDamage = 0
             end
             if not data.BonusKeeperFrame then
-                data.BonusKeeperFrame = 60
+                data.BonusKeeperFrame = 120
             end
             if not data.PrevCoinCount then
                 data.PrevCoinCount = 0
@@ -32,11 +32,11 @@ function mod:KeeperStatsUpdate(player)
                     end
                     player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
                     player:EvaluateItems()
-                    data.BonusKeeperFrame = 60
+                    data.BonusKeeperFrame = 120
                 end
                 data.BonusKeeperFrame = data.BonusKeeperFrame - 1
-            elseif data.BonusKeeperFrame ~= 60 then
-                data.BonusKeeperFrame = 60
+            elseif data.BonusKeeperFrame ~= 120 then
+                data.BonusKeeperFrame = 120
             end
         end
     end
