@@ -13,12 +13,12 @@ mod.FakeBirthrightDesc = {
 	[10] = {en = {"Random effect"}, ru = {"Случайный эффект"}, es = {"Efecto aleatorio"}}, --Eden
 	[11] = {en = {"Last chance"}, ru = {"Последний шанс"}, es = {"Una última oportunidad"}}, --The Lost
 	[12] = {en = {"Rebirthed"}, ru = {"Перерожденный"}, es = {"Renacido"}}, -- Lazarus Risen
-	[13] = {en = {"Payback","Knowledge is power"}, ru = {"Расплата","Знание - сила"}, es = {"",""}}, --Dark Judas
+	[13] = {en = {"Payback","Knowledge is power"}, ru = {"Расплата","Знание - сила"}, es = {"Venganza","El conocimiento es poder"}}, --Dark Judas
 	[14] = {en = {"Motherhood"}, ru = {"Материнство"}, es = {"Maternidad"}}, --Lilith
 	[15] = {en = {"Free deal"}, ru = {"Сделка за бесплатно"}, es = {"Es un trato"}}, --Keeper
 	[16] = {en = {"Stronger void"}, ru = {"Усиленная пустота"}, es = {"Vacío potenciado"}}, --Apollyon
 	[17] = {en = {"You're falling apart..."}, ru = {"Ты рассыпаешься..."}, es = {"Te caes a pedazos..."}}, --The Forgotten
-	[18] = {en = {"You're fading away..."}, ru = {"Ты исчезаешь..."}, es = {"Te estás desvaneciendo"}}, --The Soul
+	[18] = {en = {"You're fading away..."}, ru = {"Ты исчезаешь..."}, es = {"Te estás desvaneciendo..."}}, --The Soul
 	[19] = {en = {"Blessed"}, ru = {"Благословенная"}, es = {"Bendecida"}}, --Bethany
 	[20] = {en = {"Trade"}, ru = {"Обмен"}, es = {"Intercambio"}}, --Jacob
 	[21] = {en = {"Faithless reward"}, ru = {"Вероломный награда"}, es = {"Recompensa impía"}}, --Esau
@@ -36,12 +36,12 @@ mod.FakeBirthrightDesc = {
 	[33] = {en = {"Hemorrhage"}, ru = {"Кровотечение"}, es = {"Hemorragia"}}, --Tainted Lilith
 	[34] = {en = {"Power of Greed"}, ru = {"Сила Жадности"}, es = {"El poder de la codicia"}}, --Tainted Keeper
 	[35] = {en = {"Locusts of apocalypse","God flies"}, ru = {"Саранча апокалипсиса","Божественные мухи"}, es = {"Langostas del apocalipsis","Moscas angelicales"}}, --Tainted Apollyon
-	[36] = {en = {"Bone shield"}, ru = {"Костяной щит"}, es = {""}}, --Tainted Forgotten
+	[36] = {en = {"Bone shield"}, ru = {"Костяной щит"}, es = {"Escudo esquelético"}}, --Tainted Forgotten
 	[37] = {en = {"Better wisps"}, ru = {"Огоньки получше"}, es = {"Mejores flamas"}}, --Tainted Bethany
 	[38] = {en = {"No mercy","Forgiven Soul"}, ru = {"Без пощады","Прощённая душа"}, es = {"Sin piedad","Alma perdonada"}}, --Tainted Jacob
 	[39] = {en = {"Dead and Alive"}, ru = {"Мёртвый и живой"}, es = {"Vivo y muerto"}}, --Tainted Dead Lazarus
 	[40] = {en = {"No mercy","Forgiven Soul"}, ru = {"Без пощады","Прощённая душа"}, es = {"Sin piedad","Alma perdonada"}}, --Tainted Jacob Lost
-	[41] = {en = {"Bone shield"}, ru = {"Костяной щит"}, es = {""}} --Tainted Soul
+	[41] = {en = {"Bone shield"}, ru = {"Костяной щит"}, es = {"Escudo esquelético"}} --Tainted Soul
 }
 
 mod.EBEIDDesc = {}
