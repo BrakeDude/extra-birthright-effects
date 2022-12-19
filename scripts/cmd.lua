@@ -4,6 +4,9 @@ function mod:GetCMDOption(arg,tainted)
 	if tainted then
 		start = 21
 	end
+	if string.find(arg,"Risen") then
+		return 11
+	end
 	for i = start, #mod.MCMOption.Name do
 		if string.find(arg,mod.MCMOption.Name[i])then
 			return i
@@ -21,7 +24,6 @@ function mod:changeCMD(args,s1,s2)
 	else
 		char = mod:GetCMDOption(args,false)
 	end
-	
 	if not char then
 		return nil
 	end
@@ -31,7 +33,6 @@ function mod:changeCMD(args,s1,s2)
 		return nil
 	end
 	commandstr = mod.MCMOption.Name[char]
-	
 	if tonumber(indx) < 0 and tonumber(indx) > mod.MCMOption.OptionsMaxNum[char] then
 		return nil
 	end
@@ -76,6 +77,7 @@ end
 function mod:getCMD(args,s1,s2)
 	local commandstr = ""
 	local tainted = string.find(args,"Tainted")
+	local char
 	if tainted == s2 + 2 then
 		char = mod:GetCMDOption(args,true)
 	else
@@ -90,19 +92,21 @@ function mod:getCMD(args,s1,s2)
 		return nil
 	end
 	local num = mod.MCMOption.Settings[mod.MCMOption.Name[char]]
-	print(mod.MCMOption.Name[char])
 	local option = (mod.MCMOption.OptionsMaxNum[char] == 3 and num == 3) and (num + 1) or num
 	print(commandstr.." Birthright effect current option is "..mod.MCMOption.Options[option])
 	print("You can change effect from 1 to "..mod.MCMOption.OptionsMaxNum[char])
+	print("Changing effect of The Forgotten or The Soul will change it for both of them")
 end
 
 function mod:defaultCMD(args,s1,s2)
 	local commandstr = ""
 	local tainted = string.find(args,"Tainted")
+	local char
 	if tainted == s2 + 2 then
-		commandstr = "Tainted "
+		char = mod:GetCMDOption(args,true)
+	else
+		char = mod:GetCMDOption(args,false)
 	end
-	local char = mod:GetCMDOption(args,commandstr)
 	if not char then
 		return nil
 	end
@@ -113,11 +117,16 @@ function mod:defaultCMD(args,s1,s2)
 		return nil
 	end
 	mod.MCMOption.Settings[commandstr] = 1
-	print(commandstr.." Birthright effect is set to default")
+	print(commandstr.." Birthright effect(s) is/are set to default")
 end
 
 function mod:CmdCommands(command,args)
 	if command == "extrabirthright" then
+		if string.find(args,"resetModConfig") == 1 then
+			mod:ResetMCM()
+			print("done")
+			return nil
+		end
 		if string.find(args,"change") == 1 then
 			mod:changeCMD(args,string.find(args,"change"))
 		end
@@ -130,6 +139,7 @@ function mod:CmdCommands(command,args)
 		if string.find(args,"default") == 1 then
 			mod:defaultCMD(args,string.find(args,"default"))
 		end
+		mod:BirthrightDesc()
 	end
 	return nil
 end

@@ -336,34 +336,43 @@ function mod:GetData(entity)
 	return nil
 end
 
-mod.entitySpawnData = {}
-mod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, function(_, type, variant, subType, position, velocity, spawner, seed)
-	mod.entitySpawnData[seed] = {
-		Type = type,
-		Variant = variant,
-		SubType = subType,
-		Position = position,
-		Velocity = velocity,
-		SpawnerEntity = spawner,
-		InitSeed = seed
-	}
-end)
-mod:AddCallback(ModCallbacks.MC_POST_TEAR_INIT, function(_, entity)
-	local seed = entity.InitSeed
-	local data = mod:GetData(entity)
-	data.SpawnData = mod.entitySpawnData[seed]
-end)
-mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function(_, entity)
-	local data = mod:GetData(entity)
-	data.SpawnData = nil
-end)
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function()
-	mod.entitySpawnData = {}
-end)
+function mod.GetPersistentPlayerData(player) --From Retribution, by Xalum
+	player = player:ToPlayer()
+	if mod.PlayerData then
+		local seedReference = CollectibleType.COLLECTIBLE_SAD_ONION
+		local playerType = player:GetPlayerType()
+
+		if playerType == PlayerType.PLAYER_LAZARUS2_B then
+			seedReference = CollectibleType.COLLECTIBLE_INNER_EYE
+		elseif playerType ~= PlayerType.PLAYER_ESAU then
+			player = player:GetMainTwin()
+		end
+
+		local tableIndex = player:GetCollectibleRNG(seedReference):GetSeed()
+		tableIndex = tostring(tableIndex)
+
+		mod.PlayerData[tableIndex] = mod.PlayerData[tableIndex] or {}
+		return mod.PlayerData[tableIndex]
+	else
+		return {}
+	end
+end
 
 function mod:Contains(list, x)
 	for _, v in pairs(list) do
 		if v == x then return true end
 	end
 	return false
+end
+
+function mod:tearsUp(firedelay, val)
+    local currentTears = 30 / (firedelay + 1)
+    local newTears = currentTears + val
+    return math.max((30 / newTears) - 1, -0.75)
+end
+
+function mod:rangeUp(range, val)
+    local currentRange = range / 40.0
+    local newRange = currentRange + val
+    return math.max(1.0,newRange) * 40.0
 end

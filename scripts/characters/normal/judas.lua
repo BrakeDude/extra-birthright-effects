@@ -2,7 +2,7 @@
 local mod = ExtraBirthright
 function mod:JudasBecomesStansPuppet(entity)
 	local player = entity:ToPlayer()
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Judas"],true)
 	if player:HasCollectible(collectible) and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) and player:GetPlayerType() == PlayerType.PLAYER_JUDAS then
 		local rngtrack = player:GetCollectibleRNG(collectible):RandomFloat()
@@ -17,15 +17,20 @@ function mod:JudasBecomesStansPuppet(entity)
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.JudasBecomesStansPuppet, EntityType.ENTITY_PLAYER)
 
+local addedCallbacks = {}
+
 function mod:JudasBirthBrimRemove()
 	for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
-		mod:GetData(player).JudasBirthBrimstone = false
+		player = player:ToPlayer()
+		local data = mod.GetPersistentPlayerData(player)
+		data.JudasBirthBrimstone = false
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.JudasBirthBrimRemove)
 
 function mod:JudasDamageAsStansPuppet(player,flag)
-	if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and flag == CacheFlag.CACHE_DAMAGE and mod:GetData(player).JudasBirthBrimstone then
+	local data = mod.GetPersistentPlayerData(player)
+	if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and flag == CacheFlag.CACHE_DAMAGE and data.JudasBirthBrimstone then
 		player.Damage = player.Damage + 5
 	end
 end
@@ -42,14 +47,39 @@ function mod:AntibirthUseTheBook(_,_,player)
 	end
 end
 
-function mod.AddBookToBirthrightEffect(collectible)
-	local book = (Isaac.GetItemConfig()):GetCollectible(collectible)
-	if book.Tags & ItemConfig.TAG_BOOK == ItemConfig.TAG_BOOK then
-		mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.AntibirthUseTheBook, collectible)
+function mod:JudasSecondBirthrightAddCallbacks()
+	local itemConf = Isaac.GetItemConfig()
+	for i = 1, mod.GetMaxCollectibleID() do
+		if itemConf:GetCollectible(i) then
+			local item = itemConf:GetCollectible(i)
+			if item.Tags & ItemConfig.TAG_BOOK == ItemConfig.TAG_BOOK and i ~= CollectibleType.COLLECTIBLE_HOW_TO_JUMP and
+			i ~= CollectibleType.COLLECTIBLE_BOOK_OF_BELIAL_PASSIVE and i ~= CollectibleType.COLLECTIBLE_NECRONOMICON then
+				local add = true
+				if #addedCallbacks > 0 then
+					for _,v in pairs(addedCallbacks) do
+						if v == i then
+							add = false
+							break
+						end
+					end
+				end
+				if add then
+					table.insert(addedCallbacks,i)
+					mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.AntibirthUseTheBook, i)
+				end
+			end
+		end
 	end
 end
+mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.JudasSecondBirthrightAddCallbacks)
 
-for _, book in ipairs(mod.Books) do
-	mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.AntibirthUseTheBook, book)
+function mod:JudasSecondBirthrightRemoveCallbacks()
+	if #addedCallbacks > 0 then
+		for _,v in pairs(addedCallbacks) do
+			mod:RemoveCallback(ModCallbacks.MC_USE_ITEM, mod.AntibirthUseTheBook, v)
+		end
+		addedCallbacks = {}
+	end
 end
+mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.JudasSecondBirthrightRemoveCallbacks)
 --#endregion

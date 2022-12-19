@@ -13,7 +13,7 @@ function mod:HesMine(player,_,_,newtarget)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
 	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
 		local player = player:ToPlayer()
-		local data = mod:GetData(player)
+		local data = mod.GetPersistentPlayerData(player)
 		if player:HasCollectible(collectible) and (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B) then
 			if newtarget.Type ~= EntityType.ENTITY_DARK_ESAU then
 				if newtarget.Entity.Type == EntityType.ENTITY_PROJECTILE then
@@ -81,7 +81,7 @@ function mod:FriendlyPissedEsau(Esau)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
 	if  Esau.SpawnerType == EntityType.ENTITY_PLAYER then
 		local player = Esau.SpawnerEntity:ToPlayer()
-		local data = mod:GetData(player)
+		local data = mod.GetPersistentPlayerData(player)
 		if (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B) and player:HasCollectible(collectible) then
 			if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
 				if data.newEsauTarget then
@@ -106,7 +106,7 @@ function mod:JacobStatsCache(player,cacheFlag)
 			if cacheFlag == CacheFlag.CACHE_DAMAGE then
 				player.Damage = player.Damage * 1.5
 			elseif cacheFlag == CacheFlag.CACHE_FIREDELAY then
-				player.MaxFireDelay = player.MaxFireDelay / (1 + 3.05 / 8)
+				player.MaxFireDelay = mod:tearsUp(player.MaxFireDelay,1.5)
 			elseif cacheFlag == CacheFlag.CACHE_SPEED then
 				player.MoveSpeed = player.MoveSpeed + 0.3
 			end

@@ -10,7 +10,7 @@ function mod:CainDestitnyItem(pickup, collider)
             local player = collider:ToPlayer()
             local rng = player:GetCollectibleRNG(collectible)
             if player:GetPlayerType() == PlayerType.PLAYER_CAIN_B and pickup.SubType > 0 and player:IsItemQueueEmpty() then
-                local data = mod:GetData(player)
+                local data = mod.GetPersistentPlayerData(player)
                 local chance = rng:RandomInt(100) + 1
                 if not data.TaintedCainPickedItem and (player:HasCollectible(collectible) or pickup.SubType == collectible and chance <= mod.MCMTCainBirthright["BirthrightYoink"]) then
                     data.TaintedCainPickedItem = true
@@ -105,7 +105,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, mod.CainDestitnyItem, Pick
 function mod:TaintedCainItemPickupReset()
     for i = 1, Game():GetNumPlayers() do
         local player = Isaac.GetPlayer(i-1)
-        local data = mod:GetData(player)
+        local data = mod.GetPersistentPlayerData(player)
         if data.TaintedCainPickedItem then
             data.TaintedCainPickedItem = false
         end

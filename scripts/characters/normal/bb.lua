@@ -2,7 +2,7 @@ local mod = ExtraBirthright
 --#region Blue Baby
 function mod:BBHearts(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Blue Baby"])
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 	if player:HasCollectible(collectible) and (mod.MCMOption.Settings["Blue Baby"] > 1) and player:GetPlayerType() == PlayerType.PLAYER_XXX then
 		if not data.BBHearts then
 			data.BBHearts = player:GetSoulHearts()
@@ -38,10 +38,10 @@ function mod:BBStatsCache(player,cacheFlag)
 				player.Damage = player.Damage + (player:GetSoulHearts() * 0.075)
 			end
 			if cacheFlag == CacheFlag.CACHE_FIREDELAY then
-				player.MaxFireDelay = player.MaxFireDelay - ((3.05 / 17) * player:GetSoulHearts())
+				player.MaxFireDelay = mod:tearsUp(player.MaxFireDelay,player:GetSoulHearts()/4)
 			end
 			if cacheFlag == CacheFlag.CACHE_RANGE then
-				player.TearRange = player.TearRange + player:GetSoulHearts() * 1.5
+				player.TearRange = mod:rangeUp(player.TearRange,player:GetSoulHearts() * 0.5)
 			end
 			if cacheFlag == CacheFlag.CACHE_SPEED then
 				player.MoveSpeed = player.MoveSpeed + (player:GetSoulHearts() * 0.02)

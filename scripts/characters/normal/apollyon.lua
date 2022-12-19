@@ -4,11 +4,10 @@ local mod = ExtraBirthright
 function mod:Stats(player,rng,list)
 	for _,entity in ipairs(list) do
 		if entity:Exists() and entity.SubType > 0 then
-			if Isaac.GetItemConfig():GetCollectible(entity.SubType).Type ~= ItemType.ITEM_ACTIVE and not entity:ToPickup():IsShopItem() 
-			and (Isaac.GetItemConfig():GetCollectible(entity.SubType).Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST) then 
+			if not entity:ToPickup():IsShopItem() and (Isaac.GetItemConfig():GetCollectible(entity.SubType).Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST) then 
 				local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
 				local itemrng = player:GetCollectibleRNG(collectible)
-				local data = mod:GetData(player)
+				local data = mod.GetPersistentPlayerData(player)
 				local quality = Isaac.GetItemConfig():GetCollectible(entity.SubType).Quality
 				local maxstat = quality * 360
 				local statsNames = {"Speed","FireDelay","Damage","Range","ShotSpeed","Luck"}
@@ -33,6 +32,7 @@ function mod:Succ(collectible,rng,player)
 	if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then
 		local itemList = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
 		mod:Stats(player,rng,itemList)
+		player:AddCacheFlags(CacheFlag.CACHE_ALL)
 		player:EvaluateItems()
 	end
 end
@@ -42,13 +42,20 @@ function mod:SuccStats(player,cache)
 	if mod.MCMOption.Settings["Apollyon"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
 		if player:HasCollectible(collectible) then
-			local data = mod:GetData(player)
-			player.MoveSpeed = player.MoveSpeed + data.ApollyonStatUps.Speed / 180
-			player.MaxFireDelay = player.MaxFireDelay / (1 + data.ApollyonStatUps.FireDelay / 120)
-			player.Damage = player.Damage + data.ApollyonStatUps.Damage / 17
-			player.TearRange = player.TearRange + data.ApollyonStatUps.Range * 2.5
-			player.ShotSpeed = player.ShotSpeed + data.ApollyonStatUps.ShotSpeed / 150
-			player.Luck = player.Luck + data.ApollyonStatUps.Luck / 60
+			local data = mod.GetPersistentPlayerData(player)
+			if cache == CacheFlag.CACHE_SPEED then
+				player.MoveSpeed = player.MoveSpeed + data.ApollyonStatUps.Speed / 180
+			elseif cache == CacheFlag.CACHE_FIREDELAY then
+				player.MaxFireDelay = player.MaxFireDelay / (1 + data.ApollyonStatUps.FireDelay / 120)
+			elseif cache == CacheFlag.CACHE_DAMAGE then
+				player.Damage = player.Damage + data.ApollyonStatUps.Damage / 17
+			elseif cache == CacheFlag.CACHE_RANGE then
+				player.TearRange = player.TearRange + data.ApollyonStatUps.Range * 2.5
+			elseif cache == CacheFlag.CACHE_SHOTSPEED then
+				player.ShotSpeed = player.ShotSpeed + data.ApollyonStatUps.ShotSpeed / 150
+			elseif cache == CacheFlag.CACHE_LUCK then
+				player.Luck = player.Luck + data.ApollyonStatUps.Luck / 60
+			end
 		end
 	end
 end

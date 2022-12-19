@@ -5,6 +5,11 @@ function mod:D6Buff(_,rng,player)
 	local room = game:GetRoom()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Isaac"])
 	if mod.MCMOption.Settings["Isaac"] > 1 and player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_ISAAC then
+			for i = 1, game:GetNumPlayers() do
+				if Isaac.GetPlayer(i-1):HasCollectible(CollectibleType.COLLECTIBLE_CHAOS) then
+					return nil
+				end
+			end
 			local itemPool = game:GetItemPool()
 			local PoolTable = {}
 			local roomPool = itemPool:GetPoolForRoom(room:GetType(),rng:GetSeed())
@@ -24,9 +29,9 @@ function mod:D6Buff(_,rng,player)
 			for _,item in pairs(Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)) do
 				if item.SubType ~= CollectibleType.COLLECTIBLE_NULL then
 					local old = item.SubType
-						local ranPool = rng:RandomInt(#PoolTable) + 1
-						local newitem = itemPool:GetCollectible(PoolTable[ranPool],true,rng:GetSeed(),old)
-						item:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newitem, true)	
+					local ranPool = rng:RandomInt(#PoolTable) + 1
+					local newitem = itemPool:GetCollectible(PoolTable[ranPool],true,rng:GetSeed(),old)
+					item:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newitem, true)	
 					Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, -1, item.Position, item.Velocity, player)
 				end
 			end

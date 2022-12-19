@@ -1,8 +1,9 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.40"
+mod.Version = "2.41"
 local json = require("json")
-mod.substituteBirthright = Isaac.GetItemIdByName("Fake Birthright")
+mod.havenscall = Isaac.GetItemIdByName("Haven's Call")
+mod.substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 mod.wasThereBoss = false
 mod.fliped = {}
@@ -10,25 +11,11 @@ mod.bossposition = Vector.Zero
 mod.BirthrightfloorBought = false
 mod.doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
 mod.Timer = -1
+local BirthrightLangName = {en = "Birthright", ru = "Право первородства", es = "Primogenitura"}
 
-mod.JacobDeathAnim = Isaac.GetEntityTypeByName("Tainted Jacob Death Animation")
+mod.PlayerData = {}
 
 mod.VisitedRooms = {}
-
-mod.Books = {
-	CollectibleType.COLLECTIBLE_ANARCHIST_COOKBOOK,
-	CollectibleType.COLLECTIBLE_BIBLE,
-	CollectibleType.COLLECTIBLE_BOOK_OF_BELIAL,
-	CollectibleType.COLLECTIBLE_BOOK_OF_REVELATIONS,
-	CollectibleType.COLLECTIBLE_BOOK_OF_SECRETS,
-	CollectibleType.COLLECTIBLE_BOOK_OF_SHADOWS,
-	CollectibleType.COLLECTIBLE_BOOK_OF_SIN,
-	CollectibleType.COLLECTIBLE_SATANIC_BIBLE,
-	CollectibleType.COLLECTIBLE_TELEPATHY_BOOK,
-	CollectibleType.COLLECTIBLE_BOOK_OF_THE_DEAD,
-	CollectibleType.COLLECTIBLE_MONSTER_MANUAL,
-	CollectibleType.COLLECTIBLE_LEMEGETON
-}
 
 mod.shootDirecton = {
 	[Direction.NO_DIRECTION] = Vector(0,0),
@@ -38,9 +25,10 @@ mod.shootDirecton = {
 	[Direction.DOWN] = Vector(0, 1)
 }
 
+include("scripts/eid.lua")
+include("scripts/encyclopedia.lua")
 include("scripts/ModConfig.lua")
 include("scripts/helpFuncs.lua")
-include("scripts/eid.lua")
 include("scripts/cmd.lua")
 
 include("scripts/characters/normal/isaac.lua")
@@ -54,9 +42,12 @@ include("scripts/characters/normal/samson.lua")
 include("scripts/characters/normal/azazel.lua")
 include("scripts/characters/normal/eden.lua")
 include("scripts/characters/normal/lost.lua")
+include("scripts/characters/normal/lazarus.lua")
 include("scripts/characters/normal/lilith.lua")
 include("scripts/characters/normal/keeper.lua")
 include("scripts/characters/normal/apollyon.lua")
+include("scripts/characters/normal/forgotten.lua")
+include("scripts/characters/normal/soul.lua")
 include("scripts/characters/normal/bethany.lua")
 include("scripts/characters/normal/esau.lua")
 include("scripts/characters/tainted/isaac.lua")
@@ -69,7 +60,9 @@ include("scripts/characters/tainted/samson.lua")
 include("scripts/characters/tainted/azazel.lua")
 include("scripts/characters/tainted/lazarus.lua")
 include("scripts/characters/tainted/lilith.lua")
+include("scripts/characters/tainted/keeper.lua")
 include("scripts/characters/tainted/apollyon.lua")
+include("scripts/characters/tainted/forgotten.lua")
 include("scripts/characters/tainted/bethany.lua")
 include("scripts/characters/tainted/jacob.lua")
 --#region Saving
@@ -77,7 +70,7 @@ function mod:SaveSomeData(isSaving)
 	local saveBirthright = {}
 	local game = Game()
 	local level = game:GetLevel()
-	if isSaving then
+	--[[if isSaving then
 		for i = 1, game:GetNumPlayers() do
 			local saveData = {}
 			local player = Isaac.GetPlayer(i-1)
@@ -88,7 +81,10 @@ function mod:SaveSomeData(isSaving)
 		saveBirthright.BirthrightfloorBought = mod.BirthrightfloorBought
 		saveBirthright.VisitedRooms = mod.VisitedRooms
 		saveBirthright.Timer = mod.Timer
-	end
+	end]]
+
+	saveBirthright.PlayerData = json.encode(mod.PlayerData)
+
 	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption.Settings)
 	saveBirthright.ModConfigMenuHearts = json.encode(mod.EBHeartsDrops.Settings)
 	saveBirthright.ModConfigMenuPills = json.encode(mod.EBPillsDrops.Settings)
@@ -108,7 +104,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.SaveSomeData)
 function mod:InitData(player)
 	local pType = player:GetPlayerType()
 	if pType <= 40 then
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 		if pType == PlayerType.PLAYER_APOLLYON then
 			if not data.ApollyonStatUps then
 				data.ApollyonStatUps = {
@@ -126,8 +122,8 @@ function mod:InitData(player)
 				data.RageMeter = 0
 			end
 		end
-		if data.isSubstituteBirthrightOverHead == nil then
-			data.isSubstituteBirthrightOverHead = false
+		if mod:GetData(player).isSubstituteBirthrightOverHead == nil then
+			mod:GetData(player).isSubstituteBirthrightOverHead = false
 		end
 	end
 end
@@ -140,10 +136,14 @@ function mod:LoadItBack(isContinued)
 	if mod:HasData() then
 		local loadBirthright = json.decode(mod:LoadData())
 		if isContinued then
-			for i = 1, game:GetNumPlayers()  do
-				local player = Isaac.GetPlayer(i-1)
-				player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
-				player:GetData().ExtraBirthright.isSubstituteBirthrightOverHead = false
+			if tonumber(loadBirthright.Version) < tonumber(mod.Version) then
+				for i = 1, game:GetNumPlayers()  do
+					local player = Isaac.GetPlayer(i-1)
+					player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
+					player:GetData().ExtraBirthright.isSubstituteBirthrightOverHead = false
+				end
+			else
+				mod.PlayerData = loadBirthright.PlayerData
 			end
 			mod.BirthrightfloorBought = loadBirthright.BirthrightfloorBought
 			mod.VisitedRooms = loadBirthright.VisitedRooms or {}
@@ -188,12 +188,13 @@ function mod:LoadItBack(isContinued)
 			mod.MCMTCainBirthright["BirthrightYoink"] = loadBirthright.BirthrightStealChance
 		end
 	end
+	mod:BirthrightDesc()
 end
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.LoadItBack)
 --#endregion
 --#region Init
 function mod:Init(player)
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 	data.gotBirthright = true
 	if player:GetPlayerType() == PlayerType.PLAYER_EVE_B then
 		data.BirthrightBloodBabyCooldown = data.BirthrightBloodBabyCooldown or 2
@@ -203,6 +204,7 @@ function mod:Init(player)
 	end
 	mod.BirthrightfloorBought = false
 	mod.wasThereBoss = false
+	mod:BirthrightDesc()
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.Init)
 --#endregion
@@ -211,11 +213,12 @@ function mod:BirthrightChange(pickup)
 		local players = Isaac.FindByType(EntityType.ENTITY_PLAYER)
 		local player = players[1]
 		for _,searchplayer in ipairs(players) do
-			if pickup.Position:Distance(searchplayer.Position) < pickup.Position:Distance(player.Position) then
+			if pickup.Position:Distance(searchplayer.Position) < pickup.Position:Distance(player.Position) and not searchplayer.Parent then
 				player = searchplayer
 			end
 		end
 		player = player:ToPlayer()
+		
 		if player:GetPlayerType() == PlayerType.PLAYER_ISAAC and mod.MCMOption.Settings["Isaac"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA and mod.MCMOption.Settings["Magdalene"] > 1 and mod.MCMOption.Settings["Magdalene"] < 4 or
 		player:GetPlayerType() == PlayerType.PLAYER_CAIN and mod.MCMOption.Settings["Cain"] > 1 and mod.MCMOption.Settings["Cain"] < 4 or
@@ -232,7 +235,8 @@ function mod:BirthrightChange(pickup)
 		player:GetPlayerType() == PlayerType.PLAYER_LILITH and mod.MCMOption.Settings["Lilith"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] == 2 or
-		(player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN or player:GetPlayerType() == PlayerType.PLAYER_THESOUL) and mod.MCMOption.Settings["The Forgotten"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and mod.MCMOption.Settings["The Forgotten"] == 2 or
+		player:GetPlayerType() == PlayerType.PLAYER_THESOUL and mod.MCMOption.Settings["The Forgotten"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_BETHANY and mod.MCMOption.Settings["Bethany"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] == 2 or
 		player:GetPlayerType() == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] == 2 or
@@ -270,7 +274,7 @@ function mod:CheckBirthrightAll(player)
 	local game = Game()
 	local level = game:GetLevel()
 	local ptype = player:GetPlayerType()
-	local data = mod:GetData(player)
+	local data = mod.GetPersistentPlayerData(player)
 	if ptype <= 40 and player.FrameCount == 1 then
 		player:AddCacheFlags(CacheFlag.CACHE_ALL)
 		player:EvaluateItems()
@@ -291,7 +295,8 @@ function mod:CheckBirthrightAll(player)
 	ptype == PlayerType.PLAYER_LILITH and mod.MCMOption.Settings["Lilith"] == 2 or
 	ptype == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or
 	ptype == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] == 2 or
-	(ptype == PlayerType.PLAYER_THEFORGOTTEN or ptype == PlayerType.PLAYER_THESOUL) and mod.MCMOption.Settings["The Forgotten"] == 2 or
+	ptype == PlayerType.PLAYER_THEFORGOTTEN and mod.MCMOption.Settings["The Forgotten"] == 2 or
+	ptype == PlayerType.PLAYER_THESOUL and mod.MCMOption.Settings["The Forgotten"] == 2 or
 	ptype == PlayerType.PLAYER_BETHANY and mod.MCMOption.Settings["Bethany"] == 2 or
 	ptype == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] == 2 or
 	ptype == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] == 2 or
@@ -323,9 +328,9 @@ function mod:CheckBirthrightAll(player)
 			player:AddCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT,0,false)
 		end
 	end
-	if not data.isSubstituteBirthrightOverHead and player.QueuedItem.Item then
+	if not mod:GetData(player).isSubstituteBirthrightOverHead and player.QueuedItem.Item then
 		if player.QueuedItem.Item.ID == mod.substituteBirthright then
-			data.isSubstituteBirthrightOverHead = true
+			mod:GetData(player).isSubstituteBirthrightOverHead = true
 			local charName = ""
 			if ptype == PlayerType.PLAYER_ISAAC then charName = 1
 			elseif ptype == PlayerType.PLAYER_MAGDALENA then charName = 2
@@ -343,7 +348,8 @@ function mod:CheckBirthrightAll(player)
 			elseif ptype == PlayerType.PLAYER_LILITH then charName = 14
 			elseif ptype == PlayerType.PLAYER_KEEPER then charName = 15
 			elseif ptype == PlayerType.PLAYER_APOLLYON then charName = 16
-			elseif (ptype == PlayerType.PLAYER_THEFORGOTTEN or ptype == PlayerType.PLAYER_THESOUL) then charName = 17
+			elseif ptype == PlayerType.PLAYER_THEFORGOTTEN then charName = 17
+			elseif ptype == PlayerType.PLAYER_THESOUL then charName = 17
 			elseif ptype == PlayerType.PLAYER_BETHANY then charName = 18
 			elseif ptype == PlayerType.PLAYER_JACOB then charName = 19
 			elseif ptype == PlayerType.PLAYER_ESAU then charName = 20
@@ -365,12 +371,15 @@ function mod:CheckBirthrightAll(player)
 			elseif ptype == PlayerType.PLAYER_BETHANY_B then charName = 36
 			elseif (ptype == PlayerType.PLAYER_JACOB_B or ptype == PlayerType.PLAYER_JACOB2_B) then charName = 37
 			end
-			Game():GetHUD():ShowItemText("Birthright", mod.FakeBirthrightDesc[ptype+1][mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1], false)
+			local lang = Options.Language
+			local desc = mod.FakeBirthrightDesc[ptype+1][lang] or mod.FakeBirthrightDesc[ptype+1].en
+			local brname = BirthrightLangName[lang] or BirthrightLangName.en
+			Game():GetHUD():ShowItemText(brname, desc[mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1], false)
 		end
 	end
-
+	if ptype == PlayerType.PLAYER_THESOUL_B then return end
 	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(mod.substituteBirthright)) and not data.gotBirthright then
-		data.isSubstituteBirthrightOverHead = false
+		mod:GetData(player).isSubstituteBirthrightOverHead = false
 		if ptype == PlayerType.PLAYER_MAGDALENA then
 			if player:HasCollectible(mod.substituteBirthright) then
 				player:AddMaxHearts(2)
@@ -390,6 +399,10 @@ function mod:CheckBirthrightAll(player)
 		end
 		if ptype == PlayerType.PLAYER_SAMSON and mod.MCMOption.Settings["Samson"] > 1 then
 			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+			player:EvaluateItems()
+		end
+		if ptype == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] > 1 then
+			player:AddCacheFlags(CacheFlag.CACHE_FLYING)
 			player:EvaluateItems()
 		end
 		if ptype == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] > 1 then
@@ -446,6 +459,9 @@ function mod:CheckBirthrightAll(player)
 				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN,2, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
 			end
 		end
+		if (ptype == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] > 1) or (ptype == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] > 1) then
+			player:SetPocketActiveItem(mod.havenscall)
+		end
 		if ptype == PlayerType.PLAYER_JUDAS_B and mod.MCMOption.Settings["Tainted Judas"] > 1 then
 			player:RemoveCollectible(705,false,ActiveSlot.SLOT_POCKET)
 			player:SetPocketActiveItem(mod.substituteDarkArts)
@@ -460,6 +476,11 @@ function mod:CheckBirthrightAll(player)
 				Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
 			end
 		end
+		if ptype == PlayerType.PLAYER_THEFORGOTTEN_B and mod.MCMOption.Settings["Tainted Forgotten"] > 1 then
+			mod:GetData(player).TriggerForgorBones = true
+			player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
+			player:EvaluateItems()
+		end
 		if (ptype == PlayerType.PLAYER_JACOB_B or ptype == PlayerType.PLAYER_JACOB2_B) and (mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4) then
 			player:AddMaxHearts(2, true)
 			player:AddHearts(2)
@@ -470,6 +491,15 @@ function mod:CheckBirthrightAll(player)
 		end
 	end
 	data.gotBirthright = player:HasCollectible(mod.substituteBirthright) or player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
+	if player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN or player:GetPlayerType() == PlayerType.PLAYER_THESOUL then
+		if not data.ForgottenType then
+			data.ForgottenType = player:GetPlayerType()
+		end
+		if data.ForgottenType ~= player:GetPlayerType() then
+			data.ForgottenType = player:GetPlayerType()
+			mod:BirthrightDesc()
+		end
+	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.CheckBirthrightAll);
 
@@ -480,7 +510,6 @@ function mod:UpdateTheRoom()
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.UpdateTheRoom);
 --#endregion
-
 
 
 Isaac.DebugString("Extra Birthright Effects loaded. Version ".. mod.Version)
