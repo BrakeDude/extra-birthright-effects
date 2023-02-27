@@ -1,5 +1,6 @@
 if not Encyclopedia then return end
-local mod = ExtraBirthright
+local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+local substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 local wiki = {
     BIRTHRIGHT_ALT = {
         { -- Effects
@@ -61,7 +62,7 @@ local wiki = {
 
 if Encyclopedia then
 	Encyclopedia.AddItem({
-    ID = mod.substituteBirthright,
+    ID = substituteBirthright,
     WikiDesc = wiki.BIRTHRIGHT_ALT,
     Pools = {
         Encyclopedia.ItemPools.POOL_SHOP,

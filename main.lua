@@ -1,16 +1,13 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.41"
+mod.Version = "2.42"
 local json = require("json")
-mod.havenscall = Isaac.GetItemIdByName("Haven's Call")
-mod.substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
-mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
+local havenscall = Isaac.GetItemIdByName("Haven's Call")
+local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+local substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 mod.wasThereBoss = false
 mod.fliped = {}
-mod.bossposition = Vector.Zero
 mod.BirthrightfloorBought = false
-mod.doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
-mod.Timer = -1
 local BirthrightLangName = {en = "Birthright", ru = "Право первородства", es = "Primogenitura"}
 
 mod.PlayerData = {}
@@ -209,7 +206,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.Init)
 --#endregion
 function mod:BirthrightChange(pickup)
-	if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT or pickup.SubType == mod.substituteBirthright then
+	if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT or pickup.SubType == substituteBirthright then
 		local players = Isaac.FindByType(EntityType.ENTITY_PLAYER)
 		local player = players[1]
 		for _,searchplayer in ipairs(players) do
@@ -259,10 +256,10 @@ function mod:BirthrightChange(pickup)
 		(player:GetPlayerType() == PlayerType.PLAYER_JACOB_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B) and mod.MCMOption.Settings["Tainted Jacob"] > 1 and mod.MCMOption.Settings["Tainted Jacob"] < 4
 		then
 			if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT then
-				pickup:ToPickup():Morph(pickup.Type,pickup.Variant,mod.substituteBirthright,true,true,true)
+				pickup:ToPickup():Morph(pickup.Type,pickup.Variant,substituteBirthright,true,true,true)
 			end
 		else
-			if pickup.SubType == mod.substituteBirthright then
+			if pickup.SubType == substituteBirthright then
 				pickup:ToPickup():Morph(pickup.Type,pickup.Variant,CollectibleType.COLLECTIBLE_BIRTHRIGHT,true,true,true)
 			end
 		end
@@ -320,16 +317,16 @@ function mod:CheckBirthrightAll(player)
 	then
 		if player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) then
 			player:RemoveCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
-			player:AddCollectible(mod.substituteBirthright,0,false)
+			player:AddCollectible(substituteBirthright,0,false)
 		end	
 	else
-		if player:HasCollectible(mod.substituteBirthright) then
-			player:RemoveCollectible(mod.substituteBirthright)
+		if player:HasCollectible(substituteBirthright) then
+			player:RemoveCollectible(substituteBirthright)
 			player:AddCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT,0,false)
 		end
 	end
 	if not mod:GetData(player).isSubstituteBirthrightOverHead and player.QueuedItem.Item then
-		if player.QueuedItem.Item.ID == mod.substituteBirthright then
+		if player.QueuedItem.Item.ID == substituteBirthright then
 			mod:GetData(player).isSubstituteBirthrightOverHead = true
 			local charName = ""
 			if ptype == PlayerType.PLAYER_ISAAC then charName = 1
@@ -378,10 +375,10 @@ function mod:CheckBirthrightAll(player)
 		end
 	end
 	if ptype == PlayerType.PLAYER_THESOUL_B then return end
-	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(mod.substituteBirthright)) and not data.gotBirthright then
+	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(substituteBirthright)) and not data.gotBirthright then
 		mod:GetData(player).isSubstituteBirthrightOverHead = false
 		if ptype == PlayerType.PLAYER_MAGDALENA then
-			if player:HasCollectible(mod.substituteBirthright) then
+			if player:HasCollectible(substituteBirthright) then
 				player:AddMaxHearts(2)
 			end
 			if (mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5) then
@@ -427,7 +424,7 @@ function mod:CheckBirthrightAll(player)
 					if esau:HasCollectible(item) and itemConf.Type ~= ItemType.ITEM_ACTIVE
 					and (itemConf.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST)
 					and item ~= CollectibleType.COLLECTIBLE_BIRTHRIGHT
-					and item ~= mod.substituteBirthright
+					and item ~= substituteBirthright
 					then
 						for i = 1, esau:GetCollectibleNum(item) do
 							table.insert(randItems,item)
@@ -460,11 +457,11 @@ function mod:CheckBirthrightAll(player)
 			end
 		end
 		if (ptype == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] > 1) or (ptype == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] > 1) then
-			player:SetPocketActiveItem(mod.havenscall)
+			player:SetPocketActiveItem(havenscall)
 		end
 		if ptype == PlayerType.PLAYER_JUDAS_B and mod.MCMOption.Settings["Tainted Judas"] > 1 then
 			player:RemoveCollectible(705,false,ActiveSlot.SLOT_POCKET)
-			player:SetPocketActiveItem(mod.substituteDarkArts)
+			player:SetPocketActiveItem(substituteDarkArts)
 		end
 		if ptype == PlayerType.PLAYER_SAMSON_B and mod.MCMOption.Settings["Tainted Samson"] > 1 then
 			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
@@ -490,7 +487,7 @@ function mod:CheckBirthrightAll(player)
 			player:EvaluateItems()
 		end
 	end
-	data.gotBirthright = player:HasCollectible(mod.substituteBirthright) or player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
+	data.gotBirthright = player:HasCollectible(substituteBirthright) or player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
 	if player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN or player:GetPlayerType() == PlayerType.PLAYER_THESOUL then
 		if not data.ForgottenType then
 			data.ForgottenType = player:GetPlayerType()

@@ -1,4 +1,5 @@
 local mod = ExtraBirthright
+local doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
 function mod.TheCard(subtype)
 	if (subtype >= 27 and subtype <= 30) or
 	(subtype >= 32 and subtype <= 47) or
@@ -116,9 +117,9 @@ function mod.getHearts(rng)
 		pickup.subtype = HeartSubType.HEART_ROTTEN
 	elseif rng:RandomFloat() <= 0.07 and mod.EBHeartsDrops["Bone Heart"] then
 		pickup.subtype = HeartSubType.HEART_BONE
-	elseif rng:RandomFloat() <= 0.1 and mod.doubleHearts ~= -1 then
+	elseif rng:RandomFloat() <= 0.1 and doubleHearts ~= -1 then
 		pickup.subtype = rng:RandomInt(6)+1
-		pickup.variant = mod.doubleHearts
+		pickup.variant = doubleHearts
 	elseif rng:RandomFloat() <= 0.15 then
 		pickup.subtype = HeartSubType.HEART_BLACK
 	elseif rng:RandomFloat() <= 0.15 then

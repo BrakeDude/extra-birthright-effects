@@ -492,14 +492,7 @@ mod.MCMTCainBirthright = {
 	["BirthrightYoink"] = 0
 }
 
-function mod:ResetMCM()
-	if ModConfigMenu then
-		ModConfigMenu.RemoveCategory("Birthright Effects")
-		mod:AddMCM()
-	end
-end
-
-function mod:AddMCM()
+local function AddMCM()
 	if ModConfigMenu then
 		local MCMExtraBirthright = "Birthright Effects"
 		ModConfigMenu.UpdateCategory(MCMExtraBirthright, {
@@ -850,5 +843,13 @@ function mod:AddMCM()
 		end
 	end
 end
-mod:AddMCM()
+
+function mod:ResetMCM()
+	if ModConfigMenu then
+		ModConfigMenu.RemoveCategory("Birthright Effects")
+		AddMCM()
+	end
+end
+
+AddMCM()
 --#endregion

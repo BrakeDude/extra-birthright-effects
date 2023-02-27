@@ -1,7 +1,10 @@
 --#region Lilith
 local mod = ExtraBirthright
-function mod:SpawnMinisaacs()
-	local game = Game()
+local Lilith = {}
+local game = Game()
+
+function Lilith:SpawnMinisaacs()
+	
 	local room = game:GetRoom()
 	local MiniIsaacs = Isaac.FindByType(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC)
 	for _,minisaac in pairs(MiniIsaacs) do
@@ -29,9 +32,9 @@ function mod:SpawnMinisaacs()
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.SpawnMinisaacs)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Lilith.SpawnMinisaacs)
 
-function mod:DespawnMinisaacsOnNewLevel()
+function Lilith:DespawnMinisaacsOnNewLevel()
 	local MiniIsaacs = Isaac.FindByType(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC)
 	for _,minisaac in pairs(MiniIsaacs) do
 		if mod:GetData(minisaac).FromBirthright then
@@ -39,9 +42,9 @@ function mod:DespawnMinisaacsOnNewLevel()
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.DespawnMinisaacsOnNewLevel)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Lilith.DespawnMinisaacsOnNewLevel)
 
-function mod:MiniBoxFriends(_,_,player)
+function Lilith:MiniBoxFriends(_,_,player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lilith"])
 	if mod.MCMOption.Settings["Lilith"] > 1 then
 		if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_LILITH then
@@ -56,5 +59,5 @@ function mod:MiniBoxFriends(_,_,player)
 	end
 	return true
 end
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.MiniBoxFriends, CollectibleType.COLLECTIBLE_BOX_OF_FRIENDS)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, Lilith.MiniBoxFriends, CollectibleType.COLLECTIBLE_BOX_OF_FRIENDS)
 --#endregion

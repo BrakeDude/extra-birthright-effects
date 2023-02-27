@@ -3,8 +3,10 @@ local ids = {1,2,3,5,6,8,12,13,14,20,21,29,31,55,57,67,70,71,73,88,91,94,95,96,9
 200,201,206,207,214,217,228,237,240,245,257,259,261,264,265,266,267,268,269,270,271,272,273,274,275,277,278,279,280,281,302,313,317,318,319,320,321,322,342,345,355,360,361,362,363,364,
 365,372,374,384,385,387,388,389,390,403,404,411,415,417,418,426,429,430,431,435,436,442,467,468,469,470,471,472,473,491,492,493,496,497,500,508,509,511,518,519,526,528,537,539,542,543,
 544,548,565,567,572,575,581,596,607,608,610,615,629,645,649,652,679,681,682,688,698,732}
+local Eden = {}
+local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 
-function mod:EdenRandomItemEffect()
+function Eden:EdenRandomItemEffect()
     local game = Game()
     if mod.MCMOption.Settings["Eden"] > 1 then
         for i = 1, game:GetNumPlayers() do
@@ -18,7 +20,7 @@ function mod:EdenRandomItemEffect()
                         local itemConfig = Isaac.GetItemConfig():GetCollectible(item)
                         if not player:HasCollectible(item) and itemConfig.Type ~= ItemType.ITEM_ACTIVE
                         and itemConfig.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST
-                        and item ~= mod.substituteBirthright and item ~= Isaac.GetItemIdByName("NOMARKSFORYA")
+                        and item ~= substituteBirthright and item ~= Isaac.GetItemIdByName("NOMARKSFORYA")
                         then
                             table.insert(randItems,item)
                         end
@@ -34,4 +36,4 @@ function mod:EdenRandomItemEffect()
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.EdenRandomItemEffect)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Eden.EdenRandomItemEffect)

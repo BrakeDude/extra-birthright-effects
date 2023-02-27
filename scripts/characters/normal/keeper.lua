@@ -1,6 +1,8 @@
 --#region Keeper
 local mod = ExtraBirthright
-function mod:OneFreebie(player)
+local Keeper = {}
+
+function Keeper:OneFreebie(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Keeper"])
 	if mod.MCMOption.Settings["Keeper"] > 1 then
 		if player:GetPlayerType() == PlayerType.PLAYER_KEEPER and player:HasCollectible(collectible) then
@@ -19,14 +21,14 @@ function mod:OneFreebie(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.OneFreebie)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Keeper.OneFreebie)
 
-function mod:NewFloorNewDeal()
+function Keeper:NewFloorNewDeal()
     mod.BirthrightfloorBought = false
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.NewFloorNewDeal)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Keeper.NewFloorNewDeal)
 
-function mod:PickupYourPrize(entity, collider)
+function Keeper:PickupYourPrize(entity, collider)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Keeper"])
 	if mod.MCMOption.Settings["Keeper"] > 1 then
 		local trigger = false
@@ -43,5 +45,5 @@ function mod:PickupYourPrize(entity, collider)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, mod.PickupYourPrize)
+mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Keeper.PickupYourPrize)
 --#endregion

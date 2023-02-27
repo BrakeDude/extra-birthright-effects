@@ -1,7 +1,8 @@
 local mod = ExtraBirthright
+local Azazel = {}
 --#region Azazel
 
-function mod:Azazel8Brim(player)
+function Azazel:Azazel8Brim(player)
 	player = player:ToPlayer()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Azazel"])
 	if player:GetPlayerType() == PlayerType.PLAYER_AZAZEL and player:HasCollectible(collectible) then
@@ -11,5 +12,5 @@ function mod:Azazel8Brim(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.Azazel8Brim, EntityType.ENTITY_PLAYER)
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Azazel.Azazel8Brim, EntityType.ENTITY_PLAYER)
 --#endregion

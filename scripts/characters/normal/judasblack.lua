@@ -1,6 +1,8 @@
 --#region Dark Judas
 local mod = ExtraBirthright
-function mod:DarkJudasGetsBonked(entity)
+local DJudas = {}
+
+function DJudas:DarkJudasGetsBonked(entity)
 	local player = entity:ToPlayer()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Dark Judas"],true)
 	if (mod.MCMOption.Settings["Dark Judas"] == 2  or mod.MCMOption.Settings["Dark Judas"] == 4) and player:HasCollectible(collectible) then
@@ -10,5 +12,5 @@ function mod:DarkJudasGetsBonked(entity)
 	end
 	return nil
 end
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.DarkJudasGetsBonked, EntityType.ENTITY_PLAYER)
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, DJudas.DarkJudasGetsBonked, EntityType.ENTITY_PLAYER)
 --#endregion

@@ -1,14 +1,16 @@
 local mod = ExtraBirthright
 local rerollDs = {CollectibleType.COLLECTIBLE_D100,CollectibleType.COLLECTIBLE_D4,CollectibleType.COLLECTIBLE_D_INFINITY}
+local havenscall = Isaac.GetItemIdByName("Haven's Call")
+local Laz = {}
 
-function mod:GiveHavenCall()
+function Laz:GiveHavenCall()
     for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
         player = player:ToPlayer()
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus"])
         local collectible2 = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus Risen"])
         if (mod.MCMOption.Settings["Lazarus"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS and player:HasCollectible(collectible)) or
         (mod.MCMOption.Settings["Lazarus Risen"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 and player:HasCollectible(collectible2)) then
-            player:SetPocketActiveItem(mod.havenscall)
+            player:SetPocketActiveItem(havenscall)
         end
         local data = mod.GetPersistentPlayerData(player)
         if data.RisenItems then
@@ -25,9 +27,9 @@ function mod:GiveHavenCall()
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.GiveHavenCall)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Laz.GiveHavenCall)
 
-function mod:LazCache(player,cache)
+function Laz:LazCache(player,cache)
     if (mod.MCMOption.Settings["Lazarus Risen"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2) then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus Risen"])
         if player:HasCollectible(collectible) then
@@ -35,9 +37,9 @@ function mod:LazCache(player,cache)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.LazCache, CacheFlag.CACHE_FLYING)
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Laz.LazCache, CacheFlag.CACHE_FLYING)
 
-function mod:Laz2Ser(player)
+function Laz:Laz2Ser(player)
     if (mod.MCMOption.Settings["Lazarus"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS) then
         local data = mod.GetPersistentPlayerData(player)
         if data.RisenUsed and not player:IsDead() then
@@ -52,8 +54,8 @@ function mod:Laz2Ser(player)
             for _,dice in pairs(rerollDs) do
                 player:RemoveCollectible(dice)
             end
-            if not data.RisenUsed and not player:HasCollectible(mod.havenscall) then
-                player:SetPocketActiveItem(mod.havenscall)
+            if not data.RisenUsed and not player:HasCollectible(havenscall) then
+                player:SetPocketActiveItem(havenscall)
             end
             data.RisenItems = {}
             while #data.RisenItems < 3 do
@@ -68,9 +70,9 @@ function mod:Laz2Ser(player)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.Laz2Ser)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Laz.Laz2Ser)
 
-function mod:RerollScaryDs(collectibletype,itempooltype,decrease,seed)
+function Laz:RerollScaryDs(collectibletype,itempooltype,decrease,seed)
     local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus"])
     local collectible2 = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus Risen"])
     local reroll = false
@@ -88,9 +90,9 @@ function mod:RerollScaryDs(collectibletype,itempooltype,decrease,seed)
     end
     return collectibletype
 end
-mod:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, mod.RerollScaryDs)
+mod:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, Laz.RerollScaryDs)
 
-function mod:LazFingDies(collectibleType, rng, player)
+function Laz:LazFingDies(collectibleType, rng, player)
     if player:GetPlayerType() == PlayerType.PLAYER_LAZARUS then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus"])
         if player:HasCollectible(collectible) then
@@ -127,9 +129,9 @@ function mod:LazFingDies(collectibleType, rng, player)
         return {Remove = true, ShowAnim = true}
     end
 end
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.LazFingDies, mod.havenscall)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, Laz.LazFingDies, havenscall)
 
-function mod:LazTempItemsReset()
+function Laz:LazTempItemsReset()
     for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
         player = player:ToPlayer()
         local data = mod.GetPersistentPlayerData(player)
@@ -141,4 +143,4 @@ function mod:LazTempItemsReset()
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.LazTempItemsReset)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Laz.LazTempItemsReset)

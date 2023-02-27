@@ -1,6 +1,7 @@
 local mod = ExtraBirthright
+local Eve = {}
 
-function mod:MoreBirds(player,_,damageflag)
+function Eve:MoreBirds(player,_,damageflag)
     if damageflag & DamageFlag.DAMAGE_FAKE ~= DamageFlag.DAMAGE_FAKE and damageflag & DamageFlag.DAMAGE_INVINCIBLE ~= DamageFlag.DAMAGE_INVINCIBLE then
         if mod.MCMOption.Settings["Eve"] > 1 then
             player = player:ToPlayer()
@@ -18,9 +19,9 @@ function mod:MoreBirds(player,_,damageflag)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.MoreBirds, EntityType.ENTITY_PLAYER)
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Eve.MoreBirds, EntityType.ENTITY_PLAYER)
 
-function mod:BirdsCache(player,cache)
+function Eve:BirdsCache(player,cache)
     local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Eve"])
     local data = mod.GetPersistentPlayerData(player)
     if not data.EveBirds then
@@ -32,13 +33,13 @@ function mod:BirdsCache(player,cache)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.BirdsCache, CacheFlag.CACHE_FAMILIARS)
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Eve.BirdsCache, CacheFlag.CACHE_FAMILIARS)
 
-function mod:BirdsReset()
+function Eve:BirdsReset()
     for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
         player = player:ToPlayer()
         local data = mod.GetPersistentPlayerData(player)
         data.EveBirds = 0
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.BirdsReset)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Eve.BirdsReset)

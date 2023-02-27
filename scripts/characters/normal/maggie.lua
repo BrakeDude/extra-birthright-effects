@@ -1,6 +1,8 @@
 --#region Magdalene and Cain
 local mod = ExtraBirthright
-function mod:CharmingScript(player)
+local Maggie = {}
+
+function Maggie:CharmingScript(player)
 	local data = mod.GetPersistentPlayerData(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
 	if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then
@@ -37,9 +39,9 @@ function mod:CharmingScript(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.CharmingScript)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Maggie.CharmingScript)
 
-function mod:YumHeartBuff(_,_,player)
+function Maggie:YumHeartBuff(_,_,player)
 	if mod.MCMOption.Settings["Magdalene"] == 2 or mod.MCMOption.Settings["Magdalene"] == 4 then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
 		if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then
@@ -48,9 +50,9 @@ function mod:YumHeartBuff(_,_,player)
 	end
 	return true
 end
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.YumHeartBuff, CollectibleType.COLLECTIBLE_YUM_HEART)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, Maggie.YumHeartBuff, CollectibleType.COLLECTIBLE_YUM_HEART)
 
-function mod:MaggieStatsCache(player,cacheFlag)
+function Maggie:MaggieStatsCache(player,cacheFlag)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
 	if mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5 then
 		if player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA and player:HasCollectible(collectible) then
@@ -60,9 +62,9 @@ function mod:MaggieStatsCache(player,cacheFlag)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.MaggieStatsCache)
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Maggie.MaggieStatsCache)
 
-function mod:MaggieSoulHeartNextLevel()
+function Maggie:MaggieSoulHeartNextLevel()
 	if mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5 then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
 		for i = 1, Game():GetNumPlayers() do
@@ -73,5 +75,5 @@ function mod:MaggieSoulHeartNextLevel()
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.MaggieSoulHeartNextLevel)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Maggie.MaggieSoulHeartNextLevel)
 --#endregion

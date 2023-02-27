@@ -1,7 +1,8 @@
 local mod = ExtraBirthright
+local Esau = {}
+local game = Game()
 
-function mod:postGetCollectible(id, pool, decrease, seed)
-    local game = Game()
+function Esau:postGetCollectible(id, pool, decrease, seed)
     if mod.MCMOption.Settings["Esau"] > 1 then
         for i = 1, game:GetNumPlayers() do
             local player = Isaac.GetPlayer(i-1)
@@ -16,10 +17,9 @@ function mod:postGetCollectible(id, pool, decrease, seed)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, mod.postGetCollectible)
+mod:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, Esau.postGetCollectible)
 
-function mod:EsauReward(rng,spawnpos)
-    local game = Game()
+function Esau:EsauReward(rng,spawnpos)
     local room = game:GetRoom()
     local level = game:GetLevel()
     if mod.MCMOption.Settings["Esau"] > 1
@@ -73,10 +73,9 @@ function mod:EsauReward(rng,spawnpos)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.EsauReward)
+mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Esau.EsauReward)
 
-function mod:OnlyForReward()
-    local game = Game()
+function Esau:OnlyForReward()
     local level = game:GetLevel()
     if mod.MCMOption.Settings["Esau"] > 1 then
         for i = 1, game:GetNumPlayers() do
@@ -88,10 +87,9 @@ function mod:OnlyForReward()
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.OnlyForReward)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Esau.OnlyForReward)
 
-function mod:NoDuality(player)
-    local game = Game()
+function Esau:NoDuality(player)
     if mod.MCMOption.Settings["Esau"] > 1 then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
         if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
@@ -104,4 +102,4 @@ function mod:NoDuality(player)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.NoDuality)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Esau.NoDuality)
