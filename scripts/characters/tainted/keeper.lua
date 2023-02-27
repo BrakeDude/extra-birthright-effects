@@ -1,6 +1,7 @@
 local mod = ExtraBirthright
+local Keeper = {}
 
-function mod:KeeperStatsUpdate(player)
+function Keeper:KeeperStatsUpdate(player)
     if mod.MCMOption.Settings["Tainted Keeper"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Keeper"])
         if player:HasCollectible(collectible) then
@@ -41,9 +42,9 @@ function mod:KeeperStatsUpdate(player)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.KeeperStatsUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Keeper.KeeperStatsUpdate)
 
-function mod:KeeperStats(player,cache)
+function Keeper:KeeperStats(player,cache)
     if mod.MCMOption.Settings["Tainted Keeper"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Keeper"])
         local data = mod.GetPersistentPlayerData(player)
@@ -52,4 +53,4 @@ function mod:KeeperStats(player,cache)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.KeeperStats, CacheFlag.CACHE_DAMAGE)
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Keeper.KeeperStats, CacheFlag.CACHE_DAMAGE)

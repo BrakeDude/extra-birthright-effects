@@ -1,5 +1,7 @@
 local mod = ExtraBirthright
-mod.DipVariant = {
+local BB = {}
+
+local dipVariant = {
     DIP_NORMAL = 0,
     DIP_RED = 1,
     DIP_CORNY = 2,
@@ -13,7 +15,7 @@ mod.DipVariant = {
     DIP_BROWNIE = 20
 }
 
-mod.HolyList = {
+local HolyList = {
     CollectibleType.COLLECTIBLE_GODHEAD,
     CollectibleType.COLLECTIBLE_HOLY_GRAIL,
     CollectibleType.COLLECTIBLE_HOLY_MANTLE,
@@ -28,7 +30,7 @@ mod.HolyList = {
     CollectibleType.COLLECTIBLE_DIVINE_INTERVENTION,
 }
 
-mod.VirusList = {
+local VirusList = {
     CollectibleType.COLLECTIBLE_TOXIC_SHOCK,
     CollectibleType.COLLECTIBLE_SERPENTS_KISS,
     CollectibleType.COLLECTIBLE_CONTAGION,
@@ -40,7 +42,7 @@ mod.VirusList = {
     CollectibleType.COLLECTIBLE_SINUS_INFECTION
 }
 
-mod.FireList = {
+local FireList = {
     CollectibleType.COLLECTIBLE_PYROMANIAC,
     CollectibleType.COLLECTIBLE_FIRE_MIND,
     CollectibleType.COLLECTIBLE_HOT_BOMBS,
@@ -51,12 +53,12 @@ mod.FireList = {
     CollectibleType.COLLECTIBLE_BLACK_CANDLE,
 }
 
-mod.AshList = {
+local AshList = {
     CollectibleType.COLLECTIBLE_BALL_OF_TAR,
     CollectibleType.COLLECTIBLE_LITTLE_GISH
 }
 
-mod.StoneList = {
+local StoneList = {
     CollectibleType.COLLECTIBLE_SMALL_ROCK,
     CollectibleType.COLLECTIBLE_TOOTH_AND_NAIL,
     CollectibleType.COLLECTIBLE_GNAWED_LEAF,
@@ -64,7 +66,7 @@ mod.StoneList = {
     CollectibleType.COLLECTIBLE_TERRA
 }
 
-mod.RedList = {
+local RedList = {
     CollectibleType.COLLECTIBLE_BLOOD_BAG,
     CollectibleType.COLLECTIBLE_CUBE_OF_MEAT,
     CollectibleType.COLLECTIBLE_SMB_SUPER_FAN,
@@ -83,7 +85,7 @@ mod.RedList = {
     CollectibleType.COLLECTIBLE_C_SECTION,
 }
 
-mod.CornList = {
+local CornList = {
     CollectibleType.COLLECTIBLE_BUTT_BOMBS,
     CollectibleType.COLLECTIBLE_E_COLI,
     CollectibleType.COLLECTIBLE_FRUIT_CAKE,
@@ -100,7 +102,7 @@ mod.CornList = {
 
 }
 
-mod.GoldList = {
+local GoldList = {
     CollectibleType.COLLECTIBLE_MIDAS_TOUCH,
     CollectibleType.COLLECTIBLE_DEEP_POCKETS,
     CollectibleType.COLLECTIBLE_HEAD_OF_THE_KEEPER,
@@ -109,7 +111,7 @@ mod.GoldList = {
     CollectibleType.COLLECTIBLE_KEEPERS_SACK,
 }
 
-function mod:HasItemInList(player,list)
+local function HasItemInList(player,list)
     for i = 1,#list do
         if player:HasCollectible(list[i]) then
             return true
@@ -118,7 +120,7 @@ function mod:HasItemInList(player,list)
     return false
 end
 
-function mod:BBShooting(tear)
+function BB:BBShooting(tear)
     local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Blue Baby"])
 	if mod.MCMOption.Settings["Tainted Blue Baby"] > 1 then
         local player = mod:GetPlayerFromTear(tear)
@@ -126,23 +128,22 @@ function mod:BBShooting(tear)
             local rng = player:GetCollectibleRNG(collectible)
             local dirtyMind = player:HasCollectible(CollectibleType.COLLECTIBLE_DIRTY_MIND) and 3 or 1
             if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_XXX_B and rng:RandomFloat() < 0.15 * dirtyMind then
-                local dipVariant = mod.DipVariant
                 local type = dipVariant.DIP_NORMAL
-                if mod:HasItemInList(player,mod.RedList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                if HasItemInList(player,RedList) and rng:RandomFloat() < dirtyMind * 0.1 then
                     type = dipVariant.DIP_RED
-                elseif mod:HasItemInList(player,mod.AshList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                elseif HasItemInList(player,AshList) and rng:RandomFloat() < dirtyMind * 0.1 then
                     type = dipVariant.DIP_BLACK
-                elseif mod:HasItemInList(player,mod.FireList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                elseif HasItemInList(player,FireList) and rng:RandomFloat() < dirtyMind * 0.1 then
                     type = dipVariant.DIP_FLAMING
-                elseif mod:HasItemInList(player,mod.StoneList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                elseif HasItemInList(player,StoneList) and rng:RandomFloat() < dirtyMind * 0.1 then
                     type = dipVariant.DIP_STONE
-                elseif mod:HasItemInList(player,mod.VirusList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                elseif HasItemInList(player,VirusList) and rng:RandomFloat() < dirtyMind * 0.1 then
                     type = dipVariant.DIP_POISON
-                elseif mod:HasItemInList(player,mod.GoldList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                elseif HasItemInList(player,GoldList) and rng:RandomFloat() < dirtyMind * 0.1 then
                     type = dipVariant.DIP_GOLDEN
-                elseif mod:HasItemInList(player,mod.HolyList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                elseif HasItemInList(player,HolyList) and rng:RandomFloat() < dirtyMind * 0.1 then
                     type = dipVariant.DIP_HOLY
-                elseif mod:HasItemInList(player,mod.CornList) and rng:RandomFloat() < dirtyMind * 0.1 then
+                elseif HasItemInList(player,CornList) and rng:RandomFloat() < dirtyMind * 0.1 then
                     type = dipVariant.DIP_CORNY
                 end
                 player:AddFriendlyDip(type,player.Position)
@@ -152,6 +153,6 @@ function mod:BBShooting(tear)
     end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, mod.BBShooting)
-mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT, mod.BBShooting)
-mod:AddCallback(ModCallbacks.MC_POST_BOMB_INIT, mod.BBShooting)
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, BB.BBShooting)
+mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT, BB.BBShooting)
+mod:AddCallback(ModCallbacks.MC_POST_BOMB_INIT, BB.BBShooting)

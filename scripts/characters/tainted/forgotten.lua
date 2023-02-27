@@ -1,6 +1,7 @@
 local mod = ExtraBirthright
+local Forgotten = {}
 
-function mod:TForgorBones(player,cache)  
+function Forgotten:TForgorBones(player,cache)  
     if player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN_B and mod.MCMOption.Settings["Tainted Forgotten"] > 1 then
         local soul = player:GetOtherTwin()
         local data = mod:GetData(player)
@@ -19,9 +20,9 @@ function mod:TForgorBones(player,cache)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.TForgorBones, CacheFlag.CACHE_FAMILIARS)
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Forgotten.TForgorBones, CacheFlag.CACHE_FAMILIARS)
 
-function mod:TForgorOnRoom(player,cache)  
+function Forgotten:TForgorOnRoom(player,cache)  
     if mod.MCMOption.Settings["Tainted Forgotten"] > 1 then
         for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER,-1,PlayerType.PLAYER_THEFORGOTTEN_B)) do
             player = player:ToPlayer()
@@ -38,4 +39,4 @@ function mod:TForgorOnRoom(player,cache)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.TForgorOnRoom)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Forgotten.TForgorOnRoom)

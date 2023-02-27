@@ -1,9 +1,11 @@
 local mod = ExtraBirthright
+local Samson = {}
 --#region Samson
 local ChargeBar = Sprite()
 ChargeBar:Load("gfx/chargebar_berserk.anm2",true)
 ChargeBar:LoadGraphics()
-function mod:TSamson(player)
+
+function Samson:TSamson(player)
 	local data = mod.GetPersistentPlayerData(player)
 	if player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B then
 		if mod.MCMOption.Settings["Tainted Samson"] > 1 then	
@@ -33,9 +35,9 @@ function mod:TSamson(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE,mod.TSamson,0)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE,Samson.TSamson,0)
 
-function mod:TSamsonChargeBar(player)
+function Samson:TSamsonChargeBar(player)
 	if Game():GetRoom():GetRenderMode() == RenderMode.RENDER_WATER_REFLECT then return end
 	if mod.MCMOption.Settings["Tainted Samson"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Samson"],false)
@@ -62,5 +64,5 @@ function mod:TSamsonChargeBar(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER,mod.TSamsonChargeBar, 0)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, Samson.TSamsonChargeBar, 0)
 --#endregion

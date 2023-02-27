@@ -1,7 +1,7 @@
 local mod = ExtraBirthright
-local Isaac = {}
+local IsaacM = {}
 --#region Isaac
-function Isaac:D6Buff(_,rng,player)
+function IsaacM:D6Buff(_,rng,player)
 	local game = Game()
 	local room = game:GetRoom()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Isaac"])
@@ -41,9 +41,9 @@ function Isaac:D6Buff(_,rng,player)
 	end
 	return nil
 end
-mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, Isaac.D6Buff, CollectibleType.COLLECTIBLE_D6);
+mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, IsaacM.D6Buff, CollectibleType.COLLECTIBLE_D6);
 
-function Isaac:D6PassiveBuff(player)
+function IsaacM:D6PassiveBuff(player)
 	if mod.MCMOption.Settings["Isaac"] > 1 then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Isaac"])
 		if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_ISAAC and 
@@ -58,5 +58,5 @@ function Isaac:D6PassiveBuff(player)
 	end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Isaac.D6PassiveBuff);
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, IsaacM.D6PassiveBuff);
 --#endregion

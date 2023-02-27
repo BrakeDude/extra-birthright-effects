@@ -1,6 +1,7 @@
 local mod = ExtraBirthright
+local Eve = {}
 --#region Tainted Eve
-function mod:EveExtraBloodBaby(entitytype,variant,subtype,position,velocity,spawner)
+function Eve:EveExtraBloodBaby(entitytype,variant,subtype,position,velocity,spawner)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eve"])
 	if mod.MCMOption.Settings["Tainted Eve"] > 1 then
 		if entitytype == EntityType.ENTITY_FAMILIAR and variant == FamiliarVariant.BLOOD_BABY then
@@ -20,9 +21,9 @@ function mod:EveExtraBloodBaby(entitytype,variant,subtype,position,velocity,spaw
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, mod.EveExtraBloodBaby)
+mod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, Eve.EveExtraBloodBaby)
 
-function mod:BetterBloodBabies(baby)
+function Eve:BetterBloodBabies(baby)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eve"])
 	if mod.MCMOption.Settings["Tainted Eve"] > 1 then
 		if baby.SpawnerEntity ~= nil then
@@ -42,5 +43,5 @@ function mod:BetterBloodBabies(baby)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.BetterBloodBabies,FamiliarVariant.BLOOD_BABY)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Eve.BetterBloodBabies,FamiliarVariant.BLOOD_BABY)
 --#endregion

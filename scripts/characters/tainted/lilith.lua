@@ -1,7 +1,8 @@
 local mod = ExtraBirthright
+local Lilith = {}
 
 --#region Tainted Lilith
-function mod.shoot_creep(creep_variant, position, direction_vector, puddle_num, puddle_dmg, puddle_scale, puddle_delay, puddle_timeout, spawner)
+local function shoot_creep(creep_variant, position, direction_vector, puddle_num, puddle_dmg, puddle_scale, puddle_delay, puddle_timeout, spawner)
 	if (puddle_num <= 0) or not  Game():GetRoom():IsPositionInRoom(position, 0.0) then
 		return nil
 	end
@@ -25,19 +26,19 @@ function mod.shoot_creep(creep_variant, position, direction_vector, puddle_num, 
 	return creep
 end
 
-function mod.CreepFromBellyUpdate(_, creep)
+function Lilith:CreepFromBellyUpdate(creep)
 	local data = creep:GetData()
 	if data.IsCreep and data.PuddleDelay ~= nil and creep.FrameCount == data.PuddleDelay then -- spawn next creep puddle
 		--local next_position = creep.Position + data.PuddleDirection:Resized(data.PuddleStep)
-		mod.shoot_creep(creep.Variant, data.Spawner.Position, data.PuddleDirection,
+		shoot_creep(creep.Variant, data.Spawner.Position, data.PuddleDirection,
 					data.PuddleNum, data.PuddleDamage,
 					data.PuddleScale, data.PuddleDelay, data.PuddleTimeout,
 					data.Spawner)
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, mod.CreepFromBellyUpdate, EffectVariant.PLAYER_CREEP_RED)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, Lilith.CreepFromBellyUpdate, EffectVariant.PLAYER_CREEP_RED)
 
-function mod:CreepFromBelly(entity)
+function Lilith:CreepFromBelly(entity)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Lilith"])
 	if mod.MCMOption.Settings["Tainted Lilith"] > 1 then
 		if entity.FrameCount > 2 and entity.FrameCount < 15 then
@@ -46,15 +47,15 @@ function mod:CreepFromBelly(entity)
 				local player = entity.Player
 					if entity:GetData().ShootCreep and player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_LILITH_B then
 						entity:GetData().ShootCreep = false
-						mod.shoot_creep(EffectVariant.PLAYER_CREEP_RED, entity.Position, mod.shootDirecton[player:GetFireDirection()],4,player.Damage*1.5,1.3,1,10,entity)
+						shoot_creep(EffectVariant.PLAYER_CREEP_RED, entity.Position, mod.shootDirecton[player:GetFireDirection()],4,player.Damage*1.5,1.3,1,10,entity)
 					end
 			end
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.CreepFromBelly, FamiliarVariant.UMBILICAL_BABY)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Lilith.CreepFromBelly, FamiliarVariant.UMBILICAL_BABY)
 
-function mod:CreepHemorrhage(player)
+function Lilith:CreepHemorrhage(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Lilith"])
 	if mod.MCMOption.Settings["Tainted Lilith"] > 1 then
 		if player.FrameCount%5 == 1 and player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_LILITH_B then
@@ -65,5 +66,5 @@ function mod:CreepHemorrhage(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.CreepHemorrhage)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Lilith.CreepHemorrhage)
 --#endregion

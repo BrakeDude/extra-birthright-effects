@@ -1,4 +1,5 @@
 local mod = ExtraBirthright
+local Jacob = {}
 local skin = {
 				[SkinColor.SKIN_PINK]="",
 				[SkinColor.SKIN_WHITE]="_white",
@@ -9,7 +10,7 @@ local skin = {
 				[SkinColor.SKIN_GREY]="_grey",
 			 }
 --#region Tainted Jacob
-function mod:HesMine(player,_,_,newtarget)
+function Jacob:HesMine(player,_,_,newtarget)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
 	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
 		local player = player:ToPlayer()
@@ -26,9 +27,9 @@ function mod:HesMine(player,_,_,newtarget)
 	end
 	return nil
 end
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.HesMine, EntityType.ENTITY_PLAYER)
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Jacob.HesMine, EntityType.ENTITY_PLAYER)
 
-function mod:YouDie(npc,collider,low)
+function Jacob:YouDie(npc,collider,low)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
 	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
 		local player
@@ -75,9 +76,9 @@ function mod:YouDie(npc,collider,low)
 	end
 	return nil
 end
-mod:AddCallback(ModCallbacks.MC_PRE_NPC_COLLISION, mod.YouDie, EntityType.ENTITY_DARK_ESAU)
+mod:AddCallback(ModCallbacks.MC_PRE_NPC_COLLISION, Jacob.YouDie, EntityType.ENTITY_DARK_ESAU)
 
-function mod:FriendlyPissedEsau(Esau)
+function Jacob:FriendlyPissedEsau(Esau)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
 	if  Esau.SpawnerType == EntityType.ENTITY_PLAYER then
 		local player = Esau.SpawnerEntity:ToPlayer()
@@ -96,9 +97,9 @@ function mod:FriendlyPissedEsau(Esau)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, mod.FriendlyPissedEsau, EntityType.ENTITY_DARK_ESAU)
+mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, Jacob.FriendlyPissedEsau, EntityType.ENTITY_DARK_ESAU)
 
-function mod:JacobStatsCache(player,cacheFlag)
+function Jacob:JacobStatsCache(player,cacheFlag)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
 	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
 		if (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B)
@@ -113,9 +114,9 @@ function mod:JacobStatsCache(player,cacheFlag)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.JacobStatsCache)
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Jacob.JacobStatsCache)
 
-function mod:SecondItem()
+function Jacob:SecondItem()
 	local game = Game()
 	local room = game:GetRoom()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
@@ -147,5 +148,5 @@ function mod:SecondItem()
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.SecondItem)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Jacob.SecondItem)
 --#endregion

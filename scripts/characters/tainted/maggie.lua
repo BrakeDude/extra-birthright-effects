@@ -1,6 +1,7 @@
 local mod = ExtraBirthright
+local Maggie = {}
 
-function mod:TaintedRegeneration()
+function Maggie:TaintedRegeneration()
 	if mod.MCMOption.Settings["Tainted Magdalene"] > 1 then
 		for _,players in ipairs(Isaac.FindByType(1)) do
 			local player = players:ToPlayer()
@@ -14,4 +15,4 @@ function mod:TaintedRegeneration()
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.TaintedRegeneration)
+mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Maggie.TaintedRegeneration)
