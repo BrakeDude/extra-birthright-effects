@@ -337,9 +337,9 @@ function mod:GetData(entity)
 	return nil
 end
 
-function mod.GetPersistentPlayerData(player) --From Retribution, by Xalum
-	player = player:ToPlayer()
-	if mod.PlayerData then
+function mod.GetPersistentPlayerData(entity) --From Retribution, by Xalum (modified by me)
+	if entity:ToPlayer() and mod.PlayerData then
+		local player = entity:ToPlayer()
 		local seedReference = CollectibleType.COLLECTIBLE_SAD_ONION
 		local playerType = player:GetPlayerType()
 
@@ -349,11 +349,15 @@ function mod.GetPersistentPlayerData(player) --From Retribution, by Xalum
 			player = player:GetMainTwin()
 		end
 
-		local tableIndex = player:GetCollectibleRNG(seedReference):GetSeed()
-		tableIndex = tostring(tableIndex)
-
+		local tableIndex = tostring(player:GetCollectibleRNG(seedReference):GetSeed())
 		mod.PlayerData[tableIndex] = mod.PlayerData[tableIndex] or {}
 		return mod.PlayerData[tableIndex]
+	elseif entity:ToFamiliar() and mod.FamiliarData then
+		local familiar = entity:ToFamiliar()
+		
+		local tableIndex = tostring(familiar.InitSeed)
+		mod.FamiliarData[tableIndex] = mod.FamiliarData[tableIndex] or {}
+		return mod.FamiliarData[tableIndex]
 	else
 		return {}
 	end

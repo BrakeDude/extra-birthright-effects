@@ -11,6 +11,7 @@ mod.BirthrightfloorBought = false
 local BirthrightLangName = {en = "Birthright", ru = "Право первородства", es = "Primogenitura"}
 
 mod.PlayerData = {}
+mod.FamiliarData = {}
 
 mod.VisitedRooms = {}
 
@@ -81,6 +82,7 @@ function mod:SaveSomeData(isSaving)
 	end]]
 
 	saveBirthright.PlayerData = json.encode(mod.PlayerData)
+	saveBirthright.FamiliarData = json.encode(mod.FamiliarData)
 
 	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption.Settings)
 	saveBirthright.ModConfigMenuHearts = json.encode(mod.EBHeartsDrops.Settings)
@@ -141,6 +143,7 @@ function mod:LoadItBack(isContinued)
 				end
 			else
 				mod.PlayerData = loadBirthright.PlayerData
+				mod.FamiliarData = loadBirthright.FamiliarData
 			end
 			mod.BirthrightfloorBought = loadBirthright.BirthrightfloorBought
 			mod.VisitedRooms = loadBirthright.VisitedRooms or {}

@@ -14,7 +14,7 @@ function Forgotten:TForgorBones(player,cache)
                         bones = bones + 1
                     end
                 end
-                soul:CheckFamiliar(FamiliarVariant.BONE_ORBITAL, math.min(5,5-math.max(0,bones)), player:GetCollectibleRNG(collectible), nil, 0)
+                soul:CheckFamiliar(FamiliarVariant.BONE_ORBITAL, math.min(5,5-math.max(0,bones)), RNG(), nil, 0)
             end
             data.TriggerForgorBones = nil
         end

@@ -8,8 +8,10 @@ function Lilith:SpawnMinisaacs()
 	local room = game:GetRoom()
 	local MiniIsaacs = Isaac.FindByType(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC)
 	for _,minisaac in pairs(MiniIsaacs) do
-		if mod:GetData(minisaac).BoxOfFriendRemove then
+		local data = mod.GetPersistentPlayerData(minisaac)
+		if data.BoxOfFriendRemove then
 			minisaac:Remove()
+			data = nil
 		end
 	end
 	if mod.MCMOption.Settings["Lilith"] > 1 then
@@ -25,7 +27,8 @@ function Lilith:SpawnMinisaacs()
 					end
 					for i=1, count do
 						local minisaac = Isaac.Spawn(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC,2,pos,Vector.Zero,player):ToFamiliar()--player:AddMinisaac(pos, false):ToFamiliar()
-						mod:GetData(minisaac).FromBirthright = true
+						local data = mod.GetPersistentPlayerData(minisaac)
+						data.FromBirthright = true
 					end
 				end
 			end
@@ -37,8 +40,10 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Lilith.SpawnMinisaacs)
 function Lilith:DespawnMinisaacsOnNewLevel()
 	local MiniIsaacs = Isaac.FindByType(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC)
 	for _,minisaac in pairs(MiniIsaacs) do
-		if mod:GetData(minisaac).FromBirthright then
+		local data = mod.GetPersistentPlayerData(minisaac)
+		if data.FromBirthright then
 			minisaac:Remove()
+			data = nil
 		end
 	end
 end
@@ -52,7 +57,8 @@ function Lilith:MiniBoxFriends(_,_,player)
 			for _,minisaac in ipairs(MinIsaacs) do
 				if GetPtrHash(minisaac:ToFamiliar().Player) == GetPtrHash(player) then
 					local isaac = Isaac.Spawn(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC,2,minisaac.Position,Vector.Zero,minisaac:ToFamiliar().Player):ToFamiliar()--minisaac:ToFamiliar().Player:AddMinisaac(minisaac.Position, false)
-					mod:GetData(isaac).BoxOfFriendRemove = true
+					local data = mod.GetPersistentPlayerData(minisaac)
+					data.BoxOfFriendRemove = true
 				end
 			end
 		end
