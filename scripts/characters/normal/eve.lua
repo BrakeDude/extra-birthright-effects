@@ -5,7 +5,7 @@ function Eve:MoreBirds(player,_,damageflag)
     if damageflag & DamageFlag.DAMAGE_FAKE ~= DamageFlag.DAMAGE_FAKE and damageflag & DamageFlag.DAMAGE_INVINCIBLE ~= DamageFlag.DAMAGE_INVINCIBLE then
         if mod.MCMOption.Settings["Eve"] > 1 then
             player = player:ToPlayer()
-            local data = mod:GetData(player)
+            local data = mod.GetPersistentPlayerData(player)
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Eve"])
             if player:HasCollectible(collectible) then
                 local rng = player:GetCollectibleRNG(collectible)
@@ -29,7 +29,7 @@ function Eve:BirdsCache(player,cache)
     end
     if mod.MCMOption.Settings["Eve"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_EVE and player:HasCollectible(collectible) then
         if data.EveBirds > 0 then
-            player:CheckFamiliar(FamiliarVariant.DEAD_BIRD,data.EveBirds, player:GetCollectibleRNG(collectible))
+            player:CheckFamiliar(FamiliarVariant.DEAD_BIRD,data.EveBirds, RNG())
         end
     end
 end
