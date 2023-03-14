@@ -1,9 +1,11 @@
 local mod = ExtraBirthright
 local Laz = {}
+local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+
 --#region Tainted Lazarus
 function Laz:DaSwitcharu2pointO(player)
 	if mod.MCMOption.Settings["Tainted Lazarus"] > 1 and (player:GetPlayerType() == PlayerType.PLAYER_LAZARUS_B or player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2_B) 
-	and (player:HasCollectible(mod.substituteBirthright) or player:GetOtherTwin() ~= nil) then
+	and (player:HasCollectible(substituteBirthright) or player:GetOtherTwin() ~= nil) then
 		local battery = (player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY) and 2 or 1)
 		local charge = player:GetActiveCharge(ActiveSlot.SLOT_POCKET) + player:GetBatteryCharge(ActiveSlot.SLOT_POCKET)
 		if mod.fliped[mod.EsauCheck(player)] == nil then

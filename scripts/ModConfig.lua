@@ -532,7 +532,7 @@ local function AddMCM()
 				})
 		end
 
-		ModConfigMenu.AddSetting(MCMExtraBirthright, "The Hoarder",
+		ModConfigMenu.AddSetting(MCMExtraBirthright, "T.Cain",
 		{
 			Type = ModConfigMenu.OptionType.NUMBER,
 			CurrentSetting = function()

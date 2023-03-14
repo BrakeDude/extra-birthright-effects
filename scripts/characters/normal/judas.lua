@@ -79,7 +79,7 @@ mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Judas.JudasSecondBirthrightAd
 function Judas:JudasSecondBirthrightRemoveCallbacks()
 	if #addedCallbacks > 0 then
 		for _,v in pairs(addedCallbacks) do
-			mod:RemoveCallback(ModCallbacks.MC_USE_ITEM, mod.AntibirthUseTheBook, v)
+			mod:RemoveCallback(ModCallbacks.MC_USE_ITEM, Judas.AntibirthUseTheBook, v)
 		end
 		addedCallbacks = {}
 	end

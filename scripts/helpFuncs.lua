@@ -1,5 +1,7 @@
 local mod = ExtraBirthright
 local doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
+local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+
 function mod.TheCard(subtype)
 	if (subtype >= 27 and subtype <= 30) or
 	(subtype >= 32 and subtype <= 47) or
@@ -204,7 +206,7 @@ end
 
 function mod.GetOptionsBirthright(option,extra)
 	extra = extra or false
-	return (option == 2 or option == 3 and extra) and mod.substituteBirthright or CollectibleType.COLLECTIBLE_BIRTHRIGHT
+	return (option == 2 or option == 3 and extra) and substituteBirthright or CollectibleType.COLLECTIBLE_BIRTHRIGHT
 end
 
 function mod.GetMaxCollectibleID()
