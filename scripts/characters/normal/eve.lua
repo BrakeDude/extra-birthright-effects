@@ -36,8 +36,7 @@ end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Eve.BirdsCache, CacheFlag.CACHE_FAMILIARS)
 
 function Eve:BirdsReset()
-    for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
-        player = player:ToPlayer()
+    for _,player in ipairs(mod:GetPlayers()) do
         local data = mod.GetPersistentPlayerData(player)
         data.EveBirds = 0
     end

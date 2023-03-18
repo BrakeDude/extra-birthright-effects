@@ -272,14 +272,26 @@ function mod:GetPlayers(functionCheck, ...)
 	
 end
 
+function mod:GetPlayersByType(playerType)
+	playerType = playerType or -1
+	local players = mod:GetPlayers()
+	local table = {}
+	for _,player in ipairs(players) do
+		if player:GetPlayerType() == playerType or playerType == -1 then
+			table[#table+1] = player
+		end
+	end
+	return table
+end
+
 function mod:GetPlayerFromTear(tear)
-	for i=1, 3 do
+	for i=1, 2 do
 		local check = nil
 		if i == 1 then
 			check = tear.Parent
+		--elseif i == 2 then
+		--	check = mod:GetSpawner(tear)
 		elseif i == 2 then
-			check = mod:GetSpawner(tear)
-		elseif i == 3 then
 			check = tear.SpawnerEntity
 		end
 		if check then
@@ -329,7 +341,7 @@ function mod:GetPtrHashEntity(entity)
 end
 
 function mod:GetData(entity)
-	if entity and entity.GetData then
+	if entity then
 		local data = entity:GetData()
 		if not data.ExtraBirthright then
 			data.ExtraBirthright = {}
@@ -362,6 +374,28 @@ function mod.GetPersistentPlayerData(entity) --From Retribution, by Xalum (modif
 		return mod.FamiliarData[tableIndex]
 	else
 		return {}
+	end
+end
+
+function mod.RemovePersistentPlayerData(entity) --From Retribution, by Xalum (modified by me)
+	if entity:ToPlayer() and mod.PlayerData then
+		local player = entity:ToPlayer()
+		local seedReference = CollectibleType.COLLECTIBLE_SAD_ONION
+		local playerType = player:GetPlayerType()
+
+		if playerType == PlayerType.PLAYER_LAZARUS2_B then
+			seedReference = CollectibleType.COLLECTIBLE_INNER_EYE
+		elseif playerType ~= PlayerType.PLAYER_ESAU then
+			player = player:GetMainTwin()
+		end
+
+		local tableIndex = tostring(player:GetCollectibleRNG(seedReference):GetSeed())
+		mod.PlayerData[tableIndex] = nil
+	elseif entity:ToFamiliar() and mod.FamiliarData then
+		local familiar = entity:ToFamiliar()
+		
+		local tableIndex = tostring(familiar.InitSeed)
+		mod.FamiliarData[tableIndex] = nil
 	end
 end
 

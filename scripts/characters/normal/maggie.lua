@@ -46,6 +46,11 @@ function Maggie:YumHeartBuff(_,_,player)
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
 		if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then
 			player:AddHearts(2)
+			for _,otherplayer in pairs(mod:GetPlayers()) do
+				if GetPtrHash(player) ~= GetPtrHash(otherplayer) then
+					player:AddHearts(1)
+				end
+			end
 		end
 	end
 	return true

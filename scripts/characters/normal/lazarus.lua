@@ -4,8 +4,7 @@ local havenscall = Isaac.GetItemIdByName("Haven's Call")
 local Laz = {}
 
 function Laz:GiveHavenCall()
-    for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
-        player = player:ToPlayer()
+    for _,player in ipairs(mod:GetPlayers()) do
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus"])
         local collectible2 = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus Risen"])
         if (mod.MCMOption.Settings["Lazarus"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS and player:HasCollectible(collectible)) or
@@ -76,8 +75,7 @@ function Laz:RerollScaryDs(collectibletype,itempooltype,decrease,seed)
     local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus"])
     local collectible2 = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lazarus Risen"])
     local reroll = false
-    for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
-        player = player:ToPlayer()
+    for _,player in ipairs(mod:GetPlayers()) do
         if (mod.MCMOption.Settings["Lazarus"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS and player:HasCollectible(collectible)) or
         (mod.MCMOption.Settings["Lazarus Risen"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 and player:HasCollectible(collectible2)) then
             reroll = true
@@ -132,8 +130,7 @@ end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, Laz.LazFingDies, havenscall)
 
 function Laz:LazTempItemsReset()
-    for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
-        player = player:ToPlayer()
+    for _,player in ipairs(mod:GetPlayers()) do
         local data = mod.GetPersistentPlayerData(player)
         if data.RisenItemsTemp then
             for _,v in pairs(data.RisenItemsTemp) do

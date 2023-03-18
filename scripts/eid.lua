@@ -305,8 +305,7 @@ function mod:BirthrightDesc()
 		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, EBEIDDesc.SPA[38][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["spa"].birthright[39][1],"spa")
 
 		local stringEN,stringRU,stringSPA = {}, {}, {}
-		for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
-			player = player:ToPlayer()
+		for _,player in ipairs(mod:GetPlayers()) do
 			local playerID = player:GetPlayerType()
 			if playerID <= 40 then
 				local i,j,name = 1,2,1

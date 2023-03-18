@@ -35,6 +35,10 @@ local LevelBlessing = {
     end
 }
 
+function mod:GetBlessingsTable()
+    return LevelBlessing
+end
+
 local function HasBlessing()
     local curse = game:GetLevel():GetCurses()
     for i = 1, #LevelBlessing.Blessings do
@@ -201,8 +205,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, Bethany.BlessingForesight)
 
 function Bethany:AuraRender()
-    for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER,-1,PlayerType.PLAYER_BETHANY)) do
-        player = player:ToPlayer()
+    for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_BETHANY)) do
         local data = mod:GetData(player)
         local Aura = data.BlessingPrevailAura
         if Aura then

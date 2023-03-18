@@ -23,8 +23,7 @@ mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Judas.JudasBecomesStansPuppet, 
 local addedCallbacks = {}
 
 function Judas:JudasBirthBrimRemove()
-	for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER)) do
-		player = player:ToPlayer()
+	for _,player in ipairs(mod:GetPlayers()) do
 		local data = mod.GetPersistentPlayerData(player)
 		data.JudasBirthBrimstone = false
 	end

@@ -127,11 +127,11 @@ mod.MCMOption ={
 	},
 	Labels = {
 		{"1: D6 becomes pocket active. Can reroll into items from Treasure, Angel or Devil pools."}, -- Isaac
-		{"1: Chance to charm nearby emenies. Yum Heart heals two red hearts instead of one. 2: Speed is linked to number of red hearts. Gain 1 Soul Heart when entering new floor."}, -- Maggie
+		{"1: Yum Heart becomes pocket active. Chance to charm nearby emenies. Yum Heart heals two red hearts instead of one. 2: Speed is linked to number of red hearts. Gain 1 Soul Heart when entering new floor."}, -- Maggie
 		{"1: Enemies drop random pickup on death. Bosses - chance for item from room's item pool. 2: Cain always has golden key (Antibirth)."},--Cain
-		{"1: 3 nickels. Chance to get on hit +5 damage and Brimsone effect for current room. 2: Using books activates Necronomicon effect (Antibirth)."},--Judas
+		{"1: 3 random coins. Chance to get on hit +5 damage and Brimsone effect for current room. 2: Using books activates Necronomicon effect (Antibirth)."},--Judas
 		{"1: Getting hit damages all enemies. 2: Same as Judas second effect."},--Dark Judas
-		{"1: Soul hearts boost stats depending on their number. Non soul hearts become other pickup (cards, pills, keys, coins, batteries)."},--Blue Baby
+		{"1: The Poop becomes pocket active. Soul hearts boost stats depending on their number. Non soul hearts become other pickup (cards, pills, keys, coins, batteries)."},--Blue Baby
 		{"1: Getting hit will occasionally spawn additional Dead Birds that persist between rooms."},--Eve
 		{"1: Damage up. Samson can pick up and throw objects."},--Samson
 		{"1: 20% chance to shoot in 8 directions on hit."},--Azazel

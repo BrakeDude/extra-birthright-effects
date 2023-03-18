@@ -35,10 +35,9 @@ mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, Cain.GimmeYourSuff);
 function Cain:BossItemSuff()
 	local game = Game()
 	local room = game:GetRoom()
-	for _,players in ipairs(Isaac.FindByType(1)) do
-		local player = players:ToPlayer()
+	for _,players in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_CAIN)) do
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Cain"],true)
-		if (mod.MCMOption.Settings["Cain"] == 2 or mod.MCMOption.Settings["Cain"] == 4) and player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_CAIN then
+		if (mod.MCMOption.Settings["Cain"] == 2 or mod.MCMOption.Settings["Cain"] == 4) and player:HasCollectible(collectible) then
 			if mod.wasThereBoss then
 				local ItemPool = game:GetItemPool():GetPoolForRoom(room:GetType(),RNG():GetSeed())
 				Isaac.Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,game:GetItemPool():GetCollectible(ItemPool),bossposition,Vector(0, 0),nil)

@@ -22,10 +22,9 @@ function Forgotten:TForgorBones(player,cache)
 end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Forgotten.TForgorBones, CacheFlag.CACHE_FAMILIARS)
 
-function Forgotten:TForgorOnRoom(player,cache)  
+function Forgotten:TForgorOnRoom()  
     if mod.MCMOption.Settings["Tainted Forgotten"] > 1 then
-        for _,player in ipairs(Isaac.FindByType(EntityType.ENTITY_PLAYER,-1,PlayerType.PLAYER_THEFORGOTTEN_B)) do
-            player = player:ToPlayer()
+        for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_THEFORGOTTEN_B)) do
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Forgotten"])
             if player:HasCollectible(collectible) then
                 local soul = player:GetOtherTwin()
