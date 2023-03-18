@@ -1,6 +1,8 @@
 local mod = ExtraBirthright
+local Lost = {}
+local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 
-function mod:LostLastChance(player)
+function Lost:LostLastChance(player)
     local level = Game():GetLevel()
     local room = Game():GetRoom()
     if mod.MCMOption.Settings["The Lost"] > 1 then
@@ -22,7 +24,7 @@ function mod:LostLastChance(player)
                         if player:HasCollectible(item) and itemConf.Type ~= ItemType.ITEM_ACTIVE
                         and (itemConf.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST)
                         and item ~= CollectibleType.COLLECTIBLE_BIRTHRIGHT
-                        and item ~= mod.substituteBirthright
+                        and item ~= substituteBirthright
                         and item ~= CollectibleType.COLLECTIBLE_HOLY_MANTLE
                         then
                             --for i = 1, player:GetCollectibleNum(item) do
@@ -39,4 +41,4 @@ function mod:LostLastChance(player)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.LostLastChance)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Lost.LostLastChance)

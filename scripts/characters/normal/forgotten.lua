@@ -1,6 +1,7 @@
 local mod = ExtraBirthright
+local Forgotten = {}
 
-function mod:ForgottenHit(entity)
+function Forgotten:ForgottenHit(entity)
 	local player = entity:ToPlayer()
 	local data = mod.GetPersistentPlayerData(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"])
@@ -9,9 +10,9 @@ function mod:ForgottenHit(entity)
 	end
 	return nil
 end
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.ForgottenHit, EntityType.ENTITY_PLAYER)
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Forgotten.ForgottenHit, EntityType.ENTITY_PLAYER)
 
-function mod:ForgottenBones(player)
+function Forgotten:ForgottenBones(player)
 	if mod.MCMOption.Settings["The Forgotten"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN then
 		local data = mod.GetPersistentPlayerData(player)
 	    local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"])
@@ -28,9 +29,9 @@ function mod:ForgottenBones(player)
         end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.ForgottenBones)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Forgotten.ForgottenBones)
 
-function mod:UpdateBones(familiar)
+function Forgotten:UpdateBones(familiar)
     if familiar.FrameCount > 15 then
         local data = mod:GetData(familiar)
         if data.BoneAfter ~= nil then
@@ -39,4 +40,4 @@ function mod:UpdateBones(familiar)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.UpdateBones, FamiliarVariant.BONE_ORBITAL)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Forgotten.UpdateBones, FamiliarVariant.BONE_ORBITAL)

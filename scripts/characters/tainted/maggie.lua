@@ -1,9 +1,9 @@
 local mod = ExtraBirthright
+local Maggie = {}
 
-function mod:TaintedRegeneration()
+function Maggie:TaintedRegeneration()
 	if mod.MCMOption.Settings["Tainted Magdalene"] > 1 then
-		for _,players in ipairs(Isaac.FindByType(1)) do
-			local player = players:ToPlayer()
+		for _,player in ipairs(mod:GetPlayers()) do
 			local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Magdalene"])
 			if player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA_B then
 				if player:HasCollectible(collectible) then
@@ -14,4 +14,4 @@ function mod:TaintedRegeneration()
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, mod.TaintedRegeneration)
+mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Maggie.TaintedRegeneration)

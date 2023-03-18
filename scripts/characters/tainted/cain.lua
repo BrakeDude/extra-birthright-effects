@@ -1,7 +1,8 @@
 --#region Tainted Cain
 local mod = ExtraBirthright
+local Cain = {}
 
-function mod:CainDestitnyItem(pickup, collider)
+function Cain:CainDestitnyItem(pickup, collider)
 	local game = Game()
     local room = game:GetRoom()
     local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Cain"])
@@ -100,9 +101,9 @@ function mod:CainDestitnyItem(pickup, collider)
 	end
     return nil
 end
-mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, mod.CainDestitnyItem, PickupVariant.PICKUP_COLLECTIBLE)
+mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Cain.CainDestitnyItem, PickupVariant.PICKUP_COLLECTIBLE)
 
-function mod:TaintedCainItemPickupReset()
+function Cain:TaintedCainItemPickupReset()
     for i = 1, Game():GetNumPlayers() do
         local player = Isaac.GetPlayer(i-1)
         local data = mod.GetPersistentPlayerData(player)
@@ -111,5 +112,5 @@ function mod:TaintedCainItemPickupReset()
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.TaintedCainItemPickupReset)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Cain.TaintedCainItemPickupReset)
 --#endregion

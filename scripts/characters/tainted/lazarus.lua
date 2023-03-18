@@ -1,8 +1,11 @@
 local mod = ExtraBirthright
+local Laz = {}
+local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+
 --#region Tainted Lazarus
-function mod:DaSwitcharu2pointO(player)
+function Laz:DaSwitcharu2pointO(player)
 	if mod.MCMOption.Settings["Tainted Lazarus"] > 1 and (player:GetPlayerType() == PlayerType.PLAYER_LAZARUS_B or player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2_B) 
-	and (player:HasCollectible(mod.substituteBirthright) or player:GetOtherTwin() ~= nil) then
+	and (player:HasCollectible(substituteBirthright) or player:GetOtherTwin() ~= nil) then
 		local battery = (player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY) and 2 or 1)
 		local charge = player:GetActiveCharge(ActiveSlot.SLOT_POCKET) + player:GetBatteryCharge(ActiveSlot.SLOT_POCKET)
 		if mod.fliped[mod.EsauCheck(player)] == nil then
@@ -23,13 +26,13 @@ function mod:DaSwitcharu2pointO(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.DaSwitcharu2pointO)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Laz.DaSwitcharu2pointO)
 
-function mod:FlipTheSwitchLazarus2pointO(Collectible,_,player,_,slot)
+function Laz:FlipTheSwitchLazarus2pointO(Collectible,_,player,_,slot)
 	if slot == ActiveSlot.SLOT_POCKET then
 		mod.fliped[mod.EsauCheck(player)] = 1
 	end
 	return nil
 end
-mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, mod.FlipTheSwitchLazarus2pointO, 711)
+mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, Laz.FlipTheSwitchLazarus2pointO, 711)
 --#endregion

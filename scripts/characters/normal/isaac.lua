@@ -1,6 +1,7 @@
 local mod = ExtraBirthright
+local IsaacM = {}
 --#region Isaac
-function mod:D6Buff(_,rng,player)
+function IsaacM:D6Buff(_,rng,player)
 	local game = Game()
 	local room = game:GetRoom()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Isaac"])
@@ -40,22 +41,5 @@ function mod:D6Buff(_,rng,player)
 	end
 	return nil
 end
-mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, mod.D6Buff,CollectibleType.COLLECTIBLE_D6);
-
-function mod:D6PassiveBuff(player)
-	if mod.MCMOption.Settings["Isaac"] > 1 then
-		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Isaac"])
-		if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_ISAAC and 
-		player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_D6 then
-			if player:GetActiveItem(ActiveSlot.SLOT_PRIMARY) == CollectibleType.COLLECTIBLE_D6 then
-				player:RemoveCollectible(CollectibleType.COLLECTIBLE_D6,false,ActiveSlot.SLOT_POCKET)
-			elseif player:GetActiveItem(ActiveSlot.SLOT_SECONDARY) == CollectibleType.COLLECTIBLE_D6 then
-				player:RemoveCollectible(CollectibleType.COLLECTIBLE_D6,false,ActiveSlot.SLOT_SECONDARY)
-			end
-			player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_D6,ActiveSlot.SLOT_POCKET,true)
-		end	
-	end
-end
-
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.D6PassiveBuff);
+mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, IsaacM.D6Buff, CollectibleType.COLLECTIBLE_D6);
 --#endregion

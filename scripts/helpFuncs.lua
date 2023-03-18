@@ -1,4 +1,7 @@
 local mod = ExtraBirthright
+local doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
+local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+
 function mod.TheCard(subtype)
 	if (subtype >= 27 and subtype <= 30) or
 	(subtype >= 32 and subtype <= 47) or
@@ -116,9 +119,9 @@ function mod.getHearts(rng)
 		pickup.subtype = HeartSubType.HEART_ROTTEN
 	elseif rng:RandomFloat() <= 0.07 and mod.EBHeartsDrops["Bone Heart"] then
 		pickup.subtype = HeartSubType.HEART_BONE
-	elseif rng:RandomFloat() <= 0.1 and mod.doubleHearts ~= -1 then
+	elseif rng:RandomFloat() <= 0.1 and doubleHearts ~= -1 then
 		pickup.subtype = rng:RandomInt(6)+1
-		pickup.variant = mod.doubleHearts
+		pickup.variant = doubleHearts
 	elseif rng:RandomFloat() <= 0.15 then
 		pickup.subtype = HeartSubType.HEART_BLACK
 	elseif rng:RandomFloat() <= 0.15 then
@@ -203,7 +206,7 @@ end
 
 function mod.GetOptionsBirthright(option,extra)
 	extra = extra or false
-	return (option == 2 or option == 3 and extra) and mod.substituteBirthright or CollectibleType.COLLECTIBLE_BIRTHRIGHT
+	return (option == 2 or option == 3 and extra) and substituteBirthright or CollectibleType.COLLECTIBLE_BIRTHRIGHT
 end
 
 function mod.GetMaxCollectibleID()
@@ -269,14 +272,26 @@ function mod:GetPlayers(functionCheck, ...)
 	
 end
 
+function mod:GetPlayersByType(playerType)
+	playerType = playerType or -1
+	local players = mod:GetPlayers()
+	local table = {}
+	for _,player in ipairs(players) do
+		if player:GetPlayerType() == playerType or playerType == -1 then
+			table[#table+1] = player
+		end
+	end
+	return table
+end
+
 function mod:GetPlayerFromTear(tear)
-	for i=1, 3 do
+	for i=1, 2 do
 		local check = nil
 		if i == 1 then
 			check = tear.Parent
+		--elseif i == 2 then
+		--	check = mod:GetSpawner(tear)
 		elseif i == 2 then
-			check = mod:GetSpawner(tear)
-		elseif i == 3 then
 			check = tear.SpawnerEntity
 		end
 		if check then
@@ -326,7 +341,7 @@ function mod:GetPtrHashEntity(entity)
 end
 
 function mod:GetData(entity)
-	if entity and entity.GetData then
+	if entity then
 		local data = entity:GetData()
 		if not data.ExtraBirthright then
 			data.ExtraBirthright = {}
@@ -336,9 +351,9 @@ function mod:GetData(entity)
 	return nil
 end
 
-function mod.GetPersistentPlayerData(player) --From Retribution, by Xalum
-	player = player:ToPlayer()
-	if mod.PlayerData then
+function mod.GetPersistentPlayerData(entity) --From Retribution, by Xalum (modified by me)
+	if entity:ToPlayer() and mod.PlayerData then
+		local player = entity:ToPlayer()
 		local seedReference = CollectibleType.COLLECTIBLE_SAD_ONION
 		local playerType = player:GetPlayerType()
 
@@ -348,13 +363,39 @@ function mod.GetPersistentPlayerData(player) --From Retribution, by Xalum
 			player = player:GetMainTwin()
 		end
 
-		local tableIndex = player:GetCollectibleRNG(seedReference):GetSeed()
-		tableIndex = tostring(tableIndex)
-
+		local tableIndex = tostring(player:GetCollectibleRNG(seedReference):GetSeed())
 		mod.PlayerData[tableIndex] = mod.PlayerData[tableIndex] or {}
 		return mod.PlayerData[tableIndex]
+	elseif entity:ToFamiliar() and mod.FamiliarData then
+		local familiar = entity:ToFamiliar()
+		
+		local tableIndex = tostring(familiar.InitSeed)
+		mod.FamiliarData[tableIndex] = mod.FamiliarData[tableIndex] or {}
+		return mod.FamiliarData[tableIndex]
 	else
 		return {}
+	end
+end
+
+function mod.RemovePersistentPlayerData(entity) --From Retribution, by Xalum (modified by me)
+	if entity:ToPlayer() and mod.PlayerData then
+		local player = entity:ToPlayer()
+		local seedReference = CollectibleType.COLLECTIBLE_SAD_ONION
+		local playerType = player:GetPlayerType()
+
+		if playerType == PlayerType.PLAYER_LAZARUS2_B then
+			seedReference = CollectibleType.COLLECTIBLE_INNER_EYE
+		elseif playerType ~= PlayerType.PLAYER_ESAU then
+			player = player:GetMainTwin()
+		end
+
+		local tableIndex = tostring(player:GetCollectibleRNG(seedReference):GetSeed())
+		mod.PlayerData[tableIndex] = nil
+	elseif entity:ToFamiliar() and mod.FamiliarData then
+		local familiar = entity:ToFamiliar()
+		
+		local tableIndex = tostring(familiar.InitSeed)
+		mod.FamiliarData[tableIndex] = nil
 	end
 end
 

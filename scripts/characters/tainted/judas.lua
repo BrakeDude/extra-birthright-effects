@@ -1,6 +1,8 @@
 local mod = ExtraBirthright
+local substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
+local TJudas = {}
 --#region Tainted Judas
-function mod:DarkFu(_, _, player)
+function TJudas:DarkFu(_, _, player)
     if mod.MCMOption.Settings["Tainted Judas"] > 1 then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Judas"])
 		if player:HasCollectible(collectible) and (player:GetPlayerType() == PlayerType.PLAYER_JUDAS_B) then
@@ -9,23 +11,23 @@ function mod:DarkFu(_, _, player)
 	end
 	return true
 end
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.DarkFu, mod.substituteDarkArts)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, TJudas.DarkFu, substituteDarkArts)
 
-function mod:DarkFuItem(player)
+function TJudas:DarkFuItem(player)
     if player:GetPlayerType() == PlayerType.PLAYER_JUDAS_B then
 		if mod.MCMOption.Settings["Tainted Judas"] > 1 then
 			local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Judas"])
 			if player:HasCollectible(collectible) and
 			player:GetActiveItem(ActiveSlot.SLOT_POCKET) == CollectibleType.COLLECTIBLE_DARK_ARTS then
-				player:SetPocketActiveItem(mod.substituteDarkArts)
+				player:SetPocketActiveItem(substituteDarkArts)
 			elseif not player:HasCollectible(collectible) and
-			player:GetActiveItem(ActiveSlot.SLOT_POCKET) == mod.substituteDarkArts then
+			player:GetActiveItem(ActiveSlot.SLOT_POCKET) == substituteDarkArts then
 				player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_DARK_ARTS)
 			end
-		elseif player:GetActiveItem(ActiveSlot.SLOT_POCKET) == mod.substituteDarkArts then
+		elseif player:GetActiveItem(ActiveSlot.SLOT_POCKET) == substituteDarkArts then
 			player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_DARK_ARTS)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.DarkFuItem)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, TJudas.DarkFuItem)
 --#endregion

@@ -1,4 +1,6 @@
 local mod = ExtraBirthright
+local cmd = {}
+
 function mod:GetCMDOption(arg,tainted)
 	local start = 1
 	if tainted then
@@ -15,7 +17,7 @@ function mod:GetCMDOption(arg,tainted)
 	return nil
 end
 
-function mod:changeCMD(args,s1,s2)
+local function changeCMD(args,s1,s2)
 	local commandstr = ""
 	local tainted = string.find(args,"Tainted")
 	local char = 0
@@ -55,7 +57,7 @@ function mod:changeCMD(args,s1,s2)
 	print("Changed "..commandstr.." Birthright to "..mod.MCMOption.Options[option])
 end
 
-function mod:helpCMD(args,s1,s2)
+local function helpCMD(args,s1,s2)
 	if s2 == #args then
 		print("Commands: \nchange [character] [option] - change Birthright effect\nget [character] - get current Birthright effect\ndefault [character] - set Birthright effect to 'Original Effect'")
 		print("[character] - character's name, case sensetive. Use 'help charlist' for list of names")
@@ -74,7 +76,7 @@ function mod:helpCMD(args,s1,s2)
 	end
 end
 
-function mod:getCMD(args,s1,s2)
+local function getCMD(args,s1,s2)
 	local commandstr = ""
 	local tainted = string.find(args,"Tainted")
 	local char
@@ -98,7 +100,7 @@ function mod:getCMD(args,s1,s2)
 	print("Changing effect of The Forgotten or The Soul will change it for both of them")
 end
 
-function mod:defaultCMD(args,s1,s2)
+local function defaultCMD(args,s1,s2)
 	local commandstr = ""
 	local tainted = string.find(args,"Tainted")
 	local char
@@ -120,7 +122,7 @@ function mod:defaultCMD(args,s1,s2)
 	print(commandstr.." Birthright effect(s) is/are set to default")
 end
 
-function mod:CmdCommands(command,args)
+function cmd:CmdCommands(command,args)
 	if command == "extrabirthright" then
 		if string.find(args,"resetModConfig") == 1 then
 			mod:ResetMCM()
@@ -128,19 +130,19 @@ function mod:CmdCommands(command,args)
 			return nil
 		end
 		if string.find(args,"change") == 1 then
-			mod:changeCMD(args,string.find(args,"change"))
+			changeCMD(args,string.find(args,"change"))
 		end
 		if string.find(args,"help") == 1 then
-			mod:helpCMD(args,string.find(args,"help"))
+			helpCMD(args,string.find(args,"help"))
 		end
 		if string.find(args,"get") == 1 then
-			mod:getCMD(args,string.find(args,"get"))
+			getCMD(args,string.find(args,"get"))
 		end
 		if string.find(args,"default") == 1 then
-			mod:defaultCMD(args,string.find(args,"default"))
+			defaultCMD(args,string.find(args,"default"))
 		end
 		mod:BirthrightDesc()
 	end
 	return nil
 end
-mod:AddCallback(ModCallbacks.MC_EXECUTE_CMD, mod.CmdCommands)
+mod:AddCallback(ModCallbacks.MC_EXECUTE_CMD, cmd.CmdCommands)

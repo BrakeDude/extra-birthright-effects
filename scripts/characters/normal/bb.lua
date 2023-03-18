@@ -1,6 +1,9 @@
 local mod = ExtraBirthright
+local BB = {}
+local doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
+local game = Game()
 --#region Blue Baby
-function mod:BBHearts(player)
+function BB:BBHearts(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Blue Baby"])
 	local data = mod.GetPersistentPlayerData(player)
 	if player:HasCollectible(collectible) and (mod.MCMOption.Settings["Blue Baby"] > 1) and player:GetPlayerType() == PlayerType.PLAYER_XXX then
@@ -28,9 +31,9 @@ function mod:BBHearts(player)
 		player:EvaluateItems()
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.BBHearts)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, BB.BBHearts)
 
-function mod:BBStatsCache(player,cacheFlag)
+function BB:BBStatsCache(player,cacheFlag)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Blue Baby"])
 	if mod.MCMOption.Settings["Blue Baby"] > 1 then
 		if player:GetPlayerType() == PlayerType.PLAYER_XXX and player:HasCollectible(collectible) then
@@ -49,20 +52,19 @@ function mod:BBStatsCache(player,cacheFlag)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.BBStatsCache)
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, BB.BBStatsCache)
 
-function mod:HeartsTransform(heart)
+function BB:HeartsTransform(heart)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Blue Baby"])
-	local game = Game()
 	if mod.MCMOption.Settings["Blue Baby"] > 1 then
 		for i = 1, game:GetNumPlayers() do
 			local player = Isaac.GetPlayer(i-1)
 			if player:GetPlayerType() == PlayerType.PLAYER_XXX and player:HasCollectible(collectible) then
 				if (heart.Variant == PickupVariant.PICKUP_HEART and heart.SubType ~= HeartSubType.HEART_HALF_SOUL and heart.SubType ~= HeartSubType.HEART_SOUL and heart.SubType ~= HeartSubType.HEART_BLACK)
-				or (mod.doubleHearts ~= -1 and heart.Variant == mod.doubleHearts and heart.SubType ~= 1 and heart.SubType ~= 2) then
+				or (doubleHearts ~= -1 and heart.Variant == doubleHearts and heart.SubType ~= 1 and heart.SubType ~= 2) then
 					if player:GetCollectibleRNG(collectible):RandomInt(100) < 30 then
-						if player:GetCollectibleRNG(collectible):RandomInt(100) < 20 and mod.doubleHearts ~= -1 then
-							heart:Morph(EntityType.ENTITY_PICKUP,mod.doubleHearts,player:GetCollectibleRNG(collectible):RandomInt(100) < 20 and 2 or 1,true)
+						if player:GetCollectibleRNG(collectible):RandomInt(100) < 20 and doubleHearts ~= -1 then
+							heart:Morph(EntityType.ENTITY_PICKUP,doubleHearts,player:GetCollectibleRNG(collectible):RandomInt(100) < 20 and 2 or 1,true)
 						else
 							heart:Morph(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_HEART,player:GetCollectibleRNG(collectible):RandomInt(100) < 20 and HeartSubType.HEART_BLACK or HeartSubType.HEART_SOUL,true)
 						end
@@ -90,5 +92,5 @@ function mod:HeartsTransform(heart)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.HeartsTransform)
+mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, BB.HeartsTransform)
 --#endregion

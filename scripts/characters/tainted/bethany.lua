@@ -1,6 +1,7 @@
 local mod = ExtraBirthright
+local Bethany = {}
 --#region Tainted Bethany
-function mod:BetterWisps(wisp)
+function Bethany:BetterWisps(wisp)
 	if mod.MCMOption.Settings["Tainted Bethany"] > 1 then
 		if wisp.SpawnerEntity ~= nil then
 			local player = wisp.SpawnerEntity
@@ -38,5 +39,5 @@ function mod:BetterWisps(wisp)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.BetterWisps, FamiliarVariant.ITEM_WISP)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Bethany.BetterWisps, FamiliarVariant.ITEM_WISP)
 --#endregion

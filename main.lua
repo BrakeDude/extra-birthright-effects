@@ -1,19 +1,18 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
 local mod = ExtraBirthright
-mod.Version = "2.41"
+local ExtraBirthrightLocal = {}
+mod.Version = "2.42"
 local json = require("json")
-mod.havenscall = Isaac.GetItemIdByName("Haven's Call")
-mod.substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
-mod.substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
+local havenscall = Isaac.GetItemIdByName("Haven's Call")
+local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+local substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 mod.wasThereBoss = false
 mod.fliped = {}
-mod.bossposition = Vector.Zero
 mod.BirthrightfloorBought = false
-mod.doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
-mod.Timer = -1
 local BirthrightLangName = {en = "Birthright", ru = "Право первородства", es = "Primogenitura"}
 
 mod.PlayerData = {}
+mod.FamiliarData = {}
 
 mod.VisitedRooms = {}
 
@@ -65,8 +64,9 @@ include("scripts/characters/tainted/apollyon.lua")
 include("scripts/characters/tainted/forgotten.lua")
 include("scripts/characters/tainted/bethany.lua")
 include("scripts/characters/tainted/jacob.lua")
+
 --#region Saving
-function mod:SaveSomeData(isSaving)
+function ExtraBirthrightLocal:SaveSomeData(isSaving)
 	local saveBirthright = {}
 	local game = Game()
 	local level = game:GetLevel()
@@ -77,13 +77,16 @@ function mod:SaveSomeData(isSaving)
 			saveData.PlayerData = json.encode(mod:GetData(player))
 			saveBirthright["player_"..tostring(i)]=saveData
 		end
-		saveBirthright.CurrentBlessing = level:GetCurses()
-		saveBirthright.BirthrightfloorBought = mod.BirthrightfloorBought
-		saveBirthright.VisitedRooms = mod.VisitedRooms
 		saveBirthright.Timer = mod.Timer
 	end]]
+	if isSaving then
+		saveBirthright.PlayerData = json.encode(mod.PlayerData)
+		saveBirthright.FamiliarData = json.encode(mod.FamiliarData)
+		--saveBirthright.CurrentBlessing = json.encode(level:GetCurses())
+		saveBirthright.BirthrightfloorBought = json.encode(mod.BirthrightfloorBought)
+		saveBirthright.VisitedRooms = json.encode(mod.VisitedRooms)
+	end
 
-	saveBirthright.PlayerData = json.encode(mod.PlayerData)
 
 	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption.Settings)
 	saveBirthright.ModConfigMenuHearts = json.encode(mod.EBHeartsDrops.Settings)
@@ -98,10 +101,10 @@ function mod:SaveSomeData(isSaving)
 	saveBirthright.Version = mod.Version
 	mod:SaveData(json.encode(saveBirthright))
 end
-mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.SaveSomeData)
+mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, ExtraBirthrightLocal.SaveSomeData)
 --#endregion
 --#region DataInit
-function mod:InitData(player)
+function ExtraBirthrightLocal:InitData(player)
 	local pType = player:GetPlayerType()
 	if pType <= 40 then
 	local data = mod.GetPersistentPlayerData(player)
@@ -127,12 +130,15 @@ function mod:InitData(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.InitData)
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, ExtraBirthrightLocal.InitData)
 --#endregion
 --#region Loading
-function mod:LoadItBack(isContinued)
-	mod.VisitedRooms = {}
+function ExtraBirthrightLocal:LoadItBack(isContinued)
 	local game = Game()
+	mod.BirthrightfloorBought = false
+	mod.VisitedRooms = {}
+	mod.PlayerData = {}
+	mod.FamiliarData = {}
 	if mod:HasData() then
 		local loadBirthright = json.decode(mod:LoadData())
 		if isContinued then
@@ -143,17 +149,11 @@ function mod:LoadItBack(isContinued)
 					player:GetData().ExtraBirthright.isSubstituteBirthrightOverHead = false
 				end
 			else
-				mod.PlayerData = loadBirthright.PlayerData
+				mod.PlayerData = json.decode(loadBirthright.PlayerData)
+				mod.FamiliarData = json.decode(loadBirthright.FamiliarData)
 			end
-			mod.BirthrightfloorBought = loadBirthright.BirthrightfloorBought
-			mod.VisitedRooms = loadBirthright.VisitedRooms or {}
-			mod.Timer = loadBirthright.Timer or -1
-			local blessings = loadBirthright.CurrentBlessing
-			for i = 1, #mod.LevelBlessing.Blessings do
-				if mod.LevelBlessing.CheckFlag(blessings, mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i]))) then
-					Game():GetLevel():AddCurse(mod.LevelBlessing.GetFlag(mod.LevelBlessing.GetId(mod.LevelBlessing.Blessings[i])),false)
-				end
-			end
+			mod.BirthrightfloorBought = json.decode(loadBirthright.BirthrightfloorBought) or false
+			mod.VisitedRooms = json.decode(loadBirthright.VisitedRooms) or {}
 		end
 		if loadBirthright.ModConfigMenu then
 			mod.MCMOption.Settings = json.decode(loadBirthright.ModConfigMenu)
@@ -190,10 +190,10 @@ function mod:LoadItBack(isContinued)
 	end
 	mod:BirthrightDesc()
 end
-mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.LoadItBack)
+mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, ExtraBirthrightLocal.LoadItBack)
 --#endregion
 --#region Init
-function mod:Init(player)
+function ExtraBirthrightLocal:Init(player)
 	local data = mod.GetPersistentPlayerData(player)
 	data.gotBirthright = true
 	if player:GetPlayerType() == PlayerType.PLAYER_EVE_B then
@@ -206,11 +206,11 @@ function mod:Init(player)
 	mod.wasThereBoss = false
 	mod:BirthrightDesc()
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, mod.Init)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, ExtraBirthrightLocal.Init)
 --#endregion
-function mod:BirthrightChange(pickup)
-	if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT or pickup.SubType == mod.substituteBirthright then
-		local players = Isaac.FindByType(EntityType.ENTITY_PLAYER)
+function ExtraBirthrightLocal:BirthrightChange(pickup)
+	if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT or pickup.SubType == substituteBirthright then
+		local players = mod:GetPlayers()
 		local player = players[1]
 		for _,searchplayer in ipairs(players) do
 			if pickup.Position:Distance(searchplayer.Position) < pickup.Position:Distance(player.Position) and not searchplayer.Parent then
@@ -259,18 +259,18 @@ function mod:BirthrightChange(pickup)
 		(player:GetPlayerType() == PlayerType.PLAYER_JACOB_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B) and mod.MCMOption.Settings["Tainted Jacob"] > 1 and mod.MCMOption.Settings["Tainted Jacob"] < 4
 		then
 			if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT then
-				pickup:ToPickup():Morph(pickup.Type,pickup.Variant,mod.substituteBirthright,true,true,true)
+				pickup:ToPickup():Morph(pickup.Type,pickup.Variant,substituteBirthright,true,true,true)
 			end
 		else
-			if pickup.SubType == mod.substituteBirthright then
+			if pickup.SubType == substituteBirthright then
 				pickup:ToPickup():Morph(pickup.Type,pickup.Variant,CollectibleType.COLLECTIBLE_BIRTHRIGHT,true,true,true)
 			end
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.BirthrightChange, PickupVariant.PICKUP_COLLECTIBLE)
+mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, ExtraBirthrightLocal.BirthrightChange, PickupVariant.PICKUP_COLLECTIBLE)
 --#region Birthright check for first pickup effect
-function mod:CheckBirthrightAll(player)
+function ExtraBirthrightLocal:CheckBirthrightAll(player)
 	local game = Game()
 	local level = game:GetLevel()
 	local ptype = player:GetPlayerType()
@@ -320,16 +320,16 @@ function mod:CheckBirthrightAll(player)
 	then
 		if player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) then
 			player:RemoveCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
-			player:AddCollectible(mod.substituteBirthright,0,false)
+			player:AddCollectible(substituteBirthright,0,false)
 		end	
 	else
-		if player:HasCollectible(mod.substituteBirthright) then
-			player:RemoveCollectible(mod.substituteBirthright)
+		if player:HasCollectible(substituteBirthright) then
+			player:RemoveCollectible(substituteBirthright)
 			player:AddCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT,0,false)
 		end
 	end
 	if not mod:GetData(player).isSubstituteBirthrightOverHead and player.QueuedItem.Item then
-		if player.QueuedItem.Item.ID == mod.substituteBirthright then
+		if player.QueuedItem.Item.ID == substituteBirthright then
 			mod:GetData(player).isSubstituteBirthrightOverHead = true
 			local charName = ""
 			if ptype == PlayerType.PLAYER_ISAAC then charName = 1
@@ -378,11 +378,21 @@ function mod:CheckBirthrightAll(player)
 		end
 	end
 	if ptype == PlayerType.PLAYER_THESOUL_B then return end
-	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(mod.substituteBirthright)) and not data.gotBirthright then
+	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(substituteBirthright)) and not data.gotBirthright then
 		mod:GetData(player).isSubstituteBirthrightOverHead = false
+		if ptype == PlayerType.PLAYER_ISAAC then
+			if mod.MCMOption.Settings["Isaac"] > 1 and player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_D6 then
+				player:RemoveCollectible(CollectibleType.COLLECTIBLE_D6)
+				player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_D6,ActiveSlot.SLOT_POCKET,true)
+			end
+		end
 		if ptype == PlayerType.PLAYER_MAGDALENA then
-			if player:HasCollectible(mod.substituteBirthright) then
+			if player:HasCollectible(substituteBirthright) then
 				player:AddMaxHearts(2)
+			end
+			if (mod.MCMOption.Settings["Magdalene"] == 2 or mod.MCMOption.Settings["Magdalene"] == 4) and player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_YUM_HEART then
+				player:RemoveCollectible(CollectibleType.COLLECTIBLE_YUM_HEART)
+				player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_YUM_HEART)
 			end
 			if (mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5) then
 				player:AddCacheFlags(CacheFlag.CACHE_SPEED)
@@ -396,6 +406,8 @@ function mod:CheckBirthrightAll(player)
 			player:AddCacheFlags(CacheFlag.CACHE_SPEED)
 			player:EvaluateItems()
 			data.BBHearts = player:GetSoulHearts()
+			player:RemoveCollectible(CollectibleType.COLLECTIBLE_POOP)
+			player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_POOP)
 		end
 		if ptype == PlayerType.PLAYER_SAMSON and mod.MCMOption.Settings["Samson"] > 1 then
 			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
@@ -427,7 +439,7 @@ function mod:CheckBirthrightAll(player)
 					if esau:HasCollectible(item) and itemConf.Type ~= ItemType.ITEM_ACTIVE
 					and (itemConf.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST)
 					and item ~= CollectibleType.COLLECTIBLE_BIRTHRIGHT
-					and item ~= mod.substituteBirthright
+					and item ~= substituteBirthright
 					then
 						for i = 1, esau:GetCollectibleNum(item) do
 							table.insert(randItems,item)
@@ -456,15 +468,21 @@ function mod:CheckBirthrightAll(player)
 		end
 		if ptype == PlayerType.PLAYER_JUDAS and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) then
 			for x = 1,3 do
-				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN,2, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
+				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, RNG():RandomInt(5) + 1, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
 			end
 		end
 		if (ptype == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] > 1) or (ptype == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] > 1) then
-			player:SetPocketActiveItem(mod.havenscall)
+			player:SetPocketActiveItem(havenscall)
+		end
+		if ptype == PlayerType.PLAYER_ISAAC_B then
+			if mod.MCMOption.Settings["Tainted Isaac"] > 1 and player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_SPINDOWN_DICE then
+				player:RemoveCollectible(CollectibleType.COLLECTIBLE_SPINDOWN_DICE)
+				player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_SPINDOWN_DICE,ActiveSlot.SLOT_POCKET,true)
+			end
 		end
 		if ptype == PlayerType.PLAYER_JUDAS_B and mod.MCMOption.Settings["Tainted Judas"] > 1 then
 			player:RemoveCollectible(705,false,ActiveSlot.SLOT_POCKET)
-			player:SetPocketActiveItem(mod.substituteDarkArts)
+			player:SetPocketActiveItem(substituteDarkArts)
 		end
 		if ptype == PlayerType.PLAYER_SAMSON_B and mod.MCMOption.Settings["Tainted Samson"] > 1 then
 			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
@@ -490,7 +508,7 @@ function mod:CheckBirthrightAll(player)
 			player:EvaluateItems()
 		end
 	end
-	data.gotBirthright = player:HasCollectible(mod.substituteBirthright) or player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
+	data.gotBirthright = player:HasCollectible(substituteBirthright) or player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
 	if player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN or player:GetPlayerType() == PlayerType.PLAYER_THESOUL then
 		if not data.ForgottenType then
 			data.ForgottenType = player:GetPlayerType()
@@ -501,14 +519,19 @@ function mod:CheckBirthrightAll(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.CheckBirthrightAll);
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, ExtraBirthrightLocal.CheckBirthrightAll);
 
-function mod:UpdateTheRoom()
+function ExtraBirthrightLocal:UpdateTheRoom()
 	local room = Game():GetRoom()
 	mod.wasThereBoss = false
 	mod.clearedroom = room:IsClear() and room:IsFirstVisit()
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.UpdateTheRoom);
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, ExtraBirthrightLocal.UpdateTheRoom)
+
+function ExtraBirthrightLocal:RemovePersistenData(entity)
+	mod.RemovePersistentPlayerData(entity)
+end
+mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, ExtraBirthrightLocal.RemovePersistenData, EntityType.ENTITY_PLAYER)
 --#endregion
 
 

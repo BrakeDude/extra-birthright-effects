@@ -1,5 +1,7 @@
 local mod = ExtraBirthright
-function mod:SamsonStronk(player)
+local Samson = {}
+
+function Samson:SamsonStronk(player)
 	if mod.MCMOption.Settings["Samson"] > 1 then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Samson"],false)
         if player:GetPlayerType() == PlayerType.PLAYER_SAMSON then
@@ -11,9 +13,9 @@ function mod:SamsonStronk(player)
         end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.SamsonStronk)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Samson.SamsonStronk)
 
-function mod:SamsonCache(player,cache)
+function Samson:SamsonCache(player,cache)
 	if mod.MCMOption.Settings["Samson"] > 1 then
 		if player:GetPlayerType() == PlayerType.PLAYER_SAMSON then
 			local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Samson"],false)
@@ -23,4 +25,4 @@ function mod:SamsonCache(player,cache)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.SamsonCache, CacheFlag.CACHE_DAMAGE)
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Samson.SamsonCache, CacheFlag.CACHE_DAMAGE)

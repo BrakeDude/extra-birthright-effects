@@ -1,7 +1,8 @@
 local mod = ExtraBirthright
+local Appolyon = {}
 --#region Tainted Apollyon
 
-function mod:LocustHolyAura(locust)
+function Appolyon:LocustHolyAura(locust)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Apollyon"],true)
 	if mod.MCMOption.Settings["Tainted Apollyon"] == 3 or mod.MCMOption.Settings["Tainted Apollyon"] == 5 then
 		if locust.SpawnerEntity ~= nil then
@@ -42,9 +43,9 @@ function mod:LocustHolyAura(locust)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.LocustHolyAura,FamiliarVariant.ABYSS_LOCUST)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Appolyon.LocustHolyAura,FamiliarVariant.ABYSS_LOCUST)
 
-function mod:NewLocusts()
+function Appolyon:NewLocusts()
 	local game = Game()
 	local room = game:GetRoom()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Apollyon"],true)
@@ -62,5 +63,5 @@ function mod:NewLocusts()
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.NewLocusts);
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Appolyon.NewLocusts);
 --#endregion

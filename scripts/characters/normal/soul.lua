@@ -1,6 +1,7 @@
 local mod = ExtraBirthright
+local Soul = {}
 
-function mod:ForgottenSoulHit(entity,damage)
+function Soul:ForgottenSoulHit(entity,damage)
 	local player = entity:ToPlayer()
     local data = mod.GetPersistentPlayerData(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"])
@@ -9,9 +10,9 @@ function mod:ForgottenSoulHit(entity,damage)
 	end
 	return nil
 end
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.ForgottenSoulHit, EntityType.ENTITY_PLAYER)
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Soul.ForgottenSoulHit, EntityType.ENTITY_PLAYER)
 
-function mod:ForgottenSoulWisps(player)
+function Soul:ForgottenSoulWisps(player)
 	if mod.MCMOption.Settings["The Forgotten"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_THESOUL then
 		local data = mod.GetPersistentPlayerData(player)
 	    local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"])
@@ -29,9 +30,9 @@ function mod:ForgottenSoulWisps(player)
         end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.ForgottenSoulWisps)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Soul.ForgottenSoulWisps)
 
-function mod:UpdateSoulWisps(familiar)
+function Soul:UpdateSoulWisps(familiar)
     if familiar.FrameCount > 30 then
         local data = mod:GetData(familiar)
         if data.SoulWispAfter ~= nil then
@@ -40,4 +41,4 @@ function mod:UpdateSoulWisps(familiar)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.UpdateSoulWisps, FamiliarVariant.WISP)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Soul.UpdateSoulWisps, FamiliarVariant.WISP)

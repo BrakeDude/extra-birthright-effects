@@ -1,7 +1,8 @@
 --#region Apollyon
 local mod = ExtraBirthright
+local Apollyon = {}
 
-function mod:Stats(player,rng,list)
+local function Stats(player,rng,list)
 	for _,entity in ipairs(list) do
 		if entity:Exists() and entity.SubType > 0 then
 			if not entity:ToPickup():IsShopItem() and (Isaac.GetItemConfig():GetCollectible(entity.SubType).Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST) then 
@@ -28,17 +29,17 @@ function mod:Stats(player,rng,list)
 	end
 end
 
-function mod:Succ(collectible,rng,player)
+function Apollyon:Succ(collectible,rng,player)
 	if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then
 		local itemList = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
-		mod:Stats(player,rng,itemList)
+		Stats(player,rng,itemList)
 		player:AddCacheFlags(CacheFlag.CACHE_ALL)
 		player:EvaluateItems()
 	end
 end
-mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, mod.Succ, CollectibleType.COLLECTIBLE_VOID);
+mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, Apollyon.Succ, CollectibleType.COLLECTIBLE_VOID);
 
-function mod:SuccStats(player,cache)
+function Apollyon:SuccStats(player,cache)
 	if mod.MCMOption.Settings["Apollyon"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
 		if player:HasCollectible(collectible) then
@@ -59,9 +60,9 @@ function mod:SuccStats(player,cache)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, mod.SuccStats)
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Apollyon.SuccStats)
 
-function mod:PocketVoid(player)
+function Apollyon:PocketVoid(player)
 	if mod.MCMOption.Settings["Apollyon"] > 1 then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
 		if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then
@@ -76,5 +77,5 @@ function mod:PocketVoid(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.PocketVoid)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Apollyon.PocketVoid)
 --#endregion
