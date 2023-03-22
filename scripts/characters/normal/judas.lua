@@ -84,4 +84,17 @@ function Judas:JudasSecondBirthrightRemoveCallbacks()
 	end
 end
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, Judas.JudasSecondBirthrightRemoveCallbacks)
+
+mod.AddOnPickupFunction(function(player)
+	local ptype = player:GetPlayerType()
+	if ptype == PlayerType.PLAYER_JUDAS and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) then
+		for x = 1,3 do
+			Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, RNG():RandomInt(5) + 1, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
+		end
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_JUDAS and mod.MCMOption.Settings["Judas"] > 1 and mod.MCMOption.Settings["Judas"] < 4
+end)
 --#endregion

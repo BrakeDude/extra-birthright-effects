@@ -15,3 +15,7 @@ function Maggie:TaintedRegeneration()
 	end
 end
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Maggie.TaintedRegeneration)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA_B and mod.MCMOption.Settings["Tainted Magdalene"] == 2
+end)

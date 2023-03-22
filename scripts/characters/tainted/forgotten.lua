@@ -39,3 +39,16 @@ function Forgotten:TForgorOnRoom()
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Forgotten.TForgorOnRoom)
+
+mod.AddOnPickupFunction(function(player)
+    local ptype = player:GetPlayerType()
+    if ptype == PlayerType.PLAYER_THEFORGOTTEN_B and mod.MCMOption.Settings["Tainted Forgotten"] > 1 then
+        mod:GetData(player).TriggerForgorBones = true
+        player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
+        player:EvaluateItems()
+    end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return (player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN_B or player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B) and mod.MCMOption.Settings["Tainted Forgotten"] == 2
+end)

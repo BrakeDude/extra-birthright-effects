@@ -42,3 +42,7 @@ function Eve:BirdsReset()
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Eve.BirdsReset)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_EVE and mod.MCMOption.Settings["Eve"] == 2
+end)

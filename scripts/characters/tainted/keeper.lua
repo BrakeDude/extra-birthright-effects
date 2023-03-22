@@ -54,3 +54,7 @@ function Keeper:KeeperStats(player,cache)
     end
 end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Keeper.KeeperStats, CacheFlag.CACHE_DAMAGE)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B and mod.MCMOption.Settings["Tainted Keeper"] == 2
+end)

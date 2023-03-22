@@ -408,8 +408,8 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Bethany.BlessingOfImperceptibleAndBaptizedEffect)
 
 function Bethany:TimerRender()
-    local room = game:GetRoom()
     if mod.MCMOption.Settings["Bethany"] > 1 and (game:GetHUD():IsVisible() or not game:GetSeeds():HasSeedEffect(SeedEffect.SEED_NO_HUD)) then
+        local room = game:GetRoom()
         local curse = game:GetLevel():GetCurses()
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
         if LevelBlessing.CheckFlag(curse, LevelBlessing.GetFlag(LevelBlessing.GetId("Blessing of Foresight"))) and not room:HasCurseMist() then
@@ -436,5 +436,9 @@ function Bethany:ClickerCheck(collectible,_,player)
     end
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, Bethany.ClickerCheck)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_BETHANY and mod.MCMOption.Settings["Bethany"] == 2
+end)
 
 

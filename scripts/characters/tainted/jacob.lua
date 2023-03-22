@@ -149,4 +149,20 @@ function Jacob:SecondItem()
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Jacob.SecondItem)
+
+mod.AddOnPickupFunction(function(player)
+	local ptype = player:GetPlayerType()
+	if (ptype == PlayerType.PLAYER_JACOB_B or ptype == PlayerType.PLAYER_JACOB2_B) and (mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4) then
+		player:AddMaxHearts(2, true)
+		player:AddHearts(2)
+		player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+		player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
+		player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+		player:EvaluateItems()
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return (player:GetPlayerType() == PlayerType.PLAYER_JACOB_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B) and mod.MCMOption.Settings["Tainted Jacob"] > 1 and mod.MCMOption.Settings["Tainted Jacob"] < 4
+end)
 --#endregion

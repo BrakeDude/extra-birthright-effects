@@ -57,16 +57,79 @@ local wiki = {
         {str = "-- 1) +1 Health up, +50% Damage Multiplier, +1 Tears up and +0.3 Speed up. Dark Esau targets enemy that damaged Tainted Jacob, kills Tainted Jacob in one hit;"},
         {str = "-- 2: Dark Esau becomes friendly and targets enemies."},
         },
-    }
+    },
+    DARK_ARTS_ALT = {
+		{ -- Effects
+			{str = "Effects", fsize = 2, clr = 3, halign = 0},
+			{str = "Stops time for 3 seconds."},
+            {str = "When used, Isaac gains +1.0 speed and can walk through enemies/bullets for 1 second or until he shoots. If Isaac walks through an enemy or bullet during this time, it freezes until the effect ends, then takes damage equal to 2x Isaac's damage plus a flat 3.5. At the end of the effect, an area of effect blast is created, dealing more damage the more enemies or bullets were pierced during the effect."},
+			{str = "- The damage of the blast at the end of Dark Arts is equal to the sum of every damage dealt while dashing between enemies."},
+			{str = "-- Bullets walked through will still count for the final blast damage calculation, even though they can't really be damaged."},
+			{str = "As Dark Judas or Tainted Judas:"},
+			{str = "- For every enemy/bullet Judas walked through, he will gain a temporary +1 damage bonus, which wears off at a rate of -0.25 damage every half second."},
+		},
+		{ -- Notes
+			{str = "Notes", fsize = 2, clr = 3, halign = 0},
+			{str = "The duration increases with each use in the same room."},
+			{str = "If an enemy/bullet Judas walks through dies or otherwise disappears before Dark Arts deactivates, they will not give a damage bonus."},
+			{str = "Explosive projectiles will explode when destroyed by Dark Arts, unlike those destroyed by Lost Contact."},
+			{str = "Isaac cannot pick up items or donate to Blood Donation machines or Devil Beggars while Dark Arts is activated, but he can pass through Curse Room doors or over spikes and open Mimic Chests without taking damage."},
+			{str = "Dark Arts will trigger certain tear effects on enemies it damages, such as burning from Fire Mind."},
+			{str = "Dark Arts is extremely effective against enemies with multiple segments such as Larry Jr. because it can affect each segment individually, greatly increasing both Judas's immediate damage and the temporary tear damage bonus."},
+			{str = "Invincible enemies such as Stoneys and Stone Grimaces can still be affected and used to increase Judas's damage bonus gained."},
+			{str = "Hosts can be damaged and killed even while they are lowered and invincible."},
+			{str = "- Similarly, using Dark Arts on Scolex's invulnerable segments will still deal damage, making the fight significantly easier."},
+			{str = "Orbitals that deal contact damage will still deal damage while using Dark Arts"},
+			{str = "Dark Arts can be a useful tool for Tainted Jacob to avoid colliding with Dark Esau as the invincibilty and Stunning effects of the item fully work against him even if Esau charges at the player."},
+			{str = "Dark Arts still works on reflected bullets."},
+		},
+		{ -- Synergies
+			{str = "Synergies", fsize = 2, clr = 3, halign = 0},
+			{str = "How to Jump: Jumping over an enemy or projectile while Dark Arts is active will tag it."},
+			{str = "Kamikaze!: Kamikaze! can be activated without harm when using Dark Arts."},
+			{str = "Pause: Activating Dark Arts will not cancel the effect, turning Pause into an instant room clear in most situations and an effective tool for damaging bosses, allowing you to get up to 4 uses in before they resume."},
+			{str = "- Pause + 4.5 Volt: Pause becomes an even more effective tool against bosses, as it can now be activated several times in the fight."},
+			{str = "- Pause + 9 Volt: Pause can be used every room, making most of them very easy to clear."},
+			{str = "Montezuma's Revenge: The corns created by Montezuma's Revenge can be caught by Dark Arts, and most will naturally, making each cast of Dark Arts give huge boosts of tear damage, and making the final blast deal huge amounts of damage. Not only that, but the Brimstone beam created will still be active while Dark Arts is active."},
+			{str = "Mars: Isaac is able to dash while using Dark Arts, allowing him to reach more enemies in one use of Dark Arts while still dealing damage with Mars' dash."},
+			{str = "120 Volt: 120 Volt will still activate while using Dark Arts, allowing Isaac to deal more damage to nearby enemies while invulnerable."},
+			{str = "Taurus: Will be activated during the usage of Dark Arts, activating the invincibility in the same instant that Dark Arts is activated."},
+			{str = "Gnawed Leaf: If Isaac is stationary when Dark Arts ends, he will gain invunerability without any downtime. Dark Arts can also be used from invunerability without taking damage."},
+			{str = "Aquarius: Due to the nature of Dark Arts, Isaac can easily damage enemies with the trail left behind."},
+			{str = "Rock Bottom: Rock Bottom will prevent your damage from decreasing, allowing you to keep the highest achieved damage bonus."},
+			{str = "Car Battery: Dark Arts will last twice as long, totaling at 2 seconds per use. If you end Dark Arts early, a second Dark Arts will activate for the time that you had remaining."},
+			{str = "Camo Undies: If used at the start of a room, after Dark arts effect ends Isaac re-enters Stealth."},
+			{str = "Wisps: Wisps cannot be destroyed while Dark arts is in effect and still deal contact damage."},
+			{str = "Ipecac: Because Dark Arts' damage is scaled off of tear damage, Ipecac gives an extremely high damage boost to each Dark Arts hit, easily capable of destroying some early bosses in a single hit."},
+			{str = "Euthanasia: When Dark Arts ends, each enemy tagged may instantly die and release a burst of black tears as if hit by a Euthanasia tear."},
+			{str = "Friend Finder: Dark Arts can be used on friendly mobs created by Friend Finder without killing them, but still giving you the damage boost."},
+		},
+		{ -- Interactions
+			{str = "Interactions", fsize = 2, clr = 3, halign = 0},
+			{str = "Libra: Libra is extremely detrimental to how Dark Arts works, and should be avoided: The speed boost during the invincibility phase is transferred into attack bonuses (Which are useless as tears cannot be used), and afterwards, the temporary damage boost is divided across all of Isaac's stats, resulting in very negligible stat boosts."},
+			{str = "Familiars such as Cube of Meat that block projectiles will make it difficult to gain damage off of projectiles, as they destroy any projectiles they come in contact with."},
+			{str = "Clots: Clots will gain increased speed and be no longer be able to fire, but will still be vulnerable to damage while Isaac is using Dark Arts. They will most likely hit any enemies or projectiles Isaac runs through if the player does not use the drop button to make them stay still."},
+			{str = "Using Pause while there are enemies and also tagging the White Fire Place will extinguish it."},
+		},
+	},
 }
 
 if Encyclopedia then
 	Encyclopedia.AddItem({
-    ID = substituteBirthright,
-    WikiDesc = wiki.BIRTHRIGHT_ALT,
-    Pools = {
-        Encyclopedia.ItemPools.POOL_SHOP,
-        Encyclopedia.ItemPools.POOL_GREED_SHOP,
-    },
-})
+        ID = substituteBirthright,
+        WikiDesc = wiki.BIRTHRIGHT_ALT,
+        Pools = {
+            Encyclopedia.ItemPools.POOL_SHOP,
+            Encyclopedia.ItemPools.POOL_GREED_SHOP,
+        },
+    })
+    Encyclopedia.AddItem({
+        ID = substituteDarkArts,
+        WikiDesc = wiki.DARK_ARTS_ALT,
+        --[[Pools = {
+            Encyclopedia.ItemPools.POOL_DEVIL,
+            Encyclopedia.ItemPools.POOL_ULTRA_SECRET,
+            Encyclopedia.ItemPools.POOL_GREED_DEVIL,
+        },]]
+    })
 end

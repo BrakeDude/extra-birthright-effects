@@ -44,4 +44,8 @@ function Eve:BetterBloodBabies(baby)
 	end
 end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Eve.BetterBloodBabies,FamiliarVariant.BLOOD_BABY)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_EVE_B and mod.MCMOption.Settings["Tainted Eve"] == 2
+end)
 --#endregion

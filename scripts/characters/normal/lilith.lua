@@ -66,4 +66,8 @@ function Lilith:MiniBoxFriends(_,_,player)
 	return true
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, Lilith.MiniBoxFriends, CollectibleType.COLLECTIBLE_BOX_OF_FRIENDS)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_LILITH and mod.MCMOption.Settings["Lilith"] == 2
+end)
 --#endregion

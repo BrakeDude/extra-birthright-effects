@@ -40,4 +40,8 @@ function Bethany:BetterWisps(wisp)
 	end
 end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Bethany.BetterWisps, FamiliarVariant.ITEM_WISP)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_BETHANY_B and mod.MCMOption.Settings["Tainted Bethany"] == 2
+end)
 --#endregion

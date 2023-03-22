@@ -32,4 +32,8 @@ function Azazel:TAzazelBrim(player)
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Azazel.TAzazelBrim)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_AZAZEL_B and mod.MCMOption.Settings["Tainted Azazel"] == 2
+end)
 --#endregion

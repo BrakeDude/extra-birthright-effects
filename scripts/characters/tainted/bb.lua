@@ -156,3 +156,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, BB.BBShooting)
 mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT, BB.BBShooting)
 mod:AddCallback(ModCallbacks.MC_POST_BOMB_INIT, BB.BBShooting)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_XXX_B and mod.MCMOption.Settings["Tainted Blue Baby"] == 2
+end)

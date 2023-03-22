@@ -13,4 +13,8 @@ function DJudas:DarkJudasGetsBonked(entity)
 	return nil
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, DJudas.DarkJudasGetsBonked, EntityType.ENTITY_PLAYER)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_BLACKJUDAS and mod.MCMOption.Settings["Dark Judas"] > 1 and mod.MCMOption.Settings["Dark Judas"] < 4
+end)
 --#endregion

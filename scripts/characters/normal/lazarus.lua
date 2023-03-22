@@ -141,3 +141,19 @@ function Laz:LazTempItemsReset()
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Laz.LazTempItemsReset)
+
+mod.AddOnPickupFunction(function(player)
+    local ptype = player:GetPlayerType()
+    if (ptype == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] > 1) or (ptype == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] > 1) then
+        player:SetPocketActiveItem(havenscall)
+    end
+    if ptype == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] > 1 then
+        player:AddCacheFlags(CacheFlag.CACHE_FLYING)
+        player:EvaluateItems()
+    end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] == 2 or
+    player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] == 2
+end)

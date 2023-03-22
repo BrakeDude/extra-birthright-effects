@@ -70,7 +70,7 @@ mod.MCMOption ={
 		3, --Tainted Samson
 		3, --Tainted Azazel
 		3, --Tainted Lazarus
-		1, --Tainted Eden
+		3, --Tainted Eden
 		1, --Tainted Lost
 		3, --Tainted Lilith
 		3, --Tainted Keeper

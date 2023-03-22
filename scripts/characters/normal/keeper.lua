@@ -46,4 +46,24 @@ function Keeper:PickupYourPrize(entity, collider)
 	end
 end
 mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Keeper.PickupYourPrize)
+
+mod.AddOnPickupFunction(function(player)
+	local ptype = player:GetPlayerType()
+	if ptype == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] > 1 then
+		local trinket1 = player:GetTrinket(0)
+		local trinket2 = player:GetTrinket(1)
+		if trinket1 ~= 0 then player:TryRemoveTrinket(trinket1) end
+		if trinket2 ~= 0 then player:TryRemoveTrinket(trinket2) end
+		player:AddTrinket(TrinketType.TRINKET_SILVER_DOLLAR)
+		player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER,false,false,true,false)
+		player:AddTrinket(TrinketType.TRINKET_RIB_OF_GREED)
+		player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER,false,false,true,false)
+		if trinket1 ~= 0 then player:AddTrinket(trinket1) end
+		if trinket2 ~= 0 then player:AddTrinket(trinket2) end
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2
+end)
 --#endregion

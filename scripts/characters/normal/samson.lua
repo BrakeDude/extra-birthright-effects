@@ -26,3 +26,15 @@ function Samson:SamsonCache(player,cache)
 	end
 end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Samson.SamsonCache, CacheFlag.CACHE_DAMAGE)
+
+mod.AddOnPickupFunction(function(player)
+	local ptype = player:GetPlayerType()
+	if ptype == PlayerType.PLAYER_SAMSON and mod.MCMOption.Settings["Samson"] > 1 then
+		player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+		player:EvaluateItems()
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_SAMSON and mod.MCMOption.Settings["Samson"] == 2
+end)

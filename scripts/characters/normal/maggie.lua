@@ -81,4 +81,27 @@ function Maggie:MaggieSoulHeartNextLevel()
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Maggie.MaggieSoulHeartNextLevel)
+
+mod.AddOnPickupFunction(function(player)
+	local ptype = player:GetPlayerType()
+	if ptype == PlayerType.PLAYER_MAGDALENA then
+		local data = mod.GetPersistentPlayerData(player)
+		if player:HasCollectible(Isaac.GetItemIdByName("Birthright (Alt)")) then
+			player:AddMaxHearts(2)
+		end
+		if (mod.MCMOption.Settings["Magdalene"] == 2 or mod.MCMOption.Settings["Magdalene"] == 4) and player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_YUM_HEART then
+			player:RemoveCollectible(CollectibleType.COLLECTIBLE_YUM_HEART)
+			player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_YUM_HEART)
+		end
+		if (mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5) then
+			player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+			player:EvaluateItems()
+			data.MaggieHearts = player:GetHearts()
+		end
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA and mod.MCMOption.Settings["Magdalene"] > 1 and mod.MCMOption.Settings["Magdalene"] < 4
+end)
 --#endregion

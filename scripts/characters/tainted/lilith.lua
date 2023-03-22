@@ -67,4 +67,8 @@ function Lilith:CreepHemorrhage(player)
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Lilith.CreepHemorrhage)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_LILITH_B and mod.MCMOption.Settings["Tainted Lilith"] == 2
+end)
 --#endregion

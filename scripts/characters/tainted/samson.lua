@@ -65,4 +65,16 @@ function Samson:TSamsonChargeBar(player)
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, Samson.TSamsonChargeBar, 0)
+
+mod.AddOnPickupFunction(function(player)
+	local ptype = player:GetPlayerType()
+	if ptype == PlayerType.PLAYER_SAMSON_B and mod.MCMOption.Settings["Tainted Samson"] > 1 then
+		player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+		player:EvaluateItems()
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B and mod.MCMOption.Settings["Tainted Samson"] == 2
+end)
 --#endregion

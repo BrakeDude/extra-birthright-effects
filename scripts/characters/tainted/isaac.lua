@@ -12,3 +12,17 @@ function IsaacM:SpinToWin(_,rng,player,slot)
     end
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, IsaacM.SpinToWin, CollectibleType.COLLECTIBLE_SPINDOWN_DICE)
+
+mod.AddOnPickupFunction(function(player)
+    local ptype = player:GetPlayerType()
+    if ptype == PlayerType.PLAYER_ISAAC_B then
+        if mod.MCMOption.Settings["Tainted Isaac"] > 1 and player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_SPINDOWN_DICE then
+            player:RemoveCollectible(CollectibleType.COLLECTIBLE_SPINDOWN_DICE)
+            player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_SPINDOWN_DICE,ActiveSlot.SLOT_POCKET,true)
+        end
+    end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_ISAAC_B and mod.MCMOption.Settings["Tainted Isaac"] == 2
+end)

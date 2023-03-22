@@ -42,3 +42,7 @@ function Lost:LostLastChance(player)
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Lost.LostLastChance)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_THELOST and mod.MCMOption.Settings["The Lost"] == 2
+end)

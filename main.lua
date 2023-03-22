@@ -1,15 +1,32 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
 local mod = ExtraBirthright
 local ExtraBirthrightLocal = {}
-mod.Version = "2.42"
+mod.Version = "2.44"
 local json = require("json")
-local havenscall = Isaac.GetItemIdByName("Haven's Call")
 local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
-local substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 mod.wasThereBoss = false
 mod.fliped = {}
 mod.BirthrightfloorBought = false
 local BirthrightLangName = {en = "Birthright", ru = "Право первородства", es = "Primogenitura"}
+
+mod.Callbacks = {
+	MC_POST_PLAYER_INIT = "MC_POST_PLAYER_INIT_TEDEN",
+	MC_POST_PLAYER_UPDATE = "MC_POST_PLAYER_UPDATE_TEDEN",
+	MC_POST_PEFFECT_UPDATE = "MC_POST_PEFFECT_UPDATE_TEDEN",
+	MC_EVALUATE_CACHE = "MC_EVALUATE_CACHE_TEDEN",
+	MC_PRE_USE_ITEM = "MC_PRE_USE_ITEM_TEDEN",
+	MC_USE_ITEM = "MC_USE_ITEM_TEDEN",
+	MC_USE_CARD = "MC_USE_CARD_TEDEN",
+	MC_USE_PILL = "MC_USE_PILL_TEDEN",
+	MC_ENTITY_TAKE_DMG = "MC_ENTITY_TAKE_DMG_TEDEN",
+	MC_POST_NEW_LEVEL = "MC_POST_NEW_LEVEL_TEDEN",
+	MC_POST_NEW_ROOM = "MC_POST_NEW_ROOM_TEDEN",
+	MC_PRE_PLAYER_COLLISION = "MC_PRE_PLAYER_COLLISION_TEDEN",
+	MC_PRE_PICKUP_COLLISION = "MC_PRE_PICKUP_COLLISION_TEDEN",
+	MC_POST_NPC_DEATH = "MC_POST_NPC_DEATH_TEDEN",
+	MC_PRE_SPAWN_CLEAN_AWARD = "MC_PRE_SPAWN_CLEAN_AWARD_TEDEN",
+	MC_POST_GET_COLLECTIBLE = "MC_POST_GET_COLLECTIBLE_TEDEN",
+}
 
 mod.PlayerData = {}
 mod.FamiliarData = {}
@@ -23,6 +40,25 @@ mod.shootDirecton = {
 	[Direction.RIGHT] = Vector(1, 0),
 	[Direction.DOWN] = Vector(0, 1)
 }
+
+local OnPickupFunctions = {}
+local ChangeBirthrightFunction = {}
+
+function mod.AddOnPickupFunction(func)
+	table.insert(OnPickupFunctions,func)
+end
+
+function mod.AddBirthrightChangeCondition(func)
+	table.insert(ChangeBirthrightFunction,func)
+end
+
+local function ChangeToFakeBirthright(player)
+	local change = false
+	for _,func in ipairs(ChangeBirthrightFunction) do
+		change = change or func(player)
+	end
+	return change
+end
 
 include("scripts/eid.lua")
 include("scripts/encyclopedia.lua")
@@ -57,6 +93,7 @@ include("scripts/characters/tainted/bb.lua")
 include("scripts/characters/tainted/eve.lua")
 include("scripts/characters/tainted/samson.lua")
 include("scripts/characters/tainted/azazel.lua")
+include("scripts/characters/tainted/eden.lua")
 include("scripts/characters/tainted/lazarus.lua")
 include("scripts/characters/tainted/lilith.lua")
 include("scripts/characters/tainted/keeper.lua")
@@ -69,20 +106,9 @@ include("scripts/characters/tainted/jacob.lua")
 function ExtraBirthrightLocal:SaveSomeData(isSaving)
 	local saveBirthright = {}
 	local game = Game()
-	local level = game:GetLevel()
-	--[[if isSaving then
-		for i = 1, game:GetNumPlayers() do
-			local saveData = {}
-			local player = Isaac.GetPlayer(i-1)
-			saveData.PlayerData = json.encode(mod:GetData(player))
-			saveBirthright["player_"..tostring(i)]=saveData
-		end
-		saveBirthright.Timer = mod.Timer
-	end]]
 	if isSaving then
 		saveBirthright.PlayerData = json.encode(mod.PlayerData)
 		saveBirthright.FamiliarData = json.encode(mod.FamiliarData)
-		--saveBirthright.CurrentBlessing = json.encode(level:GetCurses())
 		saveBirthright.BirthrightfloorBought = json.encode(mod.BirthrightfloorBought)
 		saveBirthright.VisitedRooms = json.encode(mod.VisitedRooms)
 	end
@@ -108,18 +134,18 @@ function ExtraBirthrightLocal:InitData(player)
 	local pType = player:GetPlayerType()
 	if pType <= 40 then
 	local data = mod.GetPersistentPlayerData(player)
-		if pType == PlayerType.PLAYER_APOLLYON then
-			if not data.ApollyonStatUps then
-				data.ApollyonStatUps = {
-					Speed = 0,
-					FireDelay = 0,
-					Damage = 0,
-					Range = 0,
-					ShotSpeed = 0,
-					Luck = 0
-				}
-			end
+		
+		if not data.ApollyonStatUps then
+			data.ApollyonStatUps = {
+				Speed = 0,
+				FireDelay = 0,
+				Damage = 0,
+				Range = 0,
+				ShotSpeed = 0,
+				Luck = 0
+			}
 		end
+		
 		if pType == PlayerType.PLAYER_SAMSON_B then
 			if not data.RageMeter then
 				data.RageMeter = 0
@@ -189,6 +215,10 @@ function ExtraBirthrightLocal:LoadItBack(isContinued)
 		end
 	end
 	mod:BirthrightDesc()
+	for _,player in ipairs(mod:GetPlayers()) do
+		player:AddCacheFlags(CacheFlag.CACHE_ALL)
+		player:EvaluateItems()
+	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, ExtraBirthrightLocal.LoadItBack)
 --#endregion
@@ -218,46 +248,8 @@ function ExtraBirthrightLocal:BirthrightChange(pickup)
 			end
 		end
 		player = player:ToPlayer()
-		
-		if player:GetPlayerType() == PlayerType.PLAYER_ISAAC and mod.MCMOption.Settings["Isaac"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA and mod.MCMOption.Settings["Magdalene"] > 1 and mod.MCMOption.Settings["Magdalene"] < 4 or
-		player:GetPlayerType() == PlayerType.PLAYER_CAIN and mod.MCMOption.Settings["Cain"] > 1 and mod.MCMOption.Settings["Cain"] < 4 or
-		player:GetPlayerType() == PlayerType.PLAYER_JUDAS and mod.MCMOption.Settings["Judas"] > 1 and mod.MCMOption.Settings["Judas"] < 4 or
-		player:GetPlayerType() == PlayerType.PLAYER_BLACKJUDAS and mod.MCMOption.Settings["Dark Judas"] > 1 and mod.MCMOption.Settings["Dark Judas"] < 4 or	
-		player:GetPlayerType() == PlayerType.PLAYER_XXX and mod.MCMOption.Settings["Blue Baby"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_EVE and mod.MCMOption.Settings["Eve"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_SAMSON and mod.MCMOption.Settings["Samson"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_AZAZEL and mod.MCMOption.Settings["Azazel"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_EDEN and mod.MCMOption.Settings["Eden"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_THELOST and mod.MCMOption.Settings["The Lost"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_LILITH and mod.MCMOption.Settings["Lilith"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and mod.MCMOption.Settings["The Forgotten"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_THESOUL and mod.MCMOption.Settings["The Forgotten"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_BETHANY and mod.MCMOption.Settings["Bethany"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_ISAAC_B and mod.MCMOption.Settings["Tainted Isaac"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA_B and mod.MCMOption.Settings["Tainted Magdalene"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_CAIN_B and mod.MCMOption.Settings["Tainted Cain"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_JUDAS_B and mod.MCMOption.Settings["Tainted Judas"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_XXX_B and mod.MCMOption.Settings["Tainted Blue Baby"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_EVE_B and mod.MCMOption.Settings["Tainted Eve"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_SAMSON_B and mod.MCMOption.Settings["Tainted Samson"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_AZAZEL_B and mod.MCMOption.Settings["Tainted Azazel"] == 2 or
-		(player:GetPlayerType() == PlayerType.PLAYER_LAZARUS_B or player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2_B) and mod.MCMOption.Settings["Tainted Lazarus"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and mod.MCMOption.Settings["Tainted Eden"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_THELOST_B and mod.MCMOption.Settings["Tainted Lost"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_LILITH_B and mod.MCMOption.Settings["Tainted Lilith"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_KEEPER_B and mod.MCMOption.Settings["Tainted Keeper"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and mod.MCMOption.Settings["Tainted Apollyon"] > 1 and mod.MCMOption.Settings["Tainted Apollyon"] < 4 or
-		(player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN_B or player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B) and mod.MCMOption.Settings["Tainted Forgotten"] == 2 or
-		player:GetPlayerType() == PlayerType.PLAYER_BETHANY_B and mod.MCMOption.Settings["Tainted Bethany"] == 2 or
-		(player:GetPlayerType() == PlayerType.PLAYER_JACOB_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B) and mod.MCMOption.Settings["Tainted Jacob"] > 1 and mod.MCMOption.Settings["Tainted Jacob"] < 4
-		then
+
+		if ChangeToFakeBirthright(player) then
 			if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT then
 				pickup:ToPickup():Morph(pickup.Type,pickup.Variant,substituteBirthright,true,true,true)
 			end
@@ -272,52 +264,9 @@ mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, ExtraBirthrightLocal.Birthri
 --#region Birthright check for first pickup effect
 function ExtraBirthrightLocal:CheckBirthrightAll(player)
 	local game = Game()
-	local level = game:GetLevel()
 	local ptype = player:GetPlayerType()
 	local data = mod.GetPersistentPlayerData(player)
-	if ptype <= 40 and player.FrameCount == 1 then
-		player:AddCacheFlags(CacheFlag.CACHE_ALL)
-		player:EvaluateItems()
-	end
-	if ptype == PlayerType.PLAYER_ISAAC and mod.MCMOption.Settings["Isaac"] == 2 or
-	ptype == PlayerType.PLAYER_MAGDALENA and mod.MCMOption.Settings["Magdalene"] > 1 and mod.MCMOption.Settings["Magdalene"] < 4 or
-	ptype == PlayerType.PLAYER_CAIN and mod.MCMOption.Settings["Cain"] > 1 and mod.MCMOption.Settings["Cain"] < 4 or
-	ptype == PlayerType.PLAYER_JUDAS and mod.MCMOption.Settings["Judas"] > 1 and mod.MCMOption.Settings["Judas"] < 4 or
-	ptype == PlayerType.PLAYER_BLACKJUDAS and mod.MCMOption.Settings["Dark Judas"] > 1 and mod.MCMOption.Settings["Dark Judas"] < 4 or	
-	ptype == PlayerType.PLAYER_XXX and mod.MCMOption.Settings["Blue Baby"] == 2 or
-	ptype == PlayerType.PLAYER_EVE and mod.MCMOption.Settings["Eve"] == 2 or
-	ptype == PlayerType.PLAYER_SAMSON and mod.MCMOption.Settings["Samson"] == 2 or
-	ptype == PlayerType.PLAYER_AZAZEL and mod.MCMOption.Settings["Azazel"] == 2 or
-	ptype == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] == 2 or
-	ptype == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] == 2 or
-	ptype == PlayerType.PLAYER_EDEN and mod.MCMOption.Settings["Eden"] == 2 or
-	ptype == PlayerType.PLAYER_THELOST and mod.MCMOption.Settings["The Lost"] == 2 or
-	ptype == PlayerType.PLAYER_LILITH and mod.MCMOption.Settings["Lilith"] == 2 or
-	ptype == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] == 2 or
-	ptype == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] == 2 or
-	ptype == PlayerType.PLAYER_THEFORGOTTEN and mod.MCMOption.Settings["The Forgotten"] == 2 or
-	ptype == PlayerType.PLAYER_THESOUL and mod.MCMOption.Settings["The Forgotten"] == 2 or
-	ptype == PlayerType.PLAYER_BETHANY and mod.MCMOption.Settings["Bethany"] == 2 or
-	ptype == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] == 2 or
-	ptype == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] == 2 or
-	ptype == PlayerType.PLAYER_ISAAC_B and mod.MCMOption.Settings["Tainted Isaac"] == 2 or
-	ptype == PlayerType.PLAYER_MAGDALENA_B and mod.MCMOption.Settings["Tainted Magdalene"] == 2 or
-	ptype == PlayerType.PLAYER_CAIN_B and mod.MCMOption.Settings["Tainted Cain"] == 2 or
-	ptype == PlayerType.PLAYER_JUDAS_B and mod.MCMOption.Settings["Tainted Judas"] == 2 or
-	ptype == PlayerType.PLAYER_XXX_B and mod.MCMOption.Settings["Tainted Blue Baby"] == 2 or
-	ptype == PlayerType.PLAYER_EVE_B and mod.MCMOption.Settings["Tainted Eve"] == 2 or
-	ptype == PlayerType.PLAYER_SAMSON_B and mod.MCMOption.Settings["Tainted Samson"] == 2 or
-	ptype == PlayerType.PLAYER_AZAZEL_B and mod.MCMOption.Settings["Tainted Azazel"] == 2 or
-	(ptype == PlayerType.PLAYER_LAZARUS_B or ptype == PlayerType.PLAYER_LAZARUS2_B) and mod.MCMOption.Settings["Tainted Lazarus"] == 2 or
-	ptype == PlayerType.PLAYER_EDEN_B and mod.MCMOption.Settings["Tainted Eden"] == 2 or
-	ptype == PlayerType.PLAYER_THELOST_B and mod.MCMOption.Settings["Tainted Lost"] == 2 or
-	ptype == PlayerType.PLAYER_LILITH_B and mod.MCMOption.Settings["Tainted Lilith"] == 2 or
-	ptype == PlayerType.PLAYER_KEEPER_B and mod.MCMOption.Settings["Tainted Keeper"] == 2 or
-	ptype == PlayerType.PLAYER_APOLLYON_B and mod.MCMOption.Settings["Tainted Apollyon"] > 1 and mod.MCMOption.Settings["Tainted Apollyon"] < 4 or
-	(ptype == PlayerType.PLAYER_THEFORGOTTEN_B or ptype == PlayerType.PLAYER_THESOUL_B) and mod.MCMOption.Settings["Tainted Forgotten"] == 2 or
-	ptype == PlayerType.PLAYER_BETHANY_B and mod.MCMOption.Settings["Tainted Bethany"] == 2 or
-	(ptype == PlayerType.PLAYER_JACOB_B or ptype == PlayerType.PLAYER_JACOB2_B) and mod.MCMOption.Settings["Tainted Jacob"] > 1 and mod.MCMOption.Settings["Tainted Jacob"] < 4
-	then
+	if ChangeToFakeBirthright(player) then
 		if player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) then
 			player:RemoveCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
 			player:AddCollectible(substituteBirthright,0,false)
@@ -331,181 +280,20 @@ function ExtraBirthrightLocal:CheckBirthrightAll(player)
 	if not mod:GetData(player).isSubstituteBirthrightOverHead and player.QueuedItem.Item then
 		if player.QueuedItem.Item.ID == substituteBirthright then
 			mod:GetData(player).isSubstituteBirthrightOverHead = true
-			local charName = ""
-			if ptype == PlayerType.PLAYER_ISAAC then charName = 1
-			elseif ptype == PlayerType.PLAYER_MAGDALENA then charName = 2
-			elseif ptype == PlayerType.PLAYER_CAIN then charName = 3
-			elseif ptype == PlayerType.PLAYER_JUDAS then charName = 4
-			elseif ptype == PlayerType.PLAYER_BLACKJUDAS then charName = 5
-			elseif ptype == PlayerType.PLAYER_XXX then charName = 6
-			elseif ptype == PlayerType.PLAYER_EVE then charName = 7
-			elseif ptype == PlayerType.PLAYER_SAMSON then charName = 8
-			elseif ptype == PlayerType.PLAYER_AZAZEL then charName = 9
-			elseif ptype == PlayerType.PLAYER_LAZARUS then charName = 10
-			elseif ptype == PlayerType.PLAYER_LAZARUS2 then charName = 11
-			elseif ptype == PlayerType.PLAYER_EDEN then charName = 12
-			elseif ptype == PlayerType.PLAYER_THELOST then charName = 13
-			elseif ptype == PlayerType.PLAYER_LILITH then charName = 14
-			elseif ptype == PlayerType.PLAYER_KEEPER then charName = 15
-			elseif ptype == PlayerType.PLAYER_APOLLYON then charName = 16
-			elseif ptype == PlayerType.PLAYER_THEFORGOTTEN then charName = 17
-			elseif ptype == PlayerType.PLAYER_THESOUL then charName = 17
-			elseif ptype == PlayerType.PLAYER_BETHANY then charName = 18
-			elseif ptype == PlayerType.PLAYER_JACOB then charName = 19
-			elseif ptype == PlayerType.PLAYER_ESAU then charName = 20
-			elseif ptype == PlayerType.PLAYER_ISAAC_B then charName = 21
-			elseif ptype == PlayerType.PLAYER_MAGDALENA_B then charName = 22
-			elseif ptype == PlayerType.PLAYER_CAIN_B then charName = 23
-			elseif ptype == PlayerType.PLAYER_JUDAS_B then charName = 24
-			elseif ptype == PlayerType.PLAYER_XXX_B then charName = 25
-			elseif ptype == PlayerType.PLAYER_EVE_B then charName = 26
-			elseif ptype == PlayerType.PLAYER_SAMSON_B then charName = 27
-			elseif ptype == PlayerType.PLAYER_AZAZEL_B then charName = 28
-			elseif (ptype == PlayerType.PLAYER_LAZARUS_B or ptype == PlayerType.PLAYER_LAZARUS2_B) then charName = 29
-			elseif ptype == PlayerType.PLAYER_EDEN_B then charName = 30
-			elseif ptype == PlayerType.PLAYER_THELOST_B then charName = 31
-			elseif ptype == PlayerType.PLAYER_LILITH_B then charName = 32
-			elseif ptype == PlayerType.PLAYER_KEEPER_B then charName = 33
-			elseif ptype == PlayerType.PLAYER_APOLLYON_B then charName = 34
-			elseif (ptype == PlayerType.PLAYER_THEFORGOTTEN_B or ptype == PlayerType.PLAYER_THESOUL_B) then charName = 35
-			elseif ptype == PlayerType.PLAYER_BETHANY_B then charName = 36
-			elseif (ptype == PlayerType.PLAYER_JACOB_B or ptype == PlayerType.PLAYER_JACOB2_B) then charName = 37
+			local charName = ptype + 1
+			if mod.FakeBirthrightDesc[charName] then
+				local lang = Options.Language
+				local desc = mod.FakeBirthrightDesc[charName][lang] or mod.FakeBirthrightDesc[charName].en
+				local brname = BirthrightLangName[lang] or BirthrightLangName.en
+				Game():GetHUD():ShowItemText(brname, desc[mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1], false)
 			end
-			local lang = Options.Language
-			local desc = mod.FakeBirthrightDesc[ptype+1][lang] or mod.FakeBirthrightDesc[ptype+1].en
-			local brname = BirthrightLangName[lang] or BirthrightLangName.en
-			Game():GetHUD():ShowItemText(brname, desc[mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1], false)
 		end
 	end
 	if ptype == PlayerType.PLAYER_THESOUL_B then return end
 	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(substituteBirthright)) and not data.gotBirthright then
 		mod:GetData(player).isSubstituteBirthrightOverHead = false
-		if ptype == PlayerType.PLAYER_ISAAC then
-			if mod.MCMOption.Settings["Isaac"] > 1 and player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_D6 then
-				player:RemoveCollectible(CollectibleType.COLLECTIBLE_D6)
-				player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_D6,ActiveSlot.SLOT_POCKET,true)
-			end
-		end
-		if ptype == PlayerType.PLAYER_MAGDALENA then
-			if player:HasCollectible(substituteBirthright) then
-				player:AddMaxHearts(2)
-			end
-			if (mod.MCMOption.Settings["Magdalene"] == 2 or mod.MCMOption.Settings["Magdalene"] == 4) and player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_YUM_HEART then
-				player:RemoveCollectible(CollectibleType.COLLECTIBLE_YUM_HEART)
-				player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_YUM_HEART)
-			end
-			if (mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5) then
-				player:AddCacheFlags(CacheFlag.CACHE_SPEED)
-				player:EvaluateItems()
-				data.MaggieHearts = player:GetHearts()
-			end
-		end
-		if ptype == PlayerType.PLAYER_XXX and (mod.MCMOption.Settings["Blue Baby"] > 1) then
-			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-			player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
-			player:AddCacheFlags(CacheFlag.CACHE_SPEED)
-			player:EvaluateItems()
-			data.BBHearts = player:GetSoulHearts()
-			player:RemoveCollectible(CollectibleType.COLLECTIBLE_POOP)
-			player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_POOP)
-		end
-		if ptype == PlayerType.PLAYER_SAMSON and mod.MCMOption.Settings["Samson"] > 1 then
-			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-			player:EvaluateItems()
-		end
-		if ptype == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] > 1 then
-			player:AddCacheFlags(CacheFlag.CACHE_FLYING)
-			player:EvaluateItems()
-		end
-		if ptype == PlayerType.PLAYER_KEEPER and mod.MCMOption.Settings["Keeper"] > 1 then
-			local trinket1 = player:GetTrinket(0)
-			local trinket2 = player:GetTrinket(1)
-			if trinket1 ~= 0 then player:TryRemoveTrinket(trinket1) end
-			if trinket2 ~= 0 then player:TryRemoveTrinket(trinket2) end
-			player:AddTrinket(TrinketType.TRINKET_SILVER_DOLLAR)
-			player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER,false,false,true,false)
-			player:AddTrinket(TrinketType.TRINKET_RIB_OF_GREED)
-			player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER,false,false,true,false)
-			if trinket1 ~= 0 then player:AddTrinket(trinket1) end
-			if trinket2 ~= 0 then player:AddTrinket(trinket2) end
-		end
-		if ptype == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] > 1 then
-			local esau = player:GetOtherTwin()
-			local randItems = {}
-			local rng = player:GetCollectibleRNG(mod.GetOptionsBirthright(mod.MCMOption.Settings["Jacob"]))
-			for item = 1, mod.GetMaxCollectibleID() do
-				if Isaac.GetItemConfig():GetCollectible(item) then
-					local itemConf = Isaac.GetItemConfig():GetCollectible(item)
-					if esau:HasCollectible(item) and itemConf.Type ~= ItemType.ITEM_ACTIVE
-					and (itemConf.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST)
-					and item ~= CollectibleType.COLLECTIBLE_BIRTHRIGHT
-					and item ~= substituteBirthright
-					then
-						for i = 1, esau:GetCollectibleNum(item) do
-							table.insert(randItems,item)
-						end
-					end
-				end
-			end
-			randItems = mod.Shuffle(randItems,rng)
-			local length = #randItems
-			if length > 1 then
-				repeat
-					local i = rng:RandomInt(#randItems)+1
-					player:AddCollectible(randItems[i],0,false)
-					esau:RemoveCollectible(randItems[i])
-					table.remove(randItems,i)
-				until #randItems < length / 2
-			elseif length == 1 then
-				player:AddCollectible(randItems[1],0,false)
-				esau:RemoveCollectible(randItems[1])
-			end
-			esau:AnimateCollectible(CollectibleType.COLLECTIBLE_RED_STEW)
-			esau:QueueItem(Isaac.GetItemConfig():GetCollectible(CollectibleType.COLLECTIBLE_RED_STEW))
-		end
-		if ptype == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] > 1 then
-			level:DisableDevilRoom()
-		end
-		if ptype == PlayerType.PLAYER_JUDAS and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) then
-			for x = 1,3 do
-				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, RNG():RandomInt(5) + 1, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
-			end
-		end
-		if (ptype == PlayerType.PLAYER_LAZARUS and mod.MCMOption.Settings["Lazarus"] > 1) or (ptype == PlayerType.PLAYER_LAZARUS2 and mod.MCMOption.Settings["Lazarus Risen"] > 1) then
-			player:SetPocketActiveItem(havenscall)
-		end
-		if ptype == PlayerType.PLAYER_ISAAC_B then
-			if mod.MCMOption.Settings["Tainted Isaac"] > 1 and player:GetActiveItem(ActiveSlot.SLOT_POCKET) ~= CollectibleType.COLLECTIBLE_SPINDOWN_DICE then
-				player:RemoveCollectible(CollectibleType.COLLECTIBLE_SPINDOWN_DICE)
-				player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_SPINDOWN_DICE,ActiveSlot.SLOT_POCKET,true)
-			end
-		end
-		if ptype == PlayerType.PLAYER_JUDAS_B and mod.MCMOption.Settings["Tainted Judas"] > 1 then
-			player:RemoveCollectible(705,false,ActiveSlot.SLOT_POCKET)
-			player:SetPocketActiveItem(substituteDarkArts)
-		end
-		if ptype == PlayerType.PLAYER_SAMSON_B and mod.MCMOption.Settings["Tainted Samson"] > 1 then
-			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-			player:EvaluateItems()
-		end
-		if ptype == PlayerType.PLAYER_APOLLYON_B and (mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4) then
-			for x = 1,20 do
-				local rnglocust = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT):RandomInt(5)+1
-				Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
-			end
-		end
-		if ptype == PlayerType.PLAYER_THEFORGOTTEN_B and mod.MCMOption.Settings["Tainted Forgotten"] > 1 then
-			mod:GetData(player).TriggerForgorBones = true
-			player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
-			player:EvaluateItems()
-		end
-		if (ptype == PlayerType.PLAYER_JACOB_B or ptype == PlayerType.PLAYER_JACOB2_B) and (mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4) then
-			player:AddMaxHearts(2, true)
-			player:AddHearts(2)
-			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-			player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
-			player:AddCacheFlags(CacheFlag.CACHE_SPEED)
-			player:EvaluateItems()
+		for _,func in pairs(OnPickupFunctions) do
+			func(player)
 		end
 	end
 	data.gotBirthright = player:HasCollectible(substituteBirthright) or player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)

@@ -113,4 +113,8 @@ function Cain:TaintedCainItemPickupReset()
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Cain.TaintedCainItemPickupReset)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_CAIN_B and mod.MCMOption.Settings["Tainted Cain"] == 2
+end)
 --#endregion

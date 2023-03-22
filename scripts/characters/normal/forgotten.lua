@@ -41,3 +41,7 @@ function Forgotten:UpdateBones(familiar)
     end
 end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Forgotten.UpdateBones, FamiliarVariant.BONE_ORBITAL)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and mod.MCMOption.Settings["The Forgotten"] == 2
+end)

@@ -63,5 +63,19 @@ function Appolyon:NewLocusts()
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Appolyon.NewLocusts);
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Appolyon.NewLocusts)
+
+mod.AddOnPickupFunction(function(player)
+	local ptype = player:GetPlayerType()
+	if ptype == PlayerType.PLAYER_APOLLYON_B and (mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4) then
+		for x = 1,20 do
+			local rnglocust = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT):RandomInt(5)+1
+			Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
+		end
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and mod.MCMOption.Settings["Tainted Apollyon"] > 1 and mod.MCMOption.Settings["Tainted Apollyon"] < 4
+end)
 --#endregion

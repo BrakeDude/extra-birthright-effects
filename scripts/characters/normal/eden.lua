@@ -5,35 +5,48 @@ local ids = {1,2,3,5,6,8,12,13,14,20,21,29,31,55,57,67,70,71,73,88,91,94,95,96,9
 544,548,565,567,572,575,581,596,607,608,610,615,629,645,649,652,679,681,682,688,698,732}
 local Eden = {}
 local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+local game = Game()
+
+local function newRoom(player,rng)
+    local randItems = ids
+    for item = 733, mod.GetMaxCollectibleID() do
+        if Isaac.GetItemConfig():GetCollectible(item) then
+            local itemConfig = Isaac.GetItemConfig():GetCollectible(item)
+            if not player:HasCollectible(item) and itemConfig.Type ~= ItemType.ITEM_ACTIVE
+            and itemConfig.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST
+            and item ~= substituteBirthright and item ~= Isaac.GetItemIdByName("NOMARKSFORYA")
+            then
+                table.insert(randItems,item)
+            end
+        end
+    end
+    randItems = mod.Shuffle(randItems,rng)
+    if #randItems > 0 and rng:RandomInt(100) < 25 then
+        local randomItem = rng:RandomInt(#randItems)+1
+        game:GetHUD():ShowItemText(player,Isaac.GetItemConfig():GetCollectible(randItems[randomItem]))
+        player:UseActiveItem(randItems[randomItem])
+    end
+end
 
 function Eden:EdenRandomItemEffect()
-    local game = Game()
     if mod.MCMOption.Settings["Eden"] > 1 then
-        for i = 1, game:GetNumPlayers() do
-            local player = Isaac.GetPlayer(i-1)
+        for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN)) do
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Eden"])
-            if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_EDEN then
-                local rng = player:GetCollectibleRNG(collectible)
-                local randItems = ids
-                for item = 733, mod.GetMaxCollectibleID() do
-                    if Isaac.GetItemConfig():GetCollectible(item) then
-                        local itemConfig = Isaac.GetItemConfig():GetCollectible(item)
-                        if not player:HasCollectible(item) and itemConfig.Type ~= ItemType.ITEM_ACTIVE
-                        and itemConfig.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST
-                        and item ~= substituteBirthright and item ~= Isaac.GetItemIdByName("NOMARKSFORYA")
-                        then
-                            table.insert(randItems,item)
-                        end
-                    end
-                end
-                randItems = mod.Shuffle(randItems,rng)
-                if #randItems > 0 and rng:RandomInt(100) < 25 then
-                    local randomItem = rng:RandomInt(#randItems)+1
-                    game:GetHUD():ShowItemText(player,Isaac.GetItemConfig():GetCollectible(randItems[randomItem]))
-                    player:UseActiveItem(randItems[randomItem])
-                end
+            if player:HasCollectible(collectible) then
+                newRoom(player,player:GetCollectibleRNG(collectible))
             end
         end
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Eden.EdenRandomItemEffect)
+
+mod:AddPriorityCallback(mod.Callbacks.MC_POST_NEW_ROOM, function()
+    for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN)) do
+        local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
+        newRoom(player,player:GetCollectibleRNG(collectible))
+    end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_EDEN and mod.MCMOption.Settings["Eden"] == 2
+end)

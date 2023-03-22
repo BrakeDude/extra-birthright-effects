@@ -93,4 +93,22 @@ function BB:HeartsTransform(heart)
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, BB.HeartsTransform)
+
+mod.AddOnPickupFunction(function(player)
+	local ptype = player:GetPlayerType()
+	if ptype == PlayerType.PLAYER_XXX and (mod.MCMOption.Settings["Blue Baby"] > 1) then
+		local data = mod.GetPersistentPlayerData(player)
+		player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+		player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
+		player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+		player:EvaluateItems()
+		data.BBHearts = player:GetSoulHearts()
+		player:RemoveCollectible(CollectibleType.COLLECTIBLE_POOP)
+		player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_POOP)
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_XXX and mod.MCMOption.Settings["Blue Baby"] == 2
+end)
 --#endregion

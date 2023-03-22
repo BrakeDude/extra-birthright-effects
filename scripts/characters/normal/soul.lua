@@ -42,3 +42,7 @@ function Soul:UpdateSoulWisps(familiar)
     end
 end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Soul.UpdateSoulWisps, FamiliarVariant.WISP)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return  player:GetPlayerType() == PlayerType.PLAYER_THESOUL and mod.MCMOption.Settings["The Forgotten"] == 2
+end)
