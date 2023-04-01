@@ -53,10 +53,10 @@ function Appolyon:NewLocusts()
 		for i = 1, game:GetNumPlayers() do
 			local player = Isaac.GetPlayer(i-1)
 			if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and player:HasCollectible(collectible) and room:IsFirstVisit() and not room:IsClear() then
-				local spawncount = player:GetCollectibleRNG(collectible):RandomInt(5)+1
+				local spawncount = mod.RNG:RandomInt(5)+1
 				spawncount = spawncount < 2 and 2 or spawncount
 				for x = 1,spawncount do
-					local rnglocust = player:GetCollectibleRNG(collectible):RandomInt(5)+1
+					local rnglocust = mod.RNG:RandomInt(5)+1
 					Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
 				end
 			end
@@ -69,7 +69,7 @@ mod.AddOnPickupFunction(function(player)
 	local ptype = player:GetPlayerType()
 	if ptype == PlayerType.PLAYER_APOLLYON_B and (mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4) then
 		for x = 1,20 do
-			local rnglocust = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT):RandomInt(5)+1
+			local rnglocust = mod.RNG:RandomInt(5)+1
 			Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
 		end
 	end

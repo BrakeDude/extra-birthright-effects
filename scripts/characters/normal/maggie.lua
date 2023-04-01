@@ -8,7 +8,7 @@ function Maggie:CharmingScript(player)
 	if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then
 		if mod.MCMOption.Settings["Magdalene"] == 2 or mod.MCMOption.Settings["Magdalene"] == 4 then
 			if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then
-				local rng = player:GetCollectibleRNG(collectible)
+				local rng = mod.RNG
 				local enemies = Isaac.FindInRadius(player.Position,50,EntityPartition.ENEMY)
 				for _,enemy in ipairs(enemies) do
 					if enemy:IsVulnerableEnemy() and not EntityRef(enemy).IsCharmed and rng:RandomInt(1000) < 50 then

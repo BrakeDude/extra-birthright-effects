@@ -10,7 +10,7 @@ function Eve:EveExtraBloodBaby(entitytype,variant,subtype,position,velocity,spaw
 					local player = spawner:ToPlayer()
 					if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_EVE_B then
 						local searchedPlayer = Isaac.GetPlayer(mod.EsauCheck(player))
-						if searchedPlayer:GetCollectibleRNG(collectible):RandomFloat() < 0.3 and mod:GetData(searchedPlayer).BirthrightBloodBabyCooldown <= 0 then
+						if mod.RNG:RandomFloat() < 0.3 and mod:GetData(searchedPlayer).BirthrightBloodBabyCooldown <= 0 then
 							mod:GetData(searchedPlayer).BirthrightBloodBabyCooldown = 3
 							Isaac.Spawn(entitytype,variant,subtype,player.Position,velocity,searchedPlayer)
 						end

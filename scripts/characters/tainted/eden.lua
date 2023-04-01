@@ -131,15 +131,15 @@ function Eden:CustomPreSpawnReward(rng,spawnpos)
 end
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Eden.CustomPreSpawnReward)
 
-function Eden:CustomPostGetCollectible(id, pool, decrease, seed)
+function Eden:CustomPostCollectibleUpdate(pickup)
     local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
     for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN_B)) do
         if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and player:HasCollectible(col) and mod.MCMOption.Settings["Tainted Eden"] > 1 then
-            local callbacks = Isaac.GetCallbacks("MC_POST_GET_COLLECTIBLE_TEDEN")
+            local callbacks = Isaac.GetCallbacks("MC_POST_PICKUP_UPDATE_TEDEN")
             local data = mod.GetPersistentPlayerData(player)
             for ptype, callback in ipairs(callbacks) do
-                if data.TEdenState and callback.Mod.Name == mod.Name and callback.Priority == data.TEdenState then
-                    local ret = callback.Function(id, pool, decrease, seed)
+                if data.TEdenState and callback.Mod.Name == mod.Name and callback.Priority == data.TEdenState and (callback.Param == nil or callback.Param ~= nil and callback.Param == pickup.Variant) then
+                    local ret = callback.Function(pickup)
                     if ret then
                         return ret
                     end
@@ -148,7 +148,7 @@ function Eden:CustomPostGetCollectible(id, pool, decrease, seed)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, Eden.CustomPostGetCollectible)
+mod:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, Eden.CustomPostCollectibleUpdate)
 
 local function ChangeEdenState(player)
     local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
@@ -169,7 +169,7 @@ function Eden:DataUpdate(player)
         end
         if mod.MCMOption.Settings["Tainted Eden"] == 2 and data.EdenPickedUpBirthright and Game():GetFrameCount() > 1 then
             if not player:HasCollectible(substituteBirthright) then
-                local rng = player:GetCollectibleRNG(substituteBirthright)
+                local rng = mod.RNG
                 local randItems = {}
                 for item = 1, mod.GetMaxCollectibleID() do
                     if Isaac.GetItemConfig():GetCollectible(item) then
@@ -209,7 +209,7 @@ function Eden:ChangeOnHit(entity, amount, flags, source, cd)
         ChangeEdenState(player)
     end
 end
-mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, 1, Eden.ChangeOnHit, EntityType.ENTITY_PLAYER)
+mod:AddPriorityCallback(mod.Callbacks.MC_ENTITY_TAKE_DMG, 1, Eden.ChangeOnHit, EntityType.ENTITY_PLAYER)
 
 function Eden:ChangeOnNewRoom()
     for _, player in ipairs(mod:GetPlayers()) do

@@ -4,9 +4,9 @@ local ExtraBirthrightLocal = {}
 mod.Version = "2.44"
 local json = require("json")
 local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
-mod.wasThereBoss = false
 mod.fliped = {}
 mod.BirthrightfloorBought = false
+mod.RNG = RNG()
 local BirthrightLangName = {en = "Birthright", ru = "Право первородства", es = "Primogenitura"}
 
 mod.Callbacks = {
@@ -26,6 +26,7 @@ mod.Callbacks = {
 	MC_POST_NPC_DEATH = "MC_POST_NPC_DEATH_TEDEN",
 	MC_PRE_SPAWN_CLEAN_AWARD = "MC_PRE_SPAWN_CLEAN_AWARD_TEDEN",
 	MC_POST_GET_COLLECTIBLE = "MC_POST_GET_COLLECTIBLE_TEDEN",
+	MC_POST_PICKUP_UPDATE = "MC_POST_PICKUP_UPDATE_TEDEN",
 }
 
 mod.PlayerData = {}
@@ -129,35 +130,7 @@ function ExtraBirthrightLocal:SaveSomeData(isSaving)
 end
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, ExtraBirthrightLocal.SaveSomeData)
 --#endregion
---#region DataInit
-function ExtraBirthrightLocal:InitData(player)
-	local pType = player:GetPlayerType()
-	if pType <= 40 then
-	local data = mod.GetPersistentPlayerData(player)
-		
-		if not data.ApollyonStatUps then
-			data.ApollyonStatUps = {
-				Speed = 0,
-				FireDelay = 0,
-				Damage = 0,
-				Range = 0,
-				ShotSpeed = 0,
-				Luck = 0
-			}
-		end
-		
-		if pType == PlayerType.PLAYER_SAMSON_B then
-			if not data.RageMeter then
-				data.RageMeter = 0
-			end
-		end
-		if mod:GetData(player).isSubstituteBirthrightOverHead == nil then
-			mod:GetData(player).isSubstituteBirthrightOverHead = false
-		end
-	end
-end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, ExtraBirthrightLocal.InitData)
---#endregion
+
 --#region Loading
 function ExtraBirthrightLocal:LoadItBack(isContinued)
 	local game = Game()
@@ -226,17 +199,19 @@ mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, ExtraBirthrightLocal.LoadItBa
 function ExtraBirthrightLocal:Init(player)
 	local data = mod.GetPersistentPlayerData(player)
 	data.gotBirthright = true
-	if player:GetPlayerType() == PlayerType.PLAYER_EVE_B then
-		data.BirthrightBloodBabyCooldown = data.BirthrightBloodBabyCooldown or 2
-	end
-	if player:GetPlayerType() == PlayerType.PLAYER_CAIN_B then
-		data.TaintedCainPickedItem = data.TaintedCainPickedItem or false
-	end
-	mod.BirthrightfloorBought = false
-	mod.wasThereBoss = false
+	mod:GetData(player).isSubstituteBirthrightOverHead = false
 	mod:BirthrightDesc()
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, ExtraBirthrightLocal.Init)
+
+function ExtraBirthrightLocal:EvalData(player)
+	local data = mod.GetPersistentPlayerData(player)
+	data.BirthrightBloodBabyCooldown = data.BirthrightBloodBabyCooldown or 2
+	data.TaintedCainPickedItem = data.TaintedCainPickedItem or false
+	data.PocketItems = data.PocketItems or {}
+	data.RageMeter = data.RageMeter or 0
+end
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, ExtraBirthrightLocal.EvalData)
 --#endregion
 function ExtraBirthrightLocal:BirthrightChange(pickup)
 	if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT or pickup.SubType == substituteBirthright then
@@ -311,7 +286,6 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, ExtraBirthrightLocal.CheckBi
 
 function ExtraBirthrightLocal:UpdateTheRoom()
 	local room = Game():GetRoom()
-	mod.wasThereBoss = false
 	mod.clearedroom = room:IsClear() and room:IsFirstVisit()
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, ExtraBirthrightLocal.UpdateTheRoom)

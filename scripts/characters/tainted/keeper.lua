@@ -6,7 +6,7 @@ function Keeper:KeeperStatsUpdate(player)
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Keeper"])
         if player:HasCollectible(collectible) then
             local data = mod.GetPersistentPlayerData(player)
-            local rng = player:GetCollectibleRNG(collectible)
+            local rng = mod.RNG
             if not data.BonusKeeperDamage then
                 data.BonusKeeperDamage = 0
             end

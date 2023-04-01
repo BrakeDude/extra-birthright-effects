@@ -122,7 +122,7 @@ mod.AddOnPickupFunction(function(player)
     if ptype == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] > 1 then
         local esau = player:GetOtherTwin()
         local randItems = {}
-        local rng = player:GetCollectibleRNG(mod.GetOptionsBirthright(mod.MCMOption.Settings["Jacob"]))
+        local rng = mod.RNG
         for item = 1, mod.GetMaxCollectibleID() do
             if Isaac.GetItemConfig():GetCollectible(item) then
                 local itemConf = Isaac.GetItemConfig():GetCollectible(item)

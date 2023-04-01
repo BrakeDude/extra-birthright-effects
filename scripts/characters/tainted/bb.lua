@@ -125,7 +125,7 @@ function BB:BBShooting(tear)
 	if mod.MCMOption.Settings["Tainted Blue Baby"] > 1 then
         local player = mod:GetPlayerFromTear(tear)
         if player then
-            local rng = player:GetCollectibleRNG(collectible)
+            local rng = mod.RNG
             local dirtyMind = player:HasCollectible(CollectibleType.COLLECTIBLE_DIRTY_MIND) and 3 or 1
             if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_XXX_B and rng:RandomFloat() < 0.15 * dirtyMind then
                 local type = dipVariant.DIP_NORMAL

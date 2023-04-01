@@ -19,7 +19,7 @@ function Soul:ForgottenSoulWisps(player)
         if data.ForgottenSoulHearts and player:HasCollectible(collectible) then
             if data.ForgottenSoulHearts > 0 then
                 for i = 1, data.ForgottenSoulHearts do
-                    for j = 1, math.max(1,player:GetCollectibleRNG(collectible):RandomInt(4)) do
+                    for j = 1, math.max(1,mod.RNG:RandomInt(4)) do
                         local wisp = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, 0 , player.Position, Vector.Zero, player):ToFamiliar()
                         mod:GetData(wisp).SoulWispAfter = wisp.EntityCollisionClass
                         wisp.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE

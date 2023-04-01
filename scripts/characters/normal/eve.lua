@@ -8,7 +8,7 @@ function Eve:MoreBirds(player,_,damageflag)
             local data = mod.GetPersistentPlayerData(player)
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Eve"])
             if player:HasCollectible(collectible) then
-                local rng = player:GetCollectibleRNG(collectible)
+                local rng = mod.RNG
                 local chance = rng:RandomInt(100)
                 if chance < 25 then
                     data.EveBirds = data.EveBirds + 1

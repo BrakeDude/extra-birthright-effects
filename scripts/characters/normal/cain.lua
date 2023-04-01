@@ -2,6 +2,7 @@
 local mod = ExtraBirthright
 local Cain = {}
 local bossposition = Vector.Zero or Vector(0,0)
+local wasThereBoss = false
 
 local function NpcLoot(npc)
 	local drop = npc:GetDropRNG()
@@ -16,7 +17,7 @@ local function NpcLoot(npc)
 				end
 			elseif dropTheRinG <= 0.12 then
 				bossposition = Isaac.GetFreeNearPosition(npc.Position,0)
-				mod.wasThereBoss = true
+				wasThereBoss = true
 			end
 		end
 	end
@@ -37,10 +38,10 @@ mod:AddPriorityCallback(mod.Callbacks.MC_POST_NPC_DEATH, PlayerType.PLAYER_CAIN,
 local function BossLoot()
 	local game = Game()
 	local room = game:GetRoom()
-	if mod.wasThereBoss then
+	if wasThereBoss then
 		local ItemPool = game:GetItemPool():GetPoolForRoom(room:GetType(),RNG():GetSeed())
 		Isaac.Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,game:GetItemPool():GetCollectible(ItemPool),bossposition,Vector(0, 0),nil)
-		mod.wasThereBoss = false
+		wasThereBoss = false
 	end
 end
 

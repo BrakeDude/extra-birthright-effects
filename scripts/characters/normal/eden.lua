@@ -33,17 +33,17 @@ function Eden:EdenRandomItemEffect()
         for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN)) do
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Eden"])
             if player:HasCollectible(collectible) then
-                newRoom(player,player:GetCollectibleRNG(collectible))
+                newRoom(player,mod.RNG)
             end
         end
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Eden.EdenRandomItemEffect)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_POST_NEW_ROOM, function()
+mod:AddPriorityCallback(mod.Callbacks.MC_POST_NEW_ROOM, PlayerType.PLAYER_EDEN, function()
     for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN)) do
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
-        newRoom(player,player:GetCollectibleRNG(collectible))
+        newRoom(player,mod.RNG)
     end
 end)
 

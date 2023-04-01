@@ -3,7 +3,7 @@ local Azazel = {}
 --#region Azazel
 
 local function rngBrim(player)
-	if player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT):RandomInt(5) == 1 then
+	if mod.RNG:RandomInt(5) == 1 then
 		player:UseActiveItem(CollectibleType.COLLECTIBLE_TAMMYS_HEAD, UseFlag.USE_NOANIM | UseFlag.USE_NOANNOUNCER)
 	end
 end

@@ -9,7 +9,7 @@ function Cain:CainDestitnyItem(pickup, collider)
 	if mod.MCMOption.Settings["Tainted Cain"] > 1 then
         if collider.Type == EntityType.ENTITY_PLAYER then
             local player = collider:ToPlayer()
-            local rng = player:GetCollectibleRNG(collectible)
+            local rng = mod.RNG
             if player:GetPlayerType() == PlayerType.PLAYER_CAIN_B and pickup.SubType > 0 and player:IsItemQueueEmpty() then
                 local data = mod.GetPersistentPlayerData(player)
                 local chance = rng:RandomInt(100) + 1

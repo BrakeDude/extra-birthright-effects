@@ -2,77 +2,71 @@
 local mod = ExtraBirthright
 local Apollyon = {}
 
-local function Stats(player,rng,list)
-	for _,entity in ipairs(list) do
-		if entity:Exists() and entity.SubType > 0 then
-			if not entity:ToPickup():IsShopItem() and (Isaac.GetItemConfig():GetCollectible(entity.SubType).Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST) then 
-				local data = mod.GetPersistentPlayerData(player)
-				local quality = Isaac.GetItemConfig():GetCollectible(entity.SubType).Quality
-				local maxstat = quality * 360
-				local statsNames = {"Speed","FireDelay","Damage","Range","ShotSpeed","Luck"}
-				local statsNum = rng:RandomInt(quality + 2) + 1
-				statsNum = statsNum > quality and statsNum or quality
-				for i = 1, statsNum do
-					if maxstat > 0 then
-						statsNames = mod.Shuffle(statsNames,rng)
-						local j = rng:RandomInt(#statsNames) + 1
-						local stat = i == statsNum and maxstat or (rng:RandomInt(math.ceil(maxstat/(statsNum - i + 1))+1))
-						data.ApollyonStatUps[statsNames[j]] = data.ApollyonStatUps[statsNames[j]] + stat / 120
-						maxstat = maxstat - statsNum
-						table.remove(statsNames,j)
+local function Succlogic(player)
+	local data = mod.GetPersistentPlayerData(player)
+	if data.PocketItems then
+		if data.PocketItems.Card or data.PocketItems.Pill then
+			if data.PocketItems.Card then
+				local flag = UseFlag.USE_NOANIM
+				if player:HasCollectible(CollectibleType.COLLECTIBLE_TAROT_CLOTH) then
+					flag = flag | UseFlag.USE_CARBATTERY
+				end
+				for _,sub in ipairs(data.PocketItems.Card) do
+					player:UseCard(sub, flag)
+				end
+			end
+			if data.PocketItems.Pill then
+				local flag = UseFlag.USE_NOANIM
+				for _,sub in ipairs(data.PocketItems.Pill) do
+					player:UsePill(Game():GetItemPool():GetPillEffect(sub),sub,flag)
+				end
+			end
+			data.PocketItems.Card = nil
+			data.PocketItems.Pill = nil
+		else
+			local tabl = {Card = PickupVariant.PICKUP_TAROTCARD, Pill = PickupVariant.PICKUP_PILL}
+			for key,variant in pairs(tabl) do
+				data.PocketItems[key] = {}
+				
+				for _,pickup in ipairs(Isaac.FindByType(EntityType.ENTITY_PICKUP, variant)) do
+					pickup = pickup:ToPickup()
+				
+					if not pickup:IsShopItem() then
+						table.insert(data.PocketItems[key], pickup.SubType)
+						pickup:Remove()
+						Isaac.Spawn(1000, EffectVariant.POOF01,0,pickup.Position,Vector.Zero,nil)
 					end
 				end
+				if #data.PocketItems[key] == 0 then data.PocketItems[key] = nil end	
 			end
 		end
 	end
 end
 
-local function Succlogic(colletible,rng,player,birthright)
-	local itemList = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
-	Stats(player,rng,itemList)
-	player:AddCacheFlags(CacheFlag.CACHE_ALL)
-	player:EvaluateItems()
+local function StatCache(player,cache)
+
+end
+
+function Apollyon:Cache(player,cache)
+	local birth = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
+	if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] > 1 and player:HasCollectible(birth) then
+		StatCache(player,cache)
+	end
 end
 
 function Apollyon:Succ(collectible,rng,player)
-	if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] > 1 then
-		Succlogic(collectible,rng,player)
+	local birth = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
+	if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] > 1 and player:HasCollectible(birth) then
+		Succlogic(player)
 	end
 end
-mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, Apollyon.Succ, CollectibleType.COLLECTIBLE_VOID)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, Apollyon.Succ, CollectibleType.COLLECTIBLE_VOID)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_PRE_USE_ITEM, PlayerType.PLAYER_APOLLYON, function(collectible,rng,player,flags,ActiveSlot,customdata)
-	Succlogic(collectible,rng,player)
+mod:AddPriorityCallback(mod.Callbacks.MC_USE_ITEM, PlayerType.PLAYER_APOLLYON, function(collectible,rng,player,flags,ActiveSlot,customdata)
+	Succlogic(player)
 end, CollectibleType.COLLECTIBLE_VOID)
 
-local function Cache(player,cache)
-	local data = mod.GetPersistentPlayerData(player)
-	if cache == CacheFlag.CACHE_SPEED then
-		player.MoveSpeed = player.MoveSpeed + data.ApollyonStatUps.Speed / 180
-	elseif cache == CacheFlag.CACHE_FIREDELAY then
-		player.MaxFireDelay = player.MaxFireDelay / (1 + data.ApollyonStatUps.FireDelay / 120)
-	elseif cache == CacheFlag.CACHE_DAMAGE then
-		player.Damage = player.Damage + data.ApollyonStatUps.Damage / 17
-	elseif cache == CacheFlag.CACHE_RANGE then
-		player.TearRange = player.TearRange + data.ApollyonStatUps.Range * 2.5
-	elseif cache == CacheFlag.CACHE_SHOTSPEED then
-		player.ShotSpeed = player.ShotSpeed + data.ApollyonStatUps.ShotSpeed / 150
-	elseif cache == CacheFlag.CACHE_LUCK then
-		player.Luck = player.Luck + data.ApollyonStatUps.Luck / 60
-	end
-end
 
-function Apollyon:SuccStats(player,cache)
-	if mod.MCMOption.Settings["Apollyon"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_APOLLYON then
-		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
-		if player:HasCollectible(collectible) then
-			Cache(player,cache)
-		end
-	end
-end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Apollyon.SuccStats)
-
-mod:AddPriorityCallback(mod.Callbacks.MC_EVALUATE_CACHE, PlayerType.PLAYER_APOLLYON, Cache)
 
 mod.AddOnPickupFunction(function(player)
 	local ptype = player:GetPlayerType()

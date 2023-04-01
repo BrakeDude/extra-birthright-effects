@@ -141,7 +141,7 @@ mod.MCMOption ={
 		{"1: The Lost gets revived with copies of all of his items doubled (besides birthright, active and story items), but he can't have holy mantle effect. You can get mantle effect by using Holy Card but only for current room. After that effect disappears."},--Lost
 		{"1: Spawns 2 mini Isaacs when entering hostile room, 4 - big room (L-shaped included). Box of Friends now affects mini Isaacs."},--Lilith
 		{"1: Effects of Silver Dollar and Rib of Greed. One free item per floor that costs money."},--Keeper
-		{"1: Void becomes pocket active. Voiding passive items with quality higher then 0 will give random extra stat ups with higher quality items giving more stats. Extra stat ups will be given even before getting Birthright and will be added after getting it."},--Apollyon
+		{"1: Void becomes pocket active. If there cards and/or pills in room, they will be stored. If there're stored cards and/or pills, all of them will be used at the same time"},--Apollyon
 		{"1: Loosing Bone heart will create from 6 to 9 bone orbitals. Loosing Soul heart will create from 1 to 3 wisps."},--Forgotten
 		{"1: Curses become blessings. 100% chance for blessing."},--Bethany
 		{"1: Esau gives half of his non story passive items to Jacob in exchange for Red Stew."},--Jacob

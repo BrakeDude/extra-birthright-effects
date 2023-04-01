@@ -18,7 +18,7 @@ function Forgotten:ForgottenBones(player)
 	    local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"])
         if data.ForgottenHearts and player:HasCollectible(collectible) then
             if player:GetBoneHearts() < data.ForgottenHearts then
-                for i = 1, math.min(6,player:GetCollectibleRNG(collectible):RandomInt(10)) do
+                for i = 1, math.min(6,mod.RNG:RandomInt(10)) do
                     local bone = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0 , player.Position, Vector.Zero, player):ToFamiliar()
                     mod:GetData(bone).BoneAfter = bone.EntityCollisionClass
                     bone.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
