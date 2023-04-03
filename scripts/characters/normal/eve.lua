@@ -1,25 +1,31 @@
 local mod = ExtraBirthright
 local Eve = {}
 
-function Eve:MoreBirds(player,_,damageflag)
+local function BirdsOnDamage(player,amount,damageflag,source,cd)
     if damageflag & DamageFlag.DAMAGE_FAKE ~= DamageFlag.DAMAGE_FAKE and damageflag & DamageFlag.DAMAGE_INVINCIBLE ~= DamageFlag.DAMAGE_INVINCIBLE then
-        if mod.MCMOption.Settings["Eve"] > 1 then
-            player = player:ToPlayer()
-            local data = mod.GetPersistentPlayerData(player)
-            local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Eve"])
-            if player:HasCollectible(collectible) then
-                local rng = mod.RNG
-                local chance = rng:RandomInt(100)
-                if chance < 25 then
-                    data.EveBirds = data.EveBirds + 1
-                    player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
-                    player:EvaluateItems()
-                end
-            end
+        local data = mod.GetPersistentPlayerData(player)
+        local rng = mod.RNG
+        local chance = rng:RandomInt(100)
+        if chance < 25 then
+            data.EveBirds = data.EveBirds + 1
+            player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
+            player:EvaluateItems()
+        end
+    end
+end
+
+function Eve:MoreBirds(player,amount,damageflag,source,cd)
+    player = player:ToPlayer()
+    if mod.MCMOption.Settings["Eve"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_EVE then
+        local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Eve"])
+        if player:HasCollectible(collectible) then
+            BirdsOnDamage(player,amount,damageflag,source,cd)
         end
     end
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Eve.MoreBirds, EntityType.ENTITY_PLAYER)
+
+mod:AddPriorityCallback(mod.Callbacks.MC_ENTITY_TAKE_DMG, PlayerType.PLAYER_EVE, BirdsOnDamage, EntityType.ENTITY_PLAYER)
 
 function Eve:BirdsCache(player,cache)
     local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Eve"])
