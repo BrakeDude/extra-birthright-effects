@@ -225,6 +225,22 @@ function mod.Shuffle(list,rng)
 	end
     return shuffled
 end
+
+function mod:GetMCMValue(ptype)
+	if ptype == PlayerType.PLAYER_THESOUL then
+		ptype = PlayerType.PLAYER_THEFORGOTTEN
+	end
+	if ptype == PlayerType.PLAYER_THESOUL_B then
+		ptype = PlayerType.PLAYER_THEFORGOTTEN_B
+	end
+	if ptype == PlayerType.PLAYER_LAZARUS2_B then
+		ptype = PlayerType.PLAYER_LAZARUS_B
+	end
+	if mod.MCMOption.Name[ptype+1] then
+		return mod.MCMOption.Settings[mod.MCMOption.Name[ptype+1]]
+	end
+	return 1
+end
 -----------------------------------
 --Helper Functions (thanks piber)--
 -----------------------------------

@@ -145,7 +145,6 @@ function ExtraBirthrightLocal:LoadItBack(isContinued)
 				for i = 1, game:GetNumPlayers()  do
 					local player = Isaac.GetPlayer(i-1)
 					player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
-					player:GetData().ExtraBirthright.isSubstituteBirthrightOverHead = false
 				end
 			else
 				mod.PlayerData = json.decode(loadBirthright.PlayerData)
@@ -199,7 +198,6 @@ mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, ExtraBirthrightLocal.LoadItBa
 function ExtraBirthrightLocal:Init(player)
 	local data = mod.GetPersistentPlayerData(player)
 	data.gotBirthright = true
-	mod:GetData(player).isSubstituteBirthrightOverHead = false
 	mod:BirthrightDesc()
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, ExtraBirthrightLocal.Init)
@@ -213,29 +211,7 @@ function ExtraBirthrightLocal:EvalData(player)
 end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, ExtraBirthrightLocal.EvalData)
 --#endregion
-function ExtraBirthrightLocal:BirthrightChange(pickup)
-	if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT or pickup.SubType == substituteBirthright then
-		local players = mod:GetPlayers()
-		local player = players[1]
-		for _,searchplayer in ipairs(players) do
-			if pickup.Position:Distance(searchplayer.Position) < pickup.Position:Distance(player.Position) and not searchplayer.Parent then
-				player = searchplayer
-			end
-		end
-		player = player:ToPlayer()
 
-		if ChangeToFakeBirthright(player) then
-			if pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT then
-				pickup:ToPickup():Morph(pickup.Type,pickup.Variant,substituteBirthright,true,true,true)
-			end
-		else
-			if pickup.SubType == substituteBirthright then
-				pickup:ToPickup():Morph(pickup.Type,pickup.Variant,CollectibleType.COLLECTIBLE_BIRTHRIGHT,true,true,true)
-			end
-		end
-	end
-end
-mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, ExtraBirthrightLocal.BirthrightChange, PickupVariant.PICKUP_COLLECTIBLE)
 --#region Birthright check for first pickup effect
 function ExtraBirthrightLocal:CheckBirthrightAll(player)
 	local game = Game()
@@ -252,21 +228,31 @@ function ExtraBirthrightLocal:CheckBirthrightAll(player)
 			player:AddCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT,0,false)
 		end
 	end
-	if not mod:GetData(player).isSubstituteBirthrightOverHead and player.QueuedItem.Item then
-		if player.QueuedItem.Item.ID == substituteBirthright then
-			mod:GetData(player).isSubstituteBirthrightOverHead = true
+	if player.QueuedItem.Item then
+		if player.QueuedItem.Item.ID == CollectibleType.COLLECTIBLE_BIRTHRIGHT and ChangeToFakeBirthright(player) then
 			local charName = ptype + 1
 			if mod.FakeBirthrightDesc[charName] then
 				local lang = Options.Language
-				local desc = mod.FakeBirthrightDesc[charName][lang] or mod.FakeBirthrightDesc[charName].en
-				local brname = BirthrightLangName[lang] or BirthrightLangName.en
-				Game():GetHUD():ShowItemText(brname, desc[mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1], false)
+				local desc = mod.FakeBirthrightDesc[charName][lang]
+				local brname = BirthrightLangName[lang]
+				if not desc then
+					desc = mod.FakeBirthrightDesc[charName].en
+					brname = BirthrightLangName.en
+				end
+				local desci = desc[mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1]
+				if not desc or desc and not desci then
+					desci = "???"
+				end
+				Game():GetHUD():ShowItemText(brname, desci, false)
 			end
+			local queue = player.QueuedItem
+			queue.Item = nil
+			player.QueuedItem = queue
+			player:QueueItem(Isaac.GetItemConfig():GetCollectible(substituteBirthright))
 		end
 	end
 	if ptype == PlayerType.PLAYER_THESOUL_B then return end
 	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(substituteBirthright)) and not data.gotBirthright then
-		mod:GetData(player).isSubstituteBirthrightOverHead = false
 		for _,func in pairs(OnPickupFunctions) do
 			func(player)
 		end

@@ -1,16 +1,28 @@
 local mod = ExtraBirthright
 local cmd = {}
 
-function mod:GetCMDOption(arg,tainted)
+local function GetCMDOption(arg,tainted)
 	local start = 1
 	if tainted then
 		start = 21
 	end
 	if string.find(arg,"Risen") then
-		return 11
+		return 13
 	end
 	for i = start, #mod.MCMOption.Name do
 		if string.find(arg,mod.MCMOption.Name[i])then
+			if i == 18 then
+				i = 17
+			end
+			if i == 39 then
+				i = 30
+			end
+			if i == 40 then
+				i = 38
+			end
+			if i == 41 then
+				i = 36
+			end
 			return i
 		end
 	end
@@ -22,9 +34,9 @@ local function changeCMD(args,s1,s2)
 	local tainted = string.find(args,"Tainted")
 	local char = 0
 	if tainted == s2 + 2 then
-		char = mod:GetCMDOption(args,true)
+		char = GetCMDOption(args,true)
 	else
-		char = mod:GetCMDOption(args,false)
+		char = GetCMDOption(args,false)
 	end
 	if not char then
 		return nil
@@ -81,9 +93,9 @@ local function getCMD(args,s1,s2)
 	local tainted = string.find(args,"Tainted")
 	local char
 	if tainted == s2 + 2 then
-		char = mod:GetCMDOption(args,true)
+		char = GetCMDOption(args,true)
 	else
-		char = mod:GetCMDOption(args,false)
+		char = GetCMDOption(args,false)
 	end
 	if not char then
 		return nil
@@ -105,9 +117,9 @@ local function defaultCMD(args,s1,s2)
 	local tainted = string.find(args,"Tainted")
 	local char
 	if tainted == s2 + 2 then
-		char = mod:GetCMDOption(args,true)
+		char = GetCMDOption(args,true)
 	else
-		char = mod:GetCMDOption(args,false)
+		char = GetCMDOption(args,false)
 	end
 	if not char then
 		return nil
