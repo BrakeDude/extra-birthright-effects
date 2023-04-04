@@ -213,7 +213,7 @@ function mod:BirthrightDesc()
 				local playerID = player:GetPlayerType()
 				if mod.MCMOption.Name[playerID+1] then
 					local i,j = 1,2
-					i,j = playerID+1,mod:GetMCMValue(playerID)
+					i,j = playerID+1,mod.GetMCMValue(playerID)
 					local birthrightDesc = EID:getDescriptionEntry("birthright", playerID+1)
 					local playerName = birthrightDesc[1] or player:GetName()
 					local icon = EID:getIcon("Player"..playerID) ~= EID.InlineIcons["ERROR"] and "{{Player"..playerID.."}}" or "{{CustomTransformation}}"

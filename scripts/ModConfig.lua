@@ -513,12 +513,19 @@ local function AddMCM()
 		})
 		ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Normal characters")
 		for i=1,#mod.MCMOption.Name do
-			print(mod.MCMOption.Name[i])
+			
 			if i ~= 18 and (i < 39 or i > 41) then
+
+				if i == 42 then
+					ModConfigMenu.AddSpace(MCMExtraBirthright,"Settings")
+					ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Modded characters")
+				end
+
 				if mod.MCMOption.Name[i] == "Tainted Isaac" then
 					ModConfigMenu.AddSpace(MCMExtraBirthright,"Settings")
 					ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Tainted characters")
 				end
+
 				ModConfigMenu.AddSetting(MCMExtraBirthright, "Settings",
 				{
 					Type = ModConfigMenu.OptionType.NUMBER,
@@ -543,7 +550,7 @@ local function AddMCM()
 						mod.MCMOption.Settings[mod.MCMOption.Name[i]] = currentNum
 						mod:BirthrightDesc()
 					end,
-					Info = mod.MCMOption.Labels[i]
+					Info = mod.MCMOption.Labels[i] or ""
 				})
 			end
 		end

@@ -108,11 +108,13 @@ end
 
 function mod.AddCustomEffectsEID(ptype,firstEID,secondEID)
 	if not mod.MCMOption.Name[ptype+1] then
-		mod.MCMOption.Name[ptype+1] = "CustomChar"..tostring(ptype+1)
+		mod.MCMOption.Name[ptype+1] = "ModdedChar"..tostring(ptype+1)
 	end
 	if not mod.MCMOption.OptionsMaxNum[ptype+1] then
-		
 		mod.MCMOption.OptionsMaxNum[ptype+1] = (IsString(firstEID) and IsString(secondEID)) and 5 or ((IsString(firstEID) or IsString(secondEID)) and 3 or 1) 
+	end
+	if not mod.MCMOption.Settings[mod.MCMOption.Name[ptype+1]] then
+		mod.MCMOption.Settings[mod.MCMOption.Name[ptype+1]] = 1
 	end
 	if mod.MCMOption.OptionsMaxNum[ptype+1] == 3 and not IsString(firstEID) and IsString(secondEID) then
 		firstEID = secondEID
@@ -134,21 +136,25 @@ function mod.AddCustomEffectsEID(ptype,firstEID,secondEID)
 end
 
 function mod.AddCustomEffectsOptions(name,ptype,number,label)
-    if IsString(name) and IsNumber(ptype) then
+    if IsNumber(ptype) then
         if ptype > 41 then
             if not mod.EBEIDDesc[ptype+1] then
                 mod.EBEIDDesc[ptype+1] = {}
             end
-            mod.MCMOption.Name[ptype+1] = name
+            if not IsString(name) then
+				name = "ModdedChar"..tostring(ptype+1)
+			end
+			mod.MCMOption.Name[ptype+1] = name
             if not IsNumber(number) then
 				number = 1
 			end
             if number <= 1 then number = 1 end
 			if number > 1 then number = 2 end
 			mod.MCMOption.OptionsMaxNum[ptype+1] = number == 1 and 3 or 5
-                        
+            
             mod.MCMOption.Settings[name] = 1
-            if IsString(label) then
+            
+			if IsString(label) then
                 mod.MCMOption.Labels[ptype+1] = label
             end
 
