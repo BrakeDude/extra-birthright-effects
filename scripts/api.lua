@@ -4,7 +4,15 @@ local BirthrightLangName = {en = "Birthright", ru = "Право первород
 local OnPickupFunctions = {}
 local ChangeBirthrightFunction = {}
 mod.Languages = {en = "en_us", ru = "ru", es = "spa"}
-local ExtraEffects = {en ="Extra effects:#", ru = "Дополнительные еффекты:{{CR}} #", es = ""}
+local ExtraEffects = {en ="Extra effects:#", ru = "Дополнительные еффекты:{{CR}}#", es = "Efecto extra:#"}
+
+local function IsString(eid)
+	return eid and type(eid) == "string"
+end
+
+local function IsNumber(num)
+	return num and type(num) == "number"
+end
 
 function mod.AddOnPickupFunction(func)
 	table.insert(OnPickupFunctions,func)
@@ -98,37 +106,49 @@ function mod.GetMCMValue(ptype)
 	return 1
 end
 
-function mod.AddCustomEffects(name,ptype,first,second,label)
-    if name and type(name) == "string" and ptype and type(ptype) == "number" then
+function mod.AddCustomEffectsEID(ptype,firstEID,secondEID)
+	if not mod.MCMOption.Name[ptype+1] then
+		mod.MCMOption.Name[ptype+1] = "CustomChar"..tostring(ptype+1)
+	end
+	if not mod.MCMOption.OptionsMaxNum[ptype+1] then
+		
+		mod.MCMOption.OptionsMaxNum[ptype+1] = (IsString(firstEID) and IsString(secondEID)) and 5 or ((IsString(firstEID) or IsString(secondEID)) and 3 or 1) 
+	end
+	if mod.MCMOption.OptionsMaxNum[ptype+1] == 3 and not IsString(firstEID) and IsString(secondEID) then
+		firstEID = secondEID
+		secondEID = nil
+	end
+	if IsString(firstEID) then
+		for k,v in pairs(mod.EBEIDDesc) do
+			v[ptype+1] = {EID.descriptions[mod.Languages[k]].birthright[ptype+1][3],firstEID,EID.descriptions[mod.Languages[k]].birthright[ptype+1][3].."#{{ColorRainbow}}"..ExtraEffects[k]..firstEID}
+		end
+	end
+	if IsString(secondEID) then
+		mod.MCMOption.OptionsMaxNum[ptype+1] = 5
+		for k,v in pairs(mod.EBEIDDesc) do
+			v[ptype+1][4] = v[ptype+1][3]
+			v[ptype+1][3] = secondEID
+			v[ptype+1][5] = EID.descriptions[mod.Languages[k]].birthright[ptype+1][3].."#{{ColorRainbow}}"..ExtraEffects[k]..secondEID
+		end
+	end
+end
+
+function mod.AddCustomEffectsOptions(name,ptype,number,label)
+    if IsString(name) and IsNumber(ptype) then
         if ptype > 41 then
             if not mod.EBEIDDesc[ptype+1] then
                 mod.EBEIDDesc[ptype+1] = {}
             end
             mod.MCMOption.Name[ptype+1] = name
-            mod.MCMOption.Name[ptype+1] = name
-            
-            if not first or type(first) ~= "string" and second and type(second) == "string" then
-                first = second
-                second = nil
-            end
-            if first and type(first) == "string" then
-                mod.MCMOption.OptionsMaxNum[ptype+1] = 3
-                for k,v in pairs(mod.EBEIDDesc) do
-                    v[ptype+1] = {EID.descriptions[Languages[k]].birthright[ptype+1][3],first,EID.descriptions[Languages[k]].birthright[ptype+1][3].."#{{ColorRainbow}}Extra effects:"..first}, -- Maggie
-                end
-                if second and type(second) == "string" then
-                    mod.MCMOption.OptionsMaxNum[ptype+1] = 5
-                    for k,v in pairs(mod.EBEIDDesc) do
-                        v[ptype+1][4] = v[ptype+1][3]
-                        v[ptype+1] = {EID.descriptions[Languages[k]].birthright[ptype+1][3],first,EID.descriptions[Languages[k]].birthright[ptype+1][3].."#{{ColorRainbow}}Extra effects:"..first}, -- Maggie
-                    end
-                end
-                mod.MCMOption.Settings[name] = 1
-            end
-            
-            mod.MCMOption.OptionsMaxNum[ptype+1] = maxoption
+            if not IsNumber(number) then
+				number = 1
+			end
+            if number <= 1 then number = 1 end
+			if number > 1 then number = 2 end
+			mod.MCMOption.OptionsMaxNum[ptype+1] = number == 1 and 3 or 5
+                        
             mod.MCMOption.Settings[name] = 1
-            if label and type(label) =="string" then
+            if IsString(label) then
                 mod.MCMOption.Labels[ptype+1] = label
             end
 
