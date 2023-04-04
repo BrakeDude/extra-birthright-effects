@@ -7,7 +7,6 @@ local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 mod.fliped = {}
 mod.BirthrightfloorBought = false
 mod.RNG = RNG()
-local BirthrightLangName = {en = "Birthright", ru = "Право первородства", es = "Primogenitura"}
 
 mod.Callbacks = {
 	MC_POST_PLAYER_INIT = "MC_POST_PLAYER_INIT_TEDEN",
@@ -41,25 +40,6 @@ mod.shootDirecton = {
 	[Direction.RIGHT] = Vector(1, 0),
 	[Direction.DOWN] = Vector(0, 1)
 }
-
-local OnPickupFunctions = {}
-local ChangeBirthrightFunction = {}
-
-function mod.AddOnPickupFunction(func)
-	table.insert(OnPickupFunctions,func)
-end
-
-function mod.AddBirthrightChangeCondition(func)
-	table.insert(ChangeBirthrightFunction,func)
-end
-
-local function ChangeToFakeBirthright(player)
-	local change = false
-	for _,func in ipairs(ChangeBirthrightFunction) do
-		change = change or func(player)
-	end
-	return change
-end
 
 include("scripts/api.lua")
 include("scripts/eid.lua")
@@ -213,61 +193,6 @@ end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, ExtraBirthrightLocal.EvalData)
 --#endregion
 
---#region Birthright check for first pickup effect
-function ExtraBirthrightLocal:CheckBirthrightAll(player)
-	local game = Game()
-	local ptype = player:GetPlayerType()
-	local data = mod.GetPersistentPlayerData(player)
-	if ChangeToFakeBirthright(player) then
-		if player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) then
-			player:RemoveCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
-			player:AddCollectible(substituteBirthright,0,false)
-		end	
-	else
-		if player:HasCollectible(substituteBirthright) then
-			player:RemoveCollectible(substituteBirthright)
-			player:AddCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT,0,false)
-		end
-	end
-	if player.QueuedItem.Item then
-		if player.QueuedItem.Item.ID == CollectibleType.COLLECTIBLE_BIRTHRIGHT and ChangeToFakeBirthright(player) then
-			local charName = ptype + 1
-			if mod.FakeBirthrightDesc[charName] then
-				local lang = Options.Language
-				local desc = mod.FakeBirthrightDesc[charName][lang]
-				local brname = BirthrightLangName[lang]
-				if not desc then
-					desc = mod.FakeBirthrightDesc[charName].en
-					brname = BirthrightLangName.en
-				end
-				local desci = desc[mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1]
-				Game():GetHUD():ShowItemText(brname, desci, false)
-			end
-			local queue = player.QueuedItem
-			queue.Item = nil
-			player.QueuedItem = queue
-			player:QueueItem(Isaac.GetItemConfig():GetCollectible(substituteBirthright))
-		end
-	end
-	if ptype == PlayerType.PLAYER_THESOUL_B then return end
-	if (player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) or player:HasCollectible(substituteBirthright)) and not data.gotBirthright then
-		for _,func in pairs(OnPickupFunctions) do
-			func(player)
-		end
-	end
-	data.gotBirthright = player:HasCollectible(substituteBirthright) or player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
-	if player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN or player:GetPlayerType() == PlayerType.PLAYER_THESOUL then
-		if not data.ForgottenType then
-			data.ForgottenType = player:GetPlayerType()
-		end
-		if data.ForgottenType ~= player:GetPlayerType() then
-			data.ForgottenType = player:GetPlayerType()
-			mod:BirthrightDesc()
-		end
-	end
-end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, ExtraBirthrightLocal.CheckBirthrightAll);
-
 function ExtraBirthrightLocal:UpdateTheRoom()
 	local room = Game():GetRoom()
 	mod.clearedroom = room:IsClear() and room:IsFirstVisit()
@@ -278,7 +203,6 @@ function ExtraBirthrightLocal:RemovePersistenData(entity)
 	mod.RemovePersistentPlayerData(entity)
 end
 mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, ExtraBirthrightLocal.RemovePersistenData, EntityType.ENTITY_PLAYER)
---#endregion
 
 
 Isaac.DebugString("Extra Birthright Effects loaded. Version ".. mod.Version)

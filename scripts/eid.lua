@@ -105,9 +105,9 @@ mod.EBEIDDesc = {
 	ru =
 		{
 		{EID.descriptions["ru"].birthright[1][3],"{{Collectible105}}D6 становится карманным предметом#Есть шанс поменять на предмет из пула {{TreasureRoom}}Комнаты Сокровищ, {{AngelRoom}}Комнаты Ангела или {{DevilRoom}}Комнаты Дьявола",EID.descriptions["ru"].birthright[1][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{Collectible105}}D6 становится карманным предметом#Есть шанс поменять на предмет из пула {{TreasureRoom}}Комнаты Сокровищ, {{AngelRoom}}Комнаты Ангела или {{DevilRoom}}Комнаты Дьявола"}, -- Isaac
-		{EID.descriptions["ru"].birthright[2][3],"Шанс очаровать врага в радиусе 50#{{Collectible45}}Ням сердце лечит 2 {{Heart}}красных сердца вместо одного","{{ArrowUp}}Увеличение скорости. Скорость привязана к {{HalfHeart}}красным сердцам#Скорость = скорость + ({{HalfHeart}} * 0.06)#Получает 1 {{SoulHeart}}синее сердце при переходе на новый уровень",EID.descriptions["ru"].birthright[2][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}} Шанс очаровать врага в радиусе 50#{{Collectible45}}Ням сердце лечит 2 {{Heart}}красных сердца вместо одного",EID.descriptions["ru"].birthright[2][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{ArrowUp}}Увеличение скорости. Скорость привязана к {{HalfHeart}}красным сердцам#Скорость = скорость + ({{HalfHeart}} * 0.06)#Получает 1 {{SoulHeart}}синее сердце при переходе на новый уровень"}, -- Maggie
+		{EID.descriptions["ru"].birthright[2][3],"Шанс очаровать врага в радиусе 50#{{Collectible45}}Ням сердце лечит 2 {{Heart}}красных сердца вместо одного","{{ArrowUp}}Увеличение скорости. Скорость привязана к {{HalfHeart}}красным сердцам#Скорость = скорость + ({{HalfHeart}} * 0.06)#Получает 1 {{SoulHeart}}синее сердце при переходе на новый уровень",EID.descriptions["ru"].birthright[2][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}}# Шанс очаровать врага в радиусе 50#{{Collectible45}}Ням сердце лечит 2 {{Heart}}красных сердца вместо одного",EID.descriptions["ru"].birthright[2][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{ArrowUp}}Увеличение скорости. Скорость привязана к {{HalfHeart}}красным сердцам#Скорость = скорость + ({{HalfHeart}} * 0.06)#Получает 1 {{SoulHeart}}синее сердце при переходе на новый уровень"}, -- Maggie
 		{EID.descriptions["ru"].birthright[3][3],"Есть шанс, что из врагов выпадет подбираемый предмет#Из чемпионов выпадает 2 одинаковых предмета#Если в комнате был босс, зачистив её есть шанс на появление предмета из пула текущей комнаты","У Кайна всегда {{GoldenKey}}золотой ключ", EID.descriptions["ru"].birthright[3][3].."#{{ColorRainbow}}Дополнительные еффекты:#Есть шанс, что из врагов выпадет подбираемый предмет#Из чемпионов выпадает 2 одинаковых предмета#Если в комнате был босс, зачистив её есть шанс на появление предмета из пула текущей комнаты",EID.descriptions["ru"].birthright[3][3].."#{{ColorRainbow}}Дополнительные еффекты:#У Кайна всегда {{GoldenKey}}золотой ключ"},--Cain
-		{EID.descriptions["ru"].birthright[4][3],"При подборе появляются 3 пятака#{{ArrowUp}} +5.0 к урону и эффект {{Collectible118}}Серы при получении урона в данной комнате. 20% шанс на срабатывание","Использование книг активирует эффект {{Collectible35}}некрономикона", EID.descriptions["ru"].birthright[4][3].."#{{ColorRainbow}}Дополнительные еффекты:#При подборе появляются 3 пятака#{{ArrowUp}} +5.0 к урону и эффект {{Collectible118}}Серы при получении урона в данной комнате. 20% шанс на срабатывание",EID.descriptions["ru"].birthright[4][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}} Использование книг активирует эффект {{Collectible35}}некрономикона"},--Judas
+		{EID.descriptions["ru"].birthright[4][3],"При подборе появляются 3 пятака#{{ArrowUp}} +5.0 к урону и эффект {{Collectible118}}Серы при получении урона в данной комнате. 20% шанс на срабатывание","Использование книг активирует эффект {{Collectible35}}некрономикона", EID.descriptions["ru"].birthright[4][3].."#{{ColorRainbow}}Дополнительные еффекты:#При подборе появляются 3 пятака#{{ArrowUp}} +5.0 к урону и эффект {{Collectible118}}Серы при получении урона в данной комнате. 20% шанс на срабатывание",EID.descriptions["ru"].birthright[4][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}}# Использование книг активирует эффект {{Collectible35}}некрономикона"},--Judas
 		{EID.descriptions["ru"].birthright[5][3],"{{ArrowUp}}{{SoulHeart}}Синие сердца увеличивают урон, скорострельность, скорость и дальность в зависимости от их количества#Не синие серца превращаются в другие предметы", EID.descriptions["ru"].birthright[5][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{ArrowUp}}{{SoulHeart}}Синие сердца увеличивают урон, скорострельность, скорость и дальность в зависимости от их количества#Не синие серца превращаются в другие предметы"},--Blue Baby
 		{EID.descriptions["ru"].birthright[6][3],"Получение урона иногда порождает дополнительных мертвых птиц, которые остаются при переходе в другие комнаты", EID.descriptions["ru"].birthright[6][3].."#{{ColorRainbow}}Дополнительные еффекты:#Получение урона иногда порождает дополнительных мертвых птиц, которые остаются при переходе в другие комнаты"},--Eve
 		{EID.descriptions["ru"].birthright[7][3],"{{ArrowUp}} +4 к урону#Получает способность поднимать и кидать объекты", EID.descriptions["ru"].birthright[7][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{ArrowUp}} +4 к урону#Получает способность поднимать и кидать объекты"},--Samson
@@ -134,8 +134,8 @@ mod.EBEIDDesc = {
 		{EID.descriptions["ru"].birthright[28][3],"Берсерк заряжается быстрее#Берсерк активируется по команде игрока (нажав кнопку {{ButtonRT}})", EID.descriptions["ru"].birthright[28][3].."#{{ColorRainbow}}Дополнительные еффекты:#Берсерк заряжается быстрее#Берсерк активируется по команде игрока (нажав кнопку {{ButtonRT}})"}, -- Tainted Samson
 		{EID.descriptions["ru"].birthright[29][3],"Получает эффект {{Collectible118}}Серы и способность летать",EID.descriptions["ru"].birthright[29][3].."#{{ColorRainbow}}Дополнительные еффекты:#Получает эффект {{Collectible118}}Серы и способность летать"},--Tainted Azazel
 		{EID.descriptions["ru"].birthright[30][3],"Заряд {{Collectible711}}Кувырка восстонавливается со временем",EID.descriptions["ru"].birthright[30][3].."#{{ColorRainbow}}Дополнительные еффекты:#Заряд {{Collectible711}}Кувырка восстонавливается со временем"},--Tainted Lazarus
-		{EID.descriptions["ru"].birthright[31][3],"Каждую новую комнату или при получении урона меняет эффект на эффект одного из персонажей", EID.descriptions["ru"].birthright[31][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}} Каждую новую комнату или при получении урона меняет эффект на эффект одного из персонажей"}, -- Tainted Eden
-		{EID.descriptions["ru"].birthright[32][3],"Скоро", EID.descriptions["ru"].birthright[32][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}} Скоро"}, -- Tainted Lost
+		{EID.descriptions["ru"].birthright[31][3],"Каждую новую комнату или при получении урона меняет эффект на эффект одного из персонажей", EID.descriptions["ru"].birthright[31][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}}# Каждую новую комнату или при получении урона меняет эффект на эффект одного из персонажей"}, -- Tainted Eden
+		{EID.descriptions["ru"].birthright[32][3],"Скоро", EID.descriptions["ru"].birthright[32][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}}# Скоро"}, -- Tainted Lost
 		{EID.descriptions["ru"].birthright[33][3],"Создает красную лужу которая наносит 250% урона#Каждый раз когда Лилит выстреливает ребёнком с пуповиной (зародышем), создаётся след из кровавых луж, которые наносят 150% урона", EID.descriptions["ru"].birthright[33][3].."#{{ColorRainbow}}Дополнительные еффекты:#Создает красную лужу которая наносит 250% урона#Каждый раз когда Лилит выстреливает ребёнком с пуповиной (зародышем), создаётся след из кровавых луж, которые наносят 150% урона"},--Tainted Lilith
 		{EID.descriptions["ru"].birthright[34][3],"Даёт временный урон при подборе монет, который уменьшается со временем", EID.descriptions["ru"].birthright[34][3].."#{{ColorRainbow}}Дополнительные еффекты:#Даёт временный урон при подборе монет, который уменьшается со временем"}, -- Tainted Keeper
 		{EID.descriptions["ru"].birthright[35][3],"При подборе появляются 20 саранчи всадников#2-5 саранчи всадников появляются, когда заходите в комнату с врагами","Даёт саранче бездны маленькую ауру {{Collectible331}}Божественности",EID.descriptions["ru"].birthright[35][3].."#{{ColorRainbow}}Дополнительные еффекты:#При подборе появляются 20 саранчи всадников#2-5 саранчи всадников появляются, когда заходите в комнату с врагами",EID.descriptions["ru"].birthright[35][3].."#{{ColorRainbow}}Дополнительные еффекты:#Даёт саранче бездны маленькую ауру {{Collectible331}}Божественности"},--Tainted Apollyon
@@ -179,7 +179,7 @@ es = {
 		{EID.descriptions["spa"].birthright[30][3],"{{Collectible711}} Cambio se recarga con el tiempo",EID.descriptions["spa"].birthright[30][3].."#{{ColorRainbow}}Efecto extra:#{{Collectible711}} Cambio se recarga con el tiempo"},--Tainted Lazarus
 		{EID.descriptions["spa"].birthright[31][3],"Pronto", EID.descriptions["spa"].birthright[31][3].."#{{ColorRainbow}}Efecto extra:#Pronto"}, -- Tainted Eden
 		{EID.descriptions["spa"].birthright[32][3],"Pronto", EID.descriptions["spa"].birthright[32][3].."#{{ColorRainbow}}Efecto extra:#Pronto"}, -- Tainted Lost
-		{EID.descriptions["spa"].birthright[33][3],"Genera creep rojo que provoca el daño del jugador al 250%#Cada vez que Tainted Lilith lancé al bebé umbilical, este genera un rastro de creep rojo que provoca el daño del jugador al 150%",EID.descriptions["spa"].birthright[33][3].."#{{ColorRainbow}}Efecto extra#Genera creep rojo que provoca el daño del jugador al 250%#Cada vez que Tainted Lilith lancé al bebé umbilical, este genera un rastro de creep rojo que provoca el daño del jugador al 150%"},--Tainted Lilith
+		{EID.descriptions["spa"].birthright[33][3],"Genera creep rojo que provoca el daño del jugador al 250%#Cada vez que Tainted Lilith lancé al bebé umbilical, este genera un rastro de creep rojo que provoca el daño del jugador al 150%",EID.descriptions["spa"].birthright[33][3].."#{{ColorRainbow}}Efecto extra:#Genera creep rojo que provoca el daño del jugador al 250%#Cada vez que Tainted Lilith lancé al bebé umbilical, este genera un rastro de creep rojo que provoca el daño del jugador al 150%"},--Tainted Lilith
 		{EID.descriptions["spa"].birthright[34][3],"{{Damage}} Tomar monedas dará un aumento de daño que disminuye con el tiempo", EID.descriptions["spa"].birthright[34][3].."#{{ColorRainbow}} Efecto extra:{{CR}} #{{Damage}} Tomar monedas dará un aumento de daño que disminuye con el tiempo"}, -- Tainted Keeper
 		{EID.descriptions["spa"].birthright[35][3],"Genera 20 langostas de los jinetes#Se generan 2-5 langostas de los jinetes en una habitación hostil","Otorga a las langostas de Abismo un aura de {{Collectible331}} Divinidad",EID.descriptions["spa"].birthright[35][3].."#{{ColorRainbow}}Efecto extra:#Genera 20 langostas de los jinetes#Se generan 2-5 langostas de los jinetes en una habitación hostil",EID.descriptions["spa"].birthright[35][3].."{{ColorRainbow}}Efecto extra:#Otorga a las langostas de Abismo un aura de {{Collectible331}} Divinidad"},--Tainted Apollyon
 		{EID.descriptions["spa"].birthright[36][3],"Pronto", EID.descriptions["spa"].birthright[36][3].."#{{ColorRainbow}}Efecto extra:#Pronto"}, -- Tainted Forgotten
@@ -195,55 +195,38 @@ end
 function mod:BirthrightDesc()
 	if EID then
 		local EsauName = EID:getDescriptionEntry("birthright", PlayerType.PLAYER_ESAU+1)[1] or "Esau"
-		local JandE_EN_EID = mod.EBEIDDesc.en[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.en[20][mod.MCMOption.Settings["Esau"]]
-		local JandE_RU_EID = mod.EBEIDDesc.ru[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.ru[20][mod.MCMOption.Settings["Esau"]]
-		local JandE_SPA_EID = mod.EBEIDDesc.es[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.es[20][mod.MCMOption.Settings["Esau"]]
-		for i = 1, #mod.MCMOption.Name do
-			if (i < 39 or i > 41) and i ~= 20 then
-				EID:addBirthright(i-1, mod.EBEIDDesc.en[i][mod.GetMCMValue(i-1)])
+		for k,v in pairs(mod.EBEIDDesc) do
+			local JandE_EID = v[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."#"..v[20][mod.MCMOption.Settings["Esau"]]
+			for i = 1, #mod.MCMOption.Name do	
+				if (i < 39 or i > 41) and i ~= 20 then
+					EID:addBirthright(i-1, v[i][mod.GetMCMValue(i-1)])
+				end
 			end
-		end
 
-		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_EN_EID)
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.en[39][mod.MCMOption.Settings["Tainted Lazarus"]])
-		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.en[41][mod.MCMOption.Settings["Tainted Forgotten"]])
-		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.en[40][mod.MCMOption.Settings["Tainted Jacob"]])
+			EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_EID, mod.Languages[k])
+			EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, v[39][mod.MCMOption.Settings["Tainted Lazarus"]])
+			EID:addBirthright(PlayerType.PLAYER_THESOUL_B, v[41][mod.MCMOption.Settings["Tainted Forgotten"]])
+			EID:addBirthright(PlayerType.PLAYER_JACOB2_B, v[40][mod.MCMOption.Settings["Tainted Jacob"]])
 
-
-		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_RU_EID,EID.descriptions["ru"].birthright[20][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.ru[30][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["ru"].birthright[39][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.ru[36][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["ru"].birthright[41][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.ru[38][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["ru"].birthright[39][1],"ru")
-
-		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_SPA_EID,EID.descriptions["spa"].birthright[20][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.es[30][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["spa"].birthright[39][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.es[36][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["spa"].birthright[41][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.es[38][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["spa"].birthright[39][1],"spa")
-
-		local stringEN,stringRU,stringSPA = {}, {}, {}
-		for _,player in ipairs(mod:GetPlayers()) do
-			local playerID = player:GetPlayerType()
-			if mod.MCMOption.Name[playerID+1] then
-				local i,j = 1,2
-				i,j = playerID+1,mod:GetMCMValue(playerID)
-				local birthrightDesc = EID:getDescriptionEntry("birthright", playerID+1)
-				local playerName = birthrightDesc[1] or player:GetName()
-				local icon = EID:getIcon("Player"..playerID) ~= EID.InlineIcons["ERROR"] and "{{Player"..playerID.."}}" or "{{CustomTransformation}}"
-				stringEN[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.en[i][j]
-				stringRU[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.ru[i][j]
-				stringSPA[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.es[i][j]
+			local strings = {}
+			for _,player in ipairs(mod:GetPlayers()) do
+				local playerID = player:GetPlayerType()
+				if mod.MCMOption.Name[playerID+1] then
+					local i,j = 1,2
+					i,j = playerID+1,mod:GetMCMValue(playerID)
+					local birthrightDesc = EID:getDescriptionEntry("birthright", playerID+1)
+					local playerName = birthrightDesc[1] or player:GetName()
+					local icon = EID:getIcon("Player"..playerID) ~= EID.InlineIcons["ERROR"] and "{{Player"..playerID.."}}" or "{{CustomTransformation}}"
+					strings[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..v[i][j]
+				end
 			end
-		end
-		local longStringEN,longStringRU,longStringSPA = "","",""
-		for i = 1,#mod.MCMOption.Name do
-			if stringEN[i] then
-				longStringEN = longStringEN..stringEN[i]
-				longStringRU = longStringRU..stringRU[i]
-				longStringSPA = longStringSPA..stringSPA[i]
+			local longStrings = ""
+			for i = 1,#mod.MCMOption.Name do
+				if strings[i] then
+					longStrings = longStrings..strings[i]
+				end
 			end
+			EID:addCollectible(substituteBirthright, longStrings,"Birthright", mod.Languages[k])
 		end
-		EID:addCollectible(substituteBirthright, longStringEN,"Birthright")
-		EID:addCollectible(substituteBirthright, longStringRU,"Право первородства","ru")
-		EID:addCollectible(substituteBirthright, longStringSPA,"Primogenitura","spa")
 	end
 end
