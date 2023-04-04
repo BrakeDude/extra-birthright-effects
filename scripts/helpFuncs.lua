@@ -1,6 +1,5 @@
 local mod = ExtraBirthright
 local doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
-local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 
 function mod.TheCard(subtype)
 	if (subtype >= 27 and subtype <= 30) or
@@ -204,11 +203,6 @@ function mod.EsauCheck(player)
 	return currentPlayer
 end
 
-function mod.GetOptionsBirthright(option,extra)
-	extra = extra or false
-	return (option == 2 or option == 3 and extra) and substituteBirthright or CollectibleType.COLLECTIBLE_BIRTHRIGHT
-end
-
 function mod.GetMaxCollectibleID()
     return Isaac.GetItemConfig():GetCollectibles().Size -1
 end
@@ -226,21 +220,6 @@ function mod.Shuffle(list,rng)
     return shuffled
 end
 
-function mod:GetMCMValue(ptype)
-	if ptype == PlayerType.PLAYER_THESOUL then
-		ptype = PlayerType.PLAYER_THEFORGOTTEN
-	end
-	if ptype == PlayerType.PLAYER_THESOUL_B then
-		ptype = PlayerType.PLAYER_THEFORGOTTEN_B
-	end
-	if ptype == PlayerType.PLAYER_LAZARUS2_B then
-		ptype = PlayerType.PLAYER_LAZARUS_B
-	end
-	if mod.MCMOption.Name[ptype+1] then
-		return mod.MCMOption.Settings[mod.MCMOption.Name[ptype+1]]
-	end
-	return 1
-end
 -----------------------------------
 --Helper Functions (thanks piber)--
 -----------------------------------

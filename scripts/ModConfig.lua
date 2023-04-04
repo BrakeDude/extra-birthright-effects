@@ -165,7 +165,7 @@ mod.MCMOption ={
 		{"1: Berserk charges faster and activates on player's command by pressing 'Drop' button."},--Tainted Samson
 		{"1: Gets Brimstone effect and ability to fly."},--Tainted Azazel
 		{"1: Flip charges overtime."},--Tainted Lazarus
-		{"Comming soon."},--Tainted Eden
+		{"1: Random birhright effect of other characters. Changes on new room or when taking damage."},--Tainted Eden
 		{"Comming soon."},--Tainted Lost
 		{"1: Spawn red creep that deals 250% player's damage. Every time umbilical baby is shot spawns red creep that deals 150% player's damage."},--Tainted Lilith
 		{"1: Picking up coins gives temporary damage up that wears off over time."},--Tainted Keeper

@@ -45,10 +45,21 @@ mod.FakeBirthrightDesc = {
 	[41] = {en = {"Bone shield"}, ru = {"Костяной щит"}, es = {"Escudo esquelético"}} --Tainted Soul
 }
 
-local EBEIDDesc = {}
+function mod.AddCustomSplashText(ptype,desc,lang)
+	if not lang then
+		mod.FakeBirthrightDesc[ptype] = desc
+	else
+		if not mod.FakeBirthrightDesc[ptype] then
+			mod.FakeBirthrightDesc[ptype] = {}
+		end
+		mod.FakeBirthrightDesc[ptype][lang] = desc
+	end
+end
+
+mod.EBEIDDesc = {}
 if EID then
-EBEIDDesc = {
-	EN = {
+mod.EBEIDDesc = {
+	en = {
 		{EID.descriptions["en_us"].birthright[1][3],"{{Collectible105}}D6 becomes pocket active#Has a chance to reroll into item from {{TreasureRoom}}Treasure, {{AngelRoom}}Angel or {{DevilRoom}}Devil pools",EID.descriptions["en_us"].birthright[1][3].."#{{ColorRainbow}}Extra effects:#{{Collectible105}}D6 becomes pocket active#Has a chance to reroll into item from Treasure, Angel or Devil pools"}, -- Isaac
 		{EID.descriptions["en_us"].birthright[2][3],"Chance to charm enemy in radius of 50#{{Collectible45}}Yum Heart heals 2 {{Heart}}red hearts instead of one", "{{ArrowUp}}Speed up. Speed is linked to number of {{HalfHeart}}red hearts#Speed = speed + ({{HalfHeart}} * 0.06)#Gains 1 {{SoulHeart}}soul heart when entering new level",EID.descriptions["en_us"].birthright[2][3].."#{{ColorRainbow}}Extra effects:#Chance to charm enemy in radius of 50#{{Collectible45}}Yum Heart heals 2 {{Heart}}red hearts instead of one", EID.descriptions["en_us"].birthright[2][3].."#{{ColorRainbow}}Extra effects:#{{ArrowUp}}Speed up. Speed is linked to number of {{HalfHeart}}red hearts#Speed = speed + ({{HalfHeart}} * 0.06)#Gains 1 {{SoulHeart}}soul heart when entering new level"}, -- Maggie
 		{EID.descriptions["en_us"].birthright[3][3],"Enemies have a chance to drop pickups#Champions drop 2 similar pickups#If there is boss in room, clearing it has a chance to spawn an item from room's item pool","Cain always has {{GoldenKey}}Golden Key",EID.descriptions["en_us"].birthright[3][3].."#{{ColorRainbow}}Extra effects:#Enemies have a chance to drop pickups#Champions drop 2 similar pickups#If there is boss in room, clearing it has a chance to spawn an item from room's item pool",EID.descriptions["en_us"].birthright[3][3].."#{{ColorRainbow}}Extra effects:#Cain always has {{GoldenKey}}Golden Key"},--Cain
@@ -91,7 +102,7 @@ EBEIDDesc = {
 		{EID.descriptions["en_us"].birthright[38][3],"{{ArrowUp}} +1 Health up#{{ArrowUp}} +50% Damage Multiplier#{{ArrowUp}} +1 Tears up#{{ArrowUp}} +0.3 Speed up#Dark Esau targets enemy that damaged Tainted Jacob until it's dead#{{TreasureRoom}}Treasure, {{SecretRoom}}Secret/{{SuperSecretRoom}}Super Secret and {{DevilRoom}}Devil rooms contain twise more items#Tainted Jacob dies in any form from Dark Esau's damage", "Dark Esau becomes friendly and targets enemies", EID.descriptions["en_us"].birthright[38][3].."#{{ColorRainbow}}Extra effects:#{{ArrowUp}} +1 Health up#{{ArrowUp}} +50% Damage Multiplier#{{ArrowUp}} +1 Tears up#{{ArrowUp}} +0.3 Speed up#Dark Esau targets enemy that damaged Tainted Jacob until it's dead#{{TreasureRoom}}Treasure, {{SecretRoom}}Secret/{{SuperSecretRoom}}Super Secret and {{DevilRoom}}Devil rooms contain twise more items#Tainted Jacob dies in any form from Dark Esau's damage", EID.descriptions["en_us"].birthright[38][3].."#{{ColorRainbow}}Extra effects:#Dark Esau becomes friendly and targets enemies"},--Tainted Jacob Lost
 		{EID.descriptions["en_us"].birthright[36][3],"Soul gets up to 5 bone orbitals in every hotile room", EID.descriptions["en_us"].birthright[36][3].."#{{ColorRainbow}}Extra effects:#Soul gets up to 5 bone orbitals in every hotile room"}, -- Tainted Forgotten Soul
 	},
-	RU =
+	ru =
 		{
 		{EID.descriptions["ru"].birthright[1][3],"{{Collectible105}}D6 становится карманным предметом#Есть шанс поменять на предмет из пула {{TreasureRoom}}Комнаты Сокровищ, {{AngelRoom}}Комнаты Ангела или {{DevilRoom}}Комнаты Дьявола",EID.descriptions["ru"].birthright[1][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{Collectible105}}D6 становится карманным предметом#Есть шанс поменять на предмет из пула {{TreasureRoom}}Комнаты Сокровищ, {{AngelRoom}}Комнаты Ангела или {{DevilRoom}}Комнаты Дьявола"}, -- Isaac
 		{EID.descriptions["ru"].birthright[2][3],"Шанс очаровать врага в радиусе 50#{{Collectible45}}Ням сердце лечит 2 {{Heart}}красных сердца вместо одного","{{ArrowUp}}Увеличение скорости. Скорость привязана к {{HalfHeart}}красным сердцам#Скорость = скорость + ({{HalfHeart}} * 0.06)#Получает 1 {{SoulHeart}}синее сердце при переходе на новый уровень",EID.descriptions["ru"].birthright[2][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}} Шанс очаровать врага в радиусе 50#{{Collectible45}}Ням сердце лечит 2 {{Heart}}красных сердца вместо одного",EID.descriptions["ru"].birthright[2][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{ArrowUp}}Увеличение скорости. Скорость привязана к {{HalfHeart}}красным сердцам#Скорость = скорость + ({{HalfHeart}} * 0.06)#Получает 1 {{SoulHeart}}синее сердце при переходе на новый уровень"}, -- Maggie
@@ -135,7 +146,7 @@ EBEIDDesc = {
 		{EID.descriptions["ru"].birthright[38][3],"{{ArrowUp}} +1 к здоровью#{{ArrowUp}} +50% множитель урона#{{ArrowUp}} +1 к скорострельности#{{ArrowUp}} +0.3 к скорости#Тёмный Исав фокусируется на живом враге, который нанес урон Порченному Иакову#{{TreasureRoom}}В Комнатах Сокровищ, {{SecretRoom}}Секретных/{{SuperSecretRoom}}Супер Секретных и {{DevilRoom}}Дьявольских комнатах находятся в два раза больше предметов#Порченный Иаков умирает в любой форме от урона Тёмного Исава", "Тёмный Исав становится дружелюбным и преследует врагов", EID.descriptions["ru"].birthright[38][3].."#{{ColorRainbow}}Дополнительные еффекты:#{{ArrowUp}} +1 к здоровью#{{ArrowUp}} +50% множитель урона#{{ArrowUp}} +1 к скорострельности#{{ArrowUp}} +0.3 к скорости#Тёмный Исав фокусируется на живом враге, который нанес урон Порченному Иакову#{{TreasureRoom}}В Комнатах Сокровищ, {{SecretRoom}}Секретных/{{SuperSecretRoom}}Супер Секретных и {{DevilRoom}}Дьявольских комнатах находятся в два раза больше предметов#Порченный Иаков умирает в любой форме от урона Тёмного Исава", EID.descriptions["ru"].birthright[38][3].."#{{ColorRainbow}}Дополнительные еффекты:#Тёмный Исав становится дружелюбным и преследует врагов"},--Tainted Jacob Lost
 		{EID.descriptions["ru"].birthright[36][3],"У Души появляются до 5 костяных орбиталей в каждой враждебной комнате", EID.descriptions["ru"].birthright[36][3].."#{{ColorRainbow}}Дополнительные еффекты:#У Души появляются до 5 костяных орбиталей в каждой враждебной комнате"}, -- Tainted Forgotten Soul
 	},
-SPA = {
+es = {
 		{EID.descriptions["spa"].birthright[1][3],"{{Collectible105}} El D6 se convierte en un activo de bolsillo#Tiene la posibilidad de rerollear entre la pool del {{TreasureRoom}}Tesoro, {{AngelRoom}}Ángel o {{DevilRoom}}Diablo",EID.descriptions["spa"].birthright[1][3].."#{{ColorRainbow}}Efecto extra:#{{Collectible105}}El D6 se convierte en un activo de bolsillo#Tiene la posibilidad de rerollear entre la pool del {{TreasureRoom}}Tesoro, {{AngelRoom}}Ángel o {{DevilRoom}}Diablo"}, -- Isaac
 		{EID.descriptions["spa"].birthright[2][3],"Posibilidad de encantar enemigos en un radio de 50#{{Collectible45}}Delicioso Corazón cura 2 {{Heart}} corazones rojos en vez de 1", "{{ArrowUp}} más velocidad. La velocidad está relacionada con los {{HalfHeart}} corazones rojos#Velocidad = velocidad + ({{HalfHeart}} * 0.06)#Ganas 1 {{SoulHeart}} corazón de alma al llegar a un nuevo piso",EID.descriptions["spa"].birthright[2][3].."#{{ColorRainbow}}Efecto extra:#Posibilidad de encantar enemigos en un radio de 50#{{Collectible45}}Delicioso Corazón cura 2 {{Heart}} corazones rojos en vez de 1", EID.descriptions["spa"].birthright[2][3].."#{{ColorRainbow}}Efecto extra:#{{ArrowUp}}más velocidad. La velocidad está relacionada con los {{HalfHeart}} corazones rojos#Velocidad = velocidad + ({{HalfHeart}} * 0.06)#Ganas 1 {{SoulHeart}} corazón de alma al llegar a un nuevo piso"}, -- Maggie
 		{EID.descriptions["spa"].birthright[3][3],"Los enemigos tienen la posibilidad de soltar un recolectable#Los enemigos campeones sueltan 2 recolectables similares#Si en la habitación hay un jefe, Limpiarla dará la posibilidad un objeto de la pool de la habitación actual","Cain siempre tendrá una {{GoldenKey}}llave dorada",EID.descriptions["spa"].birthright[3][3].."#{{ColorRainbow}}Efecto extra:#Los enemigos tienen la posibilidad de soltar un recolectable#Los enemigos campeones sueltan 2 recolectables similares#Si en la habitación hay un jefe, Limpiarla dará la posibilidad un objeto de la pool de la habitación actual",EID.descriptions["spa"].birthright[3][3].."#{{ColorRainbow}}Efecto extra:#Cain siempre tendrá una {{GoldenKey}}llave dorada"},--Cain
@@ -184,30 +195,30 @@ end
 function mod:BirthrightDesc()
 	if EID then
 		local EsauName = EID:getDescriptionEntry("birthright", PlayerType.PLAYER_ESAU+1)[1] or "Esau"
-		local JandE_EN_EID = EBEIDDesc.EN[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..EBEIDDesc.EN[20][mod.MCMOption.Settings["Esau"]]
-		local JandE_RU_EID = EBEIDDesc.RU[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..EBEIDDesc.RU[20][mod.MCMOption.Settings["Esau"]]
-		local JandE_SPA_EID = EBEIDDesc.SPA[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..EBEIDDesc.SPA[20][mod.MCMOption.Settings["Esau"]]
+		local JandE_EN_EID = mod.EBEIDDesc.en[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.en[20][mod.MCMOption.Settings["Esau"]]
+		local JandE_RU_EID = mod.EBEIDDesc.ru[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.ru[20][mod.MCMOption.Settings["Esau"]]
+		local JandE_SPA_EID = mod.EBEIDDesc.es[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."{{CR}}#"..mod.EBEIDDesc.es[20][mod.MCMOption.Settings["Esau"]]
 		for i = 1, #mod.MCMOption.Name do
 			if (i < 39 or i > 41) and i ~= 20 then
-				EID:addBirthright(i-1, EBEIDDesc.EN[i][mod:GetMCMValue(i-1)])
+				EID:addBirthright(i-1, mod.EBEIDDesc.en[i][mod.GetMCMValue(i-1)])
 			end
 		end
 
 		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_EN_EID)
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, EBEIDDesc.EN[39][mod.MCMOption.Settings["Tainted Lazarus"]])
-		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, EBEIDDesc.EN[41][mod.MCMOption.Settings["Tainted Forgotten"]])
-		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, EBEIDDesc.EN[40][mod.MCMOption.Settings["Tainted Jacob"]])
+		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.en[39][mod.MCMOption.Settings["Tainted Lazarus"]])
+		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.en[41][mod.MCMOption.Settings["Tainted Forgotten"]])
+		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.en[40][mod.MCMOption.Settings["Tainted Jacob"]])
 
 
 		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_RU_EID,EID.descriptions["ru"].birthright[20][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, EBEIDDesc.RU[30][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["ru"].birthright[39][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, EBEIDDesc.RU[36][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["ru"].birthright[41][1],"ru")
-		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, EBEIDDesc.RU[38][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["ru"].birthright[39][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.ru[30][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["ru"].birthright[39][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.ru[36][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["ru"].birthright[41][1],"ru")
+		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.ru[38][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["ru"].birthright[39][1],"ru")
 
 		EID:addBirthright(PlayerType.PLAYER_JACOB, JandE_SPA_EID,EID.descriptions["spa"].birthright[20][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, EBEIDDesc.SPA[30][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["spa"].birthright[39][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, EBEIDDesc.SPA[36][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["spa"].birthright[41][1],"spa")
-		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, EBEIDDesc.SPA[38][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["spa"].birthright[39][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_LAZARUS2_B, mod.EBEIDDesc.es[30][mod.MCMOption.Settings["Tainted Lazarus"]],EID.descriptions["spa"].birthright[39][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_THESOUL_B, mod.EBEIDDesc.es[36][mod.MCMOption.Settings["Tainted Forgotten"]],EID.descriptions["spa"].birthright[41][1],"spa")
+		EID:addBirthright(PlayerType.PLAYER_JACOB2_B, mod.EBEIDDesc.es[38][mod.MCMOption.Settings["Tainted Jacob"]],EID.descriptions["spa"].birthright[39][1],"spa")
 
 		local stringEN,stringRU,stringSPA = {}, {}, {}
 		for _,player in ipairs(mod:GetPlayers()) do
@@ -218,9 +229,9 @@ function mod:BirthrightDesc()
 				local birthrightDesc = EID:getDescriptionEntry("birthright", playerID+1)
 				local playerName = birthrightDesc[1] or player:GetName()
 				local icon = EID:getIcon("Player"..playerID) ~= EID.InlineIcons["ERROR"] and "{{Player"..playerID.."}}" or "{{CustomTransformation}}"
-				stringEN[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..EBEIDDesc.EN[i][j]
-				stringRU[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..EBEIDDesc.RU[i][j]
-				stringSPA[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..EBEIDDesc.SPA[i][j]
+				stringEN[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.en[i][j]
+				stringRU[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.ru[i][j]
+				stringSPA[i] = "#"..icon.." {{ColorGray}}"..playerName.."{{CR}}#"..mod.EBEIDDesc.es[i][j]
 			end
 		end
 		local longStringEN,longStringRU,longStringSPA = "","",""

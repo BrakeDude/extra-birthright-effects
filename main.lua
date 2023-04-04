@@ -61,6 +61,7 @@ local function ChangeToFakeBirthright(player)
 	return change
 end
 
+include("scripts/api.lua")
 include("scripts/eid.lua")
 include("scripts/encyclopedia.lua")
 include("scripts/ModConfig.lua")
@@ -240,9 +241,6 @@ function ExtraBirthrightLocal:CheckBirthrightAll(player)
 					brname = BirthrightLangName.en
 				end
 				local desci = desc[mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1]
-				if not desc or desc and not desci then
-					desci = "???"
-				end
 				Game():GetHUD():ShowItemText(brname, desci, false)
 			end
 			local queue = player.QueuedItem
