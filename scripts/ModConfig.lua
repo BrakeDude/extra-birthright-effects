@@ -870,7 +870,27 @@ end
 AddMCM()
 
 local function ResetOnReload(_,modd)
+	local mcmplayers = mod.MCMOption.Settings
+	local heartsdrop = mod.EBHeartsDrops.Settings
+	local chestdrop = mod.EBChestsDrops.Settings
+	local batteriesdrop = mod.EBBatteriesDrops.Settings
+	local bombsdrop = mod.EBBombsDrops
+	local cardsdrop = mod.EBCardsAndRunesDrops
+	local coinsdrop = mod.EBCoinsDrops
+	local keysdrop = mod.EBKeysDrops
+	local pillsdrop = mod.EBPillsDrops
+	local birth = mod.MCMTCainBirthright
 	mod:ResetMCM()
+	mod.MCMOption.Settings = mcmplayers
+	mod.EBHeartsDrops.Settings = heartsdrop
+	mod.EBChestsDrops.Settings = chestdrop
+	mod.EBBatteriesDrops.Settings = batteriesdrop
+	mod.EBBombsDrops = bombsdrop
+	mod.EBCardsAndRunesDrops = cardsdrop
+	mod.EBCoinsDrops = coinsdrop
+	mod.EBKeysDrops = keysdrop
+	mod.EBPillsDrops = pillsdrop
+	mod.MCMTCainBirthright = birth
 end
 mod:AddCallback(ModCallbacks.MC_PRE_MOD_UNLOAD, ResetOnReload)
 --#endregion
