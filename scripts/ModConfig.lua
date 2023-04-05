@@ -44,10 +44,11 @@ mod.MCMOption ={
 		["40"] = "Tainted Jacob Lost",
 		["41"] = "Tainted Soul"
 	},
+	Size = 41,
 	OptionsMaxNum = {
 		["1"] = 3, --Isaac
 		["2"] = 5, --Maggie
-		["3"] = 	5, --Cain
+		["3"] = 5, --Cain
 		["4"] = 5, --Judas
 		["5"] = 3, --Blue Baby
 		["6"] = 3, --Eve
@@ -512,11 +513,16 @@ local function AddMCM()
 			Info = {"Birthright effects configuration.",}
 		})
 		ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Normal characters")
-		for i=1,#mod.MCMOption.Name do
-			if mod.MCMOption.Name[i] then
+		for i = 1, mod.MCMOption.Size do
+			local k = tostring(i)
+			if i == 42 then
+				ModConfigMenu.AddSpace(MCMExtraBirthright,"Settings")
+				ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Modded characters")
+			end
+			if mod.MCMOption.Name[k] then
 				if i ~= 18 and (i < 39 or i > 41) then
 					
-					if mod.MCMOption.Name[i] == "Tainted Isaac" then
+					if mod.MCMOption.Name[k] == "Tainted Isaac" then
 						ModConfigMenu.AddSpace(MCMExtraBirthright,"Settings")
 						ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Tainted characters")
 					end
@@ -525,32 +531,28 @@ local function AddMCM()
 					{
 						Type = ModConfigMenu.OptionType.NUMBER,
 						CurrentSetting = function()
-							return mod.MCMOption.Settings[mod.MCMOption.Name[i]]
+							return mod.MCMOption.Settings[mod.MCMOption.Name[k]]
 						end,
 						Minimum = 1,
-						Maximum = mod.MCMOption.OptionsMaxNum[i],
+						Maximum = mod.MCMOption.OptionsMaxNum[k],
 						Display = function()
-							local option = mod.MCMOption.Settings[mod.MCMOption.Name[i]]
-							if mod.MCMOption.OptionsMaxNum[i] == 3 then
-								if mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 3 then
+							local option = mod.MCMOption.Settings[mod.MCMOption.Name[k]]
+							if mod.MCMOption.OptionsMaxNum[k] == 3 then
+								if mod.MCMOption.Settings[mod.MCMOption.Name[k]] == 3 then
 									option = option + 1
 								end
 							end
 							--if (mod.MCMOption.Name[i] == "Eden" or mod.MCMOption.Name[i] == "Tainted Bethany" or mod.MCMOption.Name[i] == "Tainted Magdalene") and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 2 then
 							--	option = 4
 							--end
-							return mod.MCMOption.Name[i]..': ' .. mod.MCMOption.Options[option]
+							return mod.MCMOption.Name[k]..': ' .. mod.MCMOption.Options[option]
 						end,
 						OnChange = function(currentNum)
-							mod.MCMOption.Settings[mod.MCMOption.Name[i]] = currentNum
+							mod.MCMOption.Settings[mod.MCMOption.Name[k]] = currentNum
 							mod:BirthrightDesc()
 						end,
-						Info = mod.MCMOption.Labels[i] or ""
+						Info = mod.MCMOption.Labels[k] or ""
 					})
-					if i == 41 and #mod.MCMOption.Name > 41 then
-						ModConfigMenu.AddSpace(MCMExtraBirthright,"Settings")
-						ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Modded characters")
-					end
 				end
 			end
 		end
@@ -876,7 +878,7 @@ end
 
 function mod:ReloadMCM()
 	if ModConfigMenu then
-		local mcmplayers = mod.MCMOption.Settings
+		local mcmplayers = mod.MCMOption
 		local heartsdrop = mod.EBHeartsDrops.Settings
 		local chestdrop = mod.EBChestsDrops.Settings
 		local batteriesdrop = mod.EBBatteriesDrops.Settings
@@ -887,9 +889,12 @@ function mod:ReloadMCM()
 		local pillsdrop = mod.EBPillsDrops
 		local birth = mod.MCMTCainBirthright
 		mod:ResetMCM()
-		for k,v in pairs(mcmplayers) do
+		for k,v in pairs(mcmplayers.Settings) do
 			mod.MCMOption.Settings[k] = v
 		end
+		mod.MCMOption.Size = mcmplayers.Size
+		mod.MCMOption.OptionsMaxNum = mcmplayers.OptionsMaxNum
+		mod.MCMOption.Labels = mcmplayers.Labels
 		mod.EBHeartsDrops.Settings = heartsdrop
 		mod.EBChestsDrops.Settings = chestdrop
 		mod.EBBatteriesDrops.Settings = batteriesdrop
