@@ -2,90 +2,90 @@
 local mod = ExtraBirthright
 mod.MCMOption ={
 	Name = {
-		"Isaac",
-		"Magdalene",
-		"Cain",
-		"Judas",
-		"Blue Baby", -- Blue Baby
-		"Eve",
-		"Samson",
-		"Azazel",
-		"Lazarus",
-		"Eden",
-		"The Lost",
-		"Lazarus Risen",
-		"Dark Judas",
-		"Lilith",
-		"Keeper",
-		"Apollyon",
-		"The Forgotten",
-		"The Soul",
-		"Bethany",
-		"Jacob",
-		"Esau",
-		"Tainted Isaac",
-		"Tainted Magdalene",
-		"Tainted Cain",
-		"Tainted Judas",
-		"Tainted Blue Baby",
-		"Tainted Eve",
-		"Tainted Samson",
-		"Tainted Azazel",
-		"Tainted Lazarus",
-		"Tainted Eden",
-		"Tainted Lost",
-		"Tainted Lilith",
-		"Tainted Keeper",
-		"Tainted Apollyon",
-		"Tainted Forgotten",
-		"Tainted Bethany",
-		"Tainted Jacob",
-		"Tainted Lazarus Dead",
-		"Tainted Jacob Lost",
-		"Tainted Soul"
+		["1"] = "Isaac",
+		["2"] = "Magdalene",
+		["3"] = "Cain",
+		["4"] = "Judas",
+		["5"] = "Blue Baby", -- Blue Baby
+		["6"] = "Eve",
+		["7"] = "Samson",
+		["8"] = "Azazel",
+		["9"] = "Lazarus",
+		["10"] = "Eden",
+		["11"] = "The Lost",
+		["12"] = "Lazarus Risen",
+		["13"] = "Dark Judas",
+		["14"] = "Lilith",
+		["15"] = "Keeper",
+		["16"] = "Apollyon",
+		["17"] = "The Forgotten",
+		["18"] = "The Soul",
+		["19"] = "Bethany",
+		["20"] = "Jacob",
+		["21"] = "Esau",
+		["22"] = "Tainted Isaac",
+		["23"] = "Tainted Magdalene",
+		["24"] = "Tainted Cain",
+		["25"] = "Tainted Judas",
+		["26"] = "Tainted Blue Baby",
+		["27"] = "Tainted Eve",
+		["28"] = "Tainted Samson",
+		["29"] = "Tainted Azazel",
+		["30"] = "Tainted Lazarus",
+		["31"] = "Tainted Eden",
+		["32"] = "Tainted Lost",
+		["33"] = "Tainted Lilith",
+		["34"] = "Tainted Keeper",
+		["35"] = "Tainted Apollyon",
+		["36"] = "Tainted Forgotten",
+		["37"] = "Tainted Bethany",
+		["38"] = "Tainted Jacob",
+		["39"] = "Tainted Lazarus Dead",
+		["40"] = "Tainted Jacob Lost",
+		["41"] = "Tainted Soul"
 	},
 	OptionsMaxNum = {
-		3, --Isaac
-		5, --Maggie
-		5, --Cain
-		5, --Judas
-		3, --Blue Baby
-		3, --Eve
-		3, --Samson
-		3, --Azazel
-		3, --Lazarus
-		3, --Eden
-		3, --Lost
-		3, --Lazarus Risen
-		5, --Dark Judas
-		3, --Lilith
-		3, --Keeper
-		3, --Apollyon
-		3, --Forgotten
-		3, --Soul
-		3, --Bethany
-		3, --Jacob
-		3, --Esau
-		3, --Tainted Isaac
-		3, --Tainted Magdalene
-		3, --Tainted Cain
-		3, --Tainted Judas
-		3, --Tainted Blue Baby
-		3, --Tainted Eve
-		3, --Tainted Samson
-		3, --Tainted Azazel
-		3, --Tainted Lazarus
-		3, --Tainted Eden
-		1, --Tainted Lost
-		3, --Tainted Lilith
-		3, --Tainted Keeper
-		5, --Tainted Apollyon
-		3, --Tainted Forgotten
-		3, --Tainted Bethany
-		5, --Tainted Jacob
-		3, --Tainted Lazarus Dead
-		3, --Tainted Jacob Lost
-		3, --Tainted Soul
+		["1"] = 3, --Isaac
+		["2"] = 5, --Maggie
+		["3"] = 	5, --Cain
+		["4"] = 5, --Judas
+		["5"] = 3, --Blue Baby
+		["6"] = 3, --Eve
+		["7"] = 3, --Samson
+		["8"] = 3, --Azazel
+		["9"] = 3, --Lazarus
+		["10"] = 3, --Eden
+		["11"] = 3, --Lost
+		["12"] = 3, --Lazarus Risen
+		["13"] = 5, --Dark Judas
+		["14"] = 3, --Lilith
+		["15"] = 3, --Keeper
+		["16"] = 3, --Apollyon
+		["17"] = 3, --Forgotten
+		["18"] = 3, --Soul
+		["19"] = 3, --Bethany
+		["20"] = 3, --Jacob
+		["21"] = 3, --Esau
+		["22"] = 3, --Tainted Isaac
+		["23"] = 3, --Tainted Magdalene
+		["24"] = 3, --Tainted Cain
+		["25"] = 3, --Tainted Judas
+		["26"] = 3, --Tainted Blue Baby
+		["27"] = 3, --Tainted Eve
+		["28"] = 3, --Tainted Samson
+		["29"] = 3, --Tainted Azazel
+		["30"] = 3, --Tainted Lazarus
+		["31"] = 3, --Tainted Eden
+		["32"] = 1, --Tainted Lost
+		["33"] = 3, --Tainted Lilith
+		["34"] = 3, --Tainted Keeper
+		["35"] = 5, --Tainted Apollyon
+		["36"] = 3, --Tainted Forgotten
+		["37"] = 3, --Tainted Bethany
+		["38"] = 5, --Tainted Jacob
+		["39"] = 3, --Tainted Lazarus Dead
+		["40"] = 3, --Tainted Jacob Lost
+		["41"] = 3, --Tainted Soul
 	},
 	Options = {
 		"Original Effect",
@@ -135,47 +135,47 @@ mod.MCMOption ={
 		["Tainted Jacob"] = 1
 	},
 	Labels = {
-		{"1: D6 becomes pocket active. Can reroll into items from Treasure, Angel or Devil pools."}, -- Isaac
-		{"1: Yum Heart becomes pocket active. Chance to charm nearby emenies. Yum Heart heals two red hearts instead of one. 2: Speed is linked to number of red hearts. Gain 1 Soul Heart when entering new floor."}, -- Maggie
-		{"1: Enemies drop random pickup on death. Bosses - chance for item from room's item pool. 2: Cain always has golden key (Antibirth)."},--Cain
-		{"1: 3 random coins. Chance to get on hit +5 damage and Brimsone effect for current room. 2: Using books activates Necronomicon effect (Antibirth)."},--Judas
-		{"1: The Poop becomes pocket active. Soul hearts boost stats depending on their number. Non soul hearts become other pickup (cards, pills, keys, coins, batteries)."},--Blue Baby
-		{"1: Getting hit will occasionally spawn additional Dead Birds that persist between rooms."},--Eve
-		{"1: Damage up. Samson can pick up and throw objects."},--Samson
-		{"1: 20% chance to shoot in 8 directions on hit."},--Azazel
-		{"1: Gives pocket item Haven's Call on pickup and on new floor. Using it will kill Lazarus and deal damage to enemies in the room."},--Lazarus
-		{"1: 25% chance get random passive item effect when entering room."},--Eden
-		{"1: The Lost gets revived with copies of all of his items doubled (besides birthright, active and story items), but he can't have holy mantle effect. You can get mantle effect by using Holy Card but only for current room. After that effect disappears."},--Lost
-		{"1: Gives random 3 items from angel pool and Seraphim semi-transformation for the floor. Using Haven's Call will give 3 angel items for the current room."},--Lazarus Risen
-		{"1: Getting hit damages all enemies. 2: Same as Judas second effect."},--Dark Judas
-		{"1: Spawns 2 mini Isaacs when entering hostile room, 4 - big room (L-shaped included). Box of Friends now affects mini Isaacs."},--Lilith
-		{"1: Effects of Silver Dollar and Rib of Greed. One free item per floor that costs money."},--Keeper
-		{"1: Void becomes pocket active. If there cards and/or pills in room, they will be stored. If there're stored cards and/or pills, all of them will be used at the same time"},--Apollyon
-		{"1: Loosing Bone heart will create from 6 to 9 bone orbitals. Loosing Soul heart will create from 1 to 3 wisps."},--Forgotten
-		{"1: Loosing Bone heart will create from 6 to 9 bone orbitals. Loosing Soul heart will create from 1 to 3 wisps."},--Soul
-		{"1: Curses become blessings. 100% chance for blessing."},--Bethany
-		{"1: Esau gives half of his non story passive items to Jacob in exchange for Red Stew."},--Jacob
-		{"1: 100% chance for rewards to spawn after clearing room. Only devil rooms can appear with 50% chance. Only items of quality 2 and 3 will appear"},--Esau
-		{"1: Spindown dice becomes a pocket active and using it has 10% chance for Soul of Isaac effect to proc."},--Tainted Isaac
-		{"1: Regenerates red heart after clearing room."},--Tainted Magdalene
-		{"1: Can pickup 1 item on current floor. If Tainted Cain doesn't have Birthright, he has chance to pickup Birthright without it reducing into pickups."},--Tainted Cain
-		{"1: Dark Arts become Twisted Arts. Using Twisted Arts will freeze time in a room. Longer duration compared to Dark Arts."},--Tainted Judas
-		{"1: Chance to poop out friendly dip. Having special items have a chance to get different type of dip."},--Tainted BB
-		{"1: Chance to spawn additional clot of the same type for free. Clots become more durable."},--Tainted Eve
-		{"1: Berserk charges faster and activates on player's command by pressing 'Drop' button."},--Tainted Samson
-		{"1: Gets Brimstone effect and ability to fly."},--Tainted Azazel
-		{"1: Flip charges overtime."},--Tainted Lazarus
-		{"1: Random birhright effect of other characters. Changes on new room or when taking damage."},--Tainted Eden
-		{"Comming soon."},--Tainted Lost
-		{"1: Spawn red creep that deals 250% player's damage. Every time umbilical baby is shot spawns red creep that deals 150% player's damage."},--Tainted Lilith
-		{"1: Picking up coins gives temporary damage up that wears off over time."},--Tainted Keeper
-		{"1: Spawns 20 random harbinger locusts on pickup. Entering hostile room will spawn 2-5 random locusts. 2: Abyss locusts have small Godhead aura."},--Tainted Apollyon
-		{"1: Tainted Soul gets up to 5 defensive bone orbitals every room."},--Tainted Forgotten
-		{"1: Item wisps shoot homing tears. Tear rate is the same as player's. Wisp's tears deal 40% player's damage."},--Tainted Bethany
-		{"1: +1 Health up, +50% Damage Multiplier, +1 Tears up and +0.3 Speed up. Dark Esau targets enemy that damaged Tainted Jacob, kills Tainted Jacob in one hit. 2: Dark Esau becomes friendly and targets enemies."},--Tainted Jacob
-		{"1: Flip charges overtime."},--Tainted Lazarus Dead
-		{"1: +1 Health up, +50% Damage Multiplier, +1 Tears up and +0.3 Speed up. Dark Esau targets enemy that damaged Tainted Jacob, kills Tainted Jacob in one hit. 2: Dark Esau becomes friendly and targets enemies."},--Tainted Jacob Lost
-		{"1: Tainted Soul gets up to 5 defensive bone orbitals every room."},--Tainted Soul
+		["1"] = {"1: D6 becomes pocket active. Can reroll into items from Treasure, Angel or Devil pools."}, -- Isaac
+		["2"] = {"1: Yum Heart becomes pocket active. Chance to charm nearby emenies. Yum Heart heals two red hearts instead of one. 2: Speed is linked to number of red hearts. Gain 1 Soul Heart when entering new floor."}, -- Maggie
+		["3"] = {"1: Enemies drop random pickup on death. Bosses - chance for item from room's item pool. 2: Cain always has golden key (Antibirth)."},--Cain
+		["4"] = {"1: 3 random coins. Chance to get on hit +5 damage and Brimsone effect for current room. 2: Using books activates Necronomicon effect (Antibirth)."},--Judas
+		["5"] = {"1: The Poop becomes pocket active. Soul hearts boost stats depending on their number. Non soul hearts become other pickup (cards, pills, keys, coins, batteries)."},--Blue Baby
+		["6"] = {"1: Getting hit will occasionally spawn additional Dead Birds that persist between rooms."},--Eve
+		["7"] = {"1: Damage up. Samson can pick up and throw objects."},--Samson
+		["8"] = {"1: 20% chance to shoot in 8 directions on hit."},--Azazel
+		["9"] = {"1: Gives pocket item Haven's Call on pickup and on new floor. Using it will kill Lazarus and deal damage to enemies in the room."},--Lazarus
+		["10"] = {"1: 25% chance get random passive item effect when entering room."},--Eden
+		["11"] = {"1: The Lost gets revived with copies of all of his items doubled (besides birthright, active and story items), but he can't have holy mantle effect. You can get mantle effect by using Holy Card but only for current room. After that effect disappears."},--Lost
+		["12"] = {"1: Gives random 3 items from angel pool and Seraphim semi-transformation for the floor. Using Haven's Call will give 3 angel items for the current room."},--Lazarus Risen
+		["13"] = {"1: Getting hit damages all enemies. 2: Same as Judas second effect."},--Dark Judas
+		["14"] = {"1: Spawns 2 mini Isaacs when entering hostile room, 4 - big room (L-shaped included). Box of Friends now affects mini Isaacs."},--Lilith
+		["15"] = {"1: Effects of Silver Dollar and Rib of Greed. One free item per floor that costs money."},--Keeper
+		["16"] = {"1: Void becomes pocket active. If there cards and/or pills in room, they will be stored. If there're stored cards and/or pills, all of them will be used at the same time"},--Apollyon
+		["17"] = {"1: Loosing Bone heart will create from 6 to 9 bone orbitals. Loosing Soul heart will create from 1 to 3 wisps."},--Forgotten
+		["18"] = {"1: Loosing Bone heart will create from 6 to 9 bone orbitals. Loosing Soul heart will create from 1 to 3 wisps."},--Soul
+		["19"] = {"1: Curses become blessings. 100% chance for blessing."},--Bethany
+		["20"] = {"1: Esau gives half of his non story passive items to Jacob in exchange for Red Stew."},--Jacob
+		["21"] = {"1: 100% chance for rewards to spawn after clearing room. Only devil rooms can appear with 50% chance. Only items of quality 2 and 3 will appear"},--Esau
+		["22"] = {"1: Spindown dice becomes a pocket active and using it has 10% chance for Soul of Isaac effect to proc."},--Tainted Isaac
+		["23"] = {"1: Regenerates red heart after clearing room."},--Tainted Magdalene
+		["24"] = {"1: Can pickup 1 item on current floor. If Tainted Cain doesn't have Birthright, he has chance to pickup Birthright without it reducing into pickups."},--Tainted Cain
+		["25"] = {"1: Dark Arts become Twisted Arts. Using Twisted Arts will freeze time in a room. Longer duration compared to Dark Arts."},--Tainted Judas
+		["26"] = {"1: Chance to poop out friendly dip. Having special items have a chance to get different type of dip."},--Tainted BB
+		["27"] = {"1: Chance to spawn additional clot of the same type for free. Clots become more durable."},--Tainted Eve
+		["28"] = {"1: Berserk charges faster and activates on player's command by pressing 'Drop' button."},--Tainted Samson
+		["29"] = {"1: Gets Brimstone effect and ability to fly."},--Tainted Azazel
+		["30"] = {"1: Flip charges overtime."},--Tainted Lazarus
+		["31"] = {"1: Random birhright effect of other characters. Changes on new room or when taking damage."},--Tainted Eden
+		["32"] = {"Comming soon."},--Tainted Lost
+		["33"] = {"1: Spawn red creep that deals 250% player's damage. Every time umbilical baby is shot spawns red creep that deals 150% player's damage."},--Tainted Lilith
+		["34"] = {"1: Picking up coins gives temporary damage up that wears off over time."},--Tainted Keeper
+		["35"] = {"1: Spawns 20 random harbinger locusts on pickup. Entering hostile room will spawn 2-5 random locusts. 2: Abyss locusts have small Godhead aura."},--Tainted Apollyon
+		["36"] = {"1: Tainted Soul gets up to 5 defensive bone orbitals every room."},--Tainted Forgotten
+		["37"] = {"1: Item wisps shoot homing tears. Tear rate is the same as player's. Wisp's tears deal 40% player's damage."},--Tainted Bethany
+		["38"] = {"1: +1 Health up, +50% Damage Multiplier, +1 Tears up and +0.3 Speed up. Dark Esau targets enemy that damaged Tainted Jacob, kills Tainted Jacob in one hit. 2: Dark Esau becomes friendly and targets enemies."},--Tainted Jacob
+		["39"] = {"1: Flip charges overtime."},--Tainted Lazarus Dead
+		["40"] = {"1: +1 Health up, +50% Damage Multiplier, +1 Tears up and +0.3 Speed up. Dark Esau targets enemy that damaged Tainted Jacob, kills Tainted Jacob in one hit. 2: Dark Esau becomes friendly and targets enemies."},--Tainted Jacob Lost
+		["41"] = {"1: Tainted Soul gets up to 5 defensive bone orbitals every room."},--Tainted Soul
 	},
 }
 
@@ -513,45 +513,45 @@ local function AddMCM()
 		})
 		ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Normal characters")
 		for i=1,#mod.MCMOption.Name do
-			
-			if i ~= 18 and (i < 39 or i > 41) then
+			if mod.MCMOption.Name[i] then
+				if i ~= 18 and (i < 39 or i > 41) then
+					
+					if mod.MCMOption.Name[i] == "Tainted Isaac" then
+						ModConfigMenu.AddSpace(MCMExtraBirthright,"Settings")
+						ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Tainted characters")
+					end
 
-				if i == 42 then
-					ModConfigMenu.AddSpace(MCMExtraBirthright,"Settings")
-					ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Modded characters")
-				end
-
-				if mod.MCMOption.Name[i] == "Tainted Isaac" then
-					ModConfigMenu.AddSpace(MCMExtraBirthright,"Settings")
-					ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Tainted characters")
-				end
-
-				ModConfigMenu.AddSetting(MCMExtraBirthright, "Settings",
-				{
-					Type = ModConfigMenu.OptionType.NUMBER,
-					CurrentSetting = function()
-						return mod.MCMOption.Settings[mod.MCMOption.Name[i]]
-					end,
-					Minimum = 1,
-					Maximum = mod.MCMOption.OptionsMaxNum[i],
-					Display = function()
-						local option = mod.MCMOption.Settings[mod.MCMOption.Name[i]]
-						if mod.MCMOption.OptionsMaxNum[i] == 3 then
-							if mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 3 then
-								option = option + 1
+					ModConfigMenu.AddSetting(MCMExtraBirthright, "Settings",
+					{
+						Type = ModConfigMenu.OptionType.NUMBER,
+						CurrentSetting = function()
+							return mod.MCMOption.Settings[mod.MCMOption.Name[i]]
+						end,
+						Minimum = 1,
+						Maximum = mod.MCMOption.OptionsMaxNum[i],
+						Display = function()
+							local option = mod.MCMOption.Settings[mod.MCMOption.Name[i]]
+							if mod.MCMOption.OptionsMaxNum[i] == 3 then
+								if mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 3 then
+									option = option + 1
+								end
 							end
-						end
-						--if (mod.MCMOption.Name[i] == "Eden" or mod.MCMOption.Name[i] == "Tainted Bethany" or mod.MCMOption.Name[i] == "Tainted Magdalene") and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 2 then
-						--	option = 4
-						--end
-						return mod.MCMOption.Name[i]..': ' .. mod.MCMOption.Options[option]
-					end,
-					OnChange = function(currentNum)
-						mod.MCMOption.Settings[mod.MCMOption.Name[i]] = currentNum
-						mod:BirthrightDesc()
-					end,
-					Info = mod.MCMOption.Labels[i] or ""
-				})
+							--if (mod.MCMOption.Name[i] == "Eden" or mod.MCMOption.Name[i] == "Tainted Bethany" or mod.MCMOption.Name[i] == "Tainted Magdalene") and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 2 then
+							--	option = 4
+							--end
+							return mod.MCMOption.Name[i]..': ' .. mod.MCMOption.Options[option]
+						end,
+						OnChange = function(currentNum)
+							mod.MCMOption.Settings[mod.MCMOption.Name[i]] = currentNum
+							mod:BirthrightDesc()
+						end,
+						Info = mod.MCMOption.Labels[i] or ""
+					})
+					if i == 41 and #mod.MCMOption.Name > 41 then
+						ModConfigMenu.AddSpace(MCMExtraBirthright,"Settings")
+						ModConfigMenu.AddText(MCMExtraBirthright,"Settings","Modded characters")
+					end
+				end
 			end
 		end
 
@@ -874,30 +874,38 @@ function mod:ResetMCM()
 	end
 end
 
+function mod:ReloadMCM()
+	if ModConfigMenu then
+		local mcmplayers = mod.MCMOption.Settings
+		local heartsdrop = mod.EBHeartsDrops.Settings
+		local chestdrop = mod.EBChestsDrops.Settings
+		local batteriesdrop = mod.EBBatteriesDrops.Settings
+		local bombsdrop = mod.EBBombsDrops
+		local cardsdrop = mod.EBCardsAndRunesDrops
+		local coinsdrop = mod.EBCoinsDrops
+		local keysdrop = mod.EBKeysDrops
+		local pillsdrop = mod.EBPillsDrops
+		local birth = mod.MCMTCainBirthright
+		mod:ResetMCM()
+		for k,v in pairs(mcmplayers) do
+			mod.MCMOption.Settings[k] = v
+		end
+		mod.EBHeartsDrops.Settings = heartsdrop
+		mod.EBChestsDrops.Settings = chestdrop
+		mod.EBBatteriesDrops.Settings = batteriesdrop
+		mod.EBBombsDrops = bombsdrop
+		mod.EBCardsAndRunesDrops = cardsdrop
+		mod.EBCoinsDrops = coinsdrop
+		mod.EBKeysDrops = keysdrop
+		mod.EBPillsDrops = pillsdrop
+		mod.MCMTCainBirthright = birth
+	end
+end
+
 AddMCM()
 
 local function ResetOnReload(_,modd)
-	local mcmplayers = mod.MCMOption.Settings
-	local heartsdrop = mod.EBHeartsDrops.Settings
-	local chestdrop = mod.EBChestsDrops.Settings
-	local batteriesdrop = mod.EBBatteriesDrops.Settings
-	local bombsdrop = mod.EBBombsDrops
-	local cardsdrop = mod.EBCardsAndRunesDrops
-	local coinsdrop = mod.EBCoinsDrops
-	local keysdrop = mod.EBKeysDrops
-	local pillsdrop = mod.EBPillsDrops
-	local birth = mod.MCMTCainBirthright
-	mod:ResetMCM()
-	mod.MCMOption.Settings = mcmplayers
-	mod.EBHeartsDrops.Settings = heartsdrop
-	mod.EBChestsDrops.Settings = chestdrop
-	mod.EBBatteriesDrops.Settings = batteriesdrop
-	mod.EBBombsDrops = bombsdrop
-	mod.EBCardsAndRunesDrops = cardsdrop
-	mod.EBCoinsDrops = coinsdrop
-	mod.EBKeysDrops = keysdrop
-	mod.EBPillsDrops = pillsdrop
-	mod.MCMTCainBirthright = birth
+	mod:ReloadMCM()
 end
 mod:AddCallback(ModCallbacks.MC_PRE_MOD_UNLOAD, ResetOnReload)
 --#endregion

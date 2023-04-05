@@ -2,59 +2,48 @@ local mod = ExtraBirthright
 local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 
 mod.FakeBirthrightDesc = {
-	[1] = {en = {"Pocket destiny"}, ru = {"Судьба в кармане"}, es = {"Destino de bolsillp"}}, --Isaac
-	[2] = {en = {"Lovely looks","Script from the past"}, ru = {"Прекрасная внешность", "Рукопись из прошлого"}, es = {"De apariencia bonita","Escritos del pasado"}}, --Magdalene
-	[3] = {en = {"Bloody loot","Locks don't stand a chance"}, ru = {"Кровавая добыча", "У замков нет шанса"}, es = {"Botín sangriento","Maestro de las cerraduras"}}, --Cain
-	[4] = {en = {"The inner demon","Knowledge is power"}, ru = {"Внутренний демон","Знание - сила"},es = {"Demonios internos","El conocimiento es poder"}}, --Judas
-	[5] = {en = {"Soul power"}, ru = {"Сила души"},es = {"El poder de tu alma"}}, --Blue Baby
-	[6] = {en = {"Your very own murder", "Birds of prey"}, ru = {"Твой личный убийца","Хищные птицы"},es = {"Tu propio asesinato","Aves de presa"}}, --Eve
-	[7] = {en = {"Rock and throw"}, ru = {"Бери и бросай"}, es = {"¡A rockear!"}}, --Samson
-	[8] = {en = {"Hell circle"}, ru = {"Адский круг"}, es = {"Círculo infernal"}}, --Azazel
-	[9] = {en = {"Rebirth"}, ru = {"Перерождение"}, es = {"Renacimiento"}}, --Lazarus
-	[10] = {en = {"Random effect"}, ru = {"Случайный эффект"}, es = {"Efecto aleatorio"}}, --Eden
-	[11] = {en = {"Last chance"}, ru = {"Последний шанс"}, es = {"Una última oportunidad"}}, --The Lost
-	[12] = {en = {"Rebirthed"}, ru = {"Перерожденный"}, es = {"Renacido"}}, -- Lazarus Risen
-	[13] = {en = {"Payback","Knowledge is power"}, ru = {"Расплата","Знание - сила"}, es = {"Venganza","El conocimiento es poder"}}, --Dark Judas
-	[14] = {en = {"Motherhood"}, ru = {"Материнство"}, es = {"Maternidad"}}, --Lilith
-	[15] = {en = {"Free deal"}, ru = {"Сделка за бесплатно"}, es = {"Es un trato"}}, --Keeper
-	[16] = {en = {"Stronger void"}, ru = {"Усиленная пустота"}, es = {"Vacío potenciado"}}, --Apollyon
-	[17] = {en = {"You're falling apart..."}, ru = {"Ты рассыпаешься..."}, es = {"Te caes a pedazos..."}}, --The Forgotten
-	[18] = {en = {"You're fading away..."}, ru = {"Ты исчезаешь..."}, es = {"Te estás desvaneciendo..."}}, --The Soul
-	[19] = {en = {"Blessed"}, ru = {"Благословенная"}, es = {"Bendecida"}}, --Bethany
-	[20] = {en = {"Trade"}, ru = {"Обмен"}, es = {"Intercambio"}}, --Jacob
-	[21] = {en = {"Faithless reward"}, ru = {"Вероломный награда"}, es = {"Recompensa impía"}}, --Esau
-	[22] = {en = {"Destiny-"}, ru = {"Судьба-"}, es = {"Destino-"}}, --Tainted Isaac
-	[23] = {en = {"Wounds heal"}, ru = {"Раны заживают"}, es = {"Herir te curará"}}, --Tainted Magdalene
-	[24] = {en = {"Destiny stealer"}, ru = {"Похититель судьбы"}, es = {"Ladrón del destino"}}, --Tainted Cain
-	[25] = {en = {"Master of shadows"}, ru = {"Мастер теней"}, es = {"Maestro de las sombras"}}, --Tainted Judas
-	[26] = {en = {"Stinky friends"}, ru = {"Вонючие друзья"}, es = {"Amigos apestosos"}}, --Tainted Blue Baby
-	[27] = {en = {"Stronger clots"}, ru = {"Усиленные сгусточки"}, es = {"Coágulos fortalecidos"}}, --Tainted Eve
-	[28] = {en = {"Controlled rage"}, ru = {"Контролируеммая ярость"}, es = {"Ira controlada"}}, --Tainted Samson
-	[29] = {en = {"Wings of destruction"}, ru = {"Крылья разрушения"}, es = {"Alas de la destrucción"}}, --Tainted Azazel
-	[30] = {en = {"Alive and Dead"}, ru = {"Живой и мёртвый"}, es = {"Vivo y muerto"}}, --Tainted Lazarus
-	[31] = {en = {"Random effect?"}, ru = {"Случайный эффект?"}, es = {"¿Efecto aleatorio?"}}, --Tainted Eden
-	[32] = {en = {""}, ru = {""}, es = {""}}, --Tainted Lost
-	[33] = {en = {"Hemorrhage"}, ru = {"Кровотечение"}, es = {"Hemorragia"}}, --Tainted Lilith
-	[34] = {en = {"Power of Greed"}, ru = {"Сила Жадности"}, es = {"El poder de la codicia"}}, --Tainted Keeper
-	[35] = {en = {"Locusts of apocalypse","God flies"}, ru = {"Саранча апокалипсиса","Божественные мухи"}, es = {"Langostas del apocalipsis","Moscas angelicales"}}, --Tainted Apollyon
-	[36] = {en = {"Bone shield"}, ru = {"Костяной щит"}, es = {"Escudo esquelético"}}, --Tainted Forgotten
-	[37] = {en = {"Better wisps"}, ru = {"Огоньки получше"}, es = {"Mejores flamas"}}, --Tainted Bethany
-	[38] = {en = {"No mercy","Forgiven Soul"}, ru = {"Без пощады","Прощённая душа"}, es = {"Sin piedad","Alma perdonada"}}, --Tainted Jacob
-	[39] = {en = {"Dead and Alive"}, ru = {"Мёртвый и живой"}, es = {"Vivo y muerto"}}, --Tainted Dead Lazarus
-	[40] = {en = {"No mercy","Forgiven Soul"}, ru = {"Без пощады","Прощённая душа"}, es = {"Sin piedad","Alma perdonada"}}, --Tainted Jacob Lost
-	[41] = {en = {"Bone shield"}, ru = {"Костяной щит"}, es = {"Escudo esquelético"}} --Tainted Soul
+	["1"] = {en = {"Pocket destiny"}, ru = {"Судьба в кармане"}, es = {"Destino de bolsillp"}}, --Isaac
+	["2"] = {en = {"Lovely looks","Script from the past"}, ru = {"Прекрасная внешность", "Рукопись из прошлого"}, es = {"De apariencia bonita","Escritos del pasado"}}, --Magdalene
+	["3"] = {en = {"Bloody loot","Locks don't stand a chance"}, ru = {"Кровавая добыча", "У замков нет шанса"}, es = {"Botín sangriento","Maestro de las cerraduras"}}, --Cain
+	["4"] = {en = {"The inner demon","Knowledge is power"}, ru = {"Внутренний демон","Знание - сила"},es = {"Demonios internos","El conocimiento es poder"}}, --Judas
+	["5"] = {en = {"Soul power"}, ru = {"Сила души"},es = {"El poder de tu alma"}}, --Blue Baby
+	["6"] = {en = {"Your very own murder", "Birds of prey"}, ru = {"Твой личный убийца","Хищные птицы"},es = {"Tu propio asesinato","Aves de presa"}}, --Eve
+	["7"] = {en = {"Rock and throw"}, ru = {"Бери и бросай"}, es = {"¡A rockear!"}}, --Samson
+	["8"] = {en = {"Hell circle"}, ru = {"Адский круг"}, es = {"Círculo infernal"}}, --Azazel
+	["9"] = {en = {"Rebirth"}, ru = {"Перерождение"}, es = {"Renacimiento"}}, --Lazarus
+	["10"] = {en = {"Random effect"}, ru = {"Случайный эффект"}, es = {"Efecto aleatorio"}}, --Eden
+	["11"] = {en = {"Last chance"}, ru = {"Последний шанс"}, es = {"Una última oportunidad"}}, --The Lost
+	["12"] = {en = {"Rebirthed"}, ru = {"Перерожденный"}, es = {"Renacido"}}, -- Lazarus Risen
+	["13"] = {en = {"Payback","Knowledge is power"}, ru = {"Расплата","Знание - сила"}, es = {"Venganza","El conocimiento es poder"}}, --Dark Judas
+	["14"] = {en = {"Motherhood"}, ru = {"Материнство"}, es = {"Maternidad"}}, --Lilith
+	["15"] = {en = {"Free deal"}, ru = {"Сделка за бесплатно"}, es = {"Es un trato"}}, --Keeper
+	["16"] = {en = {"Stronger void"}, ru = {"Усиленная пустота"}, es = {"Vacío potenciado"}}, --Apollyon
+	["17"] = {en = {"You're falling apart..."}, ru = {"Ты рассыпаешься..."}, es = {"Te caes a pedazos..."}}, --The Forgotten
+	["18"] = {en = {"You're fading away..."}, ru = {"Ты исчезаешь..."}, es = {"Te estás desvaneciendo..."}}, --The Soul
+	["19"] = {en = {"Blessed"}, ru = {"Благословенная"}, es = {"Bendecida"}}, --Bethany
+	["20"] = {en = {"Trade"}, ru = {"Обмен"}, es = {"Intercambio"}}, --Jacob
+	["21"] = {en = {"Faithless reward"}, ru = {"Вероломный награда"}, es = {"Recompensa impía"}}, --Esau
+	["22"] = {en = {"Destiny-"}, ru = {"Судьба-"}, es = {"Destino-"}}, --Tainted Isaac
+	["23"] = {en = {"Wounds heal"}, ru = {"Раны заживают"}, es = {"Herir te curará"}}, --Tainted Magdalene
+	["24"] = {en = {"Destiny stealer"}, ru = {"Похититель судьбы"}, es = {"Ladrón del destino"}}, --Tainted Cain
+	["25"] = {en = {"Master of shadows"}, ru = {"Мастер теней"}, es = {"Maestro de las sombras"}}, --Tainted Judas
+	["26"] = {en = {"Stinky friends"}, ru = {"Вонючие друзья"}, es = {"Amigos apestosos"}}, --Tainted Blue Baby
+	["27"] = {en = {"Stronger clots"}, ru = {"Усиленные сгусточки"}, es = {"Coágulos fortalecidos"}}, --Tainted Eve
+	["28"] = {en = {"Controlled rage"}, ru = {"Контролируеммая ярость"}, es = {"Ira controlada"}}, --Tainted Samson
+	["29"] = {en = {"Wings of destruction"}, ru = {"Крылья разрушения"}, es = {"Alas de la destrucción"}}, --Tainted Azazel
+	["30"] = {en = {"Alive and Dead"}, ru = {"Живой и мёртвый"}, es = {"Vivo y muerto"}}, --Tainted Lazarus
+	["31"] = {en = {"Random effect?"}, ru = {"Случайный эффект?"}, es = {"¿Efecto aleatorio?"}}, --Tainted Eden
+	["32"] = {en = {""}, ru = {""}, es = {""}}, --Tainted Lost
+	["33"] = {en = {"Hemorrhage"}, ru = {"Кровотечение"}, es = {"Hemorragia"}}, --Tainted Lilith
+	["34"] = {en = {"Power of Greed"}, ru = {"Сила Жадности"}, es = {"El poder de la codicia"}}, --Tainted Keeper
+	["35"] = {en = {"Locusts of apocalypse","God flies"}, ru = {"Саранча апокалипсиса","Божественные мухи"}, es = {"Langostas del apocalipsis","Moscas angelicales"}}, --Tainted Apollyon
+	["36"] = {en = {"Bone shield"}, ru = {"Костяной щит"}, es = {"Escudo esquelético"}}, --Tainted Forgotten
+	["37"] = {en = {"Better wisps"}, ru = {"Огоньки получше"}, es = {"Mejores flamas"}}, --Tainted Bethany
+	["38"] = {en = {"No mercy","Forgiven Soul"}, ru = {"Без пощады","Прощённая душа"}, es = {"Sin piedad","Alma perdonada"}}, --Tainted Jacob
+	["39"] = {en = {"Dead and Alive"}, ru = {"Мёртвый и живой"}, es = {"Vivo y muerto"}}, --Tainted Dead Lazarus
+	["40"] = {en = {"No mercy","Forgiven Soul"}, ru = {"Без пощады","Прощённая душа"}, es = {"Sin piedad","Alma perdonada"}}, --Tainted Jacob Lost
+	["41"] = {en = {"Bone shield"}, ru = {"Костяной щит"}, es = {"Escudo esquelético"}} --Tainted Soul
 }
-
-function mod.AddCustomSplashText(ptype,desc,lang)
-	if not lang then
-		mod.FakeBirthrightDesc[ptype] = desc
-	else
-		if not mod.FakeBirthrightDesc[ptype] then
-			mod.FakeBirthrightDesc[ptype] = {}
-		end
-		mod.FakeBirthrightDesc[ptype][lang] = desc
-	end
-end
 
 mod.EBEIDDesc = {}
 if EID then
@@ -198,7 +187,7 @@ function mod:BirthrightDesc()
 		for k,v in pairs(mod.EBEIDDesc) do
 			local JandE_EID = v[20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."#"..v[20][mod.MCMOption.Settings["Esau"]]
 			for i = 1, #mod.MCMOption.Name do	
-				if (i < 39 or i > 41) and i ~= 20 then
+				if (i < 39 or i > 41) and i ~= 20 and mod.MCMOption.Name[i] then
 					EID:addBirthright(i-1, v[i][mod.GetMCMValue(i-1)])
 				end
 			end

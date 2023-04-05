@@ -135,9 +135,12 @@ function ExtraBirthrightLocal:LoadItBack(isContinued)
 			mod.VisitedRooms = json.decode(loadBirthright.VisitedRooms) or {}
 		end
 		if loadBirthright.ModConfigMenu then
-			mod.MCMOption.Settings = json.decode(loadBirthright.ModConfigMenu)
+			local settings = json.decode(loadBirthright.ModConfigMenu)
+			for k,v in pairs(settings) do
+				mod.MCMOption.Settings[k] = v
+			end
 			for i = 1, #mod.MCMOption.Name do
-				if mod.MCMOption.Settings[mod.MCMOption.Name[i]] == nil then
+				if mod.MCMOption.Name[i] and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == nil then
 					mod.MCMOption.Settings[mod.MCMOption.Name[i]] = 1
 				end
 			end

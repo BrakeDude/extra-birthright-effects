@@ -47,7 +47,7 @@ local function CheckBirthrightAll(_,player)
 	end
 	if player.QueuedItem.Item then
 		if player.QueuedItem.Item.ID == CollectibleType.COLLECTIBLE_BIRTHRIGHT and ChangeToFakeBirthright(player) then
-			local charName = ptype + 1
+			local charName = tostring(ptype + 1)
 			if mod.FakeBirthrightDesc[charName] then
 				local lang = Options.Language
 				local desc = mod.FakeBirthrightDesc[charName][lang]
@@ -106,6 +106,17 @@ function mod.GetMCMValue(ptype)
 	return 1
 end
 
+function mod.AddCustomSplashText(ptype,desc,lang)
+	if not lang then
+		mod.FakeBirthrightDesc[tostring(ptype)] = desc
+	else
+		if not mod.FakeBirthrightDesc[ptype] then
+			mod.FakeBirthrightDesc[ptype] = {}
+		end
+		mod.FakeBirthrightDesc[ptype][lang] = desc
+	end
+end
+
 function mod.AddCustomEffectsEID(ptype,firstEID,secondEID)
 	if not mod.MCMOption.Name[ptype+1] then
 		mod.MCMOption.Name[ptype+1] = "ModdedChar"..tostring(ptype+1)
@@ -133,18 +144,21 @@ function mod.AddCustomEffectsEID(ptype,firstEID,secondEID)
 			v[ptype+1][5] = EID.descriptions[mod.Languages[k]].birthright[ptype+1][3].."#{{ColorRainbow}}"..ExtraEffects[k]..secondEID
 		end
 	end
+	mod:ReloadMCM()
 end
 
 function mod.AddCustomEffectsOptions(name,ptype,number,label)
     if IsNumber(ptype) then
-        if ptype > 41 then
+        --if ptype > 41 then
             if not mod.EBEIDDesc[ptype+1] then
                 mod.EBEIDDesc[ptype+1] = {}
             end
             if not IsString(name) then
 				name = "ModdedChar"..tostring(ptype+1)
 			end
-			mod.MCMOption.Name[ptype+1] = name
+			if not mod.MCMOption.Name[ptype+1] then
+				mod.MCMOption.Name[ptype+1] = name
+			end
             if not IsNumber(number) then
 				number = 1
 			end
@@ -157,10 +171,10 @@ function mod.AddCustomEffectsOptions(name,ptype,number,label)
 			if IsString(label) then
                 mod.MCMOption.Labels[ptype+1] = label
             end
-
-        else
-            Isaac.DebugString("Couldn't add effect for vanilla characters")
-        end
+			mod:ReloadMCM()
+       -- else
+        --    Isaac.DebugString("Couldn't add effect for vanilla characters")
+        --end
     else
         Isaac.DebugString("Couldn't add option for new modded character")
         print("Couldn't add option for new modded character")
