@@ -13,8 +13,7 @@ end
 
 function Esau:postGetCollectible(id, pool, decrease, seed)
     if mod.MCMOption.Settings["Esau"] > 1 then
-        for i = 1, game:GetNumPlayers() do
-            local player = Isaac.GetPlayer(i-1)
+        for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_ESAU)) do
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
             if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
                 GetNewCollectible(id, pool, decrease, seed)
@@ -24,7 +23,7 @@ function Esau:postGetCollectible(id, pool, decrease, seed)
 end
 mod:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, Esau.postGetCollectible)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_POST_GET_COLLECTIBLE, PlayerType.PLAYER_ESAU, GetNewCollectible)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_GET_COLLECTIBLE, 0, PlayerType.PLAYER_ESAU, GetNewCollectible)
 
 local function NewReward(rng,spawnpos)
     if game:IsGreedMode() then return end
@@ -86,7 +85,7 @@ function Esau:EsauReward(rng,spawnpos)
 end
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Esau.EsauReward)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_PRE_SPAWN_CLEAN_AWARD, PlayerType.PLAYER_ESAU, NewReward)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.MC_PRE_SPAWN_CLEAN_AWARD, 0, PlayerType.PLAYER_ESAU, NewReward)
 
 function Esau:OnlyForReward()
     local level = game:GetLevel()

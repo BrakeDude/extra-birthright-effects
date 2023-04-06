@@ -5,34 +5,11 @@ local currentState = PlayerType.PLAYER_AZAZEL
 
 local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 
-mod.Callbacks.Enums = {
-	MC_POST_PLAYER_INIT = 1,
-	MC_POST_PLAYER_UPDATE = 2,
-	MC_POST_PEFFECT_UPDATE = 3,
-	MC_EVALUATE_CACHE = 4,
-	MC_PRE_USE_ITEM = 5,
-	MC_USE_ITEM = 6,
-	MC_USE_CARD = 7,
-	MC_USE_PILL = 8,
-	MC_PLAYER_TAKE_DMG = 9,
-	MC_NON_PLAYER_TAKE_DMG = 10,
-	MC_POST_NEW_LEVEL = 11,
-	MC_POST_NEW_ROOM = 12,
-	MC_PRE_PLAYER_COLLISION = 13,
-	MC_PRE_PICKUP_COLLISION = 14,
-	MC_POST_NPC_DEATH = 15,
-	MC_PRE_SPAWN_CLEAN_AWARD = 16,
-	MC_PRE_GET_COLLECTIBLE = 17,
-	MC_POST_GET_COLLECTIBLE = 18,
-	MC_POST_PICKUP_INIT = 19,
-	MC_POST_PICKUP_UPDATE = 20,
-}
-
 local function ChangeEdenState(player)
     local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
     if player and player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and player:HasCollectible(col) and mod.MCMOption.Settings["Tainted Eden"] > 1 then
         local data = mod.GetPersistentPlayerData(player)
-        data.TEdenState = currentState--RNG():RandomInt(PlayerType.NUM_PLAYER_TYPES)
+        data.TEdenState = mod.RNG:RandomInt(PlayerType.NUM_PLAYER_TYPES)
     end
 end
 
@@ -84,8 +61,11 @@ function Eden:CustomCache(player,cache)
         local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_EVALUATE_CACHE)
         local data = mod.GetPersistentPlayerData(player)
         for ptype, callback in ipairs(callbacks) do
-            if data.TEdenState and callback.Priority == data.TEdenState then
-                callback.Function(player,cache)
+            if data.TEdenState and callback.PlayerType == data.TEdenState then
+                local cacheT = table.unpack(callback.Params)
+                if cache == cacheT then
+                    callback.Function(player,cache)
+                end
             end
         end
     end

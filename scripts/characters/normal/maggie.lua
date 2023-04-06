@@ -2,23 +2,27 @@
 local mod = ExtraBirthright
 local Maggie = {}
 
+local function Charm(player)
+	local rng = mod.RNG
+	local enemies = Isaac.FindInRadius(player.Position,50,EntityPartition.ENEMY)
+	for _,enemy in ipairs(enemies) do
+		if enemy:IsVulnerableEnemy() and not EntityRef(enemy).IsCharmed and rng:RandomInt(1000) < 50 then
+			local duration = rng:RandomInt(180,210) + 1
+			if enemy:IsBoss() then
+				duration = rng:RandomInt(90,120) + 1
+			end
+			enemy:AddCharmed(EntityRef(enemy),duration)
+		end
+	end
+end
+
 function Maggie:CharmingScript(player)
 	local data = mod.GetPersistentPlayerData(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
 	if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then
 		if mod.MCMOption.Settings["Magdalene"] == 2 or mod.MCMOption.Settings["Magdalene"] == 4 then
 			if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then
-				local rng = mod.RNG
-				local enemies = Isaac.FindInRadius(player.Position,50,EntityPartition.ENEMY)
-				for _,enemy in ipairs(enemies) do
-					if enemy:IsVulnerableEnemy() and not EntityRef(enemy).IsCharmed and rng:RandomInt(1000) < 50 then
-						local duration = rng:RandomInt(180,210) + 1
-						if enemy:IsBoss() then
-							duration = rng:RandomInt(90,120) + 1
-						end
-						enemy:AddCharmed(EntityRef(enemy),duration)
-					end
-				end
+				Charm(player)
 			end
 		end
 		if (mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5) then
@@ -41,21 +45,29 @@ function Maggie:CharmingScript(player)
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Maggie.CharmingScript)
 
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_MAGDALENA, Charm)
+
+local function YumHeartSuperHeal(_,_,player)
+	player:AddHearts(2)
+	for _,otherplayer in pairs(mod:GetPlayers()) do
+		if GetPtrHash(player) ~= GetPtrHash(otherplayer) then
+			player:AddHearts(1)
+		end
+	end
+end
+
 function Maggie:YumHeartBuff(_,_,player)
 	if mod.MCMOption.Settings["Magdalene"] == 2 or mod.MCMOption.Settings["Magdalene"] == 4 then
 		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
 		if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA then
-			player:AddHearts(2)
-			for _,otherplayer in pairs(mod:GetPlayers()) do
-				if GetPtrHash(player) ~= GetPtrHash(otherplayer) then
-					player:AddHearts(1)
-				end
-			end
+			YumHeartSuperHeal(_,_,player)
 		end
 	end
 	return true
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, Maggie.YumHeartBuff, CollectibleType.COLLECTIBLE_YUM_HEART)
+
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_USE_ITEM, 0, PlayerType.PLAYER_MAGDALENA, YumHeartSuperHeal, CollectibleType.COLLECTIBLE_YUM_HEART)
 
 function Maggie:MaggieStatsCache(player,cacheFlag)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)

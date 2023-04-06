@@ -3,36 +3,42 @@ local mod = ExtraBirthright
 local Judas = {}
 local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 
+local function BrimPuppet(player)
+	local data = mod.GetPersistentPlayerData(player)
+	local rngtrack = mod.RNG:RandomFloat()
+	if rngtrack <= 0.2 and not data.JudasBirthBrimstone then
+		player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_BRIMSTONE,true,1)
+		data.JudasBirthBrimstone = true
+		player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+		player:EvaluateItems()
+	end
+end
+
 function Judas:JudasBecomesStansPuppet(entity)
 	local player = entity:ToPlayer()
-	local data = mod.GetPersistentPlayerData(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Judas"],true)
 	if player:HasCollectible(collectible) and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) and player:GetPlayerType() == PlayerType.PLAYER_JUDAS then
-		local rngtrack = mod.RNG:RandomFloat()
-		if rngtrack <= 0.2 and not data.JudasBirthBrimstone then
-			player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_BRIMSTONE,true,1)
-			data.JudasBirthBrimstone = true
-			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-			player:EvaluateItems()
-		end
+		BrimPuppet(player)	
 	end
 	return nil
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Judas.JudasBecomesStansPuppet, EntityType.ENTITY_PLAYER)
+
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_JUDAS, BrimPuppet)
 
 local addedCallbacks = {}
 
 function Judas:JudasBirthBrimRemove()
 	for _,player in ipairs(mod:GetPlayers()) do
 		local data = mod.GetPersistentPlayerData(player)
-		data.JudasBirthBrimstone = false
+		data.JudasBirthBrimstone = nil
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Judas.JudasBirthBrimRemove)
 
 function Judas:JudasDamageAsStansPuppet(player,flag)
 	local data = mod.GetPersistentPlayerData(player)
-	if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and flag == CacheFlag.CACHE_DAMAGE and data.JudasBirthBrimstone then
+	if flag == CacheFlag.CACHE_DAMAGE and data.JudasBirthBrimstone then
 		player.Damage = player.Damage + 5
 	end
 end

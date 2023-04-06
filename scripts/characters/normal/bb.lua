@@ -116,7 +116,7 @@ function BB:HeartsTransform(heart)
 end
 mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, BB.HeartsTransform)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_POST_PICKUP_UPDATE, PlayerType.PLAYER_XXX, ChangeRedHeart)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PICKUP_UPDATE, 0, PlayerType.PLAYER_XXX, ChangeRedHeart)
 
 mod.AddOnPickupFunction(function(player)
 	local ptype = player:GetPlayerType()

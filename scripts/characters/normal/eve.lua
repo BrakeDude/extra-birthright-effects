@@ -25,7 +25,7 @@ function Eve:MoreBirds(player,amount,damageflag,source,cd)
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Eve.MoreBirds, EntityType.ENTITY_PLAYER)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_ENTITY_TAKE_DMG, PlayerType.PLAYER_EVE, BirdsOnDamage, EntityType.ENTITY_PLAYER)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_ENTITY_TAKE_DMG, PlayerType.PLAYER_EVE, BirdsOnDamage, EntityType.ENTITY_PLAYER)
 
 function Eve:BirdsCache(player,cache)
     local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Eve"])
@@ -35,11 +35,18 @@ function Eve:BirdsCache(player,cache)
     end
     if mod.MCMOption.Settings["Eve"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_EVE and player:HasCollectible(collectible) then
         if data.EveBirds > 0 then
-            player:CheckFamiliar(FamiliarVariant.DEAD_BIRD,data.EveBirds, RNG())
+            player:CheckFamiliar(FamiliarVariant.DEAD_BIRD,data.EveBirds, mod.RNG)
         end
     end
 end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Eve.BirdsCache, CacheFlag.CACHE_FAMILIARS)
+
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_ENTITY_TAKE_DMG, 0, PlayerType.PLAYER_EVE, function(player,cache)
+    local data = mod.GetPersistentPlayerData(player)
+    if data.EveBirds > 0 then
+        player:CheckFamiliar(FamiliarVariant.DEAD_BIRD,data.EveBirds, mod.RNG)
+    end
+end, CacheFlag.CACHE_FAMILIARS)
 
 function Eve:BirdsReset()
     for _,player in ipairs(mod:GetPlayers()) do

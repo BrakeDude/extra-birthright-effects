@@ -62,7 +62,7 @@ function Apollyon:Succ(collectible,rng,player)
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, Apollyon.Succ, CollectibleType.COLLECTIBLE_VOID)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_USE_ITEM, PlayerType.PLAYER_APOLLYON, function(collectible,rng,player,flags,ActiveSlot,customdata)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_USE_ITEM, 0, PlayerType.PLAYER_APOLLYON, function(collectible,rng,player,flags,ActiveSlot,customdata)
 	Succlogic(player)
 end, CollectibleType.COLLECTIBLE_VOID)
 

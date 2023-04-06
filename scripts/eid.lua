@@ -210,7 +210,7 @@ function mod:BirthrightDesc()
 				end
 			end
 			local longStrings = ""
-			for i = 1,#mod.MCMOption.Name do
+			for i = 1,mod.MCMOption.Size do
 				if strings[i] then
 					longStrings = longStrings..strings[i]
 				end

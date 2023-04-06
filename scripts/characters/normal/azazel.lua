@@ -17,9 +17,7 @@ function Azazel:Azazel8Brim(player)
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Azazel.Azazel8Brim, EntityType.ENTITY_PLAYER)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_ENTITY_TAKE_DMG, PlayerType.PLAYER_AZAZEL, function(player, amount, flags, source, cd)
-	rngBrim(player)
-end)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_AZAZEL, rngBrim)
 
 mod.AddBirthrightChangeCondition(function(player)
 	return player:GetPlayerType() == PlayerType.PLAYER_AZAZEL and mod.MCMOption.Settings["Azazel"] == 2

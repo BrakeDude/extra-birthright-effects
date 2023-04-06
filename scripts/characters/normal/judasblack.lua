@@ -14,6 +14,10 @@ function DJudas:DarkJudasGetsBonked(entity)
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, DJudas.DarkJudasGetsBonked, EntityType.ENTITY_PLAYER)
 
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_BLACKJUDAS, function(player)
+	player:UseActiveItem(CollectibleType.COLLECTIBLE_NECRONOMICON,false,false,false,false)
+end)
+
 mod.AddBirthrightChangeCondition(function(player)
 	return player:GetPlayerType() == PlayerType.PLAYER_BLACKJUDAS and mod.MCMOption.Settings["Dark Judas"] > 1 and mod.MCMOption.Settings["Dark Judas"] < 4
 end)

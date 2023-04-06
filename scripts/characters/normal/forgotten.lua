@@ -12,7 +12,7 @@ function Forgotten:ForgottenHit(entity)
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Forgotten.ForgottenHit, EntityType.ENTITY_PLAYER)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_PLAYER_TAKE_DAMAGE, PlayerType.PLAYER_THEFORGOTTEN, function(player)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DAMAGE, 0, PlayerType.PLAYER_THEFORGOTTEN, function(player)
     local data = mod.GetPersistentPlayerData(player)
     data.ForgottenHearts = player:GetBoneHearts()
 end)
@@ -42,7 +42,7 @@ function Forgotten:ForgottenBones(player)
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Forgotten.ForgottenBones)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_POST_PLAYER_UPDATE, PlayerType.PLAYER_THEFORGOTTEN, Bones)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_THEFORGOTTEN, Bones)
 
 function Forgotten:UpdateBones(familiar)
     if familiar.FrameCount > 15 then

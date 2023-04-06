@@ -12,7 +12,7 @@ function Soul:ForgottenSoulHit(entity,damage)
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Soul.ForgottenSoulHit, EntityType.ENTITY_PLAYER)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_PLAYER_TAKE_DAMAGE, PlayerType.PLAYER_THEFORGOTTEN, function(player, amount, flags, source, cd)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DAMAGE, 0, PlayerType.PLAYER_THEFORGOTTEN, function(player, amount, flags, source, cd)
     local data = mod.GetPersistentPlayerData(player)
     data.ForgottenSoulHearts = math.floor(amount / 2) + player:GetSoulHearts() % 2
 end)
@@ -43,7 +43,7 @@ function Soul:ForgottenSoulWisps(player)
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Soul.ForgottenSoulWisps)
 
-mod:AddPriorityCallback(mod.Callbacks.MC_POST_PLAYER_UPDATE, PlayerType.PLAYER_THESOUL, Wisps)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_THESOUL, Wisps)
 
 function Soul:UpdateSoulWisps(familiar)
     if familiar.FrameCount > 30 then
