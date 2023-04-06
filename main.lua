@@ -3,30 +3,9 @@ local mod = ExtraBirthright
 local ExtraBirthrightLocal = {}
 mod.Version = "2.44"
 local json = require("json")
-local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 mod.fliped = {}
 mod.BirthrightfloorBought = false
 mod.RNG = RNG()
-
-mod.Callbacks = {
-	MC_POST_PLAYER_INIT = "MC_POST_PLAYER_INIT_TEDEN",
-	MC_POST_PLAYER_UPDATE = "MC_POST_PLAYER_UPDATE_TEDEN",
-	MC_POST_PEFFECT_UPDATE = "MC_POST_PEFFECT_UPDATE_TEDEN",
-	MC_EVALUATE_CACHE = "MC_EVALUATE_CACHE_TEDEN",
-	MC_PRE_USE_ITEM = "MC_PRE_USE_ITEM_TEDEN",
-	MC_USE_ITEM = "MC_USE_ITEM_TEDEN",
-	MC_USE_CARD = "MC_USE_CARD_TEDEN",
-	MC_USE_PILL = "MC_USE_PILL_TEDEN",
-	MC_ENTITY_TAKE_DMG = "MC_ENTITY_TAKE_DMG_TEDEN",
-	MC_POST_NEW_LEVEL = "MC_POST_NEW_LEVEL_TEDEN",
-	MC_POST_NEW_ROOM = "MC_POST_NEW_ROOM_TEDEN",
-	MC_PRE_PLAYER_COLLISION = "MC_PRE_PLAYER_COLLISION_TEDEN",
-	MC_PRE_PICKUP_COLLISION = "MC_PRE_PICKUP_COLLISION_TEDEN",
-	MC_POST_NPC_DEATH = "MC_POST_NPC_DEATH_TEDEN",
-	MC_PRE_SPAWN_CLEAN_AWARD = "MC_PRE_SPAWN_CLEAN_AWARD_TEDEN",
-	MC_POST_GET_COLLECTIBLE = "MC_POST_GET_COLLECTIBLE_TEDEN",
-	MC_POST_PICKUP_UPDATE = "MC_POST_PICKUP_UPDATE_TEDEN",
-}
 
 mod.PlayerData = {}
 mod.FamiliarData = {}
@@ -96,7 +75,7 @@ function ExtraBirthrightLocal:SaveSomeData(isSaving)
 	end
 
 
-	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption.Settings)
+	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption)
 	saveBirthright.ModConfigMenuHearts = json.encode(mod.EBHeartsDrops.Settings)
 	saveBirthright.ModConfigMenuPills = json.encode(mod.EBPillsDrops.Settings)
 	saveBirthright.ModConfigCardsAndRunes = json.encode(mod.EBCardsAndRunesDrops.Settings)
@@ -136,12 +115,27 @@ function ExtraBirthrightLocal:LoadItBack(isContinued)
 		end
 		if loadBirthright.ModConfigMenu then
 			local settings = json.decode(loadBirthright.ModConfigMenu)
-			for k,v in pairs(settings) do
-				mod.MCMOption.Settings[k] = v
+			if settings.Size then
+				mod.MCMOption.Size = settings.Size
 			end
-			for i = 1, #mod.MCMOption.Name do
-				if mod.MCMOption.Name[i] and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == nil then
-					mod.MCMOption.Settings[mod.MCMOption.Name[i]] = 1
+			if settings.Name then
+				for k,v in pairs(settings.Name) do
+					mod.MCMOption.Name[tostring(k)] = v
+				end
+			end
+			if settings.OptionsMaxNum then
+				for k,v in pairs(settings.OptionsMaxNum) do
+					mod.MCMOption.OptionsMaxNum[tostring(k)] = v
+				end
+			end
+			if settings.Settings then
+				for k,v in pairs(settings.Settings) do
+					mod.MCMOption.Settings[tostring(k)] = v
+				end
+			end
+			if settings.Labels then
+				for k,v in pairs(settings.Labels) do
+					mod.MCMOption.Labels[tostring(k)] = v
 				end
 			end
 		end
@@ -169,6 +163,7 @@ function ExtraBirthrightLocal:LoadItBack(isContinued)
 		if loadBirthright.BirthrightStealChance then
 			mod.MCMTCainBirthright["BirthrightYoink"] = loadBirthright.BirthrightStealChance
 		end
+		mod:ReloadMCM()
 	end
 	mod:BirthrightDesc()
 	for _,player in ipairs(mod:GetPlayers()) do

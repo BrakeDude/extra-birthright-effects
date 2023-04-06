@@ -12,24 +12,37 @@ function Forgotten:ForgottenHit(entity)
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Forgotten.ForgottenHit, EntityType.ENTITY_PLAYER)
 
+mod:AddPriorityCallback(mod.Callbacks.MC_PLAYER_TAKE_DAMAGE, PlayerType.PLAYER_THEFORGOTTEN, function(player)
+    local data = mod.GetPersistentPlayerData(player)
+    data.ForgottenHearts = player:GetBoneHearts()
+end)
+
+local function Bones(player)
+    local data = mod.GetPersistentPlayerData(player)
+    if data.ForgottenHearts then
+        if player:GetBoneHearts() < data.ForgottenHearts then
+            for i = 1, math.min(6,mod.RNG:RandomInt(10)) do
+                local bone = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0 , player.Position, Vector.Zero, player):ToFamiliar()
+                mod:GetData(bone).BoneAfter = bone.EntityCollisionClass
+                bone.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
+                
+            end
+        end
+        data.ForgottenHearts = nil
+    end
+end
+
 function Forgotten:ForgottenBones(player)
 	if mod.MCMOption.Settings["The Forgotten"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN then
-		local data = mod.GetPersistentPlayerData(player)
 	    local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"])
-        if data.ForgottenHearts and player:HasCollectible(collectible) then
-            if player:GetBoneHearts() < data.ForgottenHearts then
-                for i = 1, math.min(6,mod.RNG:RandomInt(10)) do
-                    local bone = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0 , player.Position, Vector.Zero, player):ToFamiliar()
-                    mod:GetData(bone).BoneAfter = bone.EntityCollisionClass
-                    bone.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
-                    
-                end
-            end
-            data.ForgottenHearts = nil
+        if player:HasCollectible(collectible) then
+            Bones(player)
         end
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Forgotten.ForgottenBones)
+
+mod:AddPriorityCallback(mod.Callbacks.MC_POST_PLAYER_UPDATE, PlayerType.PLAYER_THEFORGOTTEN, Bones)
 
 function Forgotten:UpdateBones(familiar)
     if familiar.FrameCount > 15 then
