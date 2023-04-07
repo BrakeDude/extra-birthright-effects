@@ -12,7 +12,7 @@ function Forgotten:ForgottenHit(entity)
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Forgotten.ForgottenHit, EntityType.ENTITY_PLAYER)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DAMAGE, 0, PlayerType.PLAYER_THEFORGOTTEN, function(player)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_THEFORGOTTEN, function(player)
     local data = mod.GetPersistentPlayerData(player)
     data.ForgottenHearts = player:GetBoneHearts()
 end)

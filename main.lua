@@ -101,41 +101,31 @@ function ExtraBirthrightLocal:LoadItBack(isContinued)
 	if mod:HasData() then
 		local loadBirthright = json.decode(mod:LoadData())
 		if isContinued then
-			if tonumber(loadBirthright.Version) < tonumber(mod.Version) then
-				for i = 1, game:GetNumPlayers()  do
-					local player = Isaac.GetPlayer(i-1)
-					player:GetData().ExtraBirthright = json.decode(loadBirthright["player_"..tostring(i)].PlayerData)
-				end
-			else
-				mod.PlayerData = json.decode(loadBirthright.PlayerData)
-				mod.FamiliarData = json.decode(loadBirthright.FamiliarData)
-			end
+			mod.PlayerData = json.decode(loadBirthright.PlayerData)
+			mod.FamiliarData = json.decode(loadBirthright.FamiliarData)
 			mod.BirthrightfloorBought = json.decode(loadBirthright.BirthrightfloorBought) or false
 			mod.VisitedRooms = json.decode(loadBirthright.VisitedRooms) or {}
 		end
 		if loadBirthright.ModConfigMenu then
 			local settings = json.decode(loadBirthright.ModConfigMenu)
-			if settings.Size then
-				mod.MCMOption.Size = settings.Size
-			end
 			if settings.Name then
-				for k,v in pairs(settings.Name) do
-					mod.MCMOption.Name[tostring(k)] = v
+				for k,v in ipairs(settings.Name) do
+					mod.MCMOption.Name[k] = v
 				end
 			end
 			if settings.OptionsMaxNum then
 				for k,v in pairs(settings.OptionsMaxNum) do
-					mod.MCMOption.OptionsMaxNum[tostring(k)] = v
+					mod.MCMOption.OptionsMaxNum[k] = v
 				end
 			end
 			if settings.Settings then
 				for k,v in pairs(settings.Settings) do
-					mod.MCMOption.Settings[tostring(k)] = v
+					mod.MCMOption.Settings[k] = v
 				end
 			end
 			if settings.Labels then
 				for k,v in pairs(settings.Labels) do
-					mod.MCMOption.Labels[tostring(k)] = v
+					mod.MCMOption.Labels[k] = v
 				end
 			end
 		end

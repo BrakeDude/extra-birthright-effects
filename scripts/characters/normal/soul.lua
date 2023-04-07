@@ -12,7 +12,7 @@ function Soul:ForgottenSoulHit(entity,damage)
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Soul.ForgottenSoulHit, EntityType.ENTITY_PLAYER)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DAMAGE, 0, PlayerType.PLAYER_THEFORGOTTEN, function(player, amount, flags, source, cd)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_THEFORGOTTEN, function(player, amount, flags, source, cd)
     local data = mod.GetPersistentPlayerData(player)
     data.ForgottenSoulHearts = math.floor(amount / 2) + player:GetSoulHearts() % 2
 end)

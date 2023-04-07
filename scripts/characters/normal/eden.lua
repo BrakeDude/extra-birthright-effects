@@ -40,7 +40,7 @@ function Eden:EdenRandomItemEffect()
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Eden.EdenRandomItemEffect)
 
-mod.AddCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_EDEN, function()
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_EDEN, function()
     for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN_B)) do
         local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
         local data = mod.GetPersistentPlayerData(player)

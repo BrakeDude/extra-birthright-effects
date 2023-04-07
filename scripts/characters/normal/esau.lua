@@ -85,7 +85,7 @@ function Esau:EsauReward(rng,spawnpos)
 end
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Esau.EsauReward)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.MC_PRE_SPAWN_CLEAN_AWARD, 0, PlayerType.PLAYER_ESAU, NewReward)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_SPAWN_CLEAN_AWARD, 0, PlayerType.PLAYER_ESAU, NewReward)
 
 function Esau:OnlyForReward()
     local level = game:GetLevel()

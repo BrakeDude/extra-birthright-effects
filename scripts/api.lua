@@ -41,7 +41,7 @@ mod.Callbacks.Enums = {
 local highestID = 0
 for _,v in pairs(mod.Callbacks.Enums) do
 	highestID = math.max(v, highestID)
-	mod.Callbacks.TEdenCallbacks[v] = mod.Callbacks.TEdenCallbacks or {}
+	mod.Callbacks.TEdenCallbacks[v] = mod.Callbacks.TEdenCallbacks[v] or {}
 end
 
 function mod.AddCustomCallback(modID, id, priority, character, fn, ...)
@@ -81,11 +81,11 @@ function mod.UnregisterCustomCallbacks(modID)
         end
     end
 end
---#endregion
 
 function mod.GetCustomCallbacks(id)
 	return mod.Callbacks.TEdenCallbacks[id]
 end
+--#endregion
 
 function mod.IsString(str)
 	return str and type(str) == "string"
@@ -185,90 +185,92 @@ function mod.GetMCMValue(ptype)
 	if ptype == PlayerType.PLAYER_LAZARUS2_B then
 		ptype = PlayerType.PLAYER_LAZARUS_B
 	end
-	if mod.MCMOption.Name[tostring(ptype+1)] then
-		return mod.MCMOption.Settings[mod.MCMOption.Name[tostring(ptype+1)]]
+	if mod.MCMOption.Name[ptype+1] then
+		return mod.MCMOption.Settings[mod.MCMOption.Name[ptype+1]]
 	end
 	return 1
 end
 
-function mod.AddCustomSplashText(ptype,desc,lang)
-	if not lang then
-		mod.FakeBirthrightDesc[tostring(ptype)] = desc
-	else
-		if not mod.FakeBirthrightDesc[tostring(ptype)] then
-			mod.FakeBirthrightDesc[tostring(ptype)] = {}
-		end
-		mod.FakeBirthrightDesc[tostring(ptype)][lang] = desc
+function mod.AddCustomEffectsMCM(name,number,label,splash1,firstEID,splash2,secondEID)
+    number = type(number) == "boolean" and number or false
+	label = mod.IsString(label) and label or ""
+	--if ptype > 41 then
+	local size = #mod.MCMOption.Name + 1
+	local ch = tostring(size)
+	for k,v in pairs(mod.Languages) do
+		mod.EBEIDDesc[k][size] = {}
 	end
+	if not mod.IsString(name) then
+		name = "ModdedChar"..ch
+	end
+	if not mod.MCMOption.Name[size] then
+		mod.MCMOption.Name[size] = name
+	end
+
+	mod.MCMOption.OptionsMaxNum[size] = number and 5 or 3
+	
+	mod.MCMOption.Settings[name] = 1
+	mod.MCMOption.Labels[size] = label
+	mod.FakeBirthrightDesc[size] = {}
+
+	for k,v in pairs(mod.Languages) do
+		mod.FakeBirthrightDesc[size][k] = mod.IsTable(splash1) and ((mod.IsString(splash1[k])) and {splash1[k]} or {"???"}) or {"???"}
+		mod.FakeBirthrightDesc[size][k][2] = mod.IsTable(splash2) and (mod.IsString(splash2[k]) and splash2[k] or "???") or "???"
+	end
+	
+	if mod.IsTable(firstEID) then
+		for k,v in pairs(mod.EBEIDDesc) do
+			mod.EBEIDDesc[k][size] = {}		
+			local birthrightDesc = EID.descriptions[mod.Languages[k]].birthright[size] and EID.descriptions[mod.Languages[k]].birthright[size][3] or "???"			
+			if mod.IsString(firstEID[k]) then
+				mod.EBEIDDesc[k][size] = {birthrightDesc,firstEID[k],birthrightDesc.."#{{ColorRainbow}}"..ExtraEffects[k].."{{CR}}#"..firstEID[k]}
+			else
+				mod.EBEIDDesc[k][size] = {birthrightDesc, mod.FakeBirthrightDesc[size][k][1], birthrightDesc}
+			end
+		end
+	end
+
+	if mod.MCMOption.OptionsMaxNum[size] == 5 and mod.IsTable(secondEID) then
+		
+		for k,v in pairs(mod.EBEIDDesc) do
+			local birthrightDesc = EID.descriptions[mod.Languages[k]].birthright[size] and EID.descriptions[mod.Languages[k]].birthright[size][3] or "???"
+			mod.EBEIDDesc[k][size][4] = mod.EBEIDDesc[k][size][3]
+			if mod.IsString(secondEID[k]) then
+				mod.EBEIDDesc[k][size][3] = secondEID[k]
+				mod.EBEIDDesc[k][size][5] = birthrightDesc.."#{{ColorRainbow}}"..ExtraEffects[k].."{{CR}}#"..secondEID[k]
+			else
+				mod.EBEIDDesc[k][size][3] = mod.FakeBirthrightDesc[size][k][2]
+				mod.EBEIDDesc[k][size][5] = birthrightDesc
+			end
+		end
+	end
+
+	mod:ReloadMCM()
+	-- else
+	--    Isaac.DebugString("Couldn't add effect for vanilla characters")
+	--end
 end
 
-function mod.AddCustomEffectsOptions(name,ptype,number,label,splash1,firstEID,splash2,secondEID)
-    if mod.IsNumber(ptype) then
-        --if ptype > 41 then
-			local ch = tostring(ptype+1)
-            for k,v in pairs(mod.Languages) do
-				mod.EBEIDDesc[k][ch] = {}
-			end
-            if not mod.IsString(name) then
-				name = "ModdedChar"..ch
-			end
-			if not mod.MCMOption.Name[ch] then
-				mod.MCMOption.Name[ch] = name
-			end
-            if not mod.IsNumber(number) then
-				number = 1
-			end
-            if number <= 1 then number = 1 end
-			if number > 1 then number = 2 end
-			mod.MCMOption.OptionsMaxNum[ch] = number == 1 and 3 or 5
-            
-            mod.MCMOption.Settings[name] = 1
-            
-			if mod.IsString(label) then
-                mod.MCMOption.Labels[ch] = label
-            end
-			mod.MCMOption.Size = mod.MCMOption.Size < (ptype + 1) and (ptype + 1) or mod.MCMOption.Size
+function mod.RemoveCustomEffectsOptions(name)
+	local ch = 41
+	for i = #mod.MCMOption.Name, 42, -1 do
+		if mod.MCMOption.Name[i] == name then
+			ch = i
+			break
+		end
+	end
+	if ch > 41 then
+		for k,v in pairs(mod.Languages) do
+			mod.EBEIDDesc[k][ch] = nil
+		end
+		mod.MCMOption.Name[ch] = nil
+		mod.MCMOption.OptionsMaxNum[ch] = nil
+		mod.MCMOption.Labels[ch] = nil
+		mod.FakeBirthrightDesc[ch] = nil
+	end
+	mod:ReloadMCM()
+end
 
-			mod.FakeBirthrightDesc[ch] = {}
-			
-			for k,v in pairs(mod.Languages) do
-				mod.FakeBirthrightDesc[ch][k] = mod.IsTable(splash1) and ((mod.IsString(splash1[k])) and {splash1[k]} or {"???"}) or {"???"}
-				mod.FakeBirthrightDesc[ch][k][2] = mod.IsTable(splash2) and (mod.IsString(splash2[k]) and splash2[k] or "???") or "???"
-			end
-			
-			if mod.IsTable(firstEID) then
-				for k,v in pairs(mod.EBEIDDesc) do
-					mod.EBEIDDesc[k][ch] = {}		
-					local birthrightDesc = EID.descriptions[mod.Languages[k]].birthright[ptype+1] and EID.descriptions[mod.Languages[k]].birthright[ptype+1][3] or "???"			
-					if mod.IsString(firstEID[k]) then
-						mod.EBEIDDesc[k][ch] = {birthrightDesc,firstEID[k],birthrightDesc.."#{{ColorRainbow}}"..ExtraEffects[k].."{{CR}}#"..firstEID[k]}
-					else
-						mod.EBEIDDesc[k][ch] = {birthrightDesc, mod.FakeBirthrightDesc[ch][k][1], birthrightDesc}
-					end
-				end
-			end
-	
-			if mod.MCMOption.OptionsMaxNum[ch] == 5 and mod.IsTable(secondEID) then
-				
-				for k,v in pairs(mod.EBEIDDesc) do
-					local birthrightDesc = EID.descriptions[mod.Languages[k]].birthright[ptype+1] and EID.descriptions[mod.Languages[k]].birthright[ptype+1][3] or "???"
-					mod.EBEIDDesc[k][ch][4] = mod.EBEIDDesc[k][ch][3]
-					if mod.IsString(secondEID[k]) then
-						mod.EBEIDDesc[k][ch][3] = secondEID[k]
-						mod.EBEIDDesc[k][ch][5] = birthrightDesc.."#{{ColorRainbow}}"..ExtraEffects[k].."{{CR}}#"..secondEID[k]
-					else
-						mod.EBEIDDesc[k][ch][3] = mod.FakeBirthrightDesc[ch][k][2]
-						mod.EBEIDDesc[k][ch][5] = birthrightDesc
-					end
-				end
-			end
-
-			mod:ReloadMCM()
-       -- else
-        --    Isaac.DebugString("Couldn't add effect for vanilla characters")
-        --end
-    else
-        Isaac.DebugString("Couldn't add option for new modded character")
-        print("Couldn't add option for new modded character")
-    end
+if mod.Callbacks and mod.Callbacks.TEdenCallbacks and mod.UnregisterCustomCallbacks then
+    mod.UnregisterCustomCallbacks("ExtraBirthright")
 end
