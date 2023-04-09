@@ -120,34 +120,39 @@ local function HasItemInList(player,list)
     return false
 end
 
+local function Poop(player)
+    local dirtyMind = player:HasCollectible(CollectibleType.COLLECTIBLE_DIRTY_MIND) and 3 or 1
+    if mod.RNG:RandomFloat() < 0.15 * dirtyMind then
+        local type = dipVariant.DIP_NORMAL
+        if HasItemInList(player,RedList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_RED
+        elseif HasItemInList(player,AshList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_BLACK
+        elseif HasItemInList(player,FireList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_FLAMING
+        elseif HasItemInList(player,StoneList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_STONE
+        elseif HasItemInList(player,VirusList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_POISON
+        elseif HasItemInList(player,GoldList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_GOLDEN
+        elseif HasItemInList(player,HolyList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_HOLY
+        elseif HasItemInList(player,CornList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_CORNY
+        end
+        player:AddFriendlyDip(type,player.Position)
+        Game():Fart(player.Position, 30, player,1,0,Color(1.8,0.7,1.5))
+    end
+end
+
 function BB:BBShooting(tear)
     local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Blue Baby"])
 	if mod.MCMOption.Settings["Tainted Blue Baby"] > 1 then
         local player = mod:GetPlayerFromTear(tear)
         if player then
-            local rng = mod.RNG
-            local dirtyMind = player:HasCollectible(CollectibleType.COLLECTIBLE_DIRTY_MIND) and 3 or 1
-            if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_XXX_B and rng:RandomFloat() < 0.15 * dirtyMind then
-                local type = dipVariant.DIP_NORMAL
-                if HasItemInList(player,RedList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_RED
-                elseif HasItemInList(player,AshList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_BLACK
-                elseif HasItemInList(player,FireList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_FLAMING
-                elseif HasItemInList(player,StoneList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_STONE
-                elseif HasItemInList(player,VirusList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_POISON
-                elseif HasItemInList(player,GoldList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_GOLDEN
-                elseif HasItemInList(player,HolyList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_HOLY
-                elseif HasItemInList(player,CornList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_CORNY
-                end
-                player:AddFriendlyDip(type,player.Position)
-                Game():Fart(player.Position, 30, player,1,0,Color(1.8,0.7,1.5))
+            if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_XXX_B then
+                Poop(player)
             end
         end
     end

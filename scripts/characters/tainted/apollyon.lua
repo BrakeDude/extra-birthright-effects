@@ -1,5 +1,6 @@
 local mod = ExtraBirthright
 local Appolyon = {}
+local game = Game()
 --#region Tainted Apollyon
 
 function Appolyon:LocustHolyAura(locust)
@@ -45,25 +46,35 @@ function Appolyon:LocustHolyAura(locust)
 end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Appolyon.LocustHolyAura,FamiliarVariant.ABYSS_LOCUST)
 
-function Appolyon:NewLocusts()
-	local game = Game()
+local function RoomSpawn(player)
 	local room = game:GetRoom()
+	if room:IsFirstVisit() and not room:IsClear() then
+		local spawncount = mod.RNG:RandomInt(5)+1
+		spawncount = spawncount < 2 and 2 or spawncount
+		for x = 1,spawncount do
+			local rnglocust = mod.RNG:RandomInt(5)+1
+			Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
+		end
+	end
+end
+
+function Appolyon:NewLocusts()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Apollyon"],true)
 	if mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4 then
-		for i = 1, game:GetNumPlayers() do
-			local player = Isaac.GetPlayer(i-1)
-			if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and player:HasCollectible(collectible) and room:IsFirstVisit() and not room:IsClear() then
-				local spawncount = mod.RNG:RandomInt(5)+1
-				spawncount = spawncount < 2 and 2 or spawncount
-				for x = 1,spawncount do
-					local rnglocust = mod.RNG:RandomInt(5)+1
-					Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
-				end
+		for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_APOLLYON_B)) do
+			if player:HasCollectible(collectible) then
+				RoomSpawn(player)
 			end
 		end
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Appolyon.NewLocusts)
+
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_APOLLYON_B, function()
+	for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN_B)) do
+		RoomSpawn(player)
+	end
+end)
 
 mod.AddOnPickupFunction(function(player)
 	local ptype = player:GetPlayerType()
