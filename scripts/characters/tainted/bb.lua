@@ -162,6 +162,17 @@ mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, BB.BBShooting)
 mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT, BB.BBShooting)
 mod:AddCallback(ModCallbacks.MC_POST_BOMB_INIT, BB.BBShooting)
 
+local function PoopShoot(tear)
+    local player = mod:GetPlayerFromTear(tear)
+    if player then
+        Poop(player)
+    end
+end
+
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_FIRE_TEAR, 0, PlayerType.PLAYER_XXX_B, PoopShoot)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_LASER_INIT, 0, PlayerType.PLAYER_XXX_B, PoopShoot)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_BOMB_INIT, 0, PlayerType.PLAYER_XXX_B, PoopShoot)
+
 mod.AddBirthrightChangeCondition(function(player)
 	return player:GetPlayerType() == PlayerType.PLAYER_XXX_B and mod.MCMOption.Settings["Tainted Blue Baby"] == 2
 end)

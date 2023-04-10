@@ -74,10 +74,9 @@ end
 function Esau:EsauReward(rng,spawnpos)
     if mod.MCMOption.Settings["Esau"] > 1
     and not game:IsGreedMode() then
-        for i = 1, game:GetNumPlayers() do
-            local player = Isaac.GetPlayer(i-1)
+        for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_ESAU)) do
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
-            if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
+            if player:HasCollectible(collectible) then
                 NewReward(rng,spawnpos)
             end
         end
@@ -90,9 +89,8 @@ mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_SPAWN_CLEAN_
 function Esau:OnlyForReward()
     local level = game:GetLevel()
     if mod.MCMOption.Settings["Esau"] > 1 then
-        for i = 1, game:GetNumPlayers() do
+        for _,player in ipairs(mod:GetplayersByType(PlayerType.PLAYER_ESAU)) do
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
-            local player = Isaac.GetPlayer(i-1)
             if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
                 level:DisableDevilRoom()
             end
@@ -110,6 +108,12 @@ function Esau:NoDuality(player)
                 if player:HasCollectible(CollectibleType.COLLECTIBLE_DUALITY) then
                     player:RemoveCollectible(CollectibleType.COLLECTIBLE_DUALITY)
                 end
+            end
+            local itempool = game:GetItemPool()
+            local pooltype = itempool:GetLastPool()
+            for _,item in ipairs(Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, CollectibleType.COLLECTIBLE_DUALITY)) do
+                local newitem = itempool:GetCollectible(pooltype)
+                item:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newitem, true, true)
             end
         end
     end
@@ -154,6 +158,8 @@ mod.AddOnPickupFunction(function(player)
     end
     if ptype == PlayerType.PLAYER_ESAU and mod.MCMOption.Settings["Esau"] > 1 then
         game:GetLevel():DisableDevilRoom()
+        local itempool = game:GetItemPool()
+        itempool:RemoveCollectible(CollectibleType.COLLECTIBLE_DUALITY)
     end
 end)
 

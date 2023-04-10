@@ -13,24 +13,6 @@ function TJudas:DarkFu(_, _, player)
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, TJudas.DarkFu, substituteDarkArts)
 
-function TJudas:DarkFuItem(player)
-    if player:GetPlayerType() == PlayerType.PLAYER_JUDAS_B then
-		if mod.MCMOption.Settings["Tainted Judas"] > 1 then
-			local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Judas"])
-			if player:HasCollectible(collectible) and
-			player:GetActiveItem(ActiveSlot.SLOT_POCKET) == CollectibleType.COLLECTIBLE_DARK_ARTS then
-				player:SetPocketActiveItem(substituteDarkArts)
-			elseif not player:HasCollectible(collectible) and
-			player:GetActiveItem(ActiveSlot.SLOT_POCKET) == substituteDarkArts then
-				player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_DARK_ARTS)
-			end
-		elseif player:GetActiveItem(ActiveSlot.SLOT_POCKET) == substituteDarkArts then
-			player:SetPocketActiveItem(CollectibleType.COLLECTIBLE_DARK_ARTS)
-		end
-	end
-end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, TJudas.DarkFuItem)
-
 mod.AddOnPickupFunction(function(player)
 	local ptype = player:GetPlayerType()
 	if ptype == PlayerType.PLAYER_JUDAS_B and mod.MCMOption.Settings["Tainted Judas"] > 1 then

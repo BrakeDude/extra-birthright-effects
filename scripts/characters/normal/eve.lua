@@ -41,7 +41,7 @@ function Eve:BirdsCache(player,cache)
 end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Eve.BirdsCache, CacheFlag.CACHE_FAMILIARS)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_NON_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_EVE, function(player,cache)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_EVALUATE_CACHE, 0, PlayerType.PLAYER_EVE, function(player,cache)
     local data = mod.GetPersistentPlayerData(player)
     if data.EveBirds > 0 then
         player:CheckFamiliar(FamiliarVariant.DEAD_BIRD,data.EveBirds, mod.RNG)

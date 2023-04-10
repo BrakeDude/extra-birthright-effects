@@ -1,4 +1,5 @@
 local mod = ExtraBirthright
+local game = Game()
 local Jacob = {}
 local skin = {
 				[SkinColor.SKIN_PINK]="",
@@ -63,7 +64,6 @@ function Jacob:YouDie(npc,collider,low)
 					deadJacob.GridCollisionClass = GridCollisionClass.COLLISION_NONE
 					local deadJacobSprites = deadJacob:GetSprite()
 					deadJacobSprites:Load("gfx/001.000_player.anm2",true)
-					print(player:GetBodyColor())
 					deadJacobSprites:ReplaceSpritesheet(PlayerSpriteLayer.SPRITE_EXTRA,"gfx/characters/costumes/character_019b_jacob"..skin[player:GetBodyColor()]..".png")
 					deadJacobSprites:ReplaceSpritesheet(PlayerSpriteLayer.SPRITE_GHOST,"gfx/characters/costumes/ghostnoghost.png")
 					deadJacobSprites:LoadGraphics()
@@ -116,39 +116,48 @@ function Jacob:JacobStatsCache(player,cacheFlag)
 end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Jacob.JacobStatsCache)
 
-function Jacob:SecondItem()
-	local game = Game()
+local function Dupe()
 	local room = game:GetRoom()
+	if room:IsFirstVisit() and (room:GetType() == RoomType.ROOM_DEVIL or room:GetType() == RoomType.ROOM_TREASURE
+	or room:GetType() == RoomType.ROOM_SECRET or room:GetType() == RoomType.ROOM_SUPERSECRET) then
+		local items = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
+		for _,item in ipairs(items) do
+			if not mod:GetData(item).Duped then
+				mod:GetData(item).Duped = true
+				local ItemPool = game:GetItemPool():GetPoolForRoom(room:GetType(),RNG():GetSeed())
+				local id = game:GetItemPool():GetCollectible(ItemPool)
+				local newitem = Isaac.Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,id,Isaac.GetFreeNearPosition(item.Position,3),Vector(0, 0),nil):ToPickup()
+				mod:GetData(newitem).Duped = true
+				if item:ToPickup():IsShopItem() then
+					if room:GetType() == RoomType.ROOM_DEVIL then
+						newitem.Price = Isaac.GetItemConfig():GetCollectible(id).DevilPrice
+					elseif room:GetType() == RoomType.ROOM_ANGEL then
+						newitem:Remove()
+					else
+						newitem.Price = Isaac.GetItemConfig():GetCollectible(id).ShopPrice
+					end
+				end
+			end
+		end
+	end
+end
+
+function Jacob:SecondItem()
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
 	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
 		for i = 1, game:GetNumPlayers() do
 			local player = Isaac.GetPlayer(i-1)
 			if (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B)
-			and player:HasCollectible(collectible) and room:IsFirstVisit() and
-			(room:GetType() == RoomType.ROOM_DEVIL or room:GetType() == RoomType.ROOM_TREASURE
-			or room:GetType() == RoomType.ROOM_SECRET or room:GetType() == RoomType.ROOM_SUPERSECRET)
-			then
-				local items = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
-				for _,item in ipairs(items) do
-					local ItemPool = game:GetItemPool():GetPoolForRoom(room:GetType(),RNG():GetSeed())
-					local id = game:GetItemPool():GetCollectible(ItemPool)
-					local newitem = Isaac.Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,id,Isaac.GetFreeNearPosition(item.Position,3),Vector(0, 0),nil):ToPickup()
-					if item:ToPickup():IsShopItem() then
-						if room:GetType() == RoomType.ROOM_DEVIL then
-							newitem.Price = Isaac.GetItemConfig():GetCollectible(id).DevilPrice
-						elseif room:GetType() == RoomType.ROOM_ANGEL then
-							newitem:Remove()
-						else
-							newitem.Price = Isaac.GetItemConfig():GetCollectible(id).ShopPrice
-						end
-					end
-				end
-				return
+			and player:HasCollectible(collectible) then 
+				Dupe()
 			end
 		end
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Jacob.SecondItem)
+
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_JACOB_B, Dupe)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_JACOB2_B, Dupe)
 
 mod.AddOnPickupFunction(function(player)
 	local ptype = player:GetPlayerType()
