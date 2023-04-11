@@ -99,7 +99,7 @@ end
 
 function mod.AddCustomCallback(modID, id, priority, character, fn, ...)
 	if id < 1 or id > highestID then
-		print("ExtraBirthright API Error: AddCustomCallback called with invalid callback ID.")
+		print("ExtraBirthright API Error: AddCustomCallback called with invalid callback ID. ModID:"..tostring(modID))
 		return
 	end
 

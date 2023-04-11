@@ -6,6 +6,7 @@ local json = require("json")
 mod.fliped = {}
 mod.BirthrightfloorBought = false
 mod.RNG = RNG()
+mod.COLLECTIBLE_BIRTHRIGHT = Isaac.GetItemIdByName("Birthright (Alt)")
 
 mod.PlayerData = {}
 mod.FamiliarData = {}
@@ -55,6 +56,7 @@ include("scripts/characters/tainted/eve.lua")
 include("scripts/characters/tainted/samson.lua")
 include("scripts/characters/tainted/azazel.lua")
 include("scripts/characters/tainted/eden.lua")
+include("scripts/characters/tainted/lost.lua")
 include("scripts/characters/tainted/lazarus.lua")
 include("scripts/characters/tainted/lilith.lua")
 include("scripts/characters/tainted/keeper.lua")
