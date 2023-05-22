@@ -244,8 +244,8 @@ function mod.GetMCMValue(ptype)
 	return 1
 end
 
-function mod.AddCustomEffectsMCM(name,number,label,splash1,firstEID,splash2,secondEID)
-    number = type(number) == "boolean" and number or false
+function mod.AddCustomEffectsMCM(name,extra,label,splash1,firstEID,splash2,secondEID)
+    extra = type(extra) == "boolean" and extra or false
 	label = mod.IsString(label) and label or ""
 	--if ptype > 41 then
 	local size = #mod.MCMOption.Name + 1
@@ -260,7 +260,7 @@ function mod.AddCustomEffectsMCM(name,number,label,splash1,firstEID,splash2,seco
 		mod.MCMOption.Name[size] = name
 	end
 
-	mod.MCMOption.OptionsMaxNum[size] = number and 5 or 3
+	mod.MCMOption.OptionsMaxNum[size] = extra and 5 or 3
 	
 	mod.MCMOption.Settings[name] = 1
 	mod.MCMOption.Labels[size] = label
