@@ -27,6 +27,7 @@ include("scripts/encyclopedia.lua")
 include("scripts/ModConfig.lua")
 include("scripts/helpFuncs.lua")
 include("scripts/cmd.lua")
+include("scripts/ReviveAPI.lua")
 
 include("scripts/characters/normal/isaac.lua")
 include("scripts/characters/normal/maggie.lua")

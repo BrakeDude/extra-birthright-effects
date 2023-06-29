@@ -12,7 +12,36 @@ function Lost:LostLastChance(player)
             if not data.LostChance then
                 data.LostChance = 0
             end
-            if player:HasCollectible(collectible) and not player:WillPlayerRevive() and player:IsDead() and player:GetSprite():GetFrame() > 35 and data.LostChance < player:GetCollectibleNum(collectible) then
+            if data.LostChance > 0 and room:GetFrameCount() == 0 then
+                player:GetEffects():RemoveCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE)
+            end
+            data.LostChance = data.LostChance > player:GetCollectibleNum(collectible) and player:GetCollectibleNum(collectible) or data.LostChance
+        end
+    end
+end
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Lost.LostLastChance)
+
+if ReviveAPI then
+    mod:AddPriorityCallback(ModCallbacks.MC_PRE_PLAYER_REVIVE, 0, function(mod, player)
+        if mod.MCMOption.Settings["The Lost"] > 1 then
+            local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Lost"])
+            local data = mod.GetPersistentPlayerData(player)
+            if not data.LostChance then
+                data.LostChance = 0
+            end
+            if player:HasCollectible(collectible) and data.LostChance < player:GetCollectibleNum(collectible) then
+                return true
+            end
+        end
+    end)
+
+    mod:AddCallback(ModCallbacks.MC_POST_PLAYER_REVIVE, function(mod, player, collectible)
+        local level = Game():GetLevel()
+        local room = Game():GetRoom()
+        if mod.MCMOption.Settings["The Lost"] > 1 then
+            local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Lost"])
+            if player:GetPlayerType() == PlayerType.PLAYER_THELOST and player:HasCollectible(collectible) then
+                local data = mod.GetPersistentPlayerData(player)
                 data.LostChance = data.LostChance + 1
                 local direction = math.fmod(room:GetDoor(level.EnterDoor).Direction,2)
                 level.LeaveDoor = room:GetDoor(level.EnterDoor).Slot
@@ -34,14 +63,9 @@ function Lost:LostLastChance(player)
                     end
                 end
             end
-            if data.LostChance > 0 and room:GetFrameCount() == 0 then
-                player:GetEffects():RemoveCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE)
-            end
-            data.LostChance = data.LostChance > player:GetCollectibleNum(collectible) and player:GetCollectibleNum(collectible) or data.LostChance
         end
-    end
+    end)
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Lost.LostLastChance)
 
 mod.AddBirthrightChangeCondition(function(player)
 	return player:GetPlayerType() == PlayerType.PLAYER_THELOST and mod.MCMOption.Settings["The Lost"] == 2
