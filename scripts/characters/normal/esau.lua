@@ -89,7 +89,7 @@ mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_SPAWN_CLEAN_
 function Esau:OnlyForReward()
     local level = game:GetLevel()
     if mod.MCMOption.Settings["Esau"] > 1 then
-        for _,player in ipairs(mod:GetplayersByType(PlayerType.PLAYER_ESAU)) do
+        for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_ESAU)) do
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
             if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
                 level:DisableDevilRoom()
