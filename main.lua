@@ -1,7 +1,7 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
 local mod = ExtraBirthright
 local ExtraBirthrightLocal = {}
-mod.Version = "2.45"
+mod.Version = "2.44"
 local json = require("json")
 mod.fliped = {}
 mod.BirthrightfloorBought = false
