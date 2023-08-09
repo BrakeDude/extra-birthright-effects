@@ -1,7 +1,7 @@
 ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
 local mod = ExtraBirthright
 local ExtraBirthrightLocal = {}
-mod.Version = "2.44"
+mod.Version = "2.45"
 local json = require("json")
 mod.fliped = {}
 mod.BirthrightfloorBought = false
@@ -31,7 +31,7 @@ include("scripts/ReviveAPI.lua")
 
 include("scripts/characters/normal/isaac.lua")
 include("scripts/characters/normal/maggie.lua")
-include("scripts/characters/normal/cain.lua")
+--[[include("scripts/characters/normal/cain.lua")
 include("scripts/characters/normal/judas.lua")
 include("scripts/characters/normal/judasblack.lua")
 include("scripts/characters/normal/bb.lua")
@@ -55,16 +55,16 @@ include("scripts/characters/tainted/judas.lua")
 include("scripts/characters/tainted/bb.lua")
 include("scripts/characters/tainted/eve.lua")
 include("scripts/characters/tainted/samson.lua")
-include("scripts/characters/tainted/azazel.lua")
+include("scripts/characters/tainted/azazel.lua")]]
 include("scripts/characters/tainted/eden.lua")
-include("scripts/characters/tainted/lost.lua")
+--[[include("scripts/characters/tainted/lost.lua")
 include("scripts/characters/tainted/lazarus.lua")
 include("scripts/characters/tainted/lilith.lua")
 include("scripts/characters/tainted/keeper.lua")
 include("scripts/characters/tainted/apollyon.lua")
 include("scripts/characters/tainted/forgotten.lua")
 include("scripts/characters/tainted/bethany.lua")
-include("scripts/characters/tainted/jacob.lua")
+include("scripts/characters/tainted/jacob.lua")]]
 
 --#region Saving
 function ExtraBirthrightLocal:SaveSomeData(isSaving)

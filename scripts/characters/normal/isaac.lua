@@ -45,9 +45,9 @@ function IsaacM:D6Buff(collectible,rng,player,flags,ActiveSlot,data)
 	end
 	return nil
 end
-mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, IsaacM.D6Buff, CollectibleType.COLLECTIBLE_D6);
+--mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, IsaacM.D6Buff, CollectibleType.COLLECTIBLE_D6);
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_USE_ITEM, 0, PlayerType.PLAYER_ISAAC, D6, CollectibleType.COLLECTIBLE_D6)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_USE_ITEM, 0, PlayerType.PLAYER_ISAAC, 1, D6, CollectibleType.COLLECTIBLE_D6)
 
 mod.AddOnPickupFunction(function(player)
 	local ptype = player:GetPlayerType()

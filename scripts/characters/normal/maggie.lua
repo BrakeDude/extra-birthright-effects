@@ -16,6 +16,20 @@ local function Charm(player)
 	end
 end
 
+local function HeartsSpeed(player)
+	local data = mod.GetPersistentPlayerData(player)
+	if not data.MaggieHearts then
+		data.MaggieHearts = player:GetHearts()
+		player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+		player:EvaluateItems()
+	end
+	if data.MaggieHearts ~= player:GetHearts() then
+		data.MaggieHearts = player:GetHearts()
+		player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+		player:EvaluateItems()
+	end
+end
+
 function Maggie:CharmingScript(player)
 	local data = mod.GetPersistentPlayerData(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
@@ -43,9 +57,10 @@ function Maggie:CharmingScript(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Maggie.CharmingScript)
+--mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Maggie.CharmingScript)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_MAGDALENA, Charm)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_MAGDALENA, 1, Charm)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_MAGDALENA, 2, HeartsSpeed)
 
 local function YumHeartSuperHeal(_,_,player)
 	player:AddHearts(2)
@@ -54,6 +69,7 @@ local function YumHeartSuperHeal(_,_,player)
 			player:AddHearts(1)
 		end
 	end
+	return true
 end
 
 function Maggie:YumHeartBuff(_,_,player)
@@ -65,34 +81,23 @@ function Maggie:YumHeartBuff(_,_,player)
 	end
 	return true
 end
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, Maggie.YumHeartBuff, CollectibleType.COLLECTIBLE_YUM_HEART)
+--mod:AddCallback(ModCallbacks.MC_USE_ITEM, Maggie.YumHeartBuff, CollectibleType.COLLECTIBLE_YUM_HEART)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_USE_ITEM, 0, PlayerType.PLAYER_MAGDALENA, YumHeartSuperHeal, CollectibleType.COLLECTIBLE_YUM_HEART)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_USE_ITEM, 0, PlayerType.PLAYER_MAGDALENA, 1, YumHeartSuperHeal, CollectibleType.COLLECTIBLE_YUM_HEART)
 
-function Maggie:MaggieStatsCache(player,cacheFlag)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
-	if mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5 then
-		if player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA and player:HasCollectible(collectible) then
-			if cacheFlag == CacheFlag.CACHE_SPEED then
-				player.MoveSpeed = player.MoveSpeed + (player:GetHearts() * 0.06)
-			end
-		end
+local function MaggieStatsCache(player,cacheFlag)
+	if cacheFlag == CacheFlag.CACHE_SPEED then
+		player.MoveSpeed = player.MoveSpeed + (player:GetHearts() * 0.06)
 	end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Maggie.MaggieStatsCache)
+--mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Maggie.MaggieStatsCache)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_EVALUATE_CACHE, 0, PlayerType.PLAYER_MAGDALENA, 2, MaggieStatsCache)
 
-function Maggie:MaggieSoulHeartNextLevel()
-	if mod.MCMOption.Settings["Magdalene"] == 3 or mod.MCMOption.Settings["Magdalene"] == 5 then
-		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Magdalene"],true)
-		for i = 1, Game():GetNumPlayers() do
-			local player = Isaac.GetPlayer(i-1)
-			if player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA and player:HasCollectible(collectible) then
-				player:AddSoulHearts(2)
-			end
-		end
-	end
+local function MaggieSoulHeartNextLevel(player)
+	player:AddSoulHearts(2)
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Maggie.MaggieSoulHeartNextLevel)
+--mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Maggie.MaggieSoulHeartNextLevel)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_LEVEL, 0, PlayerType.PLAYER_MAGDALENA, 2, MaggieSoulHeartNextLevel)
 
 mod.AddOnPickupFunction(function(player)
 	local ptype = player:GetPlayerType()

@@ -97,12 +97,12 @@ for _,v in pairs(mod.Callbacks.Enums) do
 	mod.Callbacks.TEdenCallbacks[v] = mod.Callbacks.TEdenCallbacks[v] or {}
 end
 
-function mod.AddCustomCallback(modID, id, priority, character, fn, ...)
+function mod.AddCustomCallback(modID, id, priority, character, customeffects, fn, ...)
 	if id < 1 or id > highestID then
 		print("ExtraBirthright API Error: AddCustomCallback called with invalid callback ID. ModID:"..tostring(modID))
 		return
 	end
-
+	customeffects = customeffects and math.max(1,math.min(customeffects, 2)) or 1
 	local callbacks = mod.Callbacks.TEdenCallbacks[id]
 	local index = 1
 
@@ -118,6 +118,7 @@ function mod.AddCustomCallback(modID, id, priority, character, fn, ...)
         Priority = priority,
         Function = fn,
         PlayerType = character,
+		Effect = customeffects,
         ModID = modID,
         Params = {...},
         CallbackID = id,
@@ -160,7 +161,7 @@ function mod.AddBirthrightChangeCondition(func)
 	table.insert(ChangeBirthrightFunction,func)
 end
 
-local function ChangeToFakeBirthright(player)
+function mod.ChangeToFakeBirthright(player)
 	local change = false
 	for _,func in ipairs(ChangeBirthrightFunction) do
 		change = change or func(player)
@@ -172,7 +173,7 @@ local function CheckBirthrightAll(_,player)
 	local game = Game()
 	local ptype = player:GetPlayerType()
 	local data = mod.GetPersistentPlayerData(player)
-	if ChangeToFakeBirthright(player) then
+	if mod.ChangeToFakeBirthright(player) then
 		if player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT) then
 			player:RemoveCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
 			player:AddCollectible(substituteBirthright,0,false)
@@ -184,7 +185,7 @@ local function CheckBirthrightAll(_,player)
 		end
 	end
 	if player.QueuedItem.Item then
-		if player.QueuedItem.Item.ID == CollectibleType.COLLECTIBLE_BIRTHRIGHT and ChangeToFakeBirthright(player) then
+		if player.QueuedItem.Item.ID == CollectibleType.COLLECTIBLE_BIRTHRIGHT and mod.ChangeToFakeBirthright(player) then
 			local charName = tostring(ptype + 1)
 			if mod.FakeBirthrightDesc[charName] then
 				local lang = Options.Language
@@ -228,6 +229,32 @@ function mod.GetOptionsBirthright(option,extra)
 	return (option == 2 or option == 3 and extra) and substituteBirthright or CollectibleType.COLLECTIBLE_BIRTHRIGHT
 end
 
+function mod.OptionBirthrightCondition(value, maxValue, effect)
+	if not mod.IsNumber(value) or not mod.IsNumber(maxValue) or not mod.IsNumber(effect) then return nil end
+	if maxValue > 3 then
+		return effect == 1 and (value == 2 or value == 4) or effect == 2 and (value == 3 or value == 5)
+	else
+		return value > 1
+	end
+end
+
+function mod.GetMCMPlayerTypeIndex(ptype)
+	if ptype == PlayerType.PLAYER_THESOUL then
+		ptype = PlayerType.PLAYER_THEFORGOTTEN
+	end
+	if ptype == PlayerType.PLAYER_THESOUL_B then
+		ptype = PlayerType.PLAYER_THEFORGOTTEN_B
+	end
+	if ptype == PlayerType.PLAYER_LAZARUS2_B then
+		ptype = PlayerType.PLAYER_LAZARUS_B
+	end
+	for i = 1, #mod.MCMOption.PlayerType do
+		if mod.MCMOption.PlayerType[i] == ptype then
+			return i
+		end
+	end
+	return nil
+end
 function mod.GetMCMValue(ptype)
 	if ptype == PlayerType.PLAYER_THESOUL then
 		ptype = PlayerType.PLAYER_THEFORGOTTEN
@@ -238,18 +265,55 @@ function mod.GetMCMValue(ptype)
 	if ptype == PlayerType.PLAYER_LAZARUS2_B then
 		ptype = PlayerType.PLAYER_LAZARUS_B
 	end
-	if mod.MCMOption.Name[ptype+1] then
-		return mod.MCMOption.Settings[mod.MCMOption.Name[ptype+1]]
+	local name = mod.GetMCMName(ptype)
+	if name then
+		return mod.MCMOption.Settings[name]
 	end
-	return 1
+	return nil
 end
 
-function mod.AddCustomEffectsMCM(name,extra,label,splash1,firstEID,splash2,secondEID)
-    extra = type(extra) == "boolean" and extra or false
+function mod.GetMCMName(ptype)
+	if ptype == PlayerType.PLAYER_THESOUL then
+		ptype = PlayerType.PLAYER_THEFORGOTTEN
+	end
+	if ptype == PlayerType.PLAYER_THESOUL_B then
+		ptype = PlayerType.PLAYER_THEFORGOTTEN_B
+	end
+	if ptype == PlayerType.PLAYER_LAZARUS2_B then
+		ptype = PlayerType.PLAYER_LAZARUS_B
+	end
+	local index = mod.GetMCMPlayerTypeIndex(ptype)
+	if mod.IsNumber(index) then
+		return mod.MCMOption.Name[index]
+	end
+	return nil
+end
+
+function mod.GetMaxMCMValue(ptype)
+	if ptype == PlayerType.PLAYER_THESOUL then
+		ptype = PlayerType.PLAYER_THEFORGOTTEN
+	end
+	if ptype == PlayerType.PLAYER_THESOUL_B then
+		ptype = PlayerType.PLAYER_THEFORGOTTEN_B
+	end
+	if ptype == PlayerType.PLAYER_LAZARUS2_B then
+		ptype = PlayerType.PLAYER_LAZARUS_B
+	end
+	local index = mod.GetMCMPlayerTypeIndex(ptype)
+	if mod.IsNumber(index) then
+		return mod.MCMOption.OptionsMaxNum[index]
+	end
+	return nil
+end
+
+function mod.AddCustomEffectsMCM(playerType,name,extra,label,splash1,firstEID,splash2,secondEID)
+    if not playerType or playerType and (not mod.IsNumber(playerType) or mod.IsNumber(playerType) and playerType < 41) then return end
+	extra = type(extra) == "boolean" and extra or false
 	label = mod.IsString(label) and label or ""
 	--if ptype > 41 then
 	local size = #mod.MCMOption.Name + 1
 	local ch = tostring(size)
+	mod.MCMOption.PlayerType[size] = playerType
 	for k,v in pairs(mod.Languages) do
 		mod.EBEIDDesc[k][size] = {}
 	end
@@ -304,22 +368,23 @@ function mod.AddCustomEffectsMCM(name,extra,label,splash1,firstEID,splash2,secon
 	--end
 end
 
-function mod.RemoveCustomEffectsOptions(name)
+function mod.RemoveCustomEffectsOptions(playerType)
 	local ch = 41
-	for i = #mod.MCMOption.Name, 42, -1 do
-		if mod.MCMOption.Name[i] == name then
+	for i = #mod.MCMOption.PlayerType, 42, -1 do
+		if mod.MCMOption.PlayerType[i] == playerType then
 			ch = i
 			break
 		end
 	end
 	if ch > 41 then
 		for k,v in pairs(mod.Languages) do
-			mod.EBEIDDesc[k][ch] = nil
+			table.remove(mod.EBEIDDesc[k],ch)
 		end
-		mod.MCMOption.Name[ch] = nil
-		mod.MCMOption.OptionsMaxNum[ch] = nil
-		mod.MCMOption.Labels[ch] = nil
-		mod.FakeBirthrightDesc[ch] = nil
+		table.remove(mod.MCMOption.Name, ch)
+		table.remove(mod.MCMOption.OptionsMaxNum, ch)
+		table.remove(mod.MCMOption.Labels, ch)
+		table.remove(mod.MCMOption.PlayerType, ch)
+		table.remove(mod.FakeBirthrightDesc, ch)
 	end
 	mod:ReloadMCM()
 end

@@ -79,7 +79,7 @@ mod.EBEIDDesc = {
 		{EID.descriptions["en_us"].birthright[28][3],"Berserk charges faster#Berserk activates on player's command (by pressing {{ButtonRT}} button)", EID.descriptions["en_us"].birthright[28][3].."#{{ColorRainbow}}Extra effects:{{ArrowUp}} #Berserk charges faster#Berserk activate on player's command (by pressing {{ButtonRT}} button)"}, -- Tainted Samson
 		{EID.descriptions["en_us"].birthright[29][3],"Gets {{Collectible118}}Brimstone effect and ability to fly",EID.descriptions["en_us"].birthright[29][3].."#{{ColorRainbow}}Extra effects:#Gets {{Collectible118}}Brimstone effect and ability to fly"},--Tainted Azazel
 		{EID.descriptions["en_us"].birthright[30][3],"{{Collectible711}}Flip charges over time",EID.descriptions["en_us"].birthright[30][3].."#{{ColorRainbow}}Extra effects:#{{Collectible711}} Flip charges over time"},--Tainted Lazarus
-		{EID.descriptions["en_us"].birthright[31][3],"Every new room or on every hit changes to effect of one of the other characters", EID.descriptions["en_us"].birthright[31][3].."#{{ColorRainbow}}Extra effects:#Every new room or on every hit changes to effect of one of the other characters"}, -- Tainted Eden
+		{EID.descriptions["en_us"].birthright[31][3],"Every new room or on every hit changes to effect of one of the other characters","Every new room or on every hit changes to effect of one of the other characters (second effect)", EID.descriptions["en_us"].birthright[31][3].."#{{ColorRainbow}}Extra effects:#Every new room or on every hit changes to effect of one of the other characters", EID.descriptions["en_us"].birthright[31][3].."#{{ColorRainbow}}Extra effects:#Every new room or on every hit changes to effect of one of the other characters (second effect)"}, -- Tainted Eden
 		{EID.descriptions["en_us"].birthright[32][3],"Coming soon", EID.descriptions["en_us"].birthright[32][3].."#{{ColorRainbow}}Extra effects:#Coming soon"}, -- Tainted Lost
 		{EID.descriptions["en_us"].birthright[33][3],"Spawn red creep that deals 250% damage#Every time Tainted Lilith shoots umbilical baby (fetus) spawns red creep trail that deals 150% damage",EID.descriptions["en_us"].birthright[33][3].."#{{ColorRainbow}}Extra effects:#Spawns red creep that deals 250% damage#Every time Tainted Lilith shoots umbilical baby (fetus) spawns red creep trail that deals 150% damage"},--Tainted Lilith
 		{EID.descriptions["en_us"].birthright[34][3],"Picking up coins gives temporary damage that wears off over time", EID.descriptions["en_us"].birthright[34][3].."#{{ColorRainbow}}Extra effects:#Picking up coins gives temporary damage that wears off over time"}, -- Tainted Keeper
@@ -123,7 +123,7 @@ mod.EBEIDDesc = {
 		{EID.descriptions["ru"].birthright[28][3],"Берсерк заряжается быстрее#Берсерк активируется по команде игрока (нажав кнопку {{ButtonRT}})", EID.descriptions["ru"].birthright[28][3].."#{{ColorRainbow}}Дополнительные еффекты:#Берсерк заряжается быстрее#Берсерк активируется по команде игрока (нажав кнопку {{ButtonRT}})"}, -- Tainted Samson
 		{EID.descriptions["ru"].birthright[29][3],"Получает эффект {{Collectible118}}Серы и способность летать",EID.descriptions["ru"].birthright[29][3].."#{{ColorRainbow}}Дополнительные еффекты:#Получает эффект {{Collectible118}}Серы и способность летать"},--Tainted Azazel
 		{EID.descriptions["ru"].birthright[30][3],"Заряд {{Collectible711}}Кувырка восстонавливается со временем",EID.descriptions["ru"].birthright[30][3].."#{{ColorRainbow}}Дополнительные еффекты:#Заряд {{Collectible711}}Кувырка восстонавливается со временем"},--Tainted Lazarus
-		{EID.descriptions["ru"].birthright[31][3],"Каждую новую комнату или при получении урона меняет эффект на эффект одного из персонажей", EID.descriptions["ru"].birthright[31][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}}# Каждую новую комнату или при получении урона меняет эффект на эффект одного из персонажей"}, -- Tainted Eden
+		{EID.descriptions["ru"].birthright[31][3],"Каждую новую комнату или при получении урона меняет эффект на эффект одного из персонажей","Каждую новую комнату или при получении урона меняет эффект на эффект одного из персонажей (второй эффкет)", EID.descriptions["ru"].birthright[31][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}}# Каждую новую комнату или при получении урона меняет эффект на эффект одного из персонажей", EID.descriptions["ru"].birthright[31][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}}# Каждую новую комнату или при получении урона меняет эффект на эффект одного из персонажей (второй эффект)"}, -- Tainted Eden
 		{EID.descriptions["ru"].birthright[32][3],"Скоро", EID.descriptions["ru"].birthright[32][3].."#{{ColorRainbow}}Дополнительные еффекты:{{CR}}# Скоро"}, -- Tainted Lost
 		{EID.descriptions["ru"].birthright[33][3],"Создает красную лужу которая наносит 250% урона#Каждый раз когда Лилит выстреливает ребёнком с пуповиной (зародышем), создаётся след из кровавых луж, которые наносят 150% урона", EID.descriptions["ru"].birthright[33][3].."#{{ColorRainbow}}Дополнительные еффекты:#Создает красную лужу которая наносит 250% урона#Каждый раз когда Лилит выстреливает ребёнком с пуповиной (зародышем), создаётся след из кровавых луж, которые наносят 150% урона"},--Tainted Lilith
 		{EID.descriptions["ru"].birthright[34][3],"Даёт временный урон при подборе монет, который уменьшается со временем", EID.descriptions["ru"].birthright[34][3].."#{{ColorRainbow}}Дополнительные еффекты:#Даёт временный урон при подборе монет, который уменьшается со временем"}, -- Tainted Keeper
@@ -166,7 +166,7 @@ es = {
 		{EID.descriptions["spa"].birthright[28][3],"Berserk se cargará con mayor rapidez#Se podrá activar presionando el botón de soltar {{ButtonRT}}", EID.descriptions["spa"].birthright[28][3].."#{{ColorRainbow}}Efecto extra:#Berserk se cargará con mayor rapidez#Se podrá activar presionando el botón de soltar {{ButtonRT}}"}, -- Tainted Samson
 		{EID.descriptions["spa"].birthright[29][3],"Recibes {{Collectible118}}Azufre y la capacida de volar",EID.descriptions["spa"].birthright[27][3].."#{{ColorRainbow}}Efecto extra:#Recibes {{Collectible118}}Azufre y la capacida de volar"},--Tainted Azazel
 		{EID.descriptions["spa"].birthright[30][3],"{{Collectible711}} Cambio se recarga con el tiempo",EID.descriptions["spa"].birthright[30][3].."#{{ColorRainbow}}Efecto extra:#{{Collectible711}} Cambio se recarga con el tiempo"},--Tainted Lazarus
-		{EID.descriptions["spa"].birthright[31][3],"Cada nueva sala o cada vez que recibas un golpe obtendrás el efecto de Primogenitura de cualquier otro personaje", EID.descriptions["spa"].birthright[31][3].."#{{ColorRainbow}}Efecto extra:#Cada nueva sala o cada vez que recibas un golpe obtendrás el efecto de Primogenitura de cualquier otro personaje"}, -- Tainted Eden
+		{EID.descriptions["spa"].birthright[31][3],"Cada nueva sala o cada vez que recibas un golpe obtendrás el efecto de Primogenitura de cualquier otro personaje","Cada nueva sala o cada vez que recibas un golpe obtendrás el efecto de Primogenitura de cualquier otro personaje (2)", EID.descriptions["spa"].birthright[31][3].."#{{ColorRainbow}}Efecto extra:#Cada nueva sala o cada vez que recibas un golpe obtendrás el efecto de Primogenitura de cualquier otro personaje", EID.descriptions["spa"].birthright[31][3].."#{{ColorRainbow}}Efecto extra:#Cada nueva sala o cada vez que recibas un golpe obtendrás el efecto de Primogenitura de cualquier otro personaje (2)"}, -- Tainted Eden
 		{EID.descriptions["spa"].birthright[32][3],"Pronto", EID.descriptions["spa"].birthright[32][3].."#{{ColorRainbow}}Efecto extra:#Pronto"}, -- Tainted Lost
 		{EID.descriptions["spa"].birthright[33][3],"Genera creep rojo que provoca el daño del jugador al 250%#Cada vez que Tainted Lilith lancé al bebé umbilical, este genera un rastro de creep rojo que provoca el daño del jugador al 150%",EID.descriptions["spa"].birthright[33][3].."#{{ColorRainbow}}Efecto extra:#Genera creep rojo que provoca el daño del jugador al 250%#Cada vez que Tainted Lilith lancé al bebé umbilical, este genera un rastro de creep rojo que provoca el daño del jugador al 150%"},--Tainted Lilith
 		{EID.descriptions["spa"].birthright[34][3],"{{Damage}} Tomar monedas dará un aumento de daño que disminuye con el tiempo", EID.descriptions["spa"].birthright[34][3].."#{{ColorRainbow}} Efecto extra:{{CR}} #{{Damage}} Tomar monedas dará un aumento de daño que disminuye con el tiempo"}, -- Tainted Keeper
@@ -186,9 +186,10 @@ function mod:BirthrightDesc()
 		local EsauName = EID:getDescriptionEntry("birthright", PlayerType.PLAYER_ESAU+1)[1] or "Esau"
 		for k,v in pairs(mod.EBEIDDesc) do
 			local JandE_EID = mod.EBEIDDesc[k][20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."#"..mod.EBEIDDesc[k][20][mod.MCMOption.Settings["Esau"]]
-			for i = 1, #mod.MCMOption.Name do	
-				if (i < 39 or i > 41) and i ~= 20 and mod.MCMOption.Name[tostring(i)] then
-					EID:addBirthright(i-1, mod.EBEIDDesc[k][i][mod.GetMCMValue(i-1)])
+			for i = 1, #mod.MCMOption.PlayerType do
+				local ptype = mod.GetMCMValue(i-1)
+				if (i < 39 or i > 41) and i ~= 20 and ptype then
+					EID:addBirthright(i-1, mod.EBEIDDesc[k][i][ptype])
 				end
 			end
 
@@ -200,9 +201,10 @@ function mod:BirthrightDesc()
 			local strings = {}
 			for _,player in ipairs(mod:GetPlayers()) do
 				local playerID = player:GetPlayerType()
-				if mod.MCMOption.Name[playerID+1] then
+				local ptype = mod.GetMCMValue(playerID)
+				if ptype then
 					local i,j = 1,2
-					i,j = playerID+1,mod.GetMCMValue(playerID)
+					i,j = playerID+1,ptype
 					local birthrightDesc = EID:getDescriptionEntry("birthright", playerID+1)
 					local playerName = birthrightDesc[1] or player:GetName()
 					local icon = EID:getIcon("Player"..playerID) ~= EID.InlineIcons["ERROR"] and "{{Player"..playerID.."}}" or "{{CustomTransformation}}"

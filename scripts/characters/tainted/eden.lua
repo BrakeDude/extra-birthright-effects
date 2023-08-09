@@ -1,7 +1,7 @@
 local mod = ExtraBirthright
 
 local Eden = {}
-local currentState = PlayerType.PLAYER_AZAZEL
+local currentState = PlayerType.PLAYER_MAGDALENA
 
 local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 
@@ -56,17 +56,23 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, Eden.CustomPostUpdate)
 
 --#region 3
 function Eden:CustomUse(collectible,rng,player,flags,ActiveSlot,customdata)
-    local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
-    if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and player:HasCollectible(col) and mod.MCMOption.Settings["Tainted Eden"] > 1 then
-        local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_USE_ITEM)
-        local data = mod.GetPersistentPlayerData(player)
-        for ptype, callback in ipairs(callbacks) do
-            if data.TEdenState and callback.PlayerType == data.TEdenState then
-                local collectibleID = table.unpack(callback.Param)
-                if not collectibleID or mod.IsNumber(collectibleID) and collectibleID == collectible then
-                    local ret = callback.Function(collectible,rng,player,flags,ActiveSlot,customdata)
-                    if ret ~= nil then
-                        return ret
+    local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_USE_ITEM)
+    local data = mod.GetPersistentPlayerData(player)
+    local ptype = player:GetPlayerType()
+    
+    for _, callback in ipairs(callbacks) do
+        local otherPlayerType = callback.PlayerType
+        if (mod.MCMOption.Settings["Tainted Eden"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and otherPlayerType == data.TEdenState or mod.GetMCMValue(otherPlayerType) and mod.GetMCMValue(otherPlayerType) > 1 and player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B and player:GetPlayerType() == otherPlayerType) then
+            local MCMValue = mod.GetMCMValue(ptype)
+            local maxMCMValue = mod.GetMaxMCMValue(ptype)
+            local col = mod.GetOptionsBirthright(MCMValue, maxMCMValue > 3)
+            if player:HasCollectible(col) and mod.OptionBirthrightCondition(MCMValue, maxMCMValue, callback.Effect) then
+                for _,collectibleID in pairs(callback.Params) do
+                    if not collectibleID or mod.IsNumber(collectibleID) and collectibleID == collectible then
+                        local ret = callback.Function(collectible,rng,player,flags,ActiveSlot,customdata)
+                        if ret ~= nil then
+                            return ret
+                        end
                     end
                 end
             end
@@ -159,20 +165,24 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, Eden.CustomFamiliarInit)
 
 --#region 8
 function Eden:CustomCache(player,cache)
-    local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
-    if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and player:HasCollectible(col) and mod.MCMOption.Settings["Tainted Eden"] > 1 then
-        local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_EVALUATE_CACHE)
-        local data = mod.GetPersistentPlayerData(player)
-        for ptype, callback in ipairs(callbacks) do
-            if data.TEdenState and callback.PlayerType == data.TEdenState then
-                local cacheT = table.unpack(callback.Params)
-                if cache == cacheT then
-                    callback.Function(player,cache)
+    local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_EVALUATE_CACHE)
+    local data = mod.GetPersistentPlayerData(player)
+    local ptype = player:GetPlayerType()
+    
+    for _, callback in ipairs(callbacks) do
+        local otherPlayerType = callback.PlayerType
+        if (mod.MCMOption.Settings["Tainted Eden"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and otherPlayerType == data.TEdenState or mod.GetMCMValue(otherPlayerType) and mod.GetMCMValue(otherPlayerType) > 1 and player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B and player:GetPlayerType() == otherPlayerType) then
+            local MCMValue = mod.GetMCMValue(ptype)
+            local maxMCMValue = mod.GetMaxMCMValue(ptype)
+            local col = mod.GetOptionsBirthright(MCMValue, maxMCMValue > 3)
+            if player:HasCollectible(col) and mod.OptionBirthrightCondition(MCMValue, maxMCMValue, callback.Effect) then
+                local cacheT = callback.Params[1]
+                if not cacheT or mod.IsNumber(cacheT) and cacheT == cache then
+                    callback.Function(player, cache)
                 end
             end
         end
     end
-    return nil
 end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Eden.CustomCache)
 --#endregion
@@ -289,17 +299,21 @@ mod:AddCallback(ModCallbacks.MC_POST_CURSE_EVAL, Eden.CustomPostCurseEval)
 
 --#region 18
 function Eden:CustomNewLevel()
-    for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN_B)) do
-        local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
-        if player:HasCollectible(col) and mod.MCMOption.Settings["Tainted Eden"] > 1 then
-            local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_POST_NEW_LEVEL)
-            local data = mod.GetPersistentPlayerData(player)
-            for ptype, callback in ipairs(callbacks) do
-                if data.TEdenState and callback.PlayerType == data.TEdenState then
-                    callback.Function()
+    local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_POST_NEW_LEVEL)
+    for _,player in ipairs(mod:GetPlayers()) do
+        local data = mod.GetPersistentPlayerData(player)
+        local ptype = player:GetPlayerType()
+        
+        for _, callback in ipairs(callbacks) do
+            local otherPlayerType = callback.PlayerType
+            if (mod.MCMOption.Settings["Tainted Eden"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and otherPlayerType == data.TEdenState or mod.GetMCMValue(otherPlayerType) and mod.GetMCMValue(otherPlayerType) > 1 and player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B and player:GetPlayerType() == otherPlayerType) then
+                local MCMValue = mod.GetMCMValue(ptype)
+                local maxMCMValue = mod.GetMaxMCMValue(ptype)
+                local col = mod.GetOptionsBirthright(MCMValue, maxMCMValue > 3)
+                if player:HasCollectible(col) and mod.OptionBirthrightCondition(MCMValue, maxMCMValue, callback.Effect) then
+                    callback.Function(player)
                 end
             end
-            return nil
         end
     end
 end
@@ -308,17 +322,21 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Eden.CustomNewLevel)
 
 --#region 19
 function Eden:CustomNewRoom()
-    for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN_B)) do
-        local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
-        if player:HasCollectible(col) and mod.MCMOption.Settings["Tainted Eden"] > 1 then
-            local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_POST_NEW_ROOM)
-            local data = mod.GetPersistentPlayerData(player)
-            for ptype, callback in ipairs(callbacks) do
-                if data.TEdenState and callback.PlayerType == data.TEdenState then
-                    callback.Function()
+    local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_POST_NEW_ROOM)
+    for _,player in ipairs(mod:GetPlayers()) do
+        local data = mod.GetPersistentPlayerData(player)
+        local ptype = player:GetPlayerType()
+        
+        for _, callback in ipairs(callbacks) do
+            local otherPlayerType = callback.PlayerType
+            if (mod.MCMOption.Settings["Tainted Eden"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and otherPlayerType == data.TEdenState or mod.GetMCMValue(otherPlayerType) and mod.GetMCMValue(otherPlayerType) > 1 and player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B and player:GetPlayerType() == otherPlayerType) then
+                local MCMValue = mod.GetMCMValue(ptype)
+                local maxMCMValue = mod.GetMaxMCMValue(ptype)
+                local col = mod.GetOptionsBirthright(MCMValue, maxMCMValue > 3)
+                if player:HasCollectible(col) and mod.OptionBirthrightCondition(MCMValue, maxMCMValue, callback.Effect) then
+                    callback.Function(player)
                 end
             end
-            return nil
         end
     end
 end
@@ -349,13 +367,18 @@ mod:AddCallback(ModCallbacks.MC_GET_CARD, Eden.CustomGetCard)
 
 --#region 21
 function Eden:CustomGetShaderParam(shader)
-    for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN_B)) do
-        local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
-        if player:HasCollectible(col) and mod.MCMOption.Settings["Tainted Eden"] > 1 then
-            local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_GET_SHADER_PARAMS)
-            local data = mod.GetPersistentPlayerData(player)
-            for ptype, callback in ipairs(callbacks) do
-                if data.TEdenState and callback.PlayerType == data.TEdenState then
+    local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_GET_SHADER_PARAMS)
+    for _,player in ipairs(mod:GetPlayers()) do
+        local data = mod.GetPersistentPlayerData(player)
+        local ptype = player:GetPlayerType()
+        
+        for _, callback in ipairs(callbacks) do
+            local otherPlayerType = callback.PlayerType
+            if (mod.MCMOption.Settings["Tainted Eden"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and otherPlayerType == data.TEdenState or mod.GetMCMValue(otherPlayerType) and mod.GetMCMValue(otherPlayerType) > 1 and player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B and player:GetPlayerType() == otherPlayerType) then
+                local MCMValue = mod.GetMCMValue(ptype)
+                local maxMCMValue = mod.GetMaxMCMValue(ptype)
+                local col = mod.GetOptionsBirthright(MCMValue, maxMCMValue > 3)
+                if player:HasCollectible(col) then
                     local ret = callback.Function(shader)
                     if ret ~= nil then
                         return ret
@@ -374,17 +397,23 @@ mod:AddCallback(ModCallbacks.MC_GET_SHADER_PARAMS, Eden.CustomGetShaderParam)
 
 --#region 23
 function Eden:CustomPreUse(collectible,rng,player,flags,ActiveSlot,customdata)
-    local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
-    if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and player:HasCollectible(col) and mod.MCMOption.Settings["Tainted Eden"] > 1 then
-        local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_PRE_USE_ITEM)
-        local data = mod.GetPersistentPlayerData(player)
-        for ptype, callback in ipairs(callbacks) do
-            if data.TEdenState and callback.PlayerType == data.TEdenState then 
-                local collectibleID = table.unpack(callback.Param)
-                if not collectibleID or mod.IsNumber(collectibleID) and collectibleID == collectible then
-                    local ret = callback.Function(collectible,rng,player,flags,ActiveSlot,customdata)
-                    if ret ~= nil then
-                        return ret
+    local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_PRE_USE_ITEM)
+    local data = mod.GetPersistentPlayerData(player)
+    local ptype = player:GetPlayerType()
+    
+    for _, callback in ipairs(callbacks) do
+        local otherPlayerType = callback.PlayerType
+        if (mod.MCMOption.Settings["Tainted Eden"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and otherPlayerType == data.TEdenState or mod.GetMCMValue(otherPlayerType) and mod.GetMCMValue(otherPlayerType) > 1 and player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B and player:GetPlayerType() == otherPlayerType) then
+            local MCMValue = mod.GetMCMValue(ptype)
+            local maxMCMValue = mod.GetMaxMCMValue(ptype)
+            local col = mod.GetOptionsBirthright(MCMValue, maxMCMValue > 3)
+            if player:HasCollectible(col) and mod.OptionBirthrightCondition(MCMValue, maxMCMValue, callback.Effect) then
+                for _,collectibleID in pairs(callback.Params) do
+                    if not collectibleID or mod.IsNumber(collectibleID) and collectibleID == collectible then
+                        local ret = callback.Function(collectible,rng,player,flags,ActiveSlot,customdata)
+                        if ret ~= nil then
+                            return ret
+                        end
                     end
                 end
             end
@@ -557,21 +586,26 @@ mod:AddCallback(ModCallbacks.MC_PRE_NPC_COLLISION, Eden.CustomPreNPCCollision)
 --#endregion
 
 --#region 31
+
 function Eden:CustomPlayerUpdate(player)
-    local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
-    if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and player:HasCollectible(col) and mod.MCMOption.Settings["Tainted Eden"] > 1 then
-        local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE)
-        local data = mod.GetPersistentPlayerData(player)
-        for ptype, callback in ipairs(callbacks) do
-            if data.TEdenState and callback.PlayerType == data.TEdenState then
-                local pvariant = table.unpack(callback.Param)
-                if not pvariant or mod.IsNumber(pvariant) and pvariant == player.Variant then
+    local callbacks = mod.GetCustomCallbacks(mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE)
+    local data = mod.GetPersistentPlayerData(player)
+    local ptype = player:GetPlayerType()
+    
+    for _, callback in ipairs(callbacks) do
+        local otherPlayerType = callback.PlayerType
+        if (mod.MCMOption.Settings["Tainted Eden"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and otherPlayerType == data.TEdenState or mod.GetMCMValue(otherPlayerType) and mod.GetMCMValue(otherPlayerType) > 1 and player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B and player:GetPlayerType() == otherPlayerType) then
+            local MCMValue = mod.GetMCMValue(ptype)
+            local maxMCMValue = mod.GetMaxMCMValue(ptype)
+            local col = mod.GetOptionsBirthright(MCMValue, maxMCMValue > 3)
+            if player:HasCollectible(col) and mod.OptionBirthrightCondition(MCMValue, maxMCMValue, callback.Effect) then
+                local playerVariant = callback.Params[1]
+                if not playerVariant or mod.IsNumber(playerVariant) and playerVariant == player.Variant then
                     callback.Function(player)
                 end
             end
         end
     end
-    return nil
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Eden.CustomPlayerUpdate)
 --#endregion

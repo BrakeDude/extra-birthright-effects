@@ -75,7 +75,7 @@ mod.MCMOption ={
 		3, --Tainted Samson
 		3, --Tainted Azazel
 		3, --Tainted Lazarus
-		3, --Tainted Eden
+		5, --Tainted Eden
 		1, --Tainted Lost
 		3, --Tainted Lilith
 		3, --Tainted Keeper
@@ -165,7 +165,7 @@ mod.MCMOption ={
 		"1: Berserk charges faster and activates on player's command by pressing 'Drop' button.",--Tainted Samson
 		"1: Gets Brimstone effect and ability to fly.",--Tainted Azazel
 		"1: Flip charges overtime.",--Tainted Lazarus
-		"1: Random birhright effect of other characters. Changes on new room or when taking damage.",--Tainted Eden
+		"1: Random birhright effect of other characters. Changes on new room or when taking damage. 2. Second modded effect.",--Tainted Eden
 		"Comming soon.",--Tainted Lost
 		"1: Spawn red creep that deals 250% player's damage. Every time umbilical baby is shot spawns red creep that deals 150% player's damage.",--Tainted Lilith
 		"1: Picking up coins gives temporary damage up that wears off over time.",--Tainted Keeper
@@ -177,6 +177,49 @@ mod.MCMOption ={
 		"1: +1 Health up, +50% Damage Multiplier, +1 Tears up and +0.3 Speed up. Dark Esau targets enemy that damaged Tainted Jacob, kills Tainted Jacob in one hit. 2: Dark Esau becomes friendly and targets enemies.",--Tainted Jacob Lost
 		"1: Tainted Soul gets up to 5 defensive bone orbitals every room.",--Tainted Soul
 	},
+	PlayerType = {
+		[1] = 0,
+		[2] = 1,
+		[3] = 2,
+		[4] = 3,
+		[5] = 4,
+		[6] = 5,
+		[7] = 6,
+		[8] = 7,
+		[9] = 8,
+		[10] = 9,
+		[11] = 10,
+		[12] = 11,
+		[13] = 12,
+		[14] = 13,
+		[15] = 14,
+		[16] = 15,
+		[17] = 16,
+		[18] = 17,
+		[19] = 18,
+		[20] = 19,
+		[21] = 20,
+		[22] = 21,
+		[23] = 22,
+		[24] = 23,
+		[25] = 24,
+		[26] = 25,
+		[27] = 26,
+		[28] = 27,
+		[29] = 28,
+		[30] = 29,
+		[31] = 30,
+		[32] = 31,
+		[33] = 32,
+		[34] = 33,
+		[35] = 34,
+		[36] = 35,
+		[37] = 36,
+		[38] = 37,
+		[39] = 38,
+		[40] = 39,
+		[41] = 40,
+	}
 }
 
 mod.EBHeartsDrops ={
