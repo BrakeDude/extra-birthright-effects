@@ -188,6 +188,7 @@ function mod:BirthrightDesc()
 			local JandE_EID = mod.EBEIDDesc[k][20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."#"..mod.EBEIDDesc[k][20][mod.MCMOption.Settings["Esau"]]
 			for i = 1, #mod.MCMOption.PlayerType do
 				local ptype = mod.GetMCMValue(i-1)
+				print(ptype)
 				if (i < 39 or i > 41) and i ~= 20 and ptype then
 					EID:addBirthright(i-1, mod.EBEIDDesc[k][i][ptype])
 				end
