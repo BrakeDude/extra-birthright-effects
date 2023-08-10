@@ -22,9 +22,9 @@ function Judas:JudasBecomesStansPuppet(entity)
 	end
 	return nil
 end
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Judas.JudasBecomesStansPuppet, EntityType.ENTITY_PLAYER)
+--mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Judas.JudasBecomesStansPuppet, EntityType.ENTITY_PLAYER)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_JUDAS, BrimPuppet)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_JUDAS, 1, BrimPuppet)
 
 local addedCallbacks = {}
 

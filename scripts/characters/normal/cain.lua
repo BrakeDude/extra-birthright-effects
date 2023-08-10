@@ -31,9 +31,9 @@ function Cain:GimmeYourSuff(npc)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, Cain.GimmeYourSuff)
+--mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, Cain.GimmeYourSuff)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NPC_DEATH, 0, PlayerType.PLAYER_CAIN, NpcLoot)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NPC_DEATH, 0, PlayerType.PLAYER_CAIN, 1, NpcLoot)
 
 local function BossLoot()
 	local game = Game()
@@ -53,11 +53,9 @@ function Cain:BossItemSuff()
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Cain.BossItemSuff)
+--mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Cain.BossItemSuff)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_SPAWN_CLEAN_AWARD, 0, PlayerType.PLAYER_CAIN, function()
-	BossLoot()
-end)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_SPAWN_CLEAN_AWARD, 0, PlayerType.PLAYER_CAIN, 1, BossLoot)
 
 function Cain:GoldenBreak(player)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Cain"],true)
@@ -67,7 +65,12 @@ function Cain:GoldenBreak(player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Cain.GoldenBreak)
+--mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Cain.GoldenBreak)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_CAIN, 2, function(player)
+	if not player:HasGoldenKey() then
+		player:AddGoldenKey()
+	end
+end)
 
 mod.AddBirthrightChangeCondition(function(player)
 	return player:GetPlayerType() == PlayerType.PLAYER_CAIN and mod.MCMOption.Settings["Cain"] > 1 and mod.MCMOption.Settings["Cain"] < 4
