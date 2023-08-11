@@ -39,7 +39,7 @@ local function GetBirthrightCallbacks(modcallback)
                     local col = mod.GetOptionsBirthright(MCMValue, maxMCMValue > 3)
                     if player:HasCollectible(col) and mod.OptionBirthrightCondition(MCMValue, maxMCMValue, callback.Effect) then
                         table.insert(callbackTable, callback)
-                        callbacks[i] = nil
+                        --callbacks[i] = nil
                     end
                 end
             end

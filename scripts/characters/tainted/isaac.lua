@@ -7,6 +7,7 @@ mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_USE_ITEM, 0, Pla
     end
 end, CollectibleType.COLLECTIBLE_SPINDOWN_DICE)
 
+---@param player EntityPlayer
 mod.AddOnPickupFunction(function(player)
     local ptype = player:GetPlayerType()
     if ptype == PlayerType.PLAYER_ISAAC_B then

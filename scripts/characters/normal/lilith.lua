@@ -34,7 +34,7 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Lilith.SpawnMinisaacs)
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_LILITH, 1, function()
 	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B, PlayerType.PLAYER_LILITH})) do
 		local data = mod.GetPersistentPlayerData(player)
-		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_LILITH or player:GetPlayersByType() ~= PlayerType.PLAYER_EDEN_B then
+		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_LILITH or player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B then
 			NewRoomBabies(player,player:GetBodyColor()+1)
 		end
 	end
@@ -57,7 +57,7 @@ local function SpawnBabies(player,type)
 	for _,minisaac in ipairs(MinIsaacs) do
 		if GetPtrHash(minisaac:ToFamiliar().Player) == GetPtrHash(player) then
 			local isaac = Isaac.Spawn(EntityType.ENTITY_FAMILIAR,FamiliarVariant.MINISAAC,minisaac.SubType,minisaac.Position,Vector.Zero,minisaac:ToFamiliar().Player):ToFamiliar()--minisaac:ToFamiliar().Player:AddMinisaac(minisaac.Position, false)
-			local data = mod.GetPersistentPlayerData(minisaac)
+			local data = mod.GetPersistentPlayerData(isaac)
 			data.BoxOfFriendRemove = true
 		end
 	end

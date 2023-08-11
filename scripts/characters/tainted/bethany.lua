@@ -31,11 +31,10 @@ local function WispLogic(wisp, player)
 end
 
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_FAMILIAR_UPDATE, 0, PlayerType.PLAYER_BETHANY_B, 1, function(wisp)
-	if wisp.SpawnerEntity ~= nil then
-		local player = wisp.SpawnerEntity
-		if player.Type == EntityType.ENTITY_PLAYER then
-			WispLogic(wisp,player)
-		end
+	local player = wisp.Player or wisp.SpawnerEntity
+	if player and player:ToPlayer() then
+		player = player:ToPlayer()
+		WispLogic(wisp,player)		
 	end
 end, FamiliarVariant.ITEM_WISP)
 

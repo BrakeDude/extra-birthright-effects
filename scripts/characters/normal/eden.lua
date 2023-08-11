@@ -21,7 +21,7 @@ local function newRoom(player,rng)
         end
     end
     randItems = mod.Shuffle(randItems,rng)
-    if #randItems > 0 and rng:RandomInt(100) < 25 then
+    if #randItems > 0 and rng:RandomInt(100) < 33 then
         local randomItem = rng:RandomInt(#randItems)+1
         game:GetHUD():ShowItemText(player,Isaac.GetItemConfig():GetCollectible(randItems[randomItem]))
         player:UseActiveItem(randItems[randomItem])
@@ -31,7 +31,7 @@ end
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_EDEN, 1, function()
     for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B, PlayerType.PLAYER_EDEN})) do
         local data = mod.GetPersistentPlayerData(player)
-        if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_EDEN or player:GetPlayersByType() ~= PlayerType.PLAYER_EDEN_B then
+        if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_EDEN or player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B then
             newRoom(player,mod.RNG)
         end
     end

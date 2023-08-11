@@ -21,7 +21,7 @@ mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_EVALUATE_CACHE, 
 local function TForgorOnRoom()
     for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_THEFORGOTTEN_B, PlayerType.PLAYER_EDEN_B})) do
         local data = mod.GetPersistentPlayerData(player)
-		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_THEFORGOTTEN_B or player:GetPlayersByType() ~= PlayerType.PLAYER_EDEN_B then
+		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_THEFORGOTTEN_B or player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B then
             local soul = player:GetOtherTwin() or player
             local data = mod:GetData(player)
             if soul and not data.TriggerForgorBones and not Game():GetRoom():IsClear() then
@@ -32,6 +32,7 @@ local function TForgorOnRoom()
         end
     end
 end
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_THEFORGOTTEN_B, 1, TForgorOnRoom)
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_THESOUL_B, 1, TForgorOnRoom)
 
 mod.AddOnPickupFunction(function(player)

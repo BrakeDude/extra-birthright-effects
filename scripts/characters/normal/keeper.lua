@@ -27,7 +27,7 @@ local function PickupYourPrize(entity, collider)
 	local trigger = false
 	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_KEEPER, PlayerType.PLAYER_EDEN_B})) do
 		local data = mod.GetPersistentPlayerData(player)
-		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_LILITH or player:GetPlayersByType() ~= PlayerType.PLAYER_EDEN_B then
+		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_LILITH or player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B then
 			trigger = true
 		end
 	end
