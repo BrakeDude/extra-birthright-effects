@@ -43,26 +43,7 @@ local function Succlogic(player)
 	end
 end
 
-local function StatCache(player,cache)
-
-end
-
-function Apollyon:Cache(player,cache)
-	local birth = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
-	if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] > 1 and player:HasCollectible(birth) then
-		StatCache(player,cache)
-	end
-end
-
-function Apollyon:Succ(collectible,rng,player)
-	local birth = mod.GetOptionsBirthright(mod.MCMOption.Settings["Apollyon"])
-	if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON and mod.MCMOption.Settings["Apollyon"] > 1 and player:HasCollectible(birth) then
-		Succlogic(player)
-	end
-end
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, Apollyon.Succ, CollectibleType.COLLECTIBLE_VOID)
-
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_USE_ITEM, 0, PlayerType.PLAYER_APOLLYON, function(collectible,rng,player,flags,ActiveSlot,customdata)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_USE_ITEM, 0, PlayerType.PLAYER_APOLLYON, 1, function(collectible,rng,player,flags,ActiveSlot,customdata)
 	Succlogic(player)
 end, CollectibleType.COLLECTIBLE_VOID)
 

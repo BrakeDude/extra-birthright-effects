@@ -1,18 +1,7 @@
 local mod = ExtraBirthright
 local Forgotten = {}
 
-function Forgotten:ForgottenHit(entity)
-	local player = entity:ToPlayer()
-	local data = mod.GetPersistentPlayerData(player)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"])
-	if player:HasCollectible(collectible) and mod.MCMOption.Settings["The Forgotten"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN then
-        data.ForgottenHearts = player:GetBoneHearts()
-	end
-	return nil
-end
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Forgotten.ForgottenHit, EntityType.ENTITY_PLAYER)
-
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_THEFORGOTTEN, function(player)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_THEFORGOTTEN, 1, function(player)
     local data = mod.GetPersistentPlayerData(player)
     data.ForgottenHearts = player:GetBoneHearts()
 end)
@@ -32,17 +21,7 @@ local function Bones(player)
     end
 end
 
-function Forgotten:ForgottenBones(player)
-	if mod.MCMOption.Settings["The Forgotten"] > 1 and player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN then
-	    local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["The Forgotten"])
-        if player:HasCollectible(collectible) then
-            Bones(player)
-        end
-	end
-end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Forgotten.ForgottenBones)
-
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_THEFORGOTTEN, Bones)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_THEFORGOTTEN, 1, Bones)
 
 function Forgotten:UpdateBones(familiar)
     if familiar.FrameCount > 15 then

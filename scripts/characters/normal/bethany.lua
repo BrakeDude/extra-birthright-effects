@@ -204,7 +204,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, Bethany.BlessingForesight)
 
 function Bethany:AuraRender()
-    for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_BETHANY)) do
+    for _,player in ipairs(mod:GetPlayersByType({PlayerType.PLAYER_BETHANY})) do
         local data = mod:GetData(player)
         local Aura = data.BlessingPrevailAura
         if Aura then

@@ -8,31 +8,20 @@ local function NpcLoot(npc)
 	local drop = npc:GetDropRNG()
 	local dropTheRinG = drop:RandomFloat()
 	if npc ~= EntityType.ENTITY_SHOPKEEPER then
-		if dropTheRinG <= 0.22 then
+		if dropTheRinG <= 0.50 then
 			if not npc:IsBoss() then
-				local pickup = mod.MyRandomPickup(dropTheRinG)
+				local pickup = mod.MyRandomPickup(drop)
 				Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,Isaac.GetFreeNearPosition(npc.Position,0),Vector.Zero,nil)
 				if npc:IsChampion() then
 					Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,Isaac.GetFreeNearPosition(npc.Position,0),Vector.Zero,nil)
 				end
-			elseif dropTheRinG <= 0.12 then
+			elseif dropTheRinG <= 0.30 then
 				bossposition = Isaac.GetFreeNearPosition(npc.Position,0)
 				wasThereBoss = true
 			end
 		end
 	end
 end
-
-function Cain:GimmeYourSuff(npc)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Cain"],true)
-	for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_CAIN)) do
-		if (mod.MCMOption.Settings["Cain"] == 2 or mod.MCMOption.Settings["Cain"] == 4) and player:HasCollectible(collectible) then
-			NpcLoot(npc)
-		end
-	end
-end
---mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, Cain.GimmeYourSuff)
-
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NPC_DEATH, 0, PlayerType.PLAYER_CAIN, 1, NpcLoot)
 
 local function BossLoot()
@@ -45,27 +34,8 @@ local function BossLoot()
 	end
 end
 
-function Cain:BossItemSuff()
-	for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_CAIN)) do
-		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Cain"],true)
-		if (mod.MCMOption.Settings["Cain"] == 2 or mod.MCMOption.Settings["Cain"] == 4) and player:HasCollectible(collectible) then
-			BossLoot()
-		end
-	end
-end
---mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Cain.BossItemSuff)
-
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_SPAWN_CLEAN_AWARD, 0, PlayerType.PLAYER_CAIN, 1, BossLoot)
 
-function Cain:GoldenBreak(player)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Cain"],true)
-	if (mod.MCMOption.Settings["Cain"] == 3 or mod.MCMOption.Settings["Cain"] == 5) and player:HasCollectible(collectible) then
-		if  player:GetPlayerType() == PlayerType.PLAYER_CAIN and not player:HasGoldenKey() then
-			player:AddGoldenKey()
-		end
-	end
-end
---mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Cain.GoldenBreak)
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_CAIN, 2, function(player)
 	if not player:HasGoldenKey() then
 		player:AddGoldenKey()

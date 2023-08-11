@@ -1,169 +1,32 @@
 local mod = ExtraBirthright
-local doubleHearts = Isaac.GetEntityVariantByName("Heart (double soul)")
-
-function mod.TheCard(subtype)
-	if (subtype >= 27 and subtype <= 30) or
-	(subtype >= 32 and subtype <= 47) or
-	(subtype >= 51 and subtype <= 54) or
-	(subtype >= 56 and subtype <= 97) then
-		return true
-	else
-		return false
-	end
-end
-
-function mod.getCards(rng)
-	local pickup = {variant=nil,subtype=nil}
-		pickup.variant = PickupVariant.PICKUP_TAROTCARD
-		local subtype = rng:RandomInt(97) + 1
-		while mod.TheCard(subtype) do
-			if mod.EBCardsAndRunesDrops.Settings[mod.EBCardsAndRunesDrops.ID[subtype]] then
-				break
-			else
-				subtype = rng:RandomInt(97) + 1
-			end
-		end
-		pickup.subtype = subtype
-	return pickup
-end
-
-function mod.getPills(rng)
-	local pickup = {variant=nil,subtype=nil}
-	pickup.variant = PickupVariant.PICKUP_PILL
-	if rng:RandomFloat() <= 0.03 and mod.EBPillsDrops["Golden pills"] then
-		pickup.subtype = PillColor.PILL_GOLD
-	else
-		pickup.subtype = rng:RandomInt(13) + 1
-	end
-	if rng:RandomFloat() <= 0.05 and mod.EBPillsDrops["Horse pills"] then
-		pickup.subtype = PillColor.PILL_GIANT_FLAG + pickup.subtype
-	end
-	return pickup
-end
-
-function mod.getBombs(rng)
-	local pickup = {variant=nil,subtype=nil}
-	pickup.variant = PickupVariant.PICKUP_BOMB
-	if rng:RandomFloat() <= 0.03 and mod.EBBombsDrops.Settings["Golden Bomb"] then
-		pickup.subtype = BombSubType.BOMB_GOLDEN
-	elseif rng:RandomFloat() <= 0.1 then
-		pickup.subtype = BombSubType.BOMB_DOUBLEPACK
-	else
-		pickup.subtype = BombSubType.BOMB_NORMAL
-	end
-	return pickup
-end
-
-function mod.getKeys(rng)
-	local pickup = {variant=nil,subtype=nil}
-	pickup.variant = PickupVariant.PICKUP_KEY
-	if rng:RandomFloat(rng) <= 0.03 then
-		pickup.subtype = KeySubType.KEY_GOLDEN
-	elseif rng:RandomFloat(rng) <= 0.05 and mod.EBKeysDrops.Settings["Charged Key"] then
-		pickup.subtype = KeySubType.KEY_CHARGED
-	elseif rng:RandomFloat(rng) <= 0.15 then
-		pickup.subtype = KeySubType.KEY_DOUBLEPACK
-	else
-		pickup.subtype = KeySubType.KEY_NORMAL
-	end
-	return pickup
-end
-
-function mod.getCoins(rng)
-	local pickup = {variant=nil,subtype=nil}
-	pickup.variant = PickupVariant.PICKUP_COIN
-	if rng:RandomFloat() <= 0.03 and mod.EBCoinsDrops.Settings["Golden Penny"] then
-		pickup.subtype = CoinSubType.COIN_GOLDEN
-	elseif rng:RandomFloat() <= 0.05 then
-		pickup.subtype = CoinSubType.COIN_DIME
-	elseif rng:RandomFloat() <= 0.1 and mod.EBCoinsDrops.Settings["Lucky Penny"] then
-		pickup.subtype = CoinSubType.COIN_LUCKYPENNY
-	elseif rng:RandomFloat() <= 0.15 then
-		pickup.subtype = CoinSubType.COIN_NICKEL
-	elseif rng:RandomFloat() <= 0.12 then
-		pickup.subtype = CoinSubType.COIN_DOUBLEPACK
-	elseif rng:RandomFloat() <= 0.15 and mod.EBCoinsDrops.Settings["Sticky Nickel"] then
-		pickup.subtype = CoinSubType.COIN_STICKYNICKEL
-	else
-		pickup.subtype = CoinSubType.COIN_PENNY
-	end
-	return pickup
-end
-
-function mod.getBatteries(rng)
-	local pickup = {variant=nil,subtype=nil}
-	pickup.variant = PickupVariant.PICKUP_LIL_BATTERY
-	if rng:RandomFloat() <= 0.03 and mod.EBBatteriesDrops.Settings["Golden Battery"] then
-		pickup.subtype = BatterySubType.BATTERY_GOLDEN
-	elseif rng:RandomFloat() <= 0.05 then
-		pickup.subtype = BatterySubType.BATTERY_MEGA
-	elseif rng:RandomFloat() <= 0.25 then
-		pickup.subtype = BatterySubType.BATTERY_NORMAL
-	else
-		pickup.subtype = BatterySubType.BATTERY_MICRO
-	end
-	return pickup
-end
-
-function mod.getHearts(rng)
-	local pickup = {variant=nil,subtype=nil}
-	pickup.variant = PickupVariant.PICKUP_HEART
-	if rng:RandomFloat() <= 0.03 then
-		pickup.subtype = HeartSubType.HEART_ETERNAL
-	elseif rng:RandomFloat() <= 0.05 then
-		pickup.subtype = HeartSubType.HEART_BLENDED
-	elseif rng:RandomFloat() <= 0.09 and mod.EBHeartsDrops["Golden Heart"] then
-		pickup.subtype = HeartSubType.HEART_GOLDEN
-	elseif rng:RandomFloat() <= 0.1 and mod.EBHeartsDrops["Rotten Heart"] then
-		pickup.subtype = HeartSubType.HEART_ROTTEN
-	elseif rng:RandomFloat() <= 0.07 and mod.EBHeartsDrops["Bone Heart"] then
-		pickup.subtype = HeartSubType.HEART_BONE
-	elseif rng:RandomFloat() <= 0.1 and doubleHearts ~= -1 then
-		pickup.subtype = rng:RandomInt(6)+1
-		pickup.variant = doubleHearts
-	elseif rng:RandomFloat() <= 0.15 then
-		pickup.subtype = HeartSubType.HEART_BLACK
-	elseif rng:RandomFloat() <= 0.15 then
-		pickup.subtype = HeartSubType.HEART_DOUBLEPACK
-	elseif rng:RandomFloat() <= 0.20 then
-		pickup.subtype = HeartSubType.HEART_SOUL
-	elseif rng:RandomFloat() <= 0.25 and mod.EBHeartsDrops["Half Soul Heart"] then
-		pickup.subtype = HeartSubType.HEART_HALF_SOUL
-	elseif rng:RandomFloat() <= 0.25 and mod.EBHeartsDrops["Scared Heart"] then
-		pickup.subtype = HeartSubType.HEART_SCARED
-	elseif rng:RandomFloat() <= 0.40 then
-		pickup.subtype = HeartSubType.HEART_FULL
-	else
-		pickup.subtype = HeartSubType.HEART_HALF
-	end
-	return pickup
-end
-
-
+local game = Game()
 --#region Cain Pickup Generator
 function mod.MyRandomPickup(rng)
-	local pickup = {variant=nil,subtype=nil}
+	local pickup = {variant=nil,subtype=0}
 	local chance = rng:RandomFloat()
+	local itemPool = game:GetItemPool()
 	if chance <= 0.14 then
-		pickup = mod.getCards(rng)
+		pickup.variant = PickupVariant.PICKUP_TAROTCARD
+		pickup.subtype = itemPool:GetCard(rng:Next()+1,true,false)
 	end
-	if chance <= 0.29 and (not pickup.variant or not pickup.subtype) then
-		pickup = mod.getBatteries(rng)
+	if chance <= 0.29 and (not pickup.variant) then
+		pickup.variant = PickupVariant.PICKUP_LIL_BATTERY
 	end
-	if chance <= 0.42 and (not pickup.variant or not pickup.subtype) then
-		pickup = mod.getCoins(rng)
+	if chance <= 0.42 and (not pickup.variant) then
+		pickup.variant = PickupVariant.PICKUP_COIN
 	end
-	if chance <= 0.56 and (not pickup.variant or not pickup.subtype) then
-		pickup = mod.getKeys(rng)
+	if chance <= 0.56 and (not pickup.variant) then
+		pickup.variant = PickupVariant.PICKUP_KEY
 	end
-	if chance <= 0.71 and (not pickup.variant or not pickup.subtype) then
-		pickup = mod.getBombs(rng)
+	if chance <= 0.71 and (not pickup.variant) then
+		pickup.variant = PickupVariant.PICKUP_BOMB
 	end
-	if chance <= 0.85 and (not pickup.variant or not pickup.subtype) then
-		pickup = mod.getPills(rng)
+	if chance <= 0.85 and (not pickup.variant) then
+		pickup.variant = PickupVariant.PICKUP_PILL
+		pickup.subtype = itemPool:GetPill(rng:Next()+1)
 	end
-	if (not pickup.variant and not pickup.subtype) then
-		pickup = mod.getHearts(rng)
+	if (not pickup.variant) then
+		pickup.variant = PickupVariant.PICKUP_HEART
 	end
 	return pickup
 end
@@ -172,9 +35,7 @@ end
 function mod.getChest(rng)
 	local pickup = {variant=nil,subtype=nil}
 	pickup.subtype = 1
-	if rng:RandomFloat() <= 0.05 and mod.EBChestsDrops["Mega Chest"] then
-		pickup.variant = PickupVariant.PICKUP_MEGACHEST
-	elseif rng:RandomFloat() <= 0.2 then
+	if rng:RandomFloat() <= 0.2 then
 		pickup.variant = PickupVariant.PICKUP_BOMBCHEST
 	elseif rng:RandomFloat() <= 0.40 then
 		pickup.variant = PickupVariant.PICKUP_LOCKEDCHEST
@@ -267,13 +128,18 @@ function mod:GetPlayers(functionCheck, ...)
 	
 end
 
-function mod:GetPlayersByType(playerType)
-	playerType = playerType or -1
+function mod:GetPlayersByType(playerTypes)
+	playerTypes = playerTypes or nil
 	local players = mod:GetPlayers()
+	if playerTypes == nil then
+		return players
+	end
 	local table = {}
-	for _,player in ipairs(players) do
-		if player:GetPlayerType() == playerType or playerType == -1 then
-			table[#table+1] = player
+	for _,playerType in ipairs(playerTypes) do
+		for _, player in ipairs(players) do
+			if player:GetPlayerType() == playerType then
+				table[#table+1] = player
+			end
 		end
 	end
 	return table
@@ -298,25 +164,6 @@ function mod:GetPlayerFromTear(tear)
 				return check:ToFamiliar().Player:ToPlayer()
 			end
 		end
-	end
-	return nil
-end
-
-function mod:GetSpawner(entity)
-	if entity and entity.GetData then
-		local spawnData = mod:GetSpawnData(entity)
-		if spawnData and spawnData.SpawnerEntity then
-			local spawner = mod:GetPtrHashEntity(spawnData.SpawnerEntity)
-			return spawner
-		end
-	end
-	return nil
-end
-
-function mod:GetSpawnData(entity)
-	if entity and entity.GetData then
-		local data = mod:GetData(entity)
-		return data.SpawnData
 	end
 	return nil
 end

@@ -58,20 +58,14 @@ local function RoomSpawn(player)
 	end
 end
 
-function Appolyon:NewLocusts()
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Apollyon"],true)
-	if mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4 then
-		for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_APOLLYON_B)) do
-			if player:HasCollectible(collectible) then
-				RoomSpawn(player)
-			end
-		end
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_APOLLYON_B, 1, function()
+	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B, PlayerType.PLAYER_APOLLYON_B})) do
+		RoomSpawn(player)
 	end
-end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Appolyon.NewLocusts)
+end)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_APOLLYON_B, function()
-	for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN_B)) do
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_APOLLYON_B, 2, function()
+	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B})) do
 		RoomSpawn(player)
 	end
 end)

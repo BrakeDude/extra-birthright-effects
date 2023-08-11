@@ -84,39 +84,29 @@ local function ChangeRedHeart(heart)
 		else
 			local rng = mod.RNG
 			local random = rng:RandomInt(6) + 1
-			local pickup = {variant = nil, subtype = nil}
+			local pickup = {variant = nil, subtype = 0}
+			local itemPool = game:GetItemPool()
 			if random == 1 then
-				pickup = mod.getCoins(rng) 
+				pickup.variant = PickupVariant.PICKUP_COIN
 			elseif random == 2 then
-				pickup = mod.getBombs(rng) 
+				pickup.variant = PickupVariant.PICKUP_BOMB
 			elseif random == 3 then
-				pickup = mod.getCards(rng) 
+				pickup.variant = PickupVariant.PICKUP_TAROTCARD
+				pickup.subtype = itemPool:GetCard(rng:Next()+1, true, false)
 			elseif random == 4 then
-				pickup = mod.getKeys(rng) 
+				pickup.variant = PickupVariant.PICKUP_KEY
 			elseif random == 5 then
-				pickup = mod.getPills(rng) 
+				pickup.variant = PickupVariant.PICKUP_TAROTCARD
+				pickup.subtype = itemPool:GetPill(rng:Next()+1)
 			elseif random == 6 then
-				pickup = mod.getBatteries(rng)
+				pickup.variant = PickupVariant.PICKUP_LIL_BATTERY
 			end
 			heart:Morph(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,true)
 		end
 	end
 end
 
-function BB:HeartsTransform(heart)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Blue Baby"])
-	if mod.MCMOption.Settings["Blue Baby"] > 1 then
-		for i = 1, game:GetNumPlayers() do
-			local player = Isaac.GetPlayer(i-1)
-			if player:GetPlayerType() == PlayerType.PLAYER_XXX and player:HasCollectible(collectible) then
-				ChangeRedHeart(heart)
-			end
-		end
-	end
-end
-mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, BB.HeartsTransform)
-
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PICKUP_UPDATE, 0, PlayerType.PLAYER_XXX, ChangeRedHeart)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PICKUP_UPDATE, 0, PlayerType.PLAYER_XXX, 1, ChangeRedHeart)
 
 mod.AddOnPickupFunction(function(player)
 	local ptype = player:GetPlayerType()

@@ -34,7 +34,7 @@ include("scripts/characters/normal/maggie.lua")
 include("scripts/characters/normal/cain.lua")
 include("scripts/characters/normal/judas.lua")
 include("scripts/characters/normal/judasblack.lua")
---[[include("scripts/characters/normal/bb.lua")
+include("scripts/characters/normal/bb.lua")
 include("scripts/characters/normal/eve.lua")
 include("scripts/characters/normal/samson.lua")
 include("scripts/characters/normal/azazel.lua")
@@ -48,7 +48,7 @@ include("scripts/characters/normal/forgotten.lua")
 include("scripts/characters/normal/soul.lua")
 include("scripts/characters/normal/bethany.lua")
 include("scripts/characters/normal/esau.lua")
-include("scripts/characters/tainted/isaac.lua")
+--[[include("scripts/characters/tainted/isaac.lua")
 include("scripts/characters/tainted/maggie.lua")
 include("scripts/characters/tainted/cain.lua")
 include("scripts/characters/tainted/judas.lua")
@@ -79,14 +79,6 @@ function ExtraBirthrightLocal:SaveSomeData(isSaving)
 
 
 	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption)
-	saveBirthright.ModConfigMenuHearts = json.encode(mod.EBHeartsDrops.Settings)
-	saveBirthright.ModConfigMenuPills = json.encode(mod.EBPillsDrops.Settings)
-	saveBirthright.ModConfigCardsAndRunes = json.encode(mod.EBCardsAndRunesDrops.Settings)
-	saveBirthright.ModConfigMenuBombs = json.encode(mod.EBBombsDrops.Settings)
-	saveBirthright.ModConfigMenuKeys = json.encode(mod.EBKeysDrops.Settings)
-	saveBirthright.ModConfigMenuCoins = json.encode(mod.EBCoinsDrops.Settings)
-	saveBirthright.ModConfigMenuBatteries = json.encode(mod.EBBatteriesDrops.Settings)
-	saveBirthright.ModConfigMenuChests = json.encode(mod.EBChestsDrops.Settings)
 	saveBirthright.BirthrightStealChance = mod.MCMTCainBirthright["BirthrightYoink"]
 	saveBirthright.Version = mod.Version
 	mod:SaveData(json.encode(saveBirthright))
@@ -96,7 +88,6 @@ mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, ExtraBirthrightLocal.SaveSomeData
 
 --#region Loading
 function ExtraBirthrightLocal:LoadItBack(isContinued)
-	local game = Game()
 	mod.BirthrightfloorBought = false
 	mod.VisitedRooms = {}
 	mod.PlayerData = {}
@@ -131,27 +122,6 @@ function ExtraBirthrightLocal:LoadItBack(isContinued)
 					mod.MCMOption.Labels[k] = v
 				end
 			end
-		end
-		if loadBirthright.ModConfigMenuHearts then
-			mod.EBHeartsDrops.Settings = json.decode(loadBirthright.ModConfigMenuHearts)
-		end
-		if loadBirthright.ModConfigMenuPills then
-			mod.EBPillsDrops.Settings = json.decode(loadBirthright.ModConfigMenuPills)
-		end
-		if loadBirthright.ModConfigMenuBombs then
-			mod.EBBombsDrops.Settings = json.decode(loadBirthright.ModConfigMenuBombs)
-		end
-		if loadBirthright.ModConfigMenuCoins then
-			mod.EBCoinsDrops.Settings = json.decode(loadBirthright.ModConfigMenuCoins)
-		end
-		if loadBirthright.ModConfigMenuKeys then
-			mod.EBKeysDrops.Settings = json.decode(loadBirthright.ModConfigMenuKeys)
-		end
-		if loadBirthright.ModConfigMenuBatteries then
-			mod.EBBatteriesDrops.Settings = json.decode(loadBirthright.ModConfigMenuBatteries)
-		end
-		if loadBirthright.ModConfigCardsAndRunes then
-			mod.EBCardsAndRunesDrops.Settings = json.decode(loadBirthright.ModConfigCardsAndRunes)
 		end
 		if loadBirthright.BirthrightStealChance then
 			mod.MCMTCainBirthright["BirthrightYoink"] = loadBirthright.BirthrightStealChance

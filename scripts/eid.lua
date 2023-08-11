@@ -32,7 +32,7 @@ mod.FakeBirthrightDesc = {
 	{en = {"Controlled rage"}, ru = {"Контролируеммая ярость"}, es = {"Ira controlada"}}, --Tainted Samson
 	{en = {"Wings of destruction"}, ru = {"Крылья разрушения"}, es = {"Alas de la destrucción"}}, --Tainted Azazel
 	{en = {"Alive and Dead"}, ru = {"Живой и мёртвый"}, es = {"Vivo y muerto"}}, --Tainted Lazarus
-	{en = {"Random effect?"}, ru = {"Случайный эффект?"}, es = {"¿Efecto aleatorio?"}}, --Tainted Eden
+	{en = {"Random effect?","Random effect?"}, ru = {"Случайный эффект?","Случайный эффект?"}, es = {"¿Efecto aleatorio?","¿Efecto aleatorio?"}}, --Tainted Eden
 	{en = {""}, ru = {""}, es = {""}}, --Tainted Lost
 	{en = {"Hemorrhage"}, ru = {"Кровотечение"}, es = {"Hemorragia"}}, --Tainted Lilith
 	{en = {"Power of Greed"}, ru = {"Сила Жадности"}, es = {"El poder de la codicia"}}, --Tainted Keeper

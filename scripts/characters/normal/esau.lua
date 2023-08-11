@@ -11,19 +11,7 @@ local function GetNewCollectible(id, pool, decrease, seed)
     end
 end
 
-function Esau:postGetCollectible(id, pool, decrease, seed)
-    if mod.MCMOption.Settings["Esau"] > 1 then
-        for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_ESAU)) do
-            local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
-            if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
-                GetNewCollectible(id, pool, decrease, seed)
-            end
-        end
-    end
-end
-mod:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, Esau.postGetCollectible)
-
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_GET_COLLECTIBLE, 0, PlayerType.PLAYER_ESAU, GetNewCollectible)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_GET_COLLECTIBLE, 0, PlayerType.PLAYER_ESAU, 1, GetNewCollectible)
 
 local function NewReward(rng,spawnpos)
     if game:IsGreedMode() then return end
@@ -71,25 +59,12 @@ local function NewReward(rng,spawnpos)
     end
 end
 
-function Esau:EsauReward(rng,spawnpos)
-    if mod.MCMOption.Settings["Esau"] > 1
-    and not game:IsGreedMode() then
-        for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_ESAU)) do
-            local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
-            if player:HasCollectible(collectible) then
-                NewReward(rng,spawnpos)
-            end
-        end
-    end
-end
-mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Esau.EsauReward)
-
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_SPAWN_CLEAN_AWARD, 0, PlayerType.PLAYER_ESAU, NewReward)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_SPAWN_CLEAN_AWARD, 0, PlayerType.PLAYER_ESAU, 1, NewReward)
 
 function Esau:OnlyForReward()
     local level = game:GetLevel()
     if mod.MCMOption.Settings["Esau"] > 1 then
-        for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_ESAU)) do
+        for _,player in ipairs(mod:GetPlayersByType({PlayerType.PLAYER_ESAU})) do
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
             if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
                 level:DisableDevilRoom()

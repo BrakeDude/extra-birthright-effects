@@ -28,22 +28,13 @@ function Lilith:SpawnMinisaacs()
 			data = nil
 		end
 	end
-	if mod.MCMOption.Settings["Lilith"] > 1 then
-		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lilith"])
-		for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_LILITH)) do
-			if player:HasCollectible(collectible) then
-				NewRoomBabies(player,2)
-			end
-		end
-	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Lilith.SpawnMinisaacs)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_LILITH, function()
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
-	for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_EDEN_B)) do
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_LILITH, 1, function()
+	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B, PlayerType.PLAYER_LILITH})) do
 		local data = mod.GetPersistentPlayerData(player)
-		if player:HasCollectible(collectible) and data.TEdenState == PlayerType.PLAYER_LILITH then
+		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_LILITH or player:GetPlayersByType() ~= PlayerType.PLAYER_EDEN_B then
 			NewRoomBabies(player,player:GetBodyColor()+1)
 		end
 	end
@@ -72,19 +63,8 @@ local function SpawnBabies(player,type)
 	end
 end
 
-function Lilith:MiniBoxFriends(_,_,player)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Lilith"])
-	if mod.MCMOption.Settings["Lilith"] > 1 then
-		if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_LILITH then
-			SpawnBabies(player,2)
-		end
-	end
-	return true
-end
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, Lilith.MiniBoxFriends, CollectibleType.COLLECTIBLE_BOX_OF_FRIENDS)
-
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_USE_ITEM, 0, PlayerType.PLAYER_LILITH, function(_,_,player)
-	SpawnBabies(player)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_USE_ITEM, 0, PlayerType.PLAYER_LILITH, 1, function(_,_,player)
+	SpawnBabies(player, player:GetBodyColor()+1)
 end)
 
 mod.AddBirthrightChangeCondition(function(player)

@@ -186,16 +186,17 @@ local function CheckBirthrightAll(_,player)
 	end
 	if player.QueuedItem.Item then
 		if player.QueuedItem.Item.ID == CollectibleType.COLLECTIBLE_BIRTHRIGHT and mod.ChangeToFakeBirthright(player) then
-			local charName = tostring(ptype + 1)
-			if mod.FakeBirthrightDesc[charName] then
+			local index = mod.GetMCMPlayerTypeIndex(ptype)
+			if mod.FakeBirthrightDesc[index] then
 				local lang = Options.Language
-				local desc = mod.FakeBirthrightDesc[charName][lang]
+				local desc = mod.FakeBirthrightDesc[index][lang]
 				local brname = BirthrightLangName[lang]
 				if not desc then
-					desc = mod.FakeBirthrightDesc[charName].en
+					desc = mod.FakeBirthrightDesc[index].en
 					brname = BirthrightLangName.en
 				end
-				local desci = desc[mod.MCMOption.Settings[mod.MCMOption.Name[charName]]-1]
+				
+				local desci = desc[mod.GetMCMValue(ptype)-1]
 				Game():GetHUD():ShowItemText(brname, desci, false)
 			end
 			local queue = player.QueuedItem

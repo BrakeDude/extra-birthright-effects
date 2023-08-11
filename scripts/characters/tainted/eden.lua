@@ -1,9 +1,26 @@
 local mod = ExtraBirthright
 
 local Eden = {}
-local currentState = PlayerType.PLAYER_MAGDALENA
+local currentState = PlayerType.PLAYER_CAIN
 
 local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+
+function mod:GetCustomBirthrightPlayers(types)
+    local rPlayers = {}
+    local players = mod:GetPlayersByType(types)
+    for _,player in ipairs(players) do
+        local ptype = player:GetPlayerType()
+        if (mod.GetMCMValue(ptype) and mod.GetMCMValue(ptype) > 1) then
+            local MCMValue = mod.GetMCMValue(ptype)
+            local maxMCMValue = mod.GetMaxMCMValue(ptype)
+            local col = mod.GetOptionsBirthright(MCMValue, maxMCMValue > 3)
+            if player:HasCollectible(col) then
+                table.insert(rPlayers, player)
+            end
+        end
+    end
+    return rPlayers
+end
 
 local function GetBirthrightCallbacks(modcallback)
     local callbacks = mod.GetCustomCallbacks(modcallback)
@@ -21,15 +38,12 @@ local function GetBirthrightCallbacks(modcallback)
                     local maxMCMValue = mod.GetMaxMCMValue(ptype)
                     local col = mod.GetOptionsBirthright(MCMValue, maxMCMValue > 3)
                     if player:HasCollectible(col) and mod.OptionBirthrightCondition(MCMValue, maxMCMValue, callback.Effect) then
-                        table.insert(callbackTable, callbacks[i])
-                        table.remove(callbacks,i)
-                    else
-                        i = i + 1
+                        table.insert(callbackTable, callback)
+                        callbacks[i] = nil
                     end
                 end
-            else
-                i = i + 1
             end
+            i = i + 1
         end
     end
     return callbackTable
@@ -39,7 +53,7 @@ local function ChangeEdenState(player)
     local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
     if player and player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and player:HasCollectible(col) and mod.MCMOption.Settings["Tainted Eden"] > 1 then
         local data = mod.GetPersistentPlayerData(player)
-        data.TEdenState = mod.RNG:RandomInt(mod.MCMOption.PlayerType)
+        data.TEdenState = mod.MCMOption.PlayerType[mod.RNG:RandomInt(#mod.MCMOption.PlayerType)]
     end
 end
 

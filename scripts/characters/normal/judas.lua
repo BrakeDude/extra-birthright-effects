@@ -14,17 +14,8 @@ local function BrimPuppet(player)
 	end
 end
 
-function Judas:JudasBecomesStansPuppet(entity)
-	local player = entity:ToPlayer()
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Judas"],true)
-	if player:HasCollectible(collectible) and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) and player:GetPlayerType() == PlayerType.PLAYER_JUDAS then
-		BrimPuppet(player)	
-	end
-	return nil
-end
---mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Judas.JudasBecomesStansPuppet, EntityType.ENTITY_PLAYER)
-
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_JUDAS, 1, BrimPuppet)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_JUDAS, 2, BrimPuppet)
 
 local addedCallbacks = {}
 
