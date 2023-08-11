@@ -60,13 +60,19 @@ end
 
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_APOLLYON_B, 1, function()
 	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B, PlayerType.PLAYER_APOLLYON_B})) do
-		RoomSpawn(player)
+		local data = mod.GetPersistentPlayerData(player)
+		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_APOLLYON_B or player:GetPlayersByType() ~= PlayerType.PLAYER_EDEN_B then
+			RoomSpawn(player)
+		end
 	end
 end)
 
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_APOLLYON_B, 2, function()
 	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B})) do
-		RoomSpawn(player)
+		local data = mod.GetPersistentPlayerData(player)
+		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_APOLLYON_B then
+			RoomSpawn(player)
+		end
 	end
 end)
 

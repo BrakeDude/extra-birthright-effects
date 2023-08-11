@@ -55,18 +55,15 @@ function Lilith:CreepFromBelly(entity)
 end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Lilith.CreepFromBelly, FamiliarVariant.UMBILICAL_BABY)
 
-function Lilith:CreepHemorrhage(player)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Lilith"])
-	if mod.MCMOption.Settings["Tainted Lilith"] > 1 then
-		if player.FrameCount%5 == 1 and player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_LILITH_B then
-			local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, player.Position, Vector.Zero, player):ToEffect()
-			creep.Scale = 1.2
-			creep.CollisionDamage = player.Damage * 2.5
-			creep:SetTimeout(10)
-		end
+local function CreepHemorrhage(player)
+	if player.FrameCount%5 == 1 then
+		local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, player.Position, Vector.Zero, player):ToEffect()
+		creep.Scale = 1.2
+		creep.CollisionDamage = player.Damage * 2.5
+		creep:SetTimeout(10)
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Lilith.CreepHemorrhage)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_LILITH_B, 1, CreepHemorrhage)
 
 mod.AddBirthrightChangeCondition(function(player)
 	return player:GetPlayerType() == PlayerType.PLAYER_LILITH_B and mod.MCMOption.Settings["Tainted Lilith"] == 2

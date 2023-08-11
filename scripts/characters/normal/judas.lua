@@ -15,7 +15,11 @@ local function BrimPuppet(player)
 end
 
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_JUDAS, 1, BrimPuppet)
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_JUDAS, 2, BrimPuppet)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_JUDAS, 2, function(player, damage, flags, source, cd)
+	if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B then
+		BrimPuppet(player)
+	end
+end)
 
 local addedCallbacks = {}
 

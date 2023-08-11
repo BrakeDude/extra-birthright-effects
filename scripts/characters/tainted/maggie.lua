@@ -6,31 +6,21 @@ local function Regen(player)
 	SFXManager():Play(SoundEffect.SOUND_VAMP_GULP,1,2,false)
 end
 
-function Maggie:TaintedRegeneration()
-	if mod.MCMOption.Settings["Tainted Magdalene"] > 1 then
-		for _,player in ipairs(mod:GetPlayers()) do
-			local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Magdalene"])
-			if player:GetPlayerType() == PlayerType.PLAYER_MAGDALENA_B then
-				if player:HasCollectible(collectible) then
-					Regen(player)
-				end
-			end
-		end
-	end
-end
-mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, Maggie.TaintedRegeneration)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_SPAWN_CLEAN_AWARD, 0, PlayerType.PLAYER_MAGDALENA_B, function()
-	for _,player in ipairs(mod:GetPlayerType(PlayerType.PLAYER_EDEN_B)) do
-		if not mod:GetData(player).Regened then
-			mod:GetData(player).Regened = true
-			Regen(player)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_SPAWN_CLEAN_AWARD, 0, PlayerType.PLAYER_MAGDALENA_B, 1, function()
+	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B, PlayerType.PLAYER_MAGDALENA_B})) do
+		local data = mod.GetPersistentPlayerData(player)
+		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_MAGDALENA_B or player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B then
+			if not mod:GetData(player).Regened then
+				mod:GetData(player).Regened = true
+				Regen(player)
+			end
 		end
 	end
 end)
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_MAGDALENA_B, function()
-	for _,player in ipairs(mod:GetPlayerType(PlayerType.PLAYER_EDEN_B)) do
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function()
+	for _,player in ipairs(mod:GetPlayers()) do
 		if mod:GetData(player).Regened then
 			mod:GetData(player).Regened = nil
 		end

@@ -30,23 +30,7 @@ local function WispLogic(wisp, player)
 	end
 end
 
-function Bethany:BetterWisps(wisp)
-	if mod.MCMOption.Settings["Tainted Bethany"] > 1 then
-		if wisp.SpawnerEntity ~= nil then
-			local player = wisp.SpawnerEntity
-			if player.Type == EntityType.ENTITY_PLAYER then
-				player = player:ToPlayer()
-				local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Bethany"])
-				if player:GetPlayerType() == PlayerType.PLAYER_BETHANY_B and player:HasCollectible(collectible) then
-					WispLogic(wisp,player)
-				end
-			end
-		end
-	end
-end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Bethany.BetterWisps, FamiliarVariant.ITEM_WISP)
-
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_FAMILIAR_UPDATE, 0, PlayerType.PLAYER_BETHANY_B, function(wisp)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_FAMILIAR_UPDATE, 0, PlayerType.PLAYER_BETHANY_B, 1, function(wisp)
 	if wisp.SpawnerEntity ~= nil then
 		local player = wisp.SpawnerEntity
 		if player.Type == EntityType.ENTITY_PLAYER then

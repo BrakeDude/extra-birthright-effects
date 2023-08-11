@@ -3,12 +3,7 @@ local substituteDarkArts = Isaac.GetItemIdByName("Twisted Arts")
 local TJudas = {}
 --#region Tainted Judas
 function TJudas:DarkFu(_, _, player)
-    if mod.MCMOption.Settings["Tainted Judas"] > 1 then
-		local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Judas"])
-		if player:HasCollectible(collectible) and (player:GetPlayerType() == PlayerType.PLAYER_JUDAS_B) then
-			player:UseCard(Card.CARD_SOUL_JUDAS,UseFlag.USE_NOANIM | UseFlag.USE_NOANNOUNCER)
-		end
-	end
+	player:UseCard(Card.CARD_SOUL_JUDAS, UseFlag.USE_NOANIM | UseFlag.USE_NOANNOUNCER)
 	return true
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, TJudas.DarkFu, substituteDarkArts)

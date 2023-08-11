@@ -33,23 +33,7 @@ local function BuffClot(baby)
 	end
 end
 
-function Eve:BetterBloodBabies(baby)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eve"])
-	if mod.MCMOption.Settings["Tainted Eve"] > 1 then
-		if baby.SpawnerEntity ~= nil then
-			local player = baby.SpawnerEntity
-			if player.Type == EntityType.ENTITY_PLAYER then
-				player = player:ToPlayer()
-				if player:GetPlayerType() == PlayerType.PLAYER_EVE_B and player:HasCollectible(collectible) then
-					BuffClot(baby)
-				end
-			end
-		end
-	end
-end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Eve.BetterBloodBabies, FamiliarVariant.BLOOD_BABY)
-
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_FAMILIAR_UPDATE, 0, PlayerType.PLAYER_EVE_B, function(baby)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_FAMILIAR_UPDATE, 0, PlayerType.PLAYER_EVE_B, 1, function(baby)
 	if baby.SpawnerEntity ~= nil then
 		local player = baby.SpawnerEntity
 		if player.Type == EntityType.ENTITY_PLAYER then

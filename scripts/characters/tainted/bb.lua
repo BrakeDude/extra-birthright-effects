@@ -146,22 +146,6 @@ local function Poop(player)
     end
 end
 
-function BB:BBShooting(tear)
-    local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Blue Baby"])
-	if mod.MCMOption.Settings["Tainted Blue Baby"] > 1 then
-        local player = mod:GetPlayerFromTear(tear)
-        if player then
-            if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_XXX_B then
-                Poop(player)
-            end
-        end
-    end
-end
-
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, BB.BBShooting)
-mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT, BB.BBShooting)
-mod:AddCallback(ModCallbacks.MC_POST_BOMB_INIT, BB.BBShooting)
-
 local function PoopShoot(tear)
     local player = mod:GetPlayerFromTear(tear)
     if player then
@@ -169,9 +153,9 @@ local function PoopShoot(tear)
     end
 end
 
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_FIRE_TEAR, 0, PlayerType.PLAYER_XXX_B, PoopShoot)
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_LASER_INIT, 0, PlayerType.PLAYER_XXX_B, PoopShoot)
-mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_BOMB_INIT, 0, PlayerType.PLAYER_XXX_B, PoopShoot)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_FIRE_TEAR, 0, PlayerType.PLAYER_XXX_B, 1, PoopShoot)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_LASER_INIT, 0, PlayerType.PLAYER_XXX_B, 1, PoopShoot)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_BOMB_INIT, 0, PlayerType.PLAYER_XXX_B, 1, PoopShoot)
 
 mod.AddBirthrightChangeCondition(function(player)
 	return player:GetPlayerType() == PlayerType.PLAYER_XXX_B and mod.MCMOption.Settings["Tainted Blue Baby"] == 2
