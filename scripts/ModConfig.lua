@@ -1,5 +1,50 @@
 --#region Mod Config Menu
 local mod = ExtraBirthright
+
+local OptionsMaxNum = {
+	3, --Isaac
+	5, --Maggie
+	5, --Cain
+	5, --Judas
+	3, --Blue Baby
+	3, --Eve
+	3, --Samson
+	3, --Azazel
+	3, --Lazarus
+	3, --Eden
+	3, --Lost
+	3, --Lazarus Risen
+	5, --Dark Judas
+	3, --Lilith
+	3, --Keeper
+	3, --Apollyon
+	3, --Forgotten
+	3, --Soul
+	3, --Bethany
+	3, --Jacob
+	3, --Esau
+	3, --Tainted Isaac
+	3, --Tainted Magdalene
+	3, --Tainted Cain
+	3, --Tainted Judas
+	3, --Tainted Blue Baby
+	3, --Tainted Eve
+	3, --Tainted Samson
+	3, --Tainted Azazel
+	3, --Tainted Lazarus
+	5, --Tainted Eden
+	3, --Tainted Lost
+	3, --Tainted Lilith
+	3, --Tainted Keeper
+	5, --Tainted Apollyon
+	3, --Tainted Forgotten
+	3, --Tainted Bethany
+	5, --Tainted Jacob
+	3, --Tainted Lazarus Dead
+	3, --Tainted Jacob Lost
+	3, --Tainted Soul
+}
+
 mod.MCMOption ={
 	Name = {
 		"Isaac",
@@ -76,7 +121,7 @@ mod.MCMOption ={
 		3, --Tainted Azazel
 		3, --Tainted Lazarus
 		5, --Tainted Eden
-		1, --Tainted Lost
+		3, --Tainted Lost
 		3, --Tainted Lilith
 		3, --Tainted Keeper
 		5, --Tainted Apollyon
@@ -166,7 +211,7 @@ mod.MCMOption ={
 		"1: Gets Brimstone effect and ability to fly.",--Tainted Azazel
 		"1: Flip charges overtime.",--Tainted Lazarus
 		"1: Random birhright effect of other characters. Changes on new room or when taking damage. 2. Second modded effect.",--Tainted Eden
-		"Comming soon.",--Tainted Lost
+		"1. 50% chance for an uncleared room or 100% chance on Boss or Boss Rush room to add {{Collectible313}}Holy Mantle effect to that room.",--Tainted Lost
 		"1: Spawn red creep that deals 250% player's damage. Every time umbilical baby is shot spawns red creep that deals 150% player's damage.",--Tainted Lilith
 		"1: Picking up coins gives temporary damage up that wears off over time.",--Tainted Keeper
 		"1: Spawns 20 random harbinger locusts on pickup. Entering hostile room will spawn 2-5 random locusts. 2: Abyss locusts have small Godhead aura.",--Tainted Apollyon
@@ -331,4 +376,11 @@ local function ResetOnReload(_,modd)
 	mod:ReloadMCM()
 end
 mod:AddCallback(ModCallbacks.MC_PRE_MOD_UNLOAD, ResetOnReload)
+
+local function VanillaOptionReCheck()
+	for index, option in pairs(OptionsMaxNum) do
+		mod.MCMOption.OptionsMaxNum[index] = option
+	end
+end
+mod:AddPriorityCallback(ModCallbacks.MC_POST_GAME_STARTED, 300, VanillaOptionReCheck)
 --#endregion

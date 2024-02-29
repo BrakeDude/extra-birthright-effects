@@ -1,6 +1,5 @@
 -- Coded by BrakeDude
 -- Initial inspiration + a litte bit of code - dsju (Go download Red Baby mod https://steamcommunity.com/sharedfiles/filedetails/?id=2992868259. NOW!)
--- Because of RNG nature of Guppy's Collar and Broken Ankh make is not work as wanted they are excluded (i hope temporarily)
 
 ModCallbacks.MC_PRE_PLAYER_REVIVE = "MC_PRE_PLAYER_REVIVE"
 ModCallbacks.MC_POST_PLAYER_REVIVE = "MC_POST_PLAYER_REVIVE"
