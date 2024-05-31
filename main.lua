@@ -27,7 +27,9 @@ include("scripts/encyclopedia.lua")
 include("scripts/ModConfig.lua")
 include("scripts/helpFuncs.lua")
 include("scripts/cmd.lua")
-include("scripts/ReviveAPI.lua")
+if not REPENTOGON then
+	include("scripts/ReviveAPI.lua")
+end
 
 include("scripts/characters/normal/isaac.lua")
 include("scripts/characters/normal/maggie.lua")
@@ -84,6 +86,9 @@ function ExtraBirthrightLocal:SaveSomeData(isSaving)
 	mod:SaveData(json.encode(saveBirthright))
 end
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, ExtraBirthrightLocal.SaveSomeData)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function()
+	ExtraBirthrightLocal:SaveSomeData(true)
+end)
 --#endregion
 
 --#region Loading

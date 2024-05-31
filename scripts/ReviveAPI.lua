@@ -1,8 +1,8 @@
 -- Coded by BrakeDude
 -- Initial inspiration + a litte bit of code - dsju (Go download Red Baby mod https://steamcommunity.com/sharedfiles/filedetails/?id=2992868259. NOW!)
-
-ModCallbacks.MC_PRE_PLAYER_REVIVE = "MC_PRE_PLAYER_REVIVE"
-ModCallbacks.MC_POST_PLAYER_REVIVE = "MC_POST_PLAYER_REVIVE"
+local localModCallbacks = {}
+localModCallbacks.MC_PRE_PLAYER_REVIVE = "MC_PRE_PLAYER_REVIVE"
+localModCallbacks.MC_POST_PLAYER_REVIVE = "MC_POST_PLAYER_REVIVE"
 
 local currentVerssion = 1.1
 
@@ -101,7 +101,7 @@ local function load(newversion)
         if not player:GetData().UsedLazarusSoul then    
             
             local vanillaRevive = false
-            local callbacks = Isaac.GetCallbacks(ModCallbacks.MC_PRE_PLAYER_REVIVE, true)
+            local callbacks = Isaac.GetCallbacks(localModCallbacks.MC_PRE_PLAYER_REVIVE, true)
             for _,callback in ipairs(callbacks) do
                 local priority = callback.Priority
                 local param = callback.Param or -1
@@ -139,7 +139,7 @@ local function load(newversion)
             if player:GetData().UsedLazarusSoul then
                 player:GetData().UsedLazarusSoul = nil
             elseif wasDeadPlayer[playerDataId].Revive then
-                local callbacks = Isaac.GetCallbacks(ModCallbacks.MC_POST_PLAYER_REVIVE, true)
+                local callbacks = Isaac.GetCallbacks(localModCallbacks.MC_POST_PLAYER_REVIVE, true)
                 local collectible = wasDeadPlayer[playerDataId].Revive
                 if collectible == -1 then collectible = CollectibleType.COLLECTIBLE_NULL end
                 for _,callback in ipairs(callbacks) do
@@ -167,3 +167,5 @@ elseif ReviveAPI.Version < currentVerssion then
     ReviveAPI = nil
     load(true)
 end
+
+ExtraBirthright.ModCallbacks = localModCallbacks
