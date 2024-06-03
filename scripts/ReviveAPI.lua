@@ -4,7 +4,7 @@ local localModCallbacks = {}
 localModCallbacks.MC_PRE_PLAYER_REVIVE = "MC_PRE_PLAYER_REVIVE"
 localModCallbacks.MC_POST_PLAYER_REVIVE = "MC_POST_PLAYER_REVIVE"
 
-local currentVerssion = 1.1
+local currentVerssion = 1.2
 
 local function load(newversion)
     local mod = RegisterMod("Revive API", 1)
@@ -168,4 +168,4 @@ elseif ReviveAPI.Version < currentVerssion then
     load(true)
 end
 
-ExtraBirthright.ModCallbacks = localModCallbacks
+return localModCallbacks

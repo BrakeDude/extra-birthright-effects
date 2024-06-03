@@ -7,7 +7,8 @@ ExtraBirthright.GetOptionsBirthright(option,extra) - gives you modded or vanilla
 "extra" - makes that character has 2 modded effects (2 and 3) and 2 combined effects (4 and 5).
 
 
-ExtraBirthright.AddCustomEffectsMCM(name,extra,label,splash1,firstEID,splash2,secondEID) - function to add Mod Config Menu value for modded character (although you can do it in your mod if you want).
+ExtraBirthright.AddCustomEffectsMCM(playerType,name,extra,label,splash1,firstEID,splash2,secondEID) - function to add Mod Config Menu value for modded character (although you can do it in your mod if you want).
+"playerType" - id of modded character.
 "name" - name of modded character. Add 'Tainted' at the beginning for tainted character.
 "extra" - set to true if you want 2 modded effects.
 "label" - explanation of what modded effects are doing in MCM.

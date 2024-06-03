@@ -7,6 +7,9 @@ mod.fliped = {}
 mod.BirthrightfloorBought = false
 mod.RNG = RNG()
 mod.COLLECTIBLE_BIRTHRIGHT = Isaac.GetItemIdByName("Birthright (Alt)")
+mod.IsLoaded = false
+
+mod.DSS = {}
 
 mod.PlayerData = {}
 mod.FamiliarData = {}
@@ -21,14 +24,15 @@ mod.shootDirecton = {
 	[Direction.DOWN] = Vector(0, 1)
 }
 
+include("scripts/helpFuncs.lua")
 include("scripts/api.lua")
 include("scripts/eid.lua")
 include("scripts/encyclopedia.lua")
 include("scripts/ModConfig.lua")
-include("scripts/helpFuncs.lua")
+include("scripts/imgui.lua")
 include("scripts/cmd.lua")
 if not REPENTOGON then
-	include("scripts/ReviveAPI.lua")
+	mod.CustomCallbacks = include("scripts/ReviveAPI.lua")
 end
 
 include("scripts/characters/normal/isaac.lua")
@@ -69,25 +73,24 @@ include("scripts/characters/tainted/bethany.lua")
 include("scripts/characters/tainted/jacob.lua")
 
 --#region Saving
-function ExtraBirthrightLocal:SaveSomeData(isSaving)
+function ExtraBirthrightLocal:SaveSomeData(isSaving, isUnloading)
 	local saveBirthright = {}
-	local game = Game()
 	if isSaving then
-		saveBirthright.PlayerData = json.encode(mod.PlayerData)
-		saveBirthright.FamiliarData = json.encode(mod.FamiliarData)
-		saveBirthright.BirthrightfloorBought = json.encode(mod.BirthrightfloorBought)
-		saveBirthright.VisitedRooms = json.encode(mod.VisitedRooms)
+		saveBirthright.PlayerData = mod.PlayerData
+		saveBirthright.FamiliarData = mod.FamiliarData
+		saveBirthright.BirthrightfloorBought = mod.BirthrightfloorBought
+		saveBirthright.VisitedRooms = mod.VisitedRooms
 	end
 
-
-	saveBirthright.ModConfigMenu = json.encode(mod.MCMOption)
+	saveBirthright.ModConfigMenu = mod.MCMOption
 	saveBirthright.BirthrightStealChance = mod.MCMTCainBirthright["BirthrightYoink"]
 	saveBirthright.Version = mod.Version
 	mod:SaveData(json.encode(saveBirthright))
+	mod.IsLoaded = isUnloading == true
 end
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, ExtraBirthrightLocal.SaveSomeData)
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function()
-	ExtraBirthrightLocal:SaveSomeData(true)
+	ExtraBirthrightLocal:SaveSomeData(true, true)
 end)
 --#endregion
 
@@ -100,13 +103,13 @@ function ExtraBirthrightLocal:LoadItBack(isContinued)
 	if mod:HasData() then
 		local loadBirthright = json.decode(mod:LoadData())
 		if isContinued then
-			mod.PlayerData = json.decode(loadBirthright.PlayerData)
-			mod.FamiliarData = json.decode(loadBirthright.FamiliarData)
-			mod.BirthrightfloorBought = json.decode(loadBirthright.BirthrightfloorBought) or false
-			mod.VisitedRooms = json.decode(loadBirthright.VisitedRooms) or {}
+			mod.PlayerData = loadBirthright.PlayerData
+			mod.FamiliarData = loadBirthright.FamiliarData
+			mod.BirthrightfloorBought = loadBirthright.BirthrightfloorBought or false
+			mod.VisitedRooms = loadBirthright.VisitedRooms or {}
 		end
 		if loadBirthright.ModConfigMenu then
-			local settings = json.decode(loadBirthright.ModConfigMenu)
+			local settings = loadBirthright.ModConfigMenu
 			if settings.Name then
 				for k,v in ipairs(settings.Name) do
 					mod.MCMOption.Name[k] = v
@@ -132,12 +135,16 @@ function ExtraBirthrightLocal:LoadItBack(isContinued)
 			mod.MCMTCainBirthright["BirthrightYoink"] = loadBirthright.BirthrightStealChance
 		end
 		mod:ReloadMCM()
+		if REPENTOGON then
+			mod:ReloadImGui()
+		end
 	end
 	mod:BirthrightDesc()
 	for _,player in ipairs(mod:GetPlayers()) do
 		player:AddCacheFlags(CacheFlag.CACHE_ALL)
 		player:EvaluateItems()
 	end
+	mod.IsLoaded = true
 end
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, ExtraBirthrightLocal.LoadItBack)
 --#endregion

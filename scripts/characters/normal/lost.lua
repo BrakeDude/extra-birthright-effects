@@ -49,10 +49,19 @@ if REPENTOGON then
             if player:GetEffects():HasNullEffect(revive) then
                 local data = mod.GetPersistentPlayerData(player)
                 data.LostRevive = true
-                return true
+                return false
             end
         end
     end)
+
+    local function AlreadyHasACopy(item, items)
+        for _, v in ipairs(items) do
+            if v == item then
+                return true
+            end
+        end
+        return false
+    end
 
     mod:AddCallback(ModCallbacks.MC_POST_PLAYER_REVIVE, function(_, player)
         if mod.MCMOption.Settings["The Lost"] > 1 then
@@ -60,19 +69,23 @@ if REPENTOGON then
             if data.LostRevive then
                 data.LostRevive = nil
                 data.LostChance = data.LostChance + 1
-                for item = 1, mod.GetMaxCollectibleID() do
-                    if Isaac.GetItemConfig():GetCollectible(item) then
-                        local itemConf = Isaac.GetItemConfig():GetCollectible(item)
-                        if player:HasCollectible(item) and itemConf.Type ~= ItemType.ITEM_ACTIVE
-                        and (itemConf.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST)
-                        and item ~= CollectibleType.COLLECTIBLE_BIRTHRIGHT
-                        and item ~= mod.COLLECTIBLE_BIRTHRIGHT
-                        and item ~= CollectibleType.COLLECTIBLE_HOLY_MANTLE
-                        then
-                            --for i = 1, player:GetCollectibleNum(item) do
-                            player:AddCollectible(item,0,false)
-                            --end
-                        end
+                local history = player:GetHistory():GetCollectiblesHistory()
+                local i = 1
+                while i <= #history do
+                    if history[i]:IsTrinket() then
+                        table.remove(history, i)
+                    else
+                        i = i + 1
+                    end
+                end
+                local addedItems = {}
+                for index, item in ipairs(history) do
+                    local id = item:GetItemID()
+                    local itemCollectible = Isaac.GetItemConfig():GetCollectible(id)
+                    if not AlreadyHasACopy(id, addedItems) and itemCollectible.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST 
+                    and itemCollectible.Type ~= ItemType.ITEM_ACTIVE then
+                        player:AddCollectible(id, 0, false)
+                        table.insert(addedItems, id)
                     end
                 end
                 local level = Game():GetLevel()

@@ -364,6 +364,9 @@ function mod.AddCustomEffectsMCM(playerType,name,extra,label,splash1,firstEID,sp
 	end
 
 	mod:ReloadMCM()
+	if REPENTOGON then
+		mod:ReloadImGui()
+	end
 	-- else
 	--    Isaac.DebugString("Couldn't add effect for vanilla characters")
 	--end
@@ -388,6 +391,9 @@ function mod.RemoveCustomEffectsOptions(playerType)
 		table.remove(mod.FakeBirthrightDesc, ch)
 	end
 	mod:ReloadMCM()
+	if REPENTOGON then
+		mod:ReloadImGui()
+	end
 end
 
 if mod.Callbacks and mod.Callbacks.TEdenCallbacks and mod.UnregisterCustomCallbacks then

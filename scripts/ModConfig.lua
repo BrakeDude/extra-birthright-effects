@@ -211,7 +211,7 @@ mod.MCMOption ={
 		"1: Gets Brimstone effect and ability to fly.",--Tainted Azazel
 		"1: Flip charges overtime.",--Tainted Lazarus
 		"1: Random birhright effect of other characters. Changes on new room or when taking damage. 2. Second modded effect.",--Tainted Eden
-		"1. 50% chance for an uncleared room or 100% chance on Boss or Boss Rush room to add {{Collectible313}}Holy Mantle effect to that room.",--Tainted Lost
+		"1. 50% chance for an uncleared room or 100% chance on Boss or Boss Rush room to add Holy Mantle effect to that room.",--Tainted Lost
 		"1: Spawn red creep that deals 250% player's damage. Every time umbilical baby is shot spawns red creep that deals 150% player's damage.",--Tainted Lilith
 		"1: Picking up coins gives temporary damage up that wears off over time.",--Tainted Keeper
 		"1: Spawns 20 random harbinger locusts on pickup. Entering hostile room will spawn 2-5 random locusts. 2: Abyss locusts have small Godhead aura.",--Tainted Apollyon
@@ -374,6 +374,9 @@ AddMCM()
 
 local function ResetOnReload(_,modd)
 	mod:ReloadMCM()
+	if REPENTOGON then
+		mod:ReloadImGui()
+	end
 end
 mod:AddCallback(ModCallbacks.MC_PRE_MOD_UNLOAD, ResetOnReload)
 
