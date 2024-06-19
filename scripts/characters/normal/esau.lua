@@ -47,8 +47,10 @@ local function NewReward(rng,spawnpos)
             Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,room:FindFreePickupSpawnPosition(spawnpos, 1),Vector.Zero,nil)
         end
     elseif level:CanSpawnDevilRoom() and rng:RandomInt(2) == 0 and room:IsCurrentRoomLastBoss() then
-        level:InitializeDevilAngelRoom(false, true)
-        room:TrySpawnDevilRoomDoor(true,true)
+        if not REPENTOGON then
+            level:InitializeDevilAngelRoom(false, true)
+            room:TrySpawnDevilRoomDoor(true,true)
+        end
         for j = 1,isContract do
             Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,room:FindFreePickupSpawnPosition(spawnpos, 1),Vector.Zero,nil)
         end
@@ -61,18 +63,40 @@ end
 
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PRE_SPAWN_CLEAN_AWARD, 0, PlayerType.PLAYER_ESAU, 1, NewReward)
 
-function Esau:OnlyForReward()
-    local level = game:GetLevel()
-    if mod.MCMOption.Settings["Esau"] > 1 then
-        for _,player in ipairs(mod:GetPlayersByType({PlayerType.PLAYER_ESAU})) do
-            local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
-            if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
-                level:DisableDevilRoom()
+if not REPENTOGON then
+    function Esau:OnlyForReward()
+        local level = game:GetLevel()
+        if mod.MCMOption.Settings["Esau"] > 1 then
+            for _,player in ipairs(mod:GetPlayersByType({PlayerType.PLAYER_ESAU})) do
+                local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
+                if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
+                    level:DisableDevilRoom()
+                end
             end
         end
     end
+    mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Esau.OnlyForReward)
+else
+    function Esau:OnNewLevel()
+        if mod.MCMOption.Settings["Esau"] > 1 then
+            local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
+            if PlayerManager.AnyPlayerTypeHasCollectible(PlayerType.PLAYER_ESAU, collectible) then
+                game:GetLevel():InitializeDevilAngelRoom(false, true)
+            end
+        end
+    end
+    mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Esau.OnNewLevel)
+
+    function Esau:Chance(float)
+        if mod.MCMOption.Settings["Esau"] > 1 then
+            local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
+            if PlayerManager.AnyPlayerTypeHasCollectible(PlayerType.PLAYER_ESAU, collectible) then
+                return 0.5
+            end
+        end
+    end
+    mod:AddCallback(ModCallbacks.MC_POST_DEVIL_CALCULATE, Esau.Chance)
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Esau.OnlyForReward)
 
 function Esau:NoDuality(player)
     if mod.MCMOption.Settings["Esau"] > 1 then
@@ -135,6 +159,9 @@ mod.AddOnPickupFunction(function(player)
         game:GetLevel():DisableDevilRoom()
         local itempool = game:GetItemPool()
         itempool:RemoveCollectible(CollectibleType.COLLECTIBLE_DUALITY)
+        if REPENTOGON then
+            game:GetLevel():InitializeDevilAngelRoom(false, true)
+        end
     end
 end)
 

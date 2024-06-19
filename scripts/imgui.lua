@@ -86,7 +86,7 @@ local function InitOptions()
         mod.MCMTCainBirthright["BirthrightYoink"] = val
     end, 0, 1, 1, 100)
     ImGui.AddCallback("extraBirthrightMenu", ImGuiCallback.Render, function()
-        if mod.IsLoaded then
+        if mod.IsRunLoaded then
             for i = 1, #mod.MCMOption.Name do
             
                 if mod.MCMOption.Name[i] then
@@ -120,6 +120,4 @@ if REPENTOGON then
     function mod:ReloadImGui()
         InitOptions()
     end
-
-
 end

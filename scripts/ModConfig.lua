@@ -373,10 +373,7 @@ end
 AddMCM()
 
 local function ResetOnReload(_,modd)
-	mod:ReloadMCM()
-	if REPENTOGON then
-		mod:ReloadImGui()
-	end
+	mod.ResetMod = true
 end
 mod:AddCallback(ModCallbacks.MC_PRE_MOD_UNLOAD, ResetOnReload)
 
