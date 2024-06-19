@@ -4,21 +4,31 @@ local function load(data)
 	ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
 	local mod = ExtraBirthright
 	local ExtraBirthrightLocal = {}
-	mod.Version = data.Version or version
+	if data then
+		mod.Version = data.Version or version
+		mod.fliped = data.fliped or {}
+		mod.BirthrightfloorBought = data.BirthrightfloorBought or false
+		mod.IsRunLoaded = data.IsRunLoaded or false
+		mod.DSS = data.DSS or {}
+		mod.PlayerData = data.PlayerData or {}
+		mod.FamiliarData = data.FamiliarData or {}
+		mod.VisitedRooms = data.VisitedRooms or {}
+		mod.MCMOption = data.MCMOption
+		mod.MCMTCainBirthright = data.MCMTCainBirthright
+	else
+		mod.Version = version
+		mod.fliped = {}
+		mod.BirthrightfloorBought = false
+		mod.IsRunLoaded = false
+		mod.DSS = {}
+		mod.PlayerData = {}
+		mod.FamiliarData = {}
+		mod.VisitedRooms = {}
+	end
 	local json = require("json")
-	mod.fliped = data.fliped or {}
-	mod.BirthrightfloorBought = data.BirthrightfloorBought or false
 	mod.RNG = RNG()
 	mod.COLLECTIBLE_BIRTHRIGHT = Isaac.GetItemIdByName("Birthright (Alt)")
-	mod.IsRunLoaded = data.IsRunLoaded or false
 	mod.IsModLoaded = false
-
-	mod.DSS = data.DSS or {}
-
-	mod.PlayerData = data.PlayerData or {}
-	mod.FamiliarData = data.FamiliarData or {}
-
-	mod.VisitedRooms = data.VisitedRooms or {}
 
 	mod.shootDirecton = {
 		[Direction.NO_DIRECTION] = Vector(0,0),
@@ -182,7 +192,7 @@ local function load(data)
 	mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, ExtraBirthrightLocal.RemovePersistenData, EntityType.ENTITY_PLAYER)
 
 	Isaac.DebugString("Extra Birthright Effects loaded. Version ".. mod.Version.Major.."."..mod.Version.Minor..mod.Version.Patch)
-	print("Extra Birthright Effects loaded. Version ".. mod.Version)
+	print("Extra Birthright Effects loaded. Version ".. mod.Version.Major.."."..mod.Version.Minor..mod.Version.Patch)
 	print("Use 'extrabirthright help' command to see other console commands")
 	mod.IsModLoaded = true
 end
@@ -194,7 +204,8 @@ local function ExportPersitentData(exportMod)
 	mod.IsRunLoaded = exportMod.IsRunLoaded
 
 	mod.DSS = exportMod.DSS
-
+	mod.MCMOption = exportMod.MCMOption
+	mod.MCMTCainBirthright = exportMod.MCMTCainBirthright
 	mod.PlayerData = exportMod.PlayerData
 	mod.FamiliarData = exportMod.FamiliarData
 

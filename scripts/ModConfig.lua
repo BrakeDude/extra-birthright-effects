@@ -45,7 +45,7 @@ local OptionsMaxNum = {
 	3, --Tainted Soul
 }
 
-mod.MCMOption ={
+mod.MCMOption = mod.MCMOption or {
 	Name = {
 		"Isaac",
 		"Magdalene",
@@ -267,7 +267,7 @@ mod.MCMOption ={
 	}
 }
 
-mod.MCMTCainBirthright = {
+mod.MCMTCainBirthright = mod.MCMTCainBirthright or {
 	["BirthrightYoink"] = 0
 }
 
