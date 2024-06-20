@@ -47,8 +47,8 @@ local function NewReward(rng,spawnpos)
             Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,room:FindFreePickupSpawnPosition(spawnpos, 1),Vector.Zero,nil)
         end
     elseif level:CanSpawnDevilRoom() and rng:RandomInt(2) == 0 and room:IsCurrentRoomLastBoss() then
+        level:InitializeDevilAngelRoom(false, true)
         if not REPENTOGON then
-            level:InitializeDevilAngelRoom(false, true)
             room:TrySpawnDevilRoomDoor(true,true)
         end
         for j = 1,isContract do

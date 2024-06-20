@@ -185,7 +185,7 @@ function mod:BirthrightDesc()
 	if EID then
 		local EsauName = EID:getDescriptionEntry("birthright", PlayerType.PLAYER_ESAU+1)[1] or "Esau"
 		for k,v in pairs(mod.EBEIDDesc) do
-			local JandE_EID = mod.EBEIDDesc[k][20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."#"..mod.EBEIDDesc[k][20][mod.MCMOption.Settings["Esau"]]
+			local JandE_EID = mod.EBEIDDesc[k][20][mod.MCMOption.Settings["Jacob"]].."#{{Player"..PlayerType.PLAYER_ESAU.."}} {{ColorGray}}"..EsauName.."#"..mod.EBEIDDesc[k][21][mod.MCMOption.Settings["Esau"]]
 			for i = 1, #mod.MCMOption.PlayerType do
 				local ptype = mod.GetMCMValue(i-1)
 				if (i < 39 or i > 41) and i ~= 20 and ptype then

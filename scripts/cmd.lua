@@ -19,7 +19,7 @@ local function GetCharacterIndexByName(arg)
 			return i
 		end
 	end
-	return nil
+	return -1
 end
 
 local function splitArgs(args)
@@ -40,9 +40,9 @@ local function cgdCMD(command, args)
 			print("Invalid change [option] argument. Use 'extrabirthright help' for more command info")
 			return
 		end
+		table.remove(args, #args)
 	end
 	value = tonumber(value, 10)
-	table.remove(args, #args)
 	local commandstr = ""
 	for k,v in ipairs(args) do
 		commandstr = commandstr..v
@@ -52,7 +52,7 @@ local function cgdCMD(command, args)
 	end
 	if mod.MCMOption.Settings[commandstr] then
 		local char = GetCharacterIndexByName(commandstr)
-		if not char then
+		if char == -1 then
 			print("Invalid change [character] argument. Use 'extrabirthright help charlist' for available characters")
 			return
 		end
@@ -134,34 +134,32 @@ mod:AddCallback(ModCallbacks.MC_EXECUTE_CMD, cmd.CmdCommands)
 
 if REPENTOGON then
 	local commands = {}
-	commands["help"] = {"charlist", "Prints all characters names with modded birthright effects"}
+	commands["help"] = {{"charlist", "Prints all characters names with modded birthright effects"}}
 	commands["modconfig"] = {
 		{"reset", "Resets Mod Config Menu and all values to default"},
 		{"reload", "Reloads Mod Config Menu and all values to default"}
 	}
-	commands["get"] = {}
-	commands["change"] = {}
-	commands["default"] = {}
-	for i = 1, #mod.MCMOption.Name do
-		if i ~= 18 and i ~= 39 and i ~= 40 and i ~= 41 then
-			local name = mod.MCMOption.Name[i]
-			for k,v in ipairs({"get", "change", "default"}) do
+	for k,v in ipairs({"get", "change", "default"}) do
+		commands[v] = {}
+		for i = 1, #mod.MCMOption.Name do
+			if i ~= 18 and i ~= 39 and i ~= 40 and i ~= 41 then
+				local name = mod.MCMOption.Name[i]
 				local str = v:sub(0, 1):upper()..v:sub(2, #v).."s"
-				commands[v][name] = {name, str.." Birthright effect of "..name}
+				commands[v][name] = {v.." "..name, str.." Birthright effect of "..name}
 			end
 		end
-	end	
+	end
 
 
-	local function PutAutocomplete(tab, index)
-		local returnTable = {}
+	local function PutAutocomplete(tab, index, returnTable)
+		returnTable = returnTable or {}
 		
 		if tab[index] ~= nil then
 			for k, v in pairs(tab[index]) do
-				if type(k) == "number" then
+				if type(table.unpack(v, 1, 1)) == "string" then
 					table.insert(returnTable, v)
 				else
-					returnTable = PutAutocomplete(tab[index], k)
+					returnTable = PutAutocomplete(v, k, returnTable)
 				end
 			end
 		end
