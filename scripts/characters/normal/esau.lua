@@ -46,9 +46,9 @@ local function NewReward(rng,spawnpos)
         for j = 1,isContract do
             Isaac.Spawn(EntityType.ENTITY_PICKUP,pickup.variant,pickup.subtype,room:FindFreePickupSpawnPosition(spawnpos, 1),Vector.Zero,nil)
         end
-    elseif level:CanSpawnDevilRoom() and rng:RandomInt(2) == 0 and room:IsCurrentRoomLastBoss() then
+    elseif level:CanSpawnDevilRoom() and room:IsCurrentRoomLastBoss() then
         level:InitializeDevilAngelRoom(false, true)
-        if not REPENTOGON then
+        if not REPENTOGON and rng:RandomInt(2) == 0 then
             room:TrySpawnDevilRoomDoor(true,true)
         end
         for j = 1,isContract do
@@ -98,26 +98,39 @@ else
     mod:AddCallback(ModCallbacks.MC_POST_DEVIL_CALCULATE, Esau.Chance)
 end
 
+---@param player EntityPlayer
 function Esau:NoDuality(player)
     if mod.MCMOption.Settings["Esau"] > 1 then
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Esau"])
         if player:GetPlayerType() == PlayerType.PLAYER_ESAU and player:HasCollectible(collectible) then
-            for i = 1, game:GetNumPlayers() do
-                local player = Isaac.GetPlayer(i-1)
-                if player:HasCollectible(CollectibleType.COLLECTIBLE_DUALITY) then
-                    player:RemoveCollectible(CollectibleType.COLLECTIBLE_DUALITY)
+            if REPENTOGON then
+                if not PlayerManager.AnyoneHasCollectible(CollectibleType.COLLECTIBLE_DUALITY) and not player:HasCollectible(CollectibleType.COLLECTIBLE_DUALITY) then
+                    player:AddInnateCollectible(CollectibleType.COLLECTIBLE_DUALITY)
                 end
-            end
-            local itempool = game:GetItemPool()
-            local pooltype = itempool:GetLastPool()
-            for _,item in ipairs(Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, CollectibleType.COLLECTIBLE_DUALITY)) do
-                local newitem = itempool:GetCollectible(pooltype)
-                item:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newitem, true, true)
+            else
+                local addInnateDuality = true
+                for _,player in ipairs(mod.GetPlayersByType()) do
+                    player = player:ToPlayer()
+                    if player:HasCollectible(CollectibleType.COLLECTIBLE_DUALITY) or player:GetEffects():GetCollectibleEffectNum(CollectibleType.COLLECTIBLE_DUALITY) > 0 then
+                        addInnateDuality = false
+                        break
+                    end
+                end
+                if addInnateDuality then
+                    player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_DUALITY)
+                end
             end
         end
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Esau.NoDuality)
+
+mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, function(_, player, offset)
+    if game:GetRoom():GetRenderMode() ~= RenderMode.RENDER_WATER_REFLECT then
+        local pos = Isaac.WorldToScreen(player.Position)
+        Isaac.RenderText(player:GetEffects():GetCollectibleEffectNum(CollectibleType.COLLECTIBLE_DUALITY), pos.X, pos.Y, 1, 1, 1, 1)
+    end
+end)
 
 mod.AddOnPickupFunction(function(player)
     local ptype = player:GetPlayerType()
@@ -159,9 +172,7 @@ mod.AddOnPickupFunction(function(player)
         game:GetLevel():DisableDevilRoom()
         local itempool = game:GetItemPool()
         itempool:RemoveCollectible(CollectibleType.COLLECTIBLE_DUALITY)
-        if REPENTOGON then
-            game:GetLevel():InitializeDevilAngelRoom(false, true)
-        end
+        game:GetLevel():InitializeDevilAngelRoom(false, true)
     end
 end)
 
