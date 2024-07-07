@@ -120,39 +120,43 @@ local function HasItemInList(player,list)
     return false
 end
 
-function BB:BBShooting(tear)
-    local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Blue Baby"])
-	if mod.MCMOption.Settings["Tainted Blue Baby"] > 1 then
-        local player = mod:GetPlayerFromTear(tear)
-        if player then
-            local rng = player:GetCollectibleRNG(collectible)
-            local dirtyMind = player:HasCollectible(CollectibleType.COLLECTIBLE_DIRTY_MIND) and 3 or 1
-            if player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_XXX_B and rng:RandomFloat() < 0.15 * dirtyMind then
-                local type = dipVariant.DIP_NORMAL
-                if HasItemInList(player,RedList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_RED
-                elseif HasItemInList(player,AshList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_BLACK
-                elseif HasItemInList(player,FireList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_FLAMING
-                elseif HasItemInList(player,StoneList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_STONE
-                elseif HasItemInList(player,VirusList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_POISON
-                elseif HasItemInList(player,GoldList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_GOLDEN
-                elseif HasItemInList(player,HolyList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_HOLY
-                elseif HasItemInList(player,CornList) and rng:RandomFloat() < dirtyMind * 0.1 then
-                    type = dipVariant.DIP_CORNY
-                end
-                player:AddFriendlyDip(type,player.Position)
-                Game():Fart(player.Position, 30, player,1,0,Color(1.8,0.7,1.5))
-            end
+local function Poop(player)
+    local dirtyMind = player:HasCollectible(CollectibleType.COLLECTIBLE_DIRTY_MIND) and 3 or 1
+    if mod.RNG:RandomFloat() < 0.15 * dirtyMind then
+        local type = dipVariant.DIP_NORMAL
+        if HasItemInList(player,RedList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_RED
+        elseif HasItemInList(player,AshList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_BLACK
+        elseif HasItemInList(player,FireList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_FLAMING
+        elseif HasItemInList(player,StoneList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_STONE
+        elseif HasItemInList(player,VirusList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_POISON
+        elseif HasItemInList(player,GoldList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_GOLDEN
+        elseif HasItemInList(player,HolyList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_HOLY
+        elseif HasItemInList(player,CornList) and mod.RNG:RandomFloat() < dirtyMind * 0.1 then
+            type = dipVariant.DIP_CORNY
         end
+        player:AddFriendlyDip(type,player.Position)
+        Game():Fart(player.Position, 30, player,1,0,Color(1.8,0.7,1.5))
     end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, BB.BBShooting)
-mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT, BB.BBShooting)
-mod:AddCallback(ModCallbacks.MC_POST_BOMB_INIT, BB.BBShooting)
+local function PoopShoot(tear)
+    local player = mod:GetPlayerFromTear(tear)
+    if player then
+        Poop(player)
+    end
+end
+
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_FIRE_TEAR, 0, PlayerType.PLAYER_XXX_B, 1, PoopShoot)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_LASER_INIT, 0, PlayerType.PLAYER_XXX_B, 1, PoopShoot)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_BOMB_INIT, 0, PlayerType.PLAYER_XXX_B, 1, PoopShoot)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_XXX_B and mod.MCMOption.Settings["Tainted Blue Baby"] == 2
+end)

@@ -1,4 +1,5 @@
 local mod = ExtraBirthright
+local game = Game()
 local Jacob = {}
 local skin = {
 				[SkinColor.SKIN_PINK]="",
@@ -13,7 +14,7 @@ local skin = {
 function Jacob:HesMine(player,_,_,newtarget)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
 	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
-		local player = player:ToPlayer()
+		player = player:ToPlayer()
 		local data = mod.GetPersistentPlayerData(player)
 		if player:HasCollectible(collectible) and (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B) then
 			if newtarget.Type ~= EntityType.ENTITY_DARK_ESAU then
@@ -34,7 +35,7 @@ function Jacob:YouDie(npc,collider,low)
 	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
 		local player
 		local isaacheart = false
-		if collider.Type == EntityType.ENTITY_PLAYER and collider:ToPlayer():GetPlayerType() == PlayerType.PLAYER_JACOB_B  then
+		if collider.Type == EntityType.ENTITY_PLAYER and (collider:ToPlayer():GetPlayerType() == PlayerType.PLAYER_JACOB_B or collider:ToPlayer():GetPlayerType() == PlayerType.PLAYER_JACOB2_B)  then
 			player = collider:ToPlayer()
 			if player:HasCollectible(CollectibleType.COLLECTIBLE_ISAACS_HEART) then
 				return false
@@ -51,11 +52,10 @@ function Jacob:YouDie(npc,collider,low)
 			if player:HasInvincibility(0) or player:GetDamageCooldown() > 0 then
 				return false
 			end
-			if player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE) and not isaacheart then
-				player:TakeDamage(2, 0, EntityRef(player), 0)
-				return false
+			if player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE) then
+				player:GetEffects():RemoveCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE)
 			end
-			if player:HasCollectible(collectible) and not isaacheart then
+			if player:HasCollectible(collectible) then
 				if not player:GetEffects():HasNullEffect(NullItemID.ID_LOST_CURSE) then
 					local deadJacob = Isaac.Spawn(1000,0,0,player.Position,Vector.Zero,nil):ToEffect()
 					deadJacob:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
@@ -63,7 +63,6 @@ function Jacob:YouDie(npc,collider,low)
 					deadJacob.GridCollisionClass = GridCollisionClass.COLLISION_NONE
 					local deadJacobSprites = deadJacob:GetSprite()
 					deadJacobSprites:Load("gfx/001.000_player.anm2",true)
-					print(player:GetBodyColor())
 					deadJacobSprites:ReplaceSpritesheet(PlayerSpriteLayer.SPRITE_EXTRA,"gfx/characters/costumes/character_019b_jacob"..skin[player:GetBodyColor()]..".png")
 					deadJacobSprites:ReplaceSpritesheet(PlayerSpriteLayer.SPRITE_GHOST,"gfx/characters/costumes/ghostnoghost.png")
 					deadJacobSprites:LoadGraphics()
@@ -99,54 +98,96 @@ function Jacob:FriendlyPissedEsau(Esau)
 end
 mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, Jacob.FriendlyPissedEsau, EntityType.ENTITY_DARK_ESAU)
 
-function Jacob:JacobStatsCache(player,cacheFlag)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
-	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
-		if (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B)
-		and player:HasCollectible(collectible) then
-			if cacheFlag == CacheFlag.CACHE_DAMAGE then
-				player.Damage = player.Damage * 1.5
-			elseif cacheFlag == CacheFlag.CACHE_FIREDELAY then
-				player.MaxFireDelay = mod:tearsUp(player.MaxFireDelay,1.5)
-			elseif cacheFlag == CacheFlag.CACHE_SPEED then
-				player.MoveSpeed = player.MoveSpeed + 0.3
-			end
-		end
+local function JacobStatsCache(player,cacheFlag)
+	if cacheFlag == CacheFlag.CACHE_DAMAGE then
+		player.Damage = player.Damage * 1.5
+	elseif cacheFlag == CacheFlag.CACHE_FIREDELAY then
+		player.MaxFireDelay = mod:tearsUp(player.MaxFireDelay,1.5)
+	elseif cacheFlag == CacheFlag.CACHE_SPEED then
+		player.MoveSpeed = player.MoveSpeed + 0.3
 	end
 end
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Jacob.JacobStatsCache)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_EVALUATE_CACHE, 0, PlayerType.PLAYER_JACOB_B, 1, JacobStatsCache)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_EVALUATE_CACHE, 0, PlayerType.PLAYER_JACOB2_B, 1, JacobStatsCache)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_EVALUATE_CACHE, 0, PlayerType.PLAYER_JACOB_B, 2, function(player, cache)
+	if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B then
+		JacobStatsCache(player,cache)
+	end
+end)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_EVALUATE_CACHE, 0, PlayerType.PLAYER_JACOB_B, 2, function(player, cache)
+	if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B then
+		JacobStatsCache(player,cache)
+	end
+end)
 
-function Jacob:SecondItem()
-	local game = Game()
+local function Dupe()
 	local room = game:GetRoom()
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Jacob"],true)
-	if mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4 then
-		for i = 1, game:GetNumPlayers() do
-			local player = Isaac.GetPlayer(i-1)
-			if (player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB_B)
-			and player:HasCollectible(collectible) and room:IsFirstVisit() and
-			(room:GetType() == RoomType.ROOM_DEVIL or room:GetType() == RoomType.ROOM_TREASURE
-			or room:GetType() == RoomType.ROOM_SECRET or room:GetType() == RoomType.ROOM_SUPERSECRET)
-			then
-				local items = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
-				for _,item in ipairs(items) do
-					local ItemPool = game:GetItemPool():GetPoolForRoom(room:GetType(),RNG():GetSeed())
-					local id = game:GetItemPool():GetCollectible(ItemPool)
-					local newitem = Isaac.Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,id,Isaac.GetFreeNearPosition(item.Position,3),Vector(0, 0),nil):ToPickup()
-					if item:ToPickup():IsShopItem() then
-						if room:GetType() == RoomType.ROOM_DEVIL then
-							newitem.Price = Isaac.GetItemConfig():GetCollectible(id).DevilPrice
-						elseif room:GetType() == RoomType.ROOM_ANGEL then
-							newitem:Remove()
-						else
-							newitem.Price = Isaac.GetItemConfig():GetCollectible(id).ShopPrice
-						end
+	if room:IsFirstVisit() and (room:GetType() == RoomType.ROOM_DEVIL or room:GetType() == RoomType.ROOM_TREASURE
+	or room:GetType() == RoomType.ROOM_SECRET or room:GetType() == RoomType.ROOM_SUPERSECRET) then
+		local items = Isaac.FindByType(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE)
+		for _,item in ipairs(items) do
+			if not mod:GetData(item).Duped then
+				mod:GetData(item).Duped = true
+				local ItemPool = game:GetItemPool():GetPoolForRoom(room:GetType(),RNG():GetSeed())
+				local id = game:GetItemPool():GetCollectible(ItemPool)
+				local newitem = Isaac.Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,id,Isaac.GetFreeNearPosition(item.Position,3),Vector(0, 0),nil):ToPickup()
+				mod:GetData(newitem).Duped = true
+				if item:ToPickup():IsShopItem() then
+					if room:GetType() == RoomType.ROOM_DEVIL then
+						newitem.Price = Isaac.GetItemConfig():GetCollectible(id).DevilPrice
+					elseif room:GetType() == RoomType.ROOM_ANGEL then
+						newitem:Remove()
+					else
+						newitem.Price = Isaac.GetItemConfig():GetCollectible(id).ShopPrice
 					end
 				end
-				return
 			end
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Jacob.SecondItem)
+
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_JACOB_B, 1, Dupe)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_JACOB2_B, 1, Dupe)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_JACOB_B, 2, function()
+	local doDupe = false
+	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B})) do
+		local data = mod.GetPersistentPlayerData(player)
+		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_JACOB_B then
+			doDupe = true
+			break
+		end
+	end
+	if doDupe then
+		Dupe()
+	end
+end)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_JACOB2_B, 2, function()
+	local doDupe = false
+	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B})) do
+		local data = mod.GetPersistentPlayerData(player)
+		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_JACOB2_B then
+			doDupe = true
+			break
+		end
+	end
+	if doDupe then
+		Dupe()
+	end
+end)
+
+mod.AddOnPickupFunction(function(player)
+	local ptype = player:GetPlayerType()
+	if (ptype == PlayerType.PLAYER_JACOB_B or ptype == PlayerType.PLAYER_JACOB2_B) and (mod.MCMOption.Settings["Tainted Jacob"] == 2 or mod.MCMOption.Settings["Tainted Jacob"] == 4) then
+		player:AddMaxHearts(2, true)
+		player:AddHearts(2)
+		player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+		player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
+		player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+		player:EvaluateItems()
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return (player:GetPlayerType() == PlayerType.PLAYER_JACOB_B or player:GetPlayerType() == PlayerType.PLAYER_JACOB2_B) and mod.MCMOption.Settings["Tainted Jacob"] > 1 and mod.MCMOption.Settings["Tainted Jacob"] < 4
+end)
 --#endregion

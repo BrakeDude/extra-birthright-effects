@@ -35,4 +35,8 @@ function Laz:FlipTheSwitchLazarus2pointO(Collectible,_,player,_,slot)
 	return nil
 end
 mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, Laz.FlipTheSwitchLazarus2pointO, 711)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return (player:GetPlayerType() == PlayerType.PLAYER_LAZARUS_B or player:GetPlayerType() == PlayerType.PLAYER_LAZARUS2_B) and mod.MCMOption.Settings["Tainted Lazarus"] == 2
+end)
 --#endregion

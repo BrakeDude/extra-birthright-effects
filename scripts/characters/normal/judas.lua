@@ -3,36 +3,37 @@ local mod = ExtraBirthright
 local Judas = {}
 local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 
-function Judas:JudasBecomesStansPuppet(entity)
-	local player = entity:ToPlayer()
+local function BrimPuppet(player)
 	local data = mod.GetPersistentPlayerData(player)
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Judas"],true)
-	if player:HasCollectible(collectible) and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) and player:GetPlayerType() == PlayerType.PLAYER_JUDAS then
-		local rngtrack = player:GetCollectibleRNG(collectible):RandomFloat()
-		if rngtrack <= 0.2 and not data.JudasBirthBrimstone then
-			player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_BRIMSTONE,true,1)
-			data.JudasBirthBrimstone = true
-			player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-			player:EvaluateItems()
-		end
+	local rngtrack = mod.RNG:RandomFloat()
+	if rngtrack <= 0.2 and not data.JudasBirthBrimstone then
+		player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_BRIMSTONE,true,1)
+		data.JudasBirthBrimstone = true
+		player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+		player:EvaluateItems()
 	end
-	return nil
 end
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Judas.JudasBecomesStansPuppet, EntityType.ENTITY_PLAYER)
+
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_JUDAS, 1, BrimPuppet)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_JUDAS, 2, function(player, damage, flags, source, cd)
+	if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B then
+		BrimPuppet(player)
+	end
+end)
 
 local addedCallbacks = {}
 
 function Judas:JudasBirthBrimRemove()
 	for _,player in ipairs(mod:GetPlayers()) do
 		local data = mod.GetPersistentPlayerData(player)
-		data.JudasBirthBrimstone = false
+		data.JudasBirthBrimstone = nil
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Judas.JudasBirthBrimRemove)
 
 function Judas:JudasDamageAsStansPuppet(player,flag)
 	local data = mod.GetPersistentPlayerData(player)
-	if player:GetPlayerType() == PlayerType.PLAYER_JUDAS and flag == CacheFlag.CACHE_DAMAGE and data.JudasBirthBrimstone then
+	if flag == CacheFlag.CACHE_DAMAGE and data.JudasBirthBrimstone then
 		player.Damage = player.Damage + 5
 	end
 end
@@ -84,4 +85,17 @@ function Judas:JudasSecondBirthrightRemoveCallbacks()
 	end
 end
 mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, Judas.JudasSecondBirthrightRemoveCallbacks)
+
+mod.AddOnPickupFunction(function(player)
+	local ptype = player:GetPlayerType()
+	if ptype == PlayerType.PLAYER_JUDAS and (mod.MCMOption.Settings["Judas"] == 2 or mod.MCMOption.Settings["Judas"] == 4) then
+		for x = 1,3 do
+			Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, RNG():RandomInt(5) + 1, Isaac.GetFreeNearPosition(player.Position,0),Vector.Zero,nil)
+		end
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_JUDAS and mod.MCMOption.Settings["Judas"] > 1 and mod.MCMOption.Settings["Judas"] < 4
+end)
 --#endregion

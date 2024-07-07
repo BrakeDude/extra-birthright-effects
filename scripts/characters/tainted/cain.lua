@@ -9,11 +9,11 @@ function Cain:CainDestitnyItem(pickup, collider)
 	if mod.MCMOption.Settings["Tainted Cain"] > 1 then
         if collider.Type == EntityType.ENTITY_PLAYER then
             local player = collider:ToPlayer()
-            local rng = player:GetCollectibleRNG(collectible)
+            local rng = mod.RNG
             if player:GetPlayerType() == PlayerType.PLAYER_CAIN_B and pickup.SubType > 0 and player:IsItemQueueEmpty() then
                 local data = mod.GetPersistentPlayerData(player)
                 local chance = rng:RandomInt(100) + 1
-                if not data.TaintedCainPickedItem and (player:HasCollectible(collectible) or pickup.SubType == collectible and chance <= mod.MCMTCainBirthright["BirthrightYoink"]) then
+                if not data.TaintedCainPickedItem and (player:HasCollectible(collectible) or pickup.SubType == CollectibleType.COLLECTIBLE_BIRTHRIGHT and chance <= mod.MCMTCainBirthright["BirthrightYoink"]) then
                     data.TaintedCainPickedItem = true
                     local itemConf = Isaac.GetItemConfig():GetCollectible(pickup.SubType)
                     local changeTo = CollectibleType.COLLECTIBLE_NULL
@@ -113,4 +113,8 @@ function Cain:TaintedCainItemPickupReset()
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Cain.TaintedCainItemPickupReset)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_CAIN_B and mod.MCMOption.Settings["Tainted Cain"] == 2
+end)
 --#endregion

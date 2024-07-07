@@ -2,15 +2,18 @@
 local mod = ExtraBirthright
 local DJudas = {}
 
-function DJudas:DarkJudasGetsBonked(entity)
-	local player = entity:ToPlayer()
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Dark Judas"],true)
-	if (mod.MCMOption.Settings["Dark Judas"] == 2  or mod.MCMOption.Settings["Dark Judas"] == 4) and player:HasCollectible(collectible) then
-		if player:GetPlayerType() == PlayerType.PLAYER_BLACKJUDAS then
-			player:UseActiveItem(CollectibleType.COLLECTIBLE_NECRONOMICON,false,false,false,false)
-		end
-	end
-	return nil
+local function DarkJudasGetsBonked(player)
+	player:UseActiveItem(CollectibleType.COLLECTIBLE_NECRONOMICON,false,false,false,false)
 end
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, DJudas.DarkJudasGetsBonked, EntityType.ENTITY_PLAYER)
+--mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, DJudas.DarkJudasGetsBonked, EntityType.ENTITY_PLAYER)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_BLACKJUDAS, 1, DarkJudasGetsBonked)
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_BLACKJUDAS, 2, function(player, damage, flags, source, cd)
+	if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B then
+		DarkJudasGetsBonked(player)
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_BLACKJUDAS and mod.MCMOption.Settings["Dark Judas"] > 1 and mod.MCMOption.Settings["Dark Judas"] < 4
+end)
 --#endregion

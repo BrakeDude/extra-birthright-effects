@@ -83,8 +83,7 @@ function Bethany:ReverseCurse(curses)
     if mod.MCMOption.Settings["Bethany"] > 1 then
         if BethHasBirthright() then
             if (curses == LevelCurse.CURSE_NONE) and not level:IsAscent() then
-                local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
-                local rng = Isaac.GetPlayer(0):GetCollectibleRNG(collectible)
+                local rng = mod.RNG
                 local randBless = LevelBlessing.GetId(LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % #LevelBlessing.Blessings + 1])
                 return LevelBlessing.GetFlag(randBless)
             end
@@ -105,7 +104,7 @@ function Bethany:BlessingsUpdate(player)
 			data.Bethany = PlayerType.PLAYER_BETHANY
             if not level:IsAscent() then
                 if (curse == LevelCurse.CURSE_NONE) then
-                    local rng = player:GetCollectibleRNG(collectible)
+                    local rng = mod.RNG
                     local randBless = LevelBlessing.GetId(LevelBlessing.Blessings[rng:RandomInt(rng:Next()) % #LevelBlessing.Blessings + 1])
                     level:AddCurse(LevelBlessing.GetFlag(randBless),false)
                 else
@@ -205,7 +204,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, Bethany.BlessingForesight)
 
 function Bethany:AuraRender()
-    for _,player in ipairs(mod:GetPlayersByType(PlayerType.PLAYER_BETHANY)) do
+    for _,player in ipairs(mod:GetPlayersByType({PlayerType.PLAYER_BETHANY})) do
         local data = mod:GetData(player)
         local Aura = data.BlessingPrevailAura
         if Aura then
@@ -234,7 +233,7 @@ function Bethany:BlessingOfPrevailingandOrderEffect()
             local player = Isaac.GetPlayer(i-1)
             local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
             local curse = level:GetCurses()
-            local rng = player:GetCollectibleRNG(collectible)
+            local rng = mod.RNG
             if player:GetPlayerType() == PlayerType.PLAYER_BETHANY and player:HasCollectible(collectible) and not room:HasCurseMist() then
                 if LevelBlessing.CheckFlag(curse, LevelBlessing.GetFlag(LevelBlessing.GetId("Blessing of the Prevailing")))  then
                     if rng:RandomInt(100) < 20 then
@@ -274,7 +273,7 @@ function Bethany:BlessingOfVirtuousEffect(tear)
             local curse = level:GetCurses()
             if LevelBlessing.CheckFlag(curse, LevelBlessing.GetFlag(LevelBlessing.GetId("Blessing of the Virtuous"))) and 
             player:HasCollectible(collectible) and player:GetPlayerType() == PlayerType.PLAYER_BETHANY and not room:HasCurseMist() then
-                local rng = player:GetCollectibleRNG(collectible)
+                local rng = mod.RNG
                 if rng:RandomInt(100) < 5 then
                     tear:AddTearFlags(TearFlags.TEAR_ENEMY_TO_WISP)
                 end
@@ -361,7 +360,7 @@ function Bethany:BlessingOfImperceptibleAndBaptizedEffect()
                 local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
                 local player = Isaac.GetPlayer(i-1)
                 local data = mod.GetPersistentPlayerData(player)
-                local rng = player:GetCollectibleRNG(collectible)
+                local rng = mod.RNG
                 if rng:RandomInt(100) < 35 and room:GetType() ~= RoomType.ROOM_BOSS and room:GetType() ~= RoomType.ROOM_BOSSRUSH
                 and room:GetType() ~= RoomType.ROOM_BLACK_MARKET and room:GetType() ~= RoomType.ROOM_GREED_EXIT
                 and room:GetType() ~= RoomType.ROOM_SECRET_EXIT and room:GetType() ~= RoomType.ROOM_BARREN
@@ -408,8 +407,8 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Bethany.BlessingOfImperceptibleAndBaptizedEffect)
 
 function Bethany:TimerRender()
-    local room = game:GetRoom()
     if mod.MCMOption.Settings["Bethany"] > 1 and (game:GetHUD():IsVisible() or not game:GetSeeds():HasSeedEffect(SeedEffect.SEED_NO_HUD)) then
+        local room = game:GetRoom()
         local curse = game:GetLevel():GetCurses()
         local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Bethany"])
         if LevelBlessing.CheckFlag(curse, LevelBlessing.GetFlag(LevelBlessing.GetId("Blessing of Foresight"))) and not room:HasCurseMist() then
@@ -436,5 +435,9 @@ function Bethany:ClickerCheck(collectible,_,player)
     end
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, Bethany.ClickerCheck)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_BETHANY and mod.MCMOption.Settings["Bethany"] == 2
+end)
 
 

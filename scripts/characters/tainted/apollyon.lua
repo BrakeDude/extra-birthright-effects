@@ -1,5 +1,6 @@
 local mod = ExtraBirthright
 local Appolyon = {}
+local game = Game()
 --#region Tainted Apollyon
 
 function Appolyon:LocustHolyAura(locust)
@@ -45,23 +46,47 @@ function Appolyon:LocustHolyAura(locust)
 end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Appolyon.LocustHolyAura,FamiliarVariant.ABYSS_LOCUST)
 
-function Appolyon:NewLocusts()
-	local game = Game()
+local function RoomSpawn(player)
 	local room = game:GetRoom()
-	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Apollyon"],true)
-	if mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4 then
-		for i = 1, game:GetNumPlayers() do
-			local player = Isaac.GetPlayer(i-1)
-			if player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and player:HasCollectible(collectible) and room:IsFirstVisit() and not room:IsClear() then
-				local spawncount = player:GetCollectibleRNG(collectible):RandomInt(5)+1
-				spawncount = spawncount < 2 and 2 or spawncount
-				for x = 1,spawncount do
-					local rnglocust = player:GetCollectibleRNG(collectible):RandomInt(5)+1
-					Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
-				end
-			end
+	if room:IsFirstVisit() and not room:IsClear() then
+		local spawncount = mod.RNG:RandomInt(5)+1
+		spawncount = spawncount < 2 and 2 or spawncount
+		for x = 1,spawncount do
+			local rnglocust = mod.RNG:RandomInt(5)+1
+			Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
 		end
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Appolyon.NewLocusts);
+
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_APOLLYON_B, 1, function()
+	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B, PlayerType.PLAYER_APOLLYON_B})) do
+		local data = mod.GetPersistentPlayerData(player)
+		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_APOLLYON_B or player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B then
+			RoomSpawn(player)
+		end
+	end
+end)
+
+mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0, PlayerType.PLAYER_APOLLYON_B, 2, function()
+	for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B})) do
+		local data = mod.GetPersistentPlayerData(player)
+		if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_APOLLYON_B then
+			RoomSpawn(player)
+		end
+	end
+end)
+
+mod.AddOnPickupFunction(function(player)
+	local ptype = player:GetPlayerType()
+	if ptype == PlayerType.PLAYER_APOLLYON_B and (mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4) then
+		for x = 1,20 do
+			local rnglocust = mod.RNG:RandomInt(5)+1
+			Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
+		end
+	end
+end)
+
+mod.AddBirthrightChangeCondition(function(player)
+	return player:GetPlayerType() == PlayerType.PLAYER_APOLLYON_B and mod.MCMOption.Settings["Tainted Apollyon"] > 1 and mod.MCMOption.Settings["Tainted Apollyon"] < 4
+end)
 --#endregion
