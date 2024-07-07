@@ -125,13 +125,6 @@ function Esau:NoDuality(player)
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Esau.NoDuality)
 
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, function(_, player, offset)
-    if game:GetRoom():GetRenderMode() ~= RenderMode.RENDER_WATER_REFLECT then
-        local pos = Isaac.WorldToScreen(player.Position)
-        Isaac.RenderText(player:GetEffects():GetCollectibleEffectNum(CollectibleType.COLLECTIBLE_DUALITY), pos.X, pos.Y, 1, 1, 1, 1)
-    end
-end)
-
 mod.AddOnPickupFunction(function(player)
     local ptype = player:GetPlayerType()
     if ptype == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] > 1 then

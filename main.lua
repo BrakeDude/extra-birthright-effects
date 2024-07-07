@@ -9,7 +9,6 @@ local function load(data)
 		mod.fliped = data.fliped or {}
 		mod.BirthrightfloorBought = data.BirthrightfloorBought or false
 		mod.IsRunLoaded = data.IsRunLoaded or false
-		mod.DSS = data.DSS or {}
 		mod.PlayerData = data.PlayerData or {}
 		mod.FamiliarData = data.FamiliarData or {}
 		mod.VisitedRooms = data.VisitedRooms or {}
@@ -20,7 +19,6 @@ local function load(data)
 		mod.fliped = {}
 		mod.BirthrightfloorBought = false
 		mod.IsRunLoaded = false
-		mod.DSS = {}
 		mod.PlayerData = {}
 		mod.FamiliarData = {}
 		mod.VisitedRooms = {}
@@ -203,7 +201,6 @@ local function ExportPersitentData(exportMod)
 	mod.BirthrightfloorBought = exportMod.BirthrightfloorBought
 	mod.IsRunLoaded = exportMod.IsRunLoaded
 
-	mod.DSS = exportMod.DSS
 	mod.MCMOption = exportMod.MCMOption
 	mod.MCMTCainBirthright = exportMod.MCMTCainBirthright
 	mod.PlayerData = exportMod.PlayerData
