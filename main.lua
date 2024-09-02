@@ -1,4 +1,4 @@
-local version = {Major = "2", Minor = "45", Patch = ""}
+local version = {Major = "2", Minor = "46", Patch = ""}
 
 local function load(data)
 	ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
@@ -151,7 +151,6 @@ local function load(data)
 				mod:ReloadImGui()
 			end
 		end
-		mod:BirthrightDesc()
 		for _,player in ipairs(mod:GetPlayers()) do
 			player:AddCacheFlags(CacheFlag.CACHE_ALL)
 			player:EvaluateItems()
@@ -164,7 +163,6 @@ local function load(data)
 	function ExtraBirthrightLocal:Init(player)
 		local data = mod.GetPersistentPlayerData(player)
 		data.gotBirthright = true
-		mod:BirthrightDesc()
 	end
 	mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, ExtraBirthrightLocal.Init)
 

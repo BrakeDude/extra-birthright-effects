@@ -306,14 +306,10 @@ local function AddMCM()
 									option = option + 1
 								end
 							end
-							--if (mod.MCMOption.Name[i] == "Eden" or mod.MCMOption.Name[i] == "Tainted Bethany" or mod.MCMOption.Name[i] == "Tainted Magdalene") and mod.MCMOption.Settings[mod.MCMOption.Name[i]] == 2 then
-							--	option = 4
-							--end
 							return mod.MCMOption.Name[i]..': ' .. mod.MCMOption.Options[option]
 						end,
 						OnChange = function(currentNum)
 							mod.MCMOption.Settings[mod.MCMOption.Name[i]] = currentNum
-							mod:BirthrightDesc()
 						end,
 						Info = type(mod.MCMOption.Labels[i]) == "string" and mod.MCMOption.Labels[i] or ""
 					})

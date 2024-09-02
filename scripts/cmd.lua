@@ -128,7 +128,6 @@ function cmd:CmdCommands(command, args)
 	if argsTab[1] == "help" then
 		helpCMD(argsTab)
 	end
-	mod:BirthrightDesc()
 end
 mod:AddCallback(ModCallbacks.MC_EXECUTE_CMD, cmd.CmdCommands)
 

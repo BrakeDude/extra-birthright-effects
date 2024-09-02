@@ -4,7 +4,6 @@ local BirthrightLangName = {en = "Birthright", ru = "Право первород
 local OnPickupFunctions = {}
 local ChangeBirthrightFunction = {}
 mod.Languages = {en = "en_us", ru = "ru", es = "spa"}
-local ExtraEffects = {en ="Extra effects:", ru = "Дополнительные еффекты:", es = "Efecto extra:"}
 
 mod.Callbacks = mod.Callbacks or {}
 
@@ -212,15 +211,6 @@ local function CheckBirthrightAll(_,player)
 		end
 	end
 	data.gotBirthright = player:HasCollectible(substituteBirthright) or player:HasCollectible(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
-	if player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN or player:GetPlayerType() == PlayerType.PLAYER_THESOUL then
-		if not data.ForgottenType then
-			data.ForgottenType = player:GetPlayerType()
-		end
-		if data.ForgottenType ~= player:GetPlayerType() then
-			data.ForgottenType = player:GetPlayerType()
-			mod:BirthrightDesc()
-		end
-	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, CheckBirthrightAll)
 
@@ -341,9 +331,9 @@ function mod.AddCustomEffectsMCM(playerType,name,extra,label,splash1,firstEID,sp
 			mod.EBEIDDesc[k][size] = {}		
 			local birthrightDesc = EID.descriptions[mod.Languages[k]].birthright[size] and EID.descriptions[mod.Languages[k]].birthright[size][3] or "???"			
 			if mod.IsString(firstEID[k]) then
-				mod.EBEIDDesc[k][size] = {birthrightDesc,firstEID[k],birthrightDesc.."#{{ColorRainbow}}"..ExtraEffects[k].."{{CR}}#"..firstEID[k]}
+				mod.EBEIDDesc[k][size] = {firstEID[k]}
 			else
-				mod.EBEIDDesc[k][size] = {birthrightDesc, mod.FakeBirthrightDesc[size][k][1], birthrightDesc}
+				mod.EBEIDDesc[k][size] = {birthrightDesc}
 			end
 		end
 	end
@@ -354,11 +344,9 @@ function mod.AddCustomEffectsMCM(playerType,name,extra,label,splash1,firstEID,sp
 			local birthrightDesc = EID.descriptions[mod.Languages[k]].birthright[size] and EID.descriptions[mod.Languages[k]].birthright[size][3] or "???"
 			mod.EBEIDDesc[k][size][4] = mod.EBEIDDesc[k][size][3]
 			if mod.IsString(secondEID[k]) then
-				mod.EBEIDDesc[k][size][3] = secondEID[k]
-				mod.EBEIDDesc[k][size][5] = birthrightDesc.."#{{ColorRainbow}}"..ExtraEffects[k].."{{CR}}#"..secondEID[k]
+				table.insert(mod.EBEIDDesc[k][size], secondEID[k])
 			else
-				mod.EBEIDDesc[k][size][3] = mod.FakeBirthrightDesc[size][k][2]
-				mod.EBEIDDesc[k][size][5] = birthrightDesc
+				table.insert(mod.EBEIDDesc[k][size], birthrightDesc)
 			end
 		end
 	end
