@@ -1,7 +1,7 @@
 local mod = ExtraBirthright
 local Esau = {}
 local game = Game()
-local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+local substituteBirthright = mod.COLLECTIBLE_BIRTHRIGHT
 
 local function GetNewCollectible(id, pool, decrease, seed)
     local itemConfig = Isaac.GetItemConfig():GetCollectible(id)
@@ -130,7 +130,7 @@ mod.AddOnPickupFunction(function(player)
     if ptype == PlayerType.PLAYER_JACOB and mod.MCMOption.Settings["Jacob"] > 1 then
         local esau = player:GetOtherTwin()
         local randItems = {}
-        local rng = mod.RNG
+        local rng = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
         for item = 1, mod.GetMaxCollectibleID() do
             if Isaac.GetItemConfig():GetCollectible(item) then
                 local itemConf = Isaac.GetItemConfig():GetCollectible(item)

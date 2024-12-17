@@ -3,7 +3,7 @@ local mod = ExtraBirthright
 local Eden = {}
 local currentState = PlayerType.PLAYER_CAIN
 
-local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+local substituteBirthright = mod.COLLECTIBLE_BIRTHRIGHT
 
 function mod:GetCustomBirthrightPlayers(types)
     local rPlayers = {}
@@ -53,7 +53,9 @@ local function ChangeEdenState(player)
     local col = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eden"])
     if player and player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and player:HasCollectible(col) and mod.MCMOption.Settings["Tainted Eden"] > 1 then
         local data = mod.GetPersistentPlayerData(player)
-        data.TEdenState = mod.MCMOption.PlayerType[mod.RNG:RandomInt(#mod.MCMOption.PlayerType)]
+        local rng = player:GetDropRNG()
+        data.TEdenState = mod.MCMOption.PlayerType[rng:RandomInt(#mod.MCMOption.PlayerType)]
+        rng:Next()
     end
 end
 
@@ -1244,7 +1246,7 @@ function Eden:DataUpdate(player)
         end
         if mod.MCMOption.Settings["Tainted Eden"] == 2 and data.EdenPickedUpBirthright and Game():GetFrameCount() > 1 then
             if not player:HasCollectible(substituteBirthright) then
-                local rng = mod.RNG
+                local rng = player:GetCollectibleRNG(substituteBirthright)
                 local randItems = {}
                 for item = 1, mod.GetMaxCollectibleID() do
                     if Isaac.GetItemConfig():GetCollectible(item) then

@@ -1,4 +1,4 @@
-local version = {Major = "2", Minor = "46", Patch = ""}
+local version = {Major = "2", Minor = "46", Patch = "a"}
 
 local function load(data)
 	ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
@@ -24,8 +24,8 @@ local function load(data)
 		mod.VisitedRooms = {}
 	end
 	local json = require("json")
-	mod.RNG = RNG()
 	mod.COLLECTIBLE_BIRTHRIGHT = Isaac.GetItemIdByName("Birthright (Alt)")
+	mod.COLLECTIBLE_TWISTED_ARTS = Isaac.GetItemIdByName("Birthright (Alt)")
 	mod.IsModLoaded = false
 
 	mod.shootDirecton = {
@@ -44,7 +44,7 @@ local function load(data)
 	include("scripts/imgui.lua")
 	include("scripts/cmd.lua")
 	if not REPENTOGON then
-		mod.CustomCallbacks = data.CustomCallbacks or include("scripts/ReviveAPI.lua")
+		mod.CustomCallbacks = type(data) ~= "nil" and data.CustomCallbacks or include("scripts/ReviveAPI.lua")
 	end
 
 	include("scripts/characters/normal/isaac.lua")

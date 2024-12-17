@@ -1,6 +1,6 @@
 local mod = ExtraBirthright
 local Lost = {}
-local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+local substituteBirthright = mod.COLLECTIBLE_BIRTHRIGHT
 
 function Lost:LostLastChance(player)
     local level = Game():GetLevel()
@@ -98,7 +98,7 @@ if REPENTOGON then
     end)
 
 elseif ReviveAPI then
-    mod:AddPriorityCallback(mod.ModCallbacks.MC_PRE_PLAYER_REVIVE, 0, function(mod, player)
+    mod:AddPriorityCallback(mod.CustomCallbacks.MC_PRE_PLAYER_REVIVE, 0, function(mod, player)
         if mod.MCMOption.Settings["The Lost"] > 1 then
             local collectible = mod.GetOptionsBirthright(ExtraBirthright.MCMOption.Settings["The Lost"])
             local data = ExtraBirthright.GetPersistentPlayerData(player)
@@ -111,7 +111,7 @@ elseif ReviveAPI then
         end
     end)
 
-    mod:AddCallback(mod.ModCallbacks.MC_POST_PLAYER_REVIVE, function(mod, player, collectible)
+    mod:AddCallback(mod.CustomCallbacks.MC_POST_PLAYER_REVIVE, function(mod, player, collectible)
         local level = Game():GetLevel()
         local room = Game():GetRoom()
         if ExtraBirthright.MCMOption.Settings["The Lost"] > 1 then

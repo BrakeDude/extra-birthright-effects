@@ -1,5 +1,5 @@
 local mod = ExtraBirthright
-local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+local substituteBirthright = mod.COLLECTIBLE_BIRTHRIGHT
 local BirthrightLangName = {en = "Birthright", ru = "Право первородства", es = "Primogenitura"}
 local OnPickupFunctions = {}
 local ChangeBirthrightFunction = {}
@@ -196,12 +196,11 @@ local function CheckBirthrightAll(_,player)
 				end
 				
 				local desci = desc[mod.GetMCMValue(ptype)-1]
-				Game():GetHUD():ShowItemText(brname, desci, false)
+				Game():GetHUD():ShowItemText(brname, desci, false, true)
 			end
 			local queue = player.QueuedItem
-			queue.Item = nil
+			queue.Item = Isaac.GetItemConfig():GetCollectible(substituteBirthright)
 			player.QueuedItem = queue
-			player:QueueItem(Isaac.GetItemConfig():GetCollectible(substituteBirthright))
 		end
 	end
 	if ptype == PlayerType.PLAYER_THESOUL_B then return end

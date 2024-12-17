@@ -10,13 +10,15 @@ local function Wisps(player)
     local data = mod.GetPersistentPlayerData(player)
     if data.ForgottenSoulHearts then
         if data.ForgottenSoulHearts > 0 then
+            local rng = player:GetDropRNG()
             for i = 1, data.ForgottenSoulHearts do
-                for j = 1, math.max(1,mod.RNG:RandomInt(4)) do
+                for j = 1, math.max(1,rng:RandomInt(4)) do
                     local wisp = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, 0 , player.Position, Vector.Zero, player):ToFamiliar()
                     mod:GetData(wisp).SoulWispAfter = wisp.EntityCollisionClass
                     wisp.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
                 end
             end
+            rng:Next()
         end
         data.ForgottenSoulHearts = nil
     end

@@ -49,10 +49,14 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Appolyon.LocustHolyAura,Familia
 local function RoomSpawn(player)
 	local room = game:GetRoom()
 	if room:IsFirstVisit() and not room:IsClear() then
-		local spawncount = mod.RNG:RandomInt(5)+1
+		local rng = RNG()
+		rng:SetSeed(room:GetSpawnSeed(), 35)
+		local spawncount = rng:RandomInt(5)+1
 		spawncount = spawncount < 2 and 2 or spawncount
+		rng:Next()
 		for x = 1,spawncount do
-			local rnglocust = mod.RNG:RandomInt(5)+1
+			local rnglocust = rng:RandomInt(5)+1
+			rng:Next()
 			Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
 		end
 	end
@@ -79,9 +83,13 @@ end)
 mod.AddOnPickupFunction(function(player)
 	local ptype = player:GetPlayerType()
 	if ptype == PlayerType.PLAYER_APOLLYON_B and (mod.MCMOption.Settings["Tainted Apollyon"] == 2 or mod.MCMOption.Settings["Tainted Apollyon"] == 4) then
+		local rng = RNG()
+		local room = game:GetRoom()
+		rng:SetSeed(room:GetSpawnSeed() + room:GetAwardSeed(), 35)
 		for x = 1,20 do
-			local rnglocust = mod.RNG:RandomInt(5)+1
+			local rnglocust = rng:RandomInt(5)+1
 			Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rnglocust, player.Position, Vector.Zero, player)
+			rng:Next()
 		end
 	end
 end)

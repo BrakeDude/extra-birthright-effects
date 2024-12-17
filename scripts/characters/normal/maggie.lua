@@ -3,7 +3,7 @@ local mod = ExtraBirthright
 local Maggie = {}
 
 local function Charm(player)
-	local rng = mod.RNG
+	local rng = player:GetDropRNG()
 	local enemies = Isaac.FindInRadius(player.Position,50,EntityPartition.ENEMY)
 	for _,enemy in ipairs(enemies) do
 		if enemy:IsVulnerableEnemy() and not EntityRef(enemy).IsCharmed and rng:RandomInt(1000) < 50 then
@@ -14,6 +14,7 @@ local function Charm(player)
 			enemy:AddCharmed(EntityRef(enemy),duration)
 		end
 	end
+	rng:Next()
 end
 
 local function HeartsSpeed(player)

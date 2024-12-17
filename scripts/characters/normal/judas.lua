@@ -1,17 +1,19 @@
 --#region Judas
 local mod = ExtraBirthright
 local Judas = {}
-local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+local substituteBirthright = mod.COLLECTIBLE_BIRTHRIGHT
 
 local function BrimPuppet(player)
 	local data = mod.GetPersistentPlayerData(player)
-	local rngtrack = mod.RNG:RandomFloat()
+	local rng = player:GetDropRNG()
+	local rngtrack = rng:RandomFloat()
 	if rngtrack <= 0.2 and not data.JudasBirthBrimstone then
 		player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_BRIMSTONE,true,1)
 		data.JudasBirthBrimstone = true
 		player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
 		player:EvaluateItems()
 	end
+	rng:Next()
 end
 
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_PLAYER_TAKE_DMG, 0, PlayerType.PLAYER_JUDAS, 1, BrimPuppet)

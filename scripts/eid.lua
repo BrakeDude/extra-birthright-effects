@@ -1,5 +1,4 @@
 local mod = ExtraBirthright
-local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
 
 mod.FakeBirthrightDesc = {
 	{en = {"Pocket destiny"}, ru = {"Судьба в кармане"}, es = {"Destino de bolsillp"}}, --Isaac
@@ -241,5 +240,6 @@ local function BirthrightCallback(descObj)
 	end
 	return descObj
 end
-
-EID:addDescriptionModifier("ExtraBirthright Modifier", BirthrightCondition, BirthrightCallback)
+if EID then
+	EID:addDescriptionModifier("ExtraBirthright Modifier", BirthrightCondition, BirthrightCallback)
+end
