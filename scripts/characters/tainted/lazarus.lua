@@ -1,6 +1,6 @@
 local mod = ExtraBirthright
 local Laz = {}
-local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+local substituteBirthright = mod.COLLECTIBLE_BIRTHRIGHT
 
 --#region Tainted Lazarus
 function Laz:DaSwitcharu2pointO(player)

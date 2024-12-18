@@ -3,7 +3,7 @@ local Keeper = {}
 
 function Keeper:KeeperStatsUpdate(player)
     local data = mod.GetPersistentPlayerData(player)
-    local rng = mod.RNG
+    local rng = player:GetDropRNG()
     if not data.BonusKeeperDamage then
         data.BonusKeeperDamage = 0
     end
@@ -19,6 +19,7 @@ function Keeper:KeeperStatsUpdate(player)
             if data.BonusKeeperDamage < 0 then
                 data.BonusKeeperDamage = 0
             end
+            rng:Next()
             player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
             player:EvaluateItems()
             data.BonusKeeperFrame = 120
@@ -32,7 +33,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Keeper.KeeperStatsUpdate)
 
 mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDATE, 0, PlayerType.PLAYER_KEEPER_B, 1, function(player)
     local data = mod.GetPersistentPlayerData(player)
-    local rng = mod.RNG
+    local rng = player:GetDropRNG()
     if not data.BonusKeeperDamage then
         data.BonusKeeperDamage = 0
     end
@@ -46,6 +47,7 @@ mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_PLAYER_UPDA
         local diff = player:GetNumCoins() - data.PrevCoinCount
         if diff > 0 then
             data.BonusKeeperDamage = data.BonusKeeperDamage + diff * (0.05 + (rng:RandomInt(3) + 1) * 0.01)
+            rng:Next()
             player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
             player:EvaluateItems()
         end

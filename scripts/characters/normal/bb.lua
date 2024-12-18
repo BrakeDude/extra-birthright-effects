@@ -70,19 +70,19 @@ local function NotSoulHeart(heart)
 end
 
 local function ChangeRedHeart(heart)
+	local rng = heart:GetDropRNG()
 	if NotSoulHeart(heart)  then
-		if mod.RNG:RandomInt(100) < 30 then
-			if mod.RNG:RandomInt(100) < 20 and (doubleHearts ~= -1 or MoreSoulAndBlackHearts) then
+		if rng:RandomInt(100) < 30 then
+			if rng:RandomInt(100) < 20 and (doubleHearts ~= -1 or MoreSoulAndBlackHearts) then
 				if MoreSoulAndBlackHearts then
-					heart:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, mod.RNG:RandomInt(100) < 20 and 620 or 320, true)
+					heart:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, rng:RandomInt(100) < 20 and 620 or 320, true)
 				else
-					heart:Morph(EntityType.ENTITY_PICKUP,doubleHearts,mod.RNG:RandomInt(100) < 20 and 2 or 1,true)
+					heart:Morph(EntityType.ENTITY_PICKUP,doubleHearts,rng:RandomInt(100) < 20 and 2 or 1,true)
 				end
 			else
-				heart:Morph(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_HEART,mod.RNG:RandomInt(100) < 20 and HeartSubType.HEART_BLACK or HeartSubType.HEART_SOUL,true)
+				heart:Morph(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_HEART,rng:RandomInt(100) < 20 and HeartSubType.HEART_BLACK or HeartSubType.HEART_SOUL,true)
 			end
 		else
-			local rng = mod.RNG
 			local random = rng:RandomInt(6) + 1
 			local pickup = {variant = nil, subtype = 0}
 			local itemPool = game:GetItemPool()

@@ -9,7 +9,8 @@ function Cain:CainDestitnyItem(pickup, collider)
 	if mod.MCMOption.Settings["Tainted Cain"] > 1 then
         if collider.Type == EntityType.ENTITY_PLAYER then
             local player = collider:ToPlayer()
-            local rng = mod.RNG
+            local rng = RNG()
+            rng:SetSeed(pickup.InitSeed, 35)
             if player:GetPlayerType() == PlayerType.PLAYER_CAIN_B and pickup.SubType > 0 and player:IsItemQueueEmpty() then
                 local data = mod.GetPersistentPlayerData(player)
                 local chance = rng:RandomInt(100) + 1
@@ -81,7 +82,7 @@ function Cain:CainDestitnyItem(pickup, collider)
                             end
                         end
                     end
-                    game:GetHUD():ShowItemText(player, itemConf)
+                    game:GetHUD():ShowItemText(player, itemConf, false, true)
                     local sfx = SFXManager()
                     if room:GetType() == RoomType.ROOM_TREASURE then
                         sfx:Play(128)

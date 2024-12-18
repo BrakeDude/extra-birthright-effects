@@ -4,7 +4,7 @@ local ids = {1,2,3,5,6,8,12,13,14,20,21,29,31,55,57,67,70,71,73,88,91,94,95,96,9
 365,372,374,384,385,387,388,389,390,403,404,411,415,417,418,426,429,430,431,435,436,442,467,468,469,470,471,472,473,491,492,493,496,497,500,508,509,511,518,519,526,528,537,539,542,543,
 544,548,565,567,572,575,581,596,607,608,610,615,629,645,649,652,679,681,682,688,698,732}
 local Eden = {}
-local substituteBirthright = Isaac.GetItemIdByName("Birthright (Alt)")
+local substituteBirthright = mod.COLLECTIBLE_BIRTHRIGHT
 local game = Game()
 
 local function newRoom(player,rng)
@@ -23,7 +23,7 @@ local function newRoom(player,rng)
     randItems = mod.Shuffle(randItems,rng)
     if #randItems > 0 and rng:RandomInt(100) < 33 then
         local randomItem = rng:RandomInt(#randItems)+1
-        game:GetHUD():ShowItemText(player,Isaac.GetItemConfig():GetCollectible(randItems[randomItem]))
+        game:GetHUD():ShowItemText(player,Isaac.GetItemConfig():GetCollectible(randItems[randomItem]),true)
         player:UseActiveItem(randItems[randomItem])
     end
 end
@@ -32,7 +32,7 @@ mod.AddCustomCallback("ExtraBirthright", mod.Callbacks.Enums.MC_POST_NEW_ROOM, 0
     for _,player in ipairs(mod:GetCustomBirthrightPlayers({PlayerType.PLAYER_EDEN_B, PlayerType.PLAYER_EDEN})) do
         local data = mod.GetPersistentPlayerData(player)
         if player:GetPlayerType() == PlayerType.PLAYER_EDEN_B and data.TEdenState and data.TEdenState == PlayerType.PLAYER_EDEN or player:GetPlayerType() ~= PlayerType.PLAYER_EDEN_B then
-            newRoom(player,mod.RNG)
+            newRoom(player,player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_BIRTHRIGHT))
         end
     end
 end)

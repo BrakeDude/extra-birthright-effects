@@ -72,7 +72,6 @@ local function InitOptions()
 
                 ImGui.AddCombobox(dest, dest..mod.MCMOption.Name[i], mod.MCMOption.Name[i], function(index, val)
                     mod.MCMOption.Settings[mod.MCMOption.Name[i]] = index + 1
-                    mod:BirthrightDesc()
                 end, GetCharOptions(i), 0, false)
             
                 if type(mod.MCMOption.Labels[i]) == "string" then

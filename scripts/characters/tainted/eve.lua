@@ -1,7 +1,7 @@
 local mod = ExtraBirthright
 local Eve = {}
 --#region Tainted Eve
-function Eve:EveExtraBloodBaby(entitytype,variant,subtype,position,velocity,spawner)
+function Eve:EveExtraBloodBaby(entitytype,variant,subtype,position,velocity,spawner, seed)
 	local collectible = mod.GetOptionsBirthright(mod.MCMOption.Settings["Tainted Eve"])
 	if mod.MCMOption.Settings["Tainted Eve"] > 1 then
 		if entitytype == EntityType.ENTITY_FAMILIAR and variant == FamiliarVariant.BLOOD_BABY then
@@ -13,7 +13,9 @@ function Eve:EveExtraBloodBaby(entitytype,variant,subtype,position,velocity,spaw
 						if not mod:GetData(searchedPlayer).BirthrightBloodBabyCooldown then
 							mod:GetData(searchedPlayer).BirthrightBloodBabyCooldown = 0
 						end
-						if mod.RNG:RandomFloat() < 0.3 and mod:GetData(searchedPlayer).BirthrightBloodBabyCooldown <= 0 then
+						local rng = RNG()
+						rng:SetSeed(seed, 35)
+						if rng:RandomFloat() < 0.3 and mod:GetData(searchedPlayer).BirthrightBloodBabyCooldown <= 0 then
 							mod:GetData(searchedPlayer).BirthrightBloodBabyCooldown = 3
 							Isaac.Spawn(entitytype,variant,subtype,player.Position,velocity,searchedPlayer)
 						end
