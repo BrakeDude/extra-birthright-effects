@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-    <name>!Extra Birthright Effects: Dev</name>
-    <directory>extra-birthright-effects</directory>
+    <name>!Extra Birthright Effects</name>
+    <directory>extra birthright effects</directory>
     <description>This mod adds alternative Birthright effects for characters as a replacement or supplementary to the original effects. Right now not all characters have extra effects.
 
 View birthright additions in our [strike][url=https://pastebin.com/d0zNMcc8]Pastebin![/url][/strike][OUTDATED]
@@ -14,12 +14,12 @@ Found bugs report in [url=https://steamcommunity.com/workshop/filedetails/discus
 [url=https://steamcommunity.com/id/the_conservatory]The Conservatory[/url] - original ideas for Birthright effects and some coding.
 [url=https://steamcommunity.com/id/brakedude/]BrakeDude[/url] - main coder, Russian translation.
 [url=https://steamcommunity.com/profiles/76561198813796283]Kotry[/url] - Spanish translation, playtesting, thumbnail.
-Kars - additional ideas.
-</description>
-    <version>1.17</version>
+Kars - additional ideas.</description>
+    <version>1.18</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
+    <tag id="Active Items"/>
     <tag id="Player Characters"/>
     <tag id="Tweaks"/>
 </metadata>
