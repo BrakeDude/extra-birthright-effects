@@ -1,4 +1,4 @@
-local version = {Major = "2", Minor = "46", Patch = "a"}
+local version = {Major = "2", Minor = "46", Patch = ""}
 
 local function load(data)
 	ExtraBirthright = RegisterMod( "Extra Birthright Effects", 1 );
